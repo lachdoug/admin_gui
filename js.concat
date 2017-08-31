@@ -1,0 +1,39 @@
+// THIS file should be placed in project root
+
+// if true, concatenates the list of files when saving one of them or when saving this file
+concatOnSave = true;
+
+// the output path of the concatenated file, directories will be created if necessary
+output = build/app.js;
+
+// if true, minifies the concatenated file
+minify = true;
+
+// the list of files (paths relative to project root) to concatenate
+// -app/helpers/form/field.js;
+// -app/helpers/form/submit.js;
+// -app/helpers/button.js;
+// -app/helpers/celljs_selector.js;
+// -app/helpers/container_state_icon.js;
+// -app/helpers/form.js;
+// -app/helpers/icon.js;
+// -app/helpers/legend.js;
+// -app/helpers/modal.js;
+// -app/helpers/pretty_print.js;
+// -app/helpers/progress_bar.js;
+// -app/app/menu.js;
+// -app/api.js;
+// -app/system.js;
+// -app/navbar/sign_in.js;
+// -app/navbar/sign_out.js;
+// -app/navbar.js; // signIn and signOut use placeholders in navbar, so navbar needs to be rendered first
+// -app/install/from_library.js;
+// -app/install/new_app.js;
+// -app/system/menu.js;
+// -app/system/update_engines.js;
+// -app/helpers/*.js;
+// -app/app/*.js;
+// -app/system/*.js;
+-application/*.js;
+// -application/navbar.js;
+-application.js;

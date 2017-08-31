@@ -1,0 +1,5 @@
+var serverApiUrl = "<%= @server_url %>";
+
+<% Dir.glob( [ './v0/client/application/**/*.js' ] ).each do |file| %>
+ 	<%= File.read file %>
+<% end %>

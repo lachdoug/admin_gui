@@ -1,0 +1,8 @@
+# Ignore persistent user data
+/data
+
+# Ignore scrap
+/scrap
+
+# Ignore Byebug command history file.
+.byebug_history
