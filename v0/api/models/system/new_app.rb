@@ -15,7 +15,7 @@ class V0
               blueprint: blueprint,
               consumable_services: consumable_services,
               locale: @system.locale,
-              domains: @system.domains.values,
+              domains: domains,
               default_domain: @system.default_domain,
               reserved: {
                 container_names: @system.reserved_container_names,
@@ -38,20 +38,31 @@ class V0
           def handle_response
             JSON.parse yield.body, symbolize_names: true
           rescue JSON::ParserError
-            byebug
+            # byebug
             raise NonFatalError.new "Invalid blueprint.", 405
           end
 
           def consumable_services
             ( blueprint.dig(:software, :service_configurations) || [] ).
             map do |service_configuration|
-              definition_path = service_configuration[:publisher_namespace] + "/" + service_configuration[:type_path]
               {
-                service_definition: @system.service_definition_for(definition_path),
-                sharable: @system.shareable_service_consumers_for(definition_path),
-                adoptable: @system.adoptable_service_consumers_for(definition_path)
+                service_definition: @system.service_definition_for(
+                  service_configuration[:publisher_namespace],
+                  service_configuration[:type_path] ),
+                shareable: @system.shareable_service_consumers_for(
+                  service_configuration[:publisher_namespace],
+                  service_configuration[:type_path] ),
+                adoptable: @system.adoptable_service_consumers_for(
+                  service_configuration[:publisher_namespace],
+                  service_configuration[:type_path] )
               }
             end
+          end
+
+          def domains
+            @system.domains[:names].map do |domain_name|
+              domain_name[:domain_name]
+            end + ( @system.domains[:zeroconf] ? [ "local" ] : [] )
           end
 
         end

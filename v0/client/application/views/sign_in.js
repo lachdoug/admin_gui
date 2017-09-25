@@ -23,15 +23,15 @@ var $signIn = {
 					$components: [
 						form( {
 							components: [
-								formField( { name: "form[user_name]", value: "admin", label: false, placeholder: "User name", wrapperClass: "hidden" } ),
-								formField( { id:"signInPassword", label: false, name: "form[password]", type: "site_password", placeholder: "Password", title: "System admin password" } ),
+								formField( { name: "data[user_name]", value: "admin", label: false, placeholder: "User name", wrapperClass: "hidden" } ),
+								formField( { id:"signInPassword", label: false, name: "data[password]", type: "site_password", placeholder: "Password", title: "System admin password" } ),
 								formSubmit( { title: "Sign in", text: "Sign in", icon: "fa fa-sign-in", disabledText: "Signing in" } )
 							],
 							action: "/session",
 							callbacks: {
 								200: function () {
-									$$( "#signIn" )._kill();
-									$$( "#system" )._live();
+									signIn._kill();
+									system._live();
 								},
 								401: function (responseJSON) {
 									alert( responseJSON.error.message );

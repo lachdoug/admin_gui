@@ -59,7 +59,7 @@ var api = {
 			// debugger;
 			var backtrace = ( new Error() ).stack.split("\n");
 			var message = response.responseText;
-			$$("#fatalError")._live( {
+			fatalError._live( {
 				message: message,
 				detail: {
 					source: "Admin GUI ApiV0 v0.5",
@@ -118,7 +118,7 @@ var api = {
 			 	alert("Authentication error.\n\n" + JSON.parse(response.responseText).error.message );
 				main._renderSignedOut();
 				break;
-			case 406:
+			case 405:
 				alert( JSON.parse(response.responseText).error.message );
 				modal._kill();
 				break;
@@ -136,7 +136,7 @@ var api = {
 				var backtrace = ( new Error() ).stack.split("\n");
 				// debugger
 				var message = response.status ? JSON.parse(response.responseText).error.message : "No response.";
-				$$("#fatalError")._live( {
+				fatalError._live( {
 					message: message,
 					detail: {
 						source: "Admin GUI ApiV0 v0.5",

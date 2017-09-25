@@ -180,7 +180,7 @@ var $systemDomains = {
 						]
 					},
 					systemDomains._domainNamesList(this._domainNamesData),
-//								pp( { object: this._domainNamesData } ),
+//								pp( this._domainNamesData ),
 				];
 
 			},

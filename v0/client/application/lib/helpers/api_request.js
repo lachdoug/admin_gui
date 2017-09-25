@@ -1,6 +1,6 @@
 function apiRequest (args) {
 
-	return $$("#api")._request({
+	return api._request({
 		action: args.action,
 		method: args.method,
 		data: args.data,

@@ -1,11 +1,11 @@
-var formFieldWrapper = function(args, input, input_confirmation={}) {
+var formFieldWrapper = function( args, input, input_confirmation={} ) {
 	return {
 		class: "form-group " + ( args.wrapperClass || "" ),
 	  title: ( args.title || args.label || args.name || null ),
-		style: ( ( args.dependOn || {} ).input ? "display: none;" : "" ) + ( args.wrapperStyle || null ),
+		style: ( ( args.dependOn || {} ).input ? "display: none;" : "" ) + ( args.wrapperStyle || "" ),
 		id: ( args.id ? args.id + "Wrapper" : "" ),
 		$components: [
-			( args.label == false ) ? {} : {
+			args.label == false ? {} : {
 				$type: "label",
 				$text: ( args.label || args.name || null ),
 				for: ( args.id || null )
@@ -31,6 +31,7 @@ var formFieldWrapper = function(args, input, input_confirmation={}) {
 			);
 		},
 		_doDependOn: function () {
+			// debugger;
 			if ( this._dependOn.input ) {
 				if (
 					(
@@ -47,8 +48,10 @@ var formFieldWrapper = function(args, input, input_confirmation={}) {
 					)
 				) {
 					$(this).show();
+					$(this).find("input, select").removeAttr('disabled');
 				} else {
 					$(this).hide();
+					$(this).find("input, select").attr('disabled','disabled');;
 				};
 			};
 		}

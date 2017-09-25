@@ -9,7 +9,7 @@ class V0
 
       put '/apps/:app_name/network' do
         set_app( params[:app_name] )
-        @app.update_network( params[:form] ).to_json
+        @app.update_network( params[:data] ).to_json
       end
 
     end

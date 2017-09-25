@@ -6,7 +6,7 @@ var $systemMenu = {
 
 	_live: function () {
 
-		var baseOsName = system._systemData.properties.version.base_os.name;
+		var baseOsName = system._data.properties.version.base_os.name;
 		modal._live ( {
 			header: icon( { icon: "fa fa-hdd-o", text: "System menu" } ),
 			body: {
@@ -23,6 +23,12 @@ var $systemMenu = {
 						]
 					},
 					{ $type: "hr" },
+					system._data.status.needs_engines_update == true ? {
+						$type: "p",
+						$components: [
+							icon( {icon: "fa fa-warning", text: "Needs update", style: "color: red;" } )
+						],
+					} : {},
 					{
 						class: "clearfix",
 						$components: [
@@ -31,7 +37,7 @@ var $systemMenu = {
 								items: [
 									{
 										label: "Engines",
-										data: system._systemData.properties.version.engines
+										data: system._data.properties.version.engines
 									},
 								]
 							} ),
@@ -46,8 +52,19 @@ var $systemMenu = {
 												icon: "fa fa-play-circle", text: "Restart", title: "Restart Engines" } ),
 						]
 					},
-					( system._systemData.status.needs_engines_update == true ? icon({icon:"fa fa-warning", text: "Needs update", style: "color: red;" }) : {} ),
 					{ $type: "hr" },
+					system._data.status.needs_reboot == true ? {
+						$type: "p",
+						$components: [
+							icon( { icon: "fa fa-warning", text: "Needs reboot", style: "color: red;" } )
+						],
+					} : {},
+					system._data.status.needs_base_update == true ? {
+						$type: "p",
+						$components: [
+							icon( { icon: "fa fa-warning", text: "Needs update", style: "color: red;" } )
+						],
+					} : {},
 					{
 						class: "clearfix",
 						$components: [
@@ -55,8 +72,8 @@ var $systemMenu = {
 								class: "pull-left-md",
 								items: [
 									{
-										label: system._systemData.properties.version.base_os.name,
-										data:  system._systemData.properties.version.base_os.version
+										label: system._data.properties.version.base_os.name,
+										data:  system._data.properties.version.base_os.version
 									},
 								]
 							} ),
@@ -71,8 +88,6 @@ var $systemMenu = {
 												icon: "fa fa-power-off", text: "Reboot", title: "Restart " + baseOsName + " (reboot system)" } ),
 						]
 					},
-					( system._systemData.status.needs_reboot == true ? icon({icon:"fa fa-warning", text: "Needs reboot", style: "color: red;" }) : {} ),
-					( system._systemData.status.needs_base_update == true ? icon({icon:"fa fa-warning", text: "Needs update", style: "color: red;" }) : {} ),
 				]
 			}
 		} );

@@ -44,7 +44,7 @@ function treeBranch(branchData) {
               {
                 $type: "li",
                 $components: [
-                  pp( { object: branchData.content } ),
+                  pp( branchData.content ),
                 ].concat(
                   treeBranchBranches( branchData.children )
                 )

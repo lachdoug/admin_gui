@@ -3,16 +3,18 @@ var $system = {
 	$cell: true,
 	id: "system",
 
-	_systemData: null,
+	_data: null,
 	_containerEvents: null,
 
 
-	_refresh: function(data) {
+	_refresh: function(data, afterUpdateCallback ) {
 
 		this._streamContainerEvents();
-		this._systemData = data;
+		this._data = data;
+		this._afterUpdateCallback = afterUpdateCallback;
+
 		if ( data.builder.current.engine_name ) {
-			$$("#installBuilding")._live();
+			installBuild._live();
 		};
 
 	},
@@ -20,17 +22,17 @@ var $system = {
 
 	$update: function(){
 
-		if (this._systemData) {
+		if (this._data) {
 
-			var needsAttention = 	this._systemData.status.needs_reboot ||
-														this._systemData.status.needs_engines_update ||
-														this._systemData.status.needs_base_update;
+			var needsAttention = 	this._data.status.needs_reboot ||
+														this._data.status.needs_engines_update ||
+														this._data.status.needs_base_update;
 
 			this.$components = [
-				( this._systemData.properties.label.text ? {
-					$text: this._systemData.properties.label.text,
-					style: ( "color: " + this._systemData.properties.label.color +
-									 "; background-color: " + this._systemData.properties.label.background_color +
+				( this._data.properties.label.text ? {
+					$text: this._data.properties.label.text,
+					style: ( "color: " + this._data.properties.label.color +
+									 "; background-color: " + this._data.properties.label.background_color +
 									"; text-align: center; padding: 10px; font-size: 24px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;" )
 				} : {} ),
 				{
@@ -38,7 +40,7 @@ var $system = {
 					$components: [
 						{
 							class: "modal-content",
-							style: "margin-top: 20px; padding: 10px;",
+							style: "margin-top: 20px; margin-bottom: 100px; padding: 10px;",
 							$components: [
 								{
 									$components: [
@@ -59,27 +61,28 @@ var $system = {
 													: {}
 												),
 											],
-											onclick: "systemMenu._live();"
+											onclick: systemMenu._live
 										},
  									]
 								},
 								{
 									class: "system-containers",
-									$components: this._systemData.apps.map( function(app) {
-										return system._systemAppTemplate(app);
+									$components: this._data.apps.map( function(app) {
+										return system._systemApp(app);
 									} )
 								},
 								{ $type: "hr" },
 								{ class: "system-containers",
-									$components: this._systemData.services.map( function(service) {
-										return system._systemServiceTemplate(service);
+									$components: this._data.services.map( function(service) {
+										return system._systemService(service);
 									} )
 								}
 							]
 						}
 					]
 				},
-			]
+			];
+			if ( this._afterUpdateCallback ) { this._afterUpdateCallback(); };
 		} else {
 			this.$components = [];
 		}
@@ -87,28 +90,26 @@ var $system = {
 	},
 
 
-	_live: function() {
-
-		this._loadSystem();
-
+	_live: function( afterUpdateCallback ) {
+		this._loadSystem( afterUpdateCallback );
 	},
 
 
 	_kill: function() {
 
 		this._closeContainerEvents();
-		this._systemData = null;
+		this._data = null;
 
 	},
 
 
-	_loadSystem: function () {
+	_loadSystem: function ( afterUpdateCallback ) {
 
 		apiRequest({
 			action: '/system',
 			callbacks: {
 				200: function(response) {
-					$$("#system")._refresh(response);
+					system._refresh(response, afterUpdateCallback);
 					$("#navbarSignOutButton").show();
 					$("#pageLoadingSpinner").fadeOut();
 				},
@@ -123,7 +124,7 @@ var $system = {
 
 	_appDataFor: function (appName) {
 
-		return this._systemData.apps.find( function( appData ) {
+		return this._data.apps.find( function( appData ) {
 			return appData.name == appName
 		} );
 
@@ -147,28 +148,31 @@ var $system = {
 			serverApiUrl + '/system/container_events'
 		);
 		this._containerEvents.onmessage = function(e) {
-			var appStateData = JSON.parse(e.data);
-			$$("#system")._refreshAppState(appStateData);
+			var event = JSON.parse(e.data);
+			// debugger;
+			// console.log(event);
+			system._handleContainerEvent( event );
+			appMenu._handleContainerEvent( event );
+			// serviceMenu._handleContainerEvent( event );
 		};
 
 	},
 
 
-	_refreshAppState: function(appStateData) {
-
-		this._systemData.apps.map(
-			function(app) {
-				if ( app.name == appStateData.name ) {
-					app.state = appStateData.state
-					$$("#appMenu")._refreshAppState(appStateData);
+	_handleContainerEvent: function( event ) {
+		this._data.apps.map(
+			function( app ) {
+				if ( app.name == event.container_name ) {
+					return $.extend( app, event.status );
+				} else {
+					return app;
 				};
 			}
 		);
-
 	},
 
 
-	_systemAppTemplate: function (app) {
+	_systemApp: function( app ) {
 
 		return {
 			$components: [
@@ -182,16 +186,23 @@ var $system = {
 							$type: "span",
 							$text: app.name
 						},
-		//				pp(app)
+						( app.had_oom || app.restart_required ) ? {
+							$type: "span",
+							$components: [
+								{ $type: "span", $html: "&nbsp;" },
+								icon( { icon: "fa fa-warning", style: "font-size: 14px; color: red;" } )
+							]
+						} : {},
 					],
-					onclick: "$$('#appMenu')._live('" + app.name + "');"
-				}
+					onclick: function () { appMenu._live( app.name ) }
+				},
+				// pp(app),
 			]
 		}
 	},
 
 
-	_systemServiceTemplate: function (service) {
+	_systemService: function (service) {
 
 		return {
 			$components: [
@@ -205,9 +216,8 @@ var $system = {
 							$type: "span",
 							$text: service.name
 						},
-		//				pp(service)
 					],
-					onclick: "$$('#serviceMenu')._live('" + service.name + "');"
+					onclick: function () { serviceMenu._live( service.name ) }
 				}
 			]
 		}

@@ -7,7 +7,7 @@ class V0
       end
 
       put "/system/default_site" do
-        system.update_default_site(params[:form]).to_json
+        system.update_default_site(params[:data]).to_json
       end
 
     end

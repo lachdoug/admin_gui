@@ -52,11 +52,28 @@ var $appBuildReport = {
 								if ( this._buildReport == "" ) {
 									report = { $type: "i", $text: "This app does not have a build report." };
 								} else {
-									report = markdown( this._buildReport );
+									report = {
+										$components: [
+											markdown( this._buildReport ),
+											{ $type: "hr" },
+											button( {
+												onclick: function() {
+													var html = '<div style=\'font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 14px; line-height: 1.42857143; color: #333;"\'>' + $("#appBuildReportDisplay").html() + '</div>';
+													var newWindow = window.open('','Engines app build report','width=600, height=600');
+													newWindow.document.title = appName + " build report"
+													$(newWindow.document.body).html( html );
+												},
+												icon: "fa fa-window-maximize",
+												text: "Popup",
+												class: "pull-right",
+												title: "Open build report in new window"
+											} ),
+										]
+									}
 								}
 								this.$components = [ report ];
 							}
-						}
+						},
 					]
 				}
 			}
@@ -72,7 +89,7 @@ var $appBuildReport = {
 			action: "/apps/" + this._appName + "/build_report",
 			callbacks: {
 				200: function(response) {
-					$$("#appBuildReportDisplay")._refresh( response.build_report );
+					appBuildReportDisplay._refresh( response.build_report );
 				}
 			}
 		});

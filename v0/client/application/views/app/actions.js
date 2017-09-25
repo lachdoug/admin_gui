@@ -19,10 +19,10 @@ var $appActions = {
 		var appName = this._appName;
 		modal._live (
 			{
-				dialogClass: "modal-lg",
+				// dialogClass: "modal-lg",
 				header: icon ( {
-					icon: false,
-					text: "{} App blueprint",
+					icon: "fa fa-crosshairs",
+					text: "App actions",
 				} ),
 				body: {
 					$components: [
@@ -32,7 +32,7 @@ var $appActions = {
 								button( {
 									icon: "fa fa-arrow-up",
 									wrapperClass: "pull-right",
-									onclick: function () { appDiagnostics._live( appName ); }
+									onclick: function () { appControlPanel._live( appName ); }
 								} ),
 								{ $type: "h4", $text: appName },
 							]
@@ -51,9 +51,16 @@ var $appActions = {
 							},
 
 							$update: function () {
-								this.$components = [ pp( { object: appActionsContent._data } ) ];
+								this.$components =
+									appActionsContent._data.length ?
+										appActionsContent._data.map(
+											function( action ) {
+												return button( { text: action.label || action.name, onclick: function () { appActionsNew._live( appName, action ) } });
+											}
+										) : [
+										{ $type: "i", $text: "This app does not have any actions." }
+										];
 							},
-
 						}
 					]
 				}

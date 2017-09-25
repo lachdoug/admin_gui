@@ -10,12 +10,12 @@ var $systemServiceCertificatesEdit = {
 				header: icon( { icon: "fa fa-shield", text: "Edit service certificate" } ),
 				body: {
 					$components: [
-						pp({ object: data}),
+						pp( data ),
 						{ $type: "h4", $text: data.service_name },
 						form( {
 							components: [
 								formField( {
-									name: "form[certificate_id]",
+									name: "data[certificate_id]",
 									label: "Certificate",
 									// value: data.???
 								} ),

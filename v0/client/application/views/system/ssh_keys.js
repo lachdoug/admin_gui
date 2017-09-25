@@ -6,15 +6,15 @@ var $systemSshKeys = {
 
 	_live: function () {
 
-		$$("#modal")._live ( {
-			header: icon( { icon: "fa fa-keys", text: "System SSH Keys" } ),
+		modal._live ( {
+			header: icon( { icon: "fa fa-key", text: "System SSH Keys" } ),
 			body: {
 				$components: [
 					{
 						class: "clearfix",
 						$components: [
 							button( {
-								onclick: "$$('#systemControlPanel')._live()",
+								onclick: systemControlPanel._live,
 								icon: "fa fa-arrow-up",
 								wrapperClass: "pull-right"
 							} ),

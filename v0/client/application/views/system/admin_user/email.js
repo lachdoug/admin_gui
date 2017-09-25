@@ -43,25 +43,25 @@ var $systemAdminUserEmail = {
 			components: [
 				formField( {
 					type: "site_password", 
-					name: "form[current_password]", 
+					name: "data[current_password]", 
 					id: "systemAdminUserPasswordField_current_password", 
 					label: "Current password",
 				} ),
 				formField( {
 					type: "hidden",
-					name: "form[user_name]",
+					name: "data[user_name]",
 					value: "admin",
 				} ),
 				formField( {
 					type: "email", 
-					name: "form[email]", 
+					name: "data[email]", 
 //					id: "systemAdminUserEmailField_default_site", 
 					label: "Admin email",
 					value: data.email
 				} ),
 				formCancel ( { onclick: "systemAdminUser._live();" } ),
 				formSubmit(),
-//				pp( { object: data } )
+//				pp( data )
 			],
 			action: "/system/user/admin",
 			method: 'PATCH',

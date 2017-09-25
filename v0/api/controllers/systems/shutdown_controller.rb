@@ -4,7 +4,7 @@ class V0
 
       post '/system/shutdown' do
           # byebug
-        system.shutdown(params[:form]).to_json
+        system.shutdown(params[:data]).to_json
       end
 
     end

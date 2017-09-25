@@ -4,13 +4,15 @@ var $appServicesPersistentNewType = {
 	id: "appServicesPersistentNewType",
 
 	_appName: null,
+	_publisherNamespace: null,
 	_persistentService: null,
 
 
-	_live: function( appName, definitionId ) {
+	_live: function( appName, publisherNamespace, typePath ) {
 
 		this._appName = appName;
-		this._definitionId = definitionId;
+		this._publisherNamespace = publisherNamespace;
+		this._typePath = typePath;
 		this._show();
 
 	},
@@ -21,7 +23,7 @@ var $appServicesPersistentNewType = {
 		var appName = this._appName;
 		modal._live (
 			{
-				dialogClass: "modal-lg",
+				// dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-plus",
 					text: "App new persistent service",
@@ -38,14 +40,19 @@ var $appServicesPersistentNewType = {
 								icon ( { icon: "fa fa-spinner fa-spin", text: "Loading" } )
 							],
 
+							$init: function () { appServicesPersistentNewType._load() },
+
 							_refresh: function (data) {
 								this._data = data
 							},
 
 							$update: function () {
 								this.$components = [
-									pp( { object: this._data } ),
-									// appServicesPersistentNewType._form(),
+									{ $type: "h4", $text: this._data.label },
+									{ $type: "p", $text: this._data.description },
+									{ $type: "hr" },
+									appServicesPersistentNewType._form(),
+									pp( this._data ),
 								];
 							},
 
@@ -54,15 +61,18 @@ var $appServicesPersistentNewType = {
 				}
 			}
 		);
-		this._load();
 
 	},
 
 
 	_load: function () {
 
+		var queryString =
+			"publisher_namespace=" + encodeURIComponent( this._publisherNamespace ) +
+			"&type_path=" + encodeURIComponent( this._typePath );
+
 		apiRequest({
-			action: "/apps/" + this._appName + "/available_services/persistent/" + this._definitionId,
+			action: "/apps/" + this._appName + "/service_manager/persistent/available?" + queryString,
 			callbacks: {
 				200: function(response) {
 					appServicesPersistentNewTypeContent._refresh( response );
@@ -73,40 +83,111 @@ var $appServicesPersistentNewType = {
 	},
 
 
-// /apps/:app_name/available_services/persistent/:definition_id
+	_form: function () {
+
+		return form ( {
+			components: [
+				formField( {
+					name: "data[create_type]",
+					id: "appServicesPersistentNewTypeCreateType",
+					label: false,
+					type: "select",
+					collection: serviceConsumerCreateType( appServicesPersistentNewTypeContent._data )
+				} ),
+				(
+					appServicesPersistentNewTypeContent._data.shareable == 0 ? {} :
+					formField( {
+						name: "data[shareable_service]",
+						label: false,
+						type: "select",
+						collection: appServicesPersistentNewTypeContent._data.shareable.map(
+							function( service, i ) {
+								return [ i,	service.parent + (
+										service.parent == service.service_handle ? "" :
+										" - " + service.service_handle
+									)
+								];
+							}
+						),
+						dependOn: {
+							input: "appServicesPersistentNewTypeCreateType",
+							value: "share"
+						}
+					} )
+				),
 
 
-	// _form: function () {
-	//
-	// 	return form ( {
-	// 		components: [
-	// 			formField( {
-	// 				name: "form[definition_path]",
-	// 				type: "hidden",
-	// 				value: appServicesPersistentNewType._persistentService.definition_path
-	// 			} ),
-	// 			formField( {
-	// 				name: "form[service_handle]",
-	// 				type: "hidden",
-	// 				value: appServicesPersistentNewType._persistentService.service_handle
-	// 			} ),
-	// 			{
-	// 				$components: appServicesPersistentNewType._persistentService.params.map( function( param ) {
-	// 					return enginesField( param );
-	// 				})
-	// 			},
-	// 			formCancel ( { onclick: () => { appServices._live( appServicesPersistentNewType._appName ); } } ),
-	// 			formSubmit(),
-	// 			pp( { object: appServicesPersistentNewType._persistentService } ),
-	// 		],
-	// 		action: "/system/default_site",
-	// 		method: 'PUT',
-	// 		callbacks: {
-	// 			200: function(response) {
-	// 				systemControlPanel._live();
-	// 			},
-	// 		}
-	// 	});
-	// }
+				// _formAvailableServiceOption: function( availableService ) {
+				// 	var parent = availableService.parent;
+				// 	var serviceHandle = availableService.service_handle;
+				// 	var optionValue = parent + "#" + serviceHandle;
+				// 	var optionLabel = ( parent + ( parent == serviceHandle ? "" : " - " + serviceHandle ) );
+				// 	return [ optionValue, optionLabel ];
+				// }
+
+
+
+
+				(
+					appServicesPersistentNewTypeContent._data.adoptable == 0 ? {} :
+					formField( {
+						name: "data[adoptable_service]",
+						label: false,
+						type: "select",
+						collection: appServicesPersistentNewTypeContent._data.adoptable.map(
+							function( service, i ) {
+								return [ i,	service.parent + (
+										service.parent == service.service_handle ? "" :
+										" - " + service.service_handle
+									)
+								];
+							}
+						),
+						dependOn: {
+							input: "appServicesPersistentNewTypeCreateType",
+							value: "adopt"
+						}
+					} )
+				),
+				formCancel ( { onclick: () => { appServicesNew._live( appServicesPersistentNewType._appName ); } } ),
+				formSubmit( {
+					text: "Next",
+					icon: "fa fa-arrow-right",
+				}),
+			],
+			init: function ( form ) {
+				$(form).submit( function( e ) {
+					// debugger
+					var formData = new FormData( form );
+					var serviceConsumerParams = appServicesPersistentNewTypeContent._data.params;
+					switch ( formData.get("data[create_type]") ) {
+						case "create":
+							appServicesPersistentCreateNew._live(
+								appServicesPersistentNewType._appName,
+								appServicesPersistentNewTypeContent._data
+							);
+							break;
+						case "share":
+							appServicesPersistentShareExisting._live(
+								appServicesPersistentNewType._appName,
+								appServicesPersistentNewTypeContent._data,
+								parseInt( formData.get("data[shareable_service]") )
+							);
+							break;
+						case "adopt":
+							appServicesPersistentAdoptOrphan._live(
+								appServicesPersistentNewType._appName,
+								appServicesPersistentNewTypeContent._data,
+								parseInt( formData.get("data[adoptable_service]") )
+							);
+							break;
+					};
+					e.preventDefault();
+					return false;
+				} );
+			},
+
+		} );
+	}
 
 };

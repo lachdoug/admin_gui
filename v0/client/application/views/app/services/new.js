@@ -19,7 +19,7 @@ var $appServicesNew = {
 		var appName = this._appName;
 		modal._live (
 			{
-				dialogClass: "modal-lg",
+				// dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-plus",
 					text: "App new service",
@@ -32,7 +32,7 @@ var $appServicesNew = {
 								button( {
 									icon: "fa fa-arrow-up",
 									wrapperClass: "pull-right",
-									onclick: function () { appControlPanel._live( appName ); }
+									onclick: function () { appServices._live( appName ); }
 								} ),
 								{ $type: "h4", $text: appName },
 							]
@@ -57,7 +57,7 @@ var $appServicesNew = {
 									{ $type: "hr" },
 									{ $type: "label", $text: "Non-persistent" },
 									appServicesNew._services( "non_persistent" ),
-									// pp( { object: this._data } )
+									// pp( this._data )
 
 								];
 							},
@@ -75,7 +75,7 @@ var $appServicesNew = {
 	_load: function () {
 
 		apiRequest({
-			action: "/apps/" + this._appName + "/available_services",
+			action: "/apps/" + this._appName + "/service_manager/available",
 			callbacks: {
 				200: function(response) {
 					appServicesNewContent._refresh( response );
@@ -92,7 +92,10 @@ var $appServicesNew = {
 				return button( {
 					text: persistentService.label,
 					onclick: function () {
-						appServicesPersistentNewType._live( appServicesNew._appName, persistentService.definition_id );
+						appServicesPersistentNewType._live(
+							appServicesNew._appName,
+							persistentService.publisher_namespace,
+							persistentService.type_path );
 					}
 				} );
 			} )

@@ -24,14 +24,7 @@ var $systemUpdateBaseOS = {
 			action: "/system/update_base_os",
 			callbacks: {
 				200: function() {
-					systemUnavailable._live(
-						{
-							$components: [
-								{ $type: "p", $text: "Base OS update is starting." },
-								{ $type: "p", $text: "The update process normally takes a minute or two, but can take longer in some cases." }
-							]
-						}
-					);
+					systemUnavailable._live( "Base OS update is starting." );
 				},
 				405: function() {
 					systemUpdateBaseOS._alreadyUpToDate();
@@ -51,7 +44,7 @@ var $systemUpdateBaseOS = {
 					$components: [
 						{ $text: "Base OS is already up-to-date." },
 						button( {
-							onclick: "$$('#systemMenu')._live()",
+							onclick: systemMenu._live,
 							icon: "fa fa-check",
 							text: "OK",
 							wrapperClass: "pull-right"

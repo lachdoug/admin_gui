@@ -67,12 +67,13 @@ class V0 < Sinatra::Base
   ## Error handling
   ##----------------------------------------------------------------------------
 
-  ## 400 Fatal client error (includes unrecognised route)
-  ## 401 Authentication failed
-  ## 404 Not found (route is recognised, but no object is available)
-  ## 406 Action not allowed
-  ## 500 Fatal server error
-  ## 503 System unavailable
+  ## 400 Fatal: General client error
+  ## 401 Non-fatal: Authentication failed
+  ## 404 Fatal: Bad route
+  ## 405 Non-fatal: Action not allowed (route is recognised, but action cannot be performed)
+  ## 406 Fatal: Params not acceptable (route is recognised, but params incomplete or invalid)
+  ## 500 Fatal: General server error
+  ## 503 Non-fatal: System busy or unavailable
 
   set show_exceptions: false
   error do |error|
@@ -105,7 +106,6 @@ class V0 < Sinatra::Base
       method: request.request_method,
       path: request.fullpath,
       } } }.to_json
-      # [ 400, ]
   end
 
   ## CORS

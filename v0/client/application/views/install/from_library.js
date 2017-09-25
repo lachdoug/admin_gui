@@ -14,7 +14,7 @@ var $installFromLibrary = {
 						class: "clearfix",
 						$components: [
 							button( {
-								onclick: "$$('#systemMenu')._live()",
+								onclick: systemMenu._live,
 								icon: "fa fa-arrow-up",
 								wrapperClass: "pull-right"
 							} )

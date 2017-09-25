@@ -7,11 +7,11 @@ class V0
       end
 
       put "/system/domains/names/:domain_name" do
-        system.update_domain( params[:domain_name], params[:form] ).to_json
+        system.update_domain( params[:domain_name], params[:data] ).to_json
       end
 
       post "/system/domains/names" do
-        system.create_domain( params[:form] ).to_json
+        system.create_domain( params[:data] ).to_json
       end
 
       delete "/system/domains/names/:domain_name" do

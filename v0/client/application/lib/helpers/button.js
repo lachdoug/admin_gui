@@ -9,7 +9,7 @@ function button( args ) {
 };
 
 function buttonUnwrapped( args ) {
-	return {
+	return $.extend( {
 		$type: "button",
 		type: "button",
 		id: args.id,
@@ -22,5 +22,5 @@ function buttonUnwrapped( args ) {
 			  $text: args.text ? " " + args.text : null }
 		],
 		onclick: args.onclick,
-	};
+	}, args.disabled ? { disabled: "disabled" } : {} );
 };

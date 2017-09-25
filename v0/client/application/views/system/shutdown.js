@@ -37,7 +37,7 @@ var $systemShutdown = {
 			components: [
 				formField( {
 					type: "text",
-					name: "form[reason]",
+					name: "data[reason]",
 					id: "systemShutdownField_shutdown",
 					label: "Reason",
 				} ),

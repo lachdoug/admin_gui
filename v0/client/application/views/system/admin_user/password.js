@@ -27,18 +27,18 @@ var $systemAdminUserPassword = {
 			components: [
 				formField( {
 					type: "site_password", 
-					name: "form[current_password]", 
+					name: "data[current_password]", 
 					id: "systemAdminUserPasswordField_current_password", 
 					label: "Current password",
 				} ),
 				formField( {
 					type: "hidden",
-					name: "form[user_name]",
+					name: "data[user_name]",
 					value: "admin",
 				} ),
 				formField( {
 					type: "site_password_with_confirmation", 
-					name: "form[new_password]", 
+					name: "data[new_password]", 
 					id: "systemAdminUserPasswordField_new_password", 
 					label: "New password",
 				} ),

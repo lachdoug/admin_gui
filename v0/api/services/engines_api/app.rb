@@ -10,7 +10,7 @@ class V0
           end
 
           def container
-            @system_api.get "containers/engine/#{@name}"
+             @system_api.get "containers/engine/#{@name}"
           end
 
           ######################################################################
@@ -29,8 +29,8 @@ class V0
             @system_api.get "containers/engine/#{@name}/build_report"
           end
 
-          def uninstall(params={})
-            @system_api.delete "containers/engine/#{@name}/delete/#{params[:delete_app_data] ? 'all' : 'none'}"
+          def uninstall(args={})
+            @system_api.delete "containers/engine/#{@name}/delete/#{args[:delete_app_data] ? 'all' : 'none'}"
           end
 
           ######################################################################
@@ -73,8 +73,8 @@ class V0
           # Network
           ######################################################################
 
-          def update_network( params )
-            @system_api.post "containers/engine/#{@name}/properties/network", params
+          def update_network( args )
+            @system_api.post "containers/engine/#{@name}/properties/network", args
           end
 
           def network_metrics
@@ -82,11 +82,19 @@ class V0
           end
 
           ######################################################################
+          # Environment variables
+          ######################################################################
+
+          def update_environment_variables( args )
+            @system_api.post "containers/engine/#{@name}/properties/runtime", args
+          end
+
+          ######################################################################
           # Memory
           ######################################################################
 
-          def update_memory( params )
-            @system_api.post "containers/engine/#{@name}/properties/runtime", params
+          def update_memory( args )
+            @system_api.post "containers/engine/#{@name}/properties/runtime", args
           end
 
           def memory_metrics
@@ -107,6 +115,72 @@ class V0
 
           def non_persistent_services
             @system_api.get "containers/engine/#{@name}/services/non_persistent/"
+          end
+
+          def persistent_services_for( args )
+            @system_api.get "containers/engine/#{@name}/services/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}"
+          end
+
+          def create_new_persistent_service( args )
+            byebug
+            @system_api.post "containers/engine/#{@name}/services/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}", { variables: args[:variables] }
+          end
+
+          def share_existing_persistent_service( args )
+            # byebug
+            @system_api.post "containers/engine/#{@name}/services/persistent/share/#{args[:parent_engine]}/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}", { variables: args[:variables] }
+          end
+
+          def adopt_orphan_persistent_service( args )
+            @system_api.post "containers/engine/#{@name}/services/persistent/orphan/#{args[:parent_engine]}/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}", { variables: args[:variables] }
+          end
+
+          def update_persistent_service( args )
+            @system_api.post "containers/engine/#{@name}/service/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}", { variables: args[:variables] }
+          end
+
+          def export_persistent_service( args )
+            @system_api.get "containers/engine/#{@name}/service/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/export"
+          end
+
+          def import_persistent_service( args )
+            @system_api.put_stream "containers/engine/#{@name}/service/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/#{args[:write]}", { file: args[:file] }
+          end
+
+          def register_nonpersistent_service(args)
+            @system_api.get "containers/engine/#{@name}/service/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/register"
+          end
+
+          def deregister_nonpersistent_service(args)
+            @system_api.get "containers/engine/#{@name}/service/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/deregister"
+          end
+
+          def reregister_nonpersistent_service(args)
+            @system_api.get "containers/engine/#{@name}/service/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/reregister"
+          end
+
+          ######################################################################
+          # Actions
+          ######################################################################
+
+          def perform_action(args)
+            @system_api.post "containers/engine/#{@name}/action/#{args[:actionator_name]}", { variables: args[:variables] }
+          end
+
+          ######################################################################
+          # Resolve string
+          ######################################################################
+
+          def resolve_string(string)
+            @system_api.post "containers/engine/#{@name}/template", { template_string: string }
+          end
+
+          ######################################################################
+          # OOM
+          ######################################################################
+
+          def clear_had_oom
+            @system_api.get "containers/engine/#{@name}/clear_error"
           end
 
         end
@@ -158,9 +232,7 @@ end
 #       @system_api.get "containers/engine/#{@name}/status"
 #     end
 #
-#     def clear_had_oom
-#       @system_api.get "containers/engine/#{@name}/clear_error"
-#     end
+
 #
 #
 #     # instructions
@@ -201,18 +273,18 @@ end
 #       @system_api.get "containers/engine/#{@name}/reinstall"
 #     end
 #
-#     def uninstall(params={})
-#       @system_api.delete "containers/engine/#{@name}/delete/#{params[:remove_data] ? 'all' : 'none'}"
+#     def uninstall(args={})
+#       @system_api.delete "containers/engine/#{@name}/delete/#{args[:remove_data] ? 'all' : 'none'}"
 #     end
 #
 #     # properties
 #
-#     def set_runtime_properties(params)
-#       @system_api.post "containers/engine/#{@name}/properties/runtime", params
+#     def set_runtime_properties(args)
+#       @system_api.post "containers/engine/#{@name}/properties/runtime", args
 #     end
 #
-#     def set_network_properties(params)
-#       @system_api.post "containers/engine/#{@name}/properties/network", params
+#     def set_network_properties(args)
+#       @system_api.post "containers/engine/#{@name}/properties/network", args
 #     end
 #
 #     # services
@@ -221,103 +293,88 @@ end
 #       @system_api.get "containers/engine/#{@name}/services/persistent/"
 #     end
 #
-#     def persistent_services_for_publisher_type_path(publisher_type_path)
-#       @system_api.get "containers/engine/#{@name}/services/persistent/#{publisher_type_path}"
+#     def persistent_services_for_definition_path(definition_path)
+#       @system_api.get "containers/engine/#{@name}/services/persistent/#{definition_path}"
 #     end
 #
 #     def non_persistent_services
 #       @system_api.get "containers/engine/#{@name}/services/non_persistent/"
 #     end
 #
-#     def non_persistent_services_for_publisher_type_path(publisher_type_path)
-#       @system_api.get "containers/engine/#{@name}/services/non_persistent/#{publisher_type_path}"
+#     def non_persistent_services_for_definition_path(definition_path)
+#       @system_api.get "containers/engine/#{@name}/services/non_persistent/#{definition_path}"
 #     end
 #
 #     def available_services
 #       @system_api.get "service_manager/available_services/managed_engine/#{@name}"
 #     end
 #
-#     def available_subservices_for(publisher_type_path)
-#       publisher_namespace, type_path = publisher_type_path.split('/', 2)
+#     def available_subservices_for(definition_path)
+#       publisher_namespace, type_path = definition_path.split('/', 2)
 #       @system_api.get "service_manager/available_services/type/#{type_path}"
 #     end
 #
-#     def create_persistent_service_consumer_subservice_consumer(params)
-#       publisher_namespace, type_path = params[:publisher_type_path].split('/', 2)
-#       @system_api.post "containers/service/#{params[:service_name]}/sub_services/#{@name}/#{params[:parent_service_handle]}",
-#         params: { publisher_namespace: publisher_namespace,
+#     def create_persistent_service_consumer_subservice_consumer(args)
+#       publisher_namespace, type_path = args[:definition_path].split('/', 2)
+#       @system_api.post "containers/service/#{args[:service_name]}/sub_services/#{@name}/#{args[:parent_service_handle]}",
+#         args: { publisher_namespace: publisher_namespace,
 #           type_path: type_path,
-#           variables: params[:variables] }
+#           variables: args[:variables] }
 #     end
 #
-#     def update_persistent_service_consumer(params)
-#       @system_api.post "containers/engine/#{@name}/service/persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}", params: { variables: params[:variables] }
+#     def update_persistent_service_consumer(args)
+#       @system_api.post "containers/engine/#{@name}/service/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}", args: { variables: args[:variables] }
 #     end
 #
-#     def update_non_persistent_service_consumer(params)
-#       @system_api.post "containers/engine/#{@name}/service/non_persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}", params: { variables: params[:variables] }
+#     def update_non_persistent_service_consumer(args)
+#       @system_api.post "containers/engine/#{@name}/service/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}", args: { variables: args[:variables] }
 #     end
 #
-#     def update_persistent_service_consumer_share(params)
-#       @system_api.post "containers/engine/#{@name}/service/persistent/shared/#{params[:parent_engine]}/#{params[:publisher_type_path]}/#{params[:service_handle]}", params: { variables: params[:variables] }
+#     def update_persistent_service_consumer_share(args)
+#       @system_api.post "containers/engine/#{@name}/service/persistent/shared/#{args[:parent_engine]}/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}", args: { variables: args[:variables] }
 #     end
 #
-#     def register_non_persistent_service_consumer(params)
-#       @system_api.get "containers/engine/#{@name}/service/non_persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/register"
+#     def register_non_persistent_service_consumer(args)
+#       @system_api.get "containers/engine/#{@name}/service/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/register"
 #     end
 #
-#     def reregister_non_persistent_service_consumer(params)
-#       @system_api.get "containers/engine/#{@name}/service/non_persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/reregister"
+#     def reregister_non_persistent_service_consumer(args)
+#       @system_api.get "containers/engine/#{@name}/service/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/reregister"
 #     end
 #
-#     def deregister_non_persistent_service_consumer(params)
-#       @system_api.get "containers/engine/#{@name}/service/non_persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/deregister"
+#     def deregister_non_persistent_service_consumer(args)
+#       @system_api.get "containers/engine/#{@name}/service/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/deregister"
 #     end
 #
-#     def remove_persistent_service_consumer(params)
-#       @system_api.delete "containers/engine/#{@name}/services/persistent/#{params[:remove_data] ? 'all' : 'none'}/#{params[:publisher_type_path]}/#{params[:service_handle]}"
+#     def remove_persistent_service_consumer(args)
+#       @system_api.delete "containers/engine/#{@name}/services/persistent/#{args[:remove_data] ? 'all' : 'none'}/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}"
 #     end
 #
-#     def remove_non_persistent_service_consumer(params)
-#       @system_api.delete "containers/engine/#{@name}/services/non_persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}"
+#     def remove_non_persistent_service_consumer(args)
+#       @system_api.delete "containers/engine/#{@name}/services/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}"
 #     end
 #
-#     def remove_persistent_service_consumer_share(params)
-#       @system_api.delete "containers/engine/#{@name}/services/persistent/shared/#{params[:parent_engine]}/#{params[:publisher_type_path]}/#{params[:service_handle]}"
+#     def remove_persistent_service_consumer_share(args)
+#       @system_api.delete "containers/engine/#{@name}/services/persistent/shared/#{args[:parent_engine]}/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}"
 #     end
 #
 #
-#     def create_persistent_service_consumer(params)
-#       @system_api.post "containers/engine/#{@name}/services/persistent/#{params[:publisher_type_path]}", params: { variables: params[:variables] }
-#     end
+
 #
-#     def create_persistent_service_consumer_share(params)
-#       @system_api.post "containers/engine/#{@name}/services/persistent/share/#{params[:parent_engine]}/#{params[:publisher_type_path]}/#{params[:service_handle]}", params: { variables: params[:variables] }
-#     end
-#
-#     def create_persistent_service_consumer_orphan(params)
-#       @system_api.post "containers/engine/#{@name}/services/persistent/orphan/#{params[:parent_engine]}/#{params[:publisher_type_path]}/#{params[:service_handle]}", params: { variables: params[:variables] }
-#     end
-#
-#     def create_non_persistent_service_consumer(params)
-#       @system_api.post "containers/engine/#{@name}/services/non_persistent/#{params[:publisher_type_path]}/", params: { variables: params[:variables] }
+#     def create_non_persistent_service_consumer(args)
+#       @system_api.post "containers/engine/#{@name}/services/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/", args: { variables: args[:variables] }
 #     end
 #
 #     # persistent services import/export
 #
-#     def persistent_service_consumer_export(params)
-#       @system_api.get "containers/engine/#{@name}/service/persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/export"
+#     def persistent_service_consumer_export(args)
+#       @system_api.get "containers/engine/#{@name}/service/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/export"
 #     end
 #
-#     def persistent_service_consumer_import(params)
-#       put_file "containers/engine/#{@name}/service/persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/#{params[:write]}", file: params[:data_file]
+#     def persistent_service_consumer_import(args)
+#       put_file "containers/engine/#{@name}/service/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/#{args[:write]}", file: args[:data_file]
 #     end
 #
-#     # resolve string
-#
-#     def resolve_string(string)
-#       @system_api.post "containers/engine/#{@name}/template", params: {template_string: string}
-#     end
 #
 #     # actions
 #
@@ -329,8 +386,8 @@ end
 #       @system_api.get "containers/engine/#{@name}/action/#{actionator_name}"
 #     end
 #
-#     def perform_actionator_for(actionator_name, params, return_type)
-#       @system_api.post "containers/engine/#{@name}/action/#{actionator_name}", params
+#     def perform_actionator_for(actionator_name, args, return_type)
+#       @system_api.post "containers/engine/#{@name}/action/#{actionator_name}", args
 #     end
 #
 #     # logs

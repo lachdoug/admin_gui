@@ -42,7 +42,7 @@ var $systemDefaultSite = {
 		return form ( {
 			components: [
 				formField( {
-					name: "form[default_site]",
+					name: "data[default_site]",
 					label: "Default site",
 					hint: "Enter a host name (e.g: www.engines.org )",
 					value: data.default_site

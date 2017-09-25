@@ -1,11 +1,11 @@
 var $systemStatistics = {
-	
+
 	$cell: true,
 	id: "systemStatistics",
-	
-	
+
+
 	_live: function() {
-		$$("#modal")._live(
+		modal._live(
 			{
 				dialogClass: "modal-lg",
 				header: icon( { icon: "fa fa-bar-chart", text: "System statistics" } ),
@@ -14,23 +14,23 @@ var $systemStatistics = {
 						{
 							class: "clearfix",
 							$components: [
-								button( { 
-									onclick: "$$('#systemControlPanel')._live()",
-									icon: "fa fa-arrow-up", 
-									wrapperClass: "pull-right" 
+								button( {
+									onclick: systemControlPanel._live,
+									icon: "fa fa-arrow-up",
+									wrapperClass: "pull-right"
 								} ),
-								button( { onclick: "$$('#systemStatistics')._live();",
-									icon: "fa fa-repeat", text: "Refresh" } 
+								button( { onclick: systemStatistics._live,
+									icon: "fa fa-repeat", text: "Refresh" }
 								),
 							]
 						},
 						{
 							id: "systemStatisticsCharts",
 							$components: [
-								icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } ) 
+								icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
 							],
 							_refresh: function (statisticsData) {
-								this.$components = [ $$("#systemStatistics")._charts(statisticsData) ];
+								this.$components = [ systemStatistics._charts(statisticsData) ];
 							},
 						}
 					]
@@ -39,80 +39,80 @@ var $systemStatistics = {
 		);
 		this._loadStatistics();
 	},
-	
-	
+
+
 	_loadStatistics: function () {
 		apiRequest({
 			action: "/system/statistics",
 			callbacks: {
 				200: function(response) {
-					$$("#systemStatisticsCharts")._refresh(response);
+					systemStatisticsCharts._refresh(response);
 				},
 			}
 		});
 	},
-	
+
 	_charts: function( statisticsData  ) {
 		var chartsData = this._chartDataCalculator( statisticsData );
 		return {
 			class: "row",
 			$components: [
 
-				this._chart( { 
-					label: "System memory", 
+				this._chart( {
+					label: "System memory",
 					mdCols: 6,
 					chart: {
-						type: 'doughnut', 
+						type: 'doughnut',
 						data: chartsData["systemMemory"],
-						options: { 
+						options: {
 							legend: { display: true, position: 'right', responsive: true, }
 						},
 					},
 				} ),
 
-				this._chart( { 
-					label: "Memory totals", 
+				this._chart( {
+					label: "Memory totals",
 					mdCols: 6,
 					chart: {
-						type: 'doughnut', 
+						type: 'doughnut',
 						data: chartsData["totalsMemory"],
-						options: { 
+						options: {
 							legend: { display: true, position: 'right', responsive: true, }
 						},
 					},
 				} ),
 
-				this._chart( { 
-					label: "Apps memory", 
+				this._chart( {
+					label: "Apps memory",
 					mdCols: 6,
 					chart: {
-						type: 'doughnut', 
+						type: 'doughnut',
 						data: chartsData["appsMemory"],
-						options: { 
-							legend: { display: true, position: 'right', responsive: true, }
-						},
-					},
-				} ),
-				
-				this._chart( { 
-					label: "Services memory", 
-					mdCols: 6,
-					chart: {
-						type: 'doughnut', 
-						data: chartsData["servicesMemory"],
-						options: { 
+						options: {
 							legend: { display: true, position: 'right', responsive: true, }
 						},
 					},
 				} ),
 
-				this._chart( { 
+				this._chart( {
+					label: "Services memory",
+					mdCols: 6,
+					chart: {
+						type: 'doughnut',
+						data: chartsData["servicesMemory"],
+						options: {
+							legend: { display: true, position: 'right', responsive: true, }
+						},
+					},
+				} ),
+
+				this._chart( {
 					label: "Memory totals allocation",
 					mdCols: 12,
 					chart: {
-						type: 'horizontalBar', 
+						type: 'horizontalBar',
 						data: chartsData["totalsMemoryAllocations"],
-						options: { 
+						options: {
 							maintainAspectRatio: false,
 							responsive: true,
 							tooltips: { callbacks: { label: function(tooltipItem, data) {
@@ -137,14 +137,14 @@ var $systemStatistics = {
 						height: 100
 					}
 				} ),
-				
-				this._chart( { 
+
+				this._chart( {
 					label: "Apps memory allocation",
 					mdCols: 12,
 					chart: {
-						type: 'horizontalBar', 
+						type: 'horizontalBar',
 						data: chartsData["appsMemoryAllocations"],
-						options: { 
+						options: {
 							maintainAspectRatio: false,
 							responsive: true,
 							tooltips: { callbacks: { label: function(tooltipItem, data) {
@@ -169,14 +169,14 @@ var $systemStatistics = {
 						height: chartsData["appsMemoryAllocations"].labels.length * 20 + 60
 					}
 				} ),
-				
-				this._chart( { 
-					label: "Services memory allocation", 
+
+				this._chart( {
+					label: "Services memory allocation",
 					mdCols: 12,
 					chart: {
-						type: 'horizontalBar', 
+						type: 'horizontalBar',
 						data: chartsData["servicesMemoryAllocations"],
-						options: { 
+						options: {
 							maintainAspectRatio: false,
 							responsive: true,
 							tooltips: { callbacks: { label: function(tooltipItem, data) {
@@ -194,7 +194,7 @@ var $systemStatistics = {
 										return "Allocated: " + memory_total + "MB, Headroom: " + memory_headroom + "MB";
 									};
 								 } } },
-							scales: { xAxes: [ { stacked: true, ticks: { callback: function(value) { return Math.round(value * 100) + "%" } } } ], yAxes: [ { stacked: true } ] }, 
+							scales: { xAxes: [ { stacked: true, ticks: { callback: function(value) { return Math.round(value * 100) + "%" } } } ], yAxes: [ { stacked: true } ] },
 						},
 					},
 					canvas: {
@@ -202,13 +202,13 @@ var $systemStatistics = {
 					}
 				} ),
 
-				this._chart( { 
+				this._chart( {
 					label: "CPU queue",
 					mdCols: 12,
 					chart: {
-						type: 'horizontalBar', 
+						type: 'horizontalBar',
 						data: chartsData["cpuQueue"],
-						options: { 
+						options: {
 							maintainAspectRatio: false,
 							responsive: true,
 							legend: false,
@@ -219,17 +219,17 @@ var $systemStatistics = {
 						height: 100
 					}
 				} ),
-				
-				this._chart( { 
-					label: "Network activity", 
+
+				this._chart( {
+					label: "Network activity",
 					mdCols: 12,
 					chart: {
-						type: 'horizontalBar', 
+						type: 'horizontalBar',
 						data: chartsData["networkActivity"],
-						options: { 
+						options: {
 							maintainAspectRatio: false,
 							responsive: true,
-							scales: { xAxes: [ {  scaleLabel: { display: true, labelString: 'MB' } } ] }, 
+							scales: { xAxes: [ {  scaleLabel: { display: true, labelString: 'MB' } } ] },
 						},
 					},
 					canvas: {
@@ -237,18 +237,18 @@ var $systemStatistics = {
 					}
 				} ),
 
-				this._chart( { 
-					label: "Disks", 
+				this._chart( {
+					label: "Disks",
 					mdCols: 12,
 					chart: {
-						type: 'horizontalBar', 
+						type: 'horizontalBar',
 						data: chartsData["disksUsage"],
-						options: { 
+						options: {
 							maintainAspectRatio: false,
 							responsive: true,
 							scales: { xAxes: [ { display: false, stacked: true } ], yAxes: [ { stacked: true } ] },
-							tooltips: { 
-								callbacks: { 
+							tooltips: {
+								callbacks: {
 									label: function(tooltipItem, data) {
                 		var diskSize = data.diskSizes[tooltipItem.index];
                 		if (tooltipItem.datasetIndex == 0) {
@@ -285,7 +285,7 @@ var $systemStatistics = {
 							$init: function () {
 								new Chart( this, chartData.chart );
 							},
-						},					
+						},
 					]
 				}
 			]
@@ -339,7 +339,7 @@ var $systemStatistics = {
 
 			appsDataResult.forEach(function( app ) {
 				var memory = app[1].current/1048576;
-				if ( memory < 0 ) { memory = 0; }; 
+				if ( memory < 0 ) { memory = 0; };
 				labels.push( "" + app[0] + " " + memory.toFixed(1) + "MB" );
 				data.push( memory );
 			} );
@@ -348,12 +348,12 @@ var $systemStatistics = {
 				var othersData = data.slice( 17, -1).reduce(function (a, b) {
 					return a + b;
 				});
-				var othersLabel = "" + 
-						labels.slice( 17, -1 ).length + 
-						" " + 
-						( labels.slice( 17, -1 ).length == 1 ? "other" : "others" ) + 
-						" " + 
-						othersData.toFixed(1) + 
+				var othersLabel = "" +
+						labels.slice( 17, -1 ).length +
+						" " +
+						( labels.slice( 17, -1 ).length == 1 ? "other" : "others" ) +
+						" " +
+						othersData.toFixed(1) +
 						"MB";
 				labels = labels.slice( 0,17 );
 				labels.push( othersLabel );
@@ -361,11 +361,11 @@ var $systemStatistics = {
 				data.push( othersData );
 			};
 
-			return { 
-				labels: labels, 
+			return {
+				labels: labels,
 				datasets: [
-					{ 
-						data: data, 
+					{
+						data: data,
 						backgroundColor: colors(data.length)
 					}
 				]
@@ -481,12 +481,12 @@ var $systemStatistics = {
 										"Five mins " + stats.cpu_statistics.five,
 										"Fifteen mins " + stats.cpu_statistics.fifteen ],
 					datasets:
-						[ { 
-							data: [ 
-								stats.cpu_statistics.one, 
-								stats.cpu_statistics.five, 
+						[ {
+							data: [
+								stats.cpu_statistics.one,
+								stats.cpu_statistics.five,
 								stats.cpu_statistics.fifteen
-							], 
+							],
 							backgroundColor: colors(3)
 						} ]
 				};
@@ -501,8 +501,8 @@ var $systemStatistics = {
 			var networkActivityDataResult = [];
 
 			for (var networkInterfaceName in networkActivityData) {
-				networkActivityDataResult.push( [ 
-					networkInterfaceName, 
+				networkActivityDataResult.push( [
+					networkInterfaceName,
 					networkActivityData[networkInterfaceName] ] );
 			};
 			networkActivityDataResult.sort(function(a, b) {
@@ -515,11 +515,11 @@ var $systemStatistics = {
 				dataTx.push( networkInterface[1].tx / 1048576 );
 			} );
 
-			return { 
-				labels: labels, 
-				datasets: [ 
-					{ label: 'Received', data: dataRx, backgroundColor: colors(2)[0] }, 
-					{ label: 'Sent', data: dataTx, backgroundColor: colors(2)[1] } 
+			return {
+				labels: labels,
+				datasets: [
+					{ label: 'Received', data: dataRx, backgroundColor: colors(2)[0] },
+					{ label: 'Sent', data: dataTx, backgroundColor: colors(2)[1] }
 				]
 			};
 
@@ -552,12 +552,12 @@ var $systemStatistics = {
 				disksSizes.push( diskSize );
 			} );
 
-			return { 
+			return {
 				labels: labels,
 				diskSizes: disksSizes,
-				datasets: [ 
-					{ label: 'Used', data: disksUsed, backgroundColor: colors(2)[0] }, 
-					{ label: 'Free', data: disksFree, backgroundColor: colors(2)[1] } 
+				datasets: [
+					{ label: 'Used', data: disksUsed, backgroundColor: colors(2)[0] },
+					{ label: 'Free', data: disksFree, backgroundColor: colors(2)[1] }
 				]
 			};
 		};

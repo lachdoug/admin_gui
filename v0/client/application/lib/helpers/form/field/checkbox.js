@@ -14,9 +14,10 @@ var formFieldCheckbox = function( args ) {
 							{
 								$type: "input",
 								name: ( args.name || "" ),
+								title: ( args.title || args.label ),
 								id: ( args.id || "" ),
 								required: ( args.required || null ),
-								title: ( args.title || args.label ),
+								// title: ( args.title || args.label ),
 								value: 'true',
 								type: "checkbox",
 	//							checked:  ? "checked" : null,

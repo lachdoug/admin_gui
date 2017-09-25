@@ -5,7 +5,7 @@ var $systemUnavailable = {
 
 
 	_live: function (message) {
-		debugger;
+		// debugger;
 
 		modal._live(
 			{
@@ -14,9 +14,9 @@ var $systemUnavailable = {
 					$components: [
 						{
 							id: "systemUnavailableMessage",
-							$components: [ message || { $type: "p", $text: "Trying to connect to system." } ],
+							$components: [ { $type: "p", $text: message || "Trying to connect to system." } ],
 							_updateMessage: function ( message ) {
-								this.$components = [ message ];
+								this.$components = [ { $type: "p", $text: message } ];
 							},
 						},
 						{
@@ -47,7 +47,7 @@ var $systemUnavailable = {
 						systemUnavailable._pollServer();
 					},
 					503: function(response) {
-						systemUnavailableMessage._updateMessage( { $type: "p", $text: response.error.message } );
+						systemUnavailableMessage._updateMessage( response.error.message );
 						systemUnavailable._pollServer();
 					},
 					200: function(response) {

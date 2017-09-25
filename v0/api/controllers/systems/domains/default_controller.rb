@@ -7,7 +7,7 @@ class V0
       # end
 
       put "/system/domains/default" do
-        system.update_default_domain( params[:form] ).to_json
+        system.update_default_domain( params[:data] ).to_json
       end
 
     end

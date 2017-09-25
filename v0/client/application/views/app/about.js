@@ -42,7 +42,9 @@ var $appAbout = {
 								icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } ),
 							],
 							_refresh: function ( data ) {
-								var version = dig(data, "software", "display", "version");
+								var version = dig( data, "software", "display", "version" );
+								var websiteUrl = dig( data, "software", "display", "url" );
+								var licenseUrl = dig(data, "software", "license", "url" );
 								// debugger;
 								this.$components = [
 									{
@@ -74,15 +76,10 @@ var $appAbout = {
 									{
 										class: "clearfix",
 										$components: [
-											button( { icon: "fa fa-external-link", text: "Website", class: "pull-left-md", onclick: () => { openUrl( dig(data, "software", "display", "url" ) ); } } ),
-											button( { icon: "fa fa-sticky-note-o", text: "License", class: "pull-right-md", onclick: () => { openUrl( dig(data, "software", "license", "url" ) ); } } )
+											button( { icon: "fa fa-external-link", text: "Website", class: "pull-left-md", onclick: () => { websiteUrl ? openUrl( websiteUrl ) : alert("Not available."); } } ),
+											button( { icon: "fa fa-external-link", text: "License", class: "pull-right-md", onclick: () => { licenseUrl ? openUrl( licenseUrl ) : alert("Not available."); } } )
 										]
 									},
-									//
-									//
-									// pp( { object: data } ),
-									// { $type: "hr" },
-									// // {},
 								];
 							},
 						},
@@ -96,10 +93,10 @@ var $appAbout = {
 
 	_load: function() {
 		apiRequest({
-			action: "/apps/" + this._appName + "/about",
+			action: "/apps/" + this._appName + "/blueprint",
 			callbacks: {
 				200: function( data ) {
-					appAboutContent._refresh( data );
+					appAboutContent._refresh( data.metadata );
 				},
 			}
 		});

@@ -24,7 +24,7 @@
 // 						form( {
 // 							components: [
 // 								formField( {
-// 									name: "form[certificate]",
+// 									name: "data[certificate]",
 // 											type: "file",
 // 											label: "Certificate file",
 // 											required: true
@@ -226,7 +226,7 @@
 // // 						]
 // // 					},
 // // 					systemCertificatesInstall._domainNamesList(this._domainNamesData),
-// // //								pp( { object: this._domainNamesData } ),
+// // //								pp( this._domainNamesData ),
 // // 				];
 // //
 // // 			},

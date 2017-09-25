@@ -56,7 +56,7 @@
 // 							},
 //
 // 							$update: function () {
-// 								this.$components = [ pp( { object: this._data } ) ];
+// 								this.$components = [ pp( this._data ) ];
 // 							},
 //
 // 						}
@@ -75,7 +75,7 @@
 // 			action: "/apps/" + this._appName + "/environment",
 // 			callbacks: {
 // 				200: function(response) {
-// 					$$("#appDiagnosticsEnvironmentContent")._refresh( response );
+// 					appDiagnosticsEnvironmentContent._refresh( response );
 // 				}
 // 			}
 // 		});

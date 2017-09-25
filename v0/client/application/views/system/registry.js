@@ -5,7 +5,7 @@ var $systemRegistry = {
 
 
 	_live: function() {
-		$$("#modal")._live(
+		modal._live(
 			{
 				dialogClass: "modal-lg",
 				header: icon( { icon: "fa fa-arrows", text: "Registry" } ),
@@ -15,11 +15,11 @@ var $systemRegistry = {
 							class: "clearfix",
 							$components: [
 								button( {
-									onclick: "$$('#systemControlPanel')._live()",
+									onclick: systemControlPanel._live,
 									icon: "fa fa-arrow-up",
 									wrapperClass: "pull-right"
 								} ),
-								button( { onclick: "$$('#systemRegistry')._live();",
+								button( { onclick: systemRegistry._live,
 									icon: "fa fa-repeat", text: "Refresh" }
 								),
 							]
@@ -45,7 +45,7 @@ var $systemRegistry = {
 			action: "/system/registry",
 			callbacks: {
 				200: function(response) {
-					$$("#systemRegistryTree")._refresh(response);
+					systemRegistryTree._refresh(response);
 				},
 			}
 		});

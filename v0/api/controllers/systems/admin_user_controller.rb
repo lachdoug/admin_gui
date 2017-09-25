@@ -7,7 +7,7 @@ class V0
       end
 
       patch "/system/user/admin" do
-        system.update_admin_user(params[:form]).to_json
+        system.update_admin_user(params[:data]).to_json
       end
 
     end

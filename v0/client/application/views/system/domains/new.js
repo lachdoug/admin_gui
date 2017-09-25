@@ -5,7 +5,7 @@ var $systemDomainsNew = {
 
 
 	_live: function () {
-		$$("#modal")._live(
+		modal._live(
 			{
 				header: icon( { icon: "fa fa-globe", text: "New domain name" } ),
 				body: {
@@ -14,19 +14,19 @@ var $systemDomainsNew = {
 // 						form( {
 // 							components: [
 // 								formField( {
-// 									name: "form[domain_name]",
+// 									name: "data[domain_name]",
 // 									id: "systemDomainsNewField_domain_name",
 // 									label: "Domain name",
 // 								} ),
 // 								formField( {
 // 									type: "checkbox",
-// 									name: "form[self_hosted]",
+// 									name: "data[self_hosted]",
 // 									id: "systemDomainsNewField_self_hosted",
 // 									label: "Self-hosted",
 // 								} ),
 // 								formField( {
 // 									type: "checkbox",
-// 									name: "form[internal_only]",
+// 									name: "data[internal_only]",
 // 									id: "systemDomainsNewField_internal_only",
 // 									label: "Internal only",
 // 									dependOn: {

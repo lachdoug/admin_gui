@@ -22,6 +22,8 @@ var formFieldSelectMulti = function( args ) {
 			name: ( args.name || "" ),
 			id: ( args.id || "" ),
 			multiple: "multiple",
+			placeholder: ( args.placeholder || null ),
+			required: ( args.required || false ),
 			$init: function () {
 				$(this).selectpicker();
 			},

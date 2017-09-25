@@ -7,7 +7,7 @@ class V0
       end
 
       put "/system/locale" do
-        system.update_locale(params[:form]).to_json
+        system.update_locale(params[:data]).to_json
       end
 
     end

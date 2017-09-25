@@ -2,14 +2,14 @@ class V0
   module Api
     module Controllers
 
-      get '/apps/:app_name/environment' do
+      get '/apps/:app_name/environment_variables' do
         set_app( params[:app_name] )
         @app.environment.to_json
       end
 
-      patch '/apps/:app_name/environment' do
+      patch '/apps/:app_name/environment_variables' do
         set_app( params[:app_name] )
-        @app.update_environment( params[:form] ).to_json
+        @app.update_environment_variables( params[:data] ).to_json
       end
 
     end

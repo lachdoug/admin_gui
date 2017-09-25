@@ -9,7 +9,11 @@ function form(obj) {
 		enctype: obj.enctype || "application/x-www-form-urlencoded",
 		_callbacks: obj.callbacks,
 		$init: function() {
-			api._bindForm(this);
+			if ( obj.init ) {
+				obj.init( this )
+			} else {
+				api._bindForm( this );
+			};
 			$("input:invalid").first().focus();
 		}
 	}

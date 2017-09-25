@@ -7,9 +7,10 @@ function formField(args) {
 			return formFieldTextArea( args );
 		case "select":
 			return formFieldSelect(args);
+		case "radios":
+			return formFieldRadios(args);
 		case "checkbox":
 			return formFieldCheckbox(args);
-//			break;
 		case "hidden":
 			return formFieldInputUnwrapped( args );
 		case "country":
@@ -56,7 +57,5 @@ function formField(args) {
 	//	:radio_buttons,
 	//	:check_boxes,
 	//	:country,
-	//	:time_zone ]	
+	//	:time_zone ]
 	// add :select_multiple, :language, :country, :timezone
-
-	

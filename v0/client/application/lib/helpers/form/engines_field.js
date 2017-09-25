@@ -1,18 +1,18 @@
-var enginesField = function (obj) {
+function enginesField( args ) {
 	return formField( {
-		type: dig( obj, "input", "type" ),
-		name: obj.name,
-		id: obj.id || "",
-		label: dig( obj, "input", "label" ) || obj.name,
-		value: obj.value,
-		required: obj.mandatory,
-		title: dig( obj, "input", "title" ) || obj.name,
-		pattern: dig( obj, "input", "validation", "pattern" ) ,
-		patternMessage: dig( obj, "input", "validation", "pattern" ),
-		comment: dig( obj, "input", "comment" ),
-		hint: dig( obj, "input", "hint" ),
-		placeholder: dig( obj, "input", "placeholder" ),
-		collection: dig( obj, "input", "collection", "items" ),
-		collectionIncludeBlank: dig( obj, "input", "collection", "include_blank" )
+		type: dig( args, "input", "type" ),
+		name: args.name_prefix ? args.name_prefix + "[" + args.name + "]" : args.name,
+		id: args.id || "",
+		label: dig( args, "input", "label" ) || args.name,
+		value: args.value,
+		required: args.mandatory,
+		title: dig( args, "input", "title" ) || dig( args, "input", "label" ) || args.name,
+		pattern: dig( args, "input", "validation", "pattern" ) ,
+		patternMessage: dig( args, "input", "validation", "pattern" ),
+		comment: dig( args, "input", "comment" ),
+		hint: dig( args, "input", "hint" ),
+		placeholder: dig( args, "input", "placeholder" ),
+		collection: dig( args, "input", "collection", "items" ),
+		collectionIncludeBlank: dig( args, "input", "collection", "include_blank" )
 	} );
 };

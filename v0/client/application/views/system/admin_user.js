@@ -5,7 +5,7 @@ var $systemAdminUser = {
 	
 	
 	_live: function() {
-		$$("#modal")._live(
+		modal._live(
 			{
 				header: icon( { icon: "fa fa-user", text: "Admin user" } ),
 				body: {

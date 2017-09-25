@@ -2,7 +2,7 @@ class V0
   module Api
     module Lib
 
-      def self.update_legacy_input_definition_for(param)
+      def self.legacy_input_definition_for(param)
         {
           "name": param[:name],
           "value": param[:value],

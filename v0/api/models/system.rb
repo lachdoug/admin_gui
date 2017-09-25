@@ -47,10 +47,11 @@ class V0
         end
 
         def to_h
+          # byebug
 
-          raise ( NonFatalError.new "Engines update in progress.", 503 ) \
+          raise ( NonFatalError.new "Engines update in progress. The update process normally takes a minute or two, but can take longer in some cases.", 503 ) \
             if status[:is_engines_system_updating]
-          raise ( NonFatalError.new "Base OS update in progress.", 503 ) \
+          raise ( NonFatalError.new "Base OS update in progress. The update process normally takes a minute or two, but can take longer in some cases.", 503 ) \
             if status[:is_base_system_updating]
           raise ( NonFatalError.new "Reboot in progress.", 503 ) \
             if status[:is_rebooting]
@@ -58,6 +59,7 @@ class V0
           {
             url: url,
             status: status,
+            report_exceptions: report_exceptions,
             properties: {
               label: {
                 text: @settings.banner_text,
@@ -74,7 +76,7 @@ class V0
               current: current_build
             },
             apps: app_statuses,
-            services: service_statuses,
+            services: service_statuses
           }
 
         rescue => e
@@ -100,8 +102,8 @@ class V0
         # Admin user
         ########################################################################
 
-        def update_admin_user(form_params)
-          engines_api_system.update_admin_user( form_params )
+        def update_admin_user(form_data)
+          engines_api_system.update_admin_user( form_data )
         end
 
         def admin_user
@@ -182,10 +184,10 @@ class V0
           engines_api_system.locale
         end
 
-        def update_locale(form_params)
+        def update_locale(form_data)
           engines_api_system.update_locale(
-            { lang_code: form_params["lang_code"],
-              country_code: form_params["country_code"] } )
+            { lang_code: form_data["lang_code"],
+              country_code: form_data["country_code"] } )
         end
 
         ########################################################################
@@ -196,9 +198,9 @@ class V0
           { timezone: engines_api_system.timezone }
         end
 
-        def update_timezone(form_params)
+        def update_timezone(form_data)
           engines_api_system.update_timezone(
-            { timezone: form_params["timezone"] } )
+            { timezone: form_data["timezone"] } )
         end
 
         ########################################################################
@@ -221,20 +223,20 @@ class V0
           engines_api_system.default_domain
         end
 
-        def update_default_domain( form_params )
-          engines_api_system.update_default_domain( form_params )
+        def update_default_domain( form_data )
+          engines_api_system.update_default_domain( form_data )
         end
 
-        def create_domain( form_params )
-          engines_api_system.create_domain( form_params )
+        def create_domain( form_data )
+          engines_api_system.create_domain( form_data )
         end
 
         def domain( domain_name)
           engines_api_system.domain( domain_name )
         end
 
-        def update_domain( domain_name, form_params )
-          engines_api_system.update_domain( domain_name, form_params )
+        def update_domain( domain_name, form_data )
+          engines_api_system.update_domain( domain_name, form_data )
         end
 
         def delete_domain( domain_name)
@@ -263,9 +265,9 @@ class V0
           { default_site: engines_api_system.default_site }
         end
 
-        def update_default_site( form_params )
+        def update_default_site( form_data )
           return { message: "OK" } \
-            if engines_api_system.update_default_site( form_params ) == 'true'
+            if engines_api_system.update_default_site( form_data ) == 'true'
           raise NonFatalError.new "Failed to update domain.", 405
         end
 
@@ -302,9 +304,8 @@ class V0
         end
 
 
-        def update_public_ssh_key( form_params )
-          byebug
-          key = Base64.encode64 form_params[:key][:tempfile].read
+        def update_public_ssh_key( form_data )
+          key = Base64.encode64 form_data[:key_file][:tempfile].read
           engines_api_system.update_public_ssh_key( { public_key: key } )
         end
 
@@ -322,6 +323,21 @@ class V0
 
         def certificate( certificate_path )
           engines_api_system.certificate certificate_path # certificate_id.gsub( "|", "/" )
+        end
+
+        def create_certificate( form_data )
+          api_args = {
+            certificate: form_data[:certificate_file][:tempfile],
+            domain_name: "",
+            set_as_default: true
+          }
+          if form_data[:for] == "default"
+            engines_api_system.create_default_certificate( api_args )
+          else
+            form_data[:target] = nil if form_data[:for] == :unassigned
+            engines_api_system.create_service_certificate( api_args )
+          end
+          # key = Base64.encode64 form_data[:key_file][:tempfile].read
         end
 
         def delete_certificate( certificate_path )
@@ -346,22 +362,48 @@ class V0
         ########################################################################
 
         def container_event_stream( &block )
-          engines_api_system.container_event_stream do |event|
+          engines_api_system.container_event_stream do |event_json|
             begin
               # p "event: #{event}"
-              parsed_event = JSON.parse(event, symbolize_names: true)
-              # p "parsed_event: #{parsed_event}"
-              if parsed_event[:container_name].nil?
+              event = JSON.parse(event_json, symbolize_names: true)
+              # p "event: #{event}"
+              if event[:container_name].nil?
                 yield ( {type: :heartbeat} )
+              # elsif event[:state] == "oom"
+              #   yield ( { type: :container_oom,
+              #             name: event[:container_name] } )
               else
-                yield ( { type: :update_container_state,
-                          name: parsed_event[:container_name],
-                          state: parsed_event[:state] } )
+p :event
+p event
+                container_name = event[:container_name]
+p :app_status_from_app_statuses
+p engines_api_system.app_statuses[container_name.to_sym]
+                case event[:container_type].to_sym
+                when :container, :application ## James needs to standardize this
+                  container_type = :app
+                  status = app_status_for container_name
+                when :service
+                  container_type = :service
+                  status = service_status_for container_name
+                end
+                yield ( { type: :container_status,
+                          container_type: container_type,
+                          container_name: container_name,
+                          status: status.merge( { name: container_name } ) } )
               end
             rescue JSON::ParserError
               yield( {type: :heartbeat} )
             end
           end
+        end
+
+        def app_status_for(container_name)
+          # byebug
+          app(container_name).container[:status]
+        end
+
+        def service_status_for(container_name)
+          service(container_name).container[:status]
         end
 
         # def escape(string)
@@ -390,8 +432,8 @@ class V0
               puts "event in hash: #{ { event: event.force_encoding("UTF-8") } }"
               puts "event in hash to_json: #{ { event: event.force_encoding("UTF-8") }.to_json }"
               yield ( { type: :line, line: event.force_encoding("UTF-8") } )
-            rescue => e
-              byebug
+            # rescue => e
+            #   byebug
             end
           end
           yield ( { type: :eof } )
@@ -401,19 +443,37 @@ class V0
         # Services
         ########################################################################
 
-        def service_definition_for(definition_path)
-          engines_api_system.service_definition_for(definition_path)
+        def service_definition_for( publisher_namespace, type_path )
+          engines_api_system.service_definition_for(
+            publisher_namespace: publisher_namespace,
+            type_path: type_path )
         end
 
-        def shareable_service_consumers_for(definition_path)
-          engines_api_system.shareable_service_consumers_for(definition_path)
+        def shareable_service_consumers_for( publisher_namespace, type_path )
+          engines_api_system.shareable_service_consumers_for(
+            publisher_namespace: publisher_namespace,
+            type_path: type_path ).map do |service_consumer|
+            {
+              parent: service_consumer[:parent_engine],
+              service_handle: service_consumer[:service_handle],
+              variables: service_consumer[:variables],
+            }
+          end
         end
 
-        def adoptable_service_consumers_for(definition_path)
-          engines_api_system.adoptable_service_consumers_for(definition_path)
+        def adoptable_service_consumers_for( publisher_namespace, type_path )
+          engines_api_system.adoptable_service_consumers_for(
+            publisher_namespace: publisher_namespace,
+            type_path: type_path ).map do |service_consumer|
+            {
+              parent: service_consumer[:parent_engine],
+              service_handle: service_consumer[:service_handle],
+              variables: service_consumer[:variables],
+            }
+          end
         end
 
-        # def existing_services_for( definition_path )
+        # def existing_services_for( publisher_namespace, type_path )
         #   @existing_services_collection ||=
         #   engines_system.persistent_service_connections_for(publisher_type_path).map do |service_consumer|
         #     [ "#{service_consumer[:parent_engine]}##{service_consumer[:service_handle]}",
@@ -424,7 +484,7 @@ class V0
         #   end
         # end
         #
-        # def orphan_services_for( definition_path )
+        # def orphan_services_for( publisher_namespace, type_path )
         #   @orphan_services_collection ||=
         #   engines_system.orphan_service_connections_for(publisher_type_path).map do |service_consumer|
         #     ["#{service_consumer[:parent_engine]}##{service_consumer[:service_handle]}",
@@ -442,16 +502,16 @@ class V0
 
         def orphan_data
           return [] if engines_api_system.orphan_data[:children].empty?
-          listTreeNodesContent(engines_api_system.orphan_data).map do |orphan|
-            definition_path = "#{orphan[:publisher_namespace]}/#{orphan[:type_path]}"
-            service_definition = engines_api_system.service_definition_for(definition_path)
+          listTreeNodesContent( engines_api_system.orphan_data ).map do |orphan|
+            service_definition = service_definition_for( orphan[:publisher_namespace], orphan[:type_path] )
             {
               type: "#{service_definition[:author]} #{service_definition[:title]}",
-              definition_path: definition_path,
+              publisher_namespace: orphan[:publisher_namespace],
+              type_path: orphan[:type_path],
               parent: orphan[:parent_engine],
-              handle: orphan[:service_handle]
+              service_handle: orphan[:service_handle]
             }
-          end.sort_by { |orphan| orphan[:parent] + orphan[:handle] }
+          end.sort_by { |orphan| orphan[:parent] + orphan[:service_handle] }
         end
 
         def listTreeNodesContent(node)
@@ -474,23 +534,23 @@ class V0
         # Install
         ########################################################################
 
-        def install(form_params)
-          install_params = install_params_for(form_params)
+        def install(form_data)
+          install_params = install_params_for(form_data)
           return { message: "OK" } if engines_api_system.install(install_params) == 'true'
           raise NonFatalError.new "Failed to install.", 405
         end
 
-        def install_params_for(form_params)
+        def install_params_for(form_data)
           {
-            engine_name: form_params[:engine_name],
-            host_name: form_params[:host_name],
-            domain_name: form_params[:domain_name],
-            http_protocol: form_params[:http_protocol],
-            memory: form_params[:memory],
-            country_code: form_params[:country_code],
-            lang_code: form_params[:language_code],
-            variables: form_params[:environment_variables],
-            attached_services: form_params[:services].map do |service|
+            engine_name: form_data[:engine_name],
+            host_name: form_data[:host_name],
+            domain_name: form_data[:domain_name],
+            http_protocol: form_data[:http_protocol],
+            memory: form_data[:memory],
+            country_code: form_data[:country_code],
+            lang_code: form_data[:language_code],
+            variables: form_data[:environment_variables],
+            attached_services: form_data[:services].map do |service|
               if service[:create_type] == "share"
                 create_type = "existing"
                 parent_engine, service_handle = *service[:share].split("#")
@@ -508,7 +568,7 @@ class V0
                 service_handle: service_handle
               }
             end,
-            repository_url: form_params[:blueprint_url]
+            repository_url: form_data[:blueprint_url]
           }
         end
 
@@ -529,13 +589,32 @@ class V0
           }
         end
 
+        ######################################################################
+        # Exception logging
+        ######################################################################
+
+        def report_exceptions
+          engines_api_system.report_exceptions
+        end
+
+        def enable_exception_reporting
+          # byebug
+          engines_api_system.enable_exception_reporting
+        end
+
+        def disable_exception_reporting
+          # byebug
+          engines_api_system.disable_exception_reporting
+        end
+
+
         ########################################################################
         # Shutdown
         ########################################################################
 
-        def shutdown(form_params)
-          byebug
-          return { message: "OK" } if engines_api_system.shutdown( { reason: form_params[:reason] } ) == 'true'
+        def shutdown(form_data)
+          # byebug
+          return { message: "OK" } if engines_api_system.shutdown( { reason: form_data[:reason] } ) == 'true'
           raise NonFatalError.new "Failed to shutdown system.", 405
         end
 

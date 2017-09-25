@@ -43,7 +43,11 @@ var $appWebsites = {
 								icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } ),
 							],
 							_refresh: function ( data ) {
-								this.$components = data.map( ( website ) => { return button( { text: website } ); } )
+								this.$components = data.length ?
+									data.map( ( website ) => { return button( { text: website, onclick: function() {
+										openUrl( website );
+									} } ); } ) :
+									[ { $type: "i", $text: "None." } ]
 							},
 						},
 					]

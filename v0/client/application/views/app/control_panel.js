@@ -37,53 +37,59 @@ var $appControlPanel = {
 							]
 						},
 						{ $type: "hr" },
-
-						button( {
-							icon: "fa fa-sitemap",
-							text: "Network",
-							onclick: function () { appNetwork._live(appName); },
-						} ),
-
-						button( {
-							icon: "fa fa-microchip",
-							text: "Memory",
-							onclick: function () { appMemory._live(appName); },
-						} ),
-
-						button( {
-							icon: "fa fa-question-circle-o",
-							text: "Environment",
-							onclick: function () { appEnvironment._live(appName); },
-						} ),
-
-						{ $type: "hr" },
-
-						button( {
-							icon: "fa fa-compass",
-							text: "Services",
-							onclick: function () { appServices._live(appName); },
-						} ),
-
-						button( {
-							icon: "fa fa-crosshairs",
-							text: "Actions",
-							onclick: function () { appActions._live(appName); },
-						} ),
-
-						{ $type: "hr" },
-
-						button( {
-							icon: "fa fa-list-ol",
-							text: "Build report",
-							onclick: function () { appBuildReport._live(appName); },
-						} ),
-
-						button( {
-							icon: "fa fa-stethoscope",
-							text: "Diagnostics",
-							onclick: function () { appDiagnostics._live(appName); },
-						} ),
-
+						{
+							class: "row",
+							$components: [
+								{
+									class: "col-sm-6",
+									$components: [
+										button( {
+											icon: "fa fa-crosshairs",
+											text: "Actions",
+											onclick: function () { appActions._live(appName); },
+										} ),
+										{ $type: "hr" },
+										button( {
+											icon: "fa fa-sitemap",
+											text: "Network",
+											onclick: function () { appNetwork._live(appName); },
+										} ),
+										button( {
+											icon: "fa fa-microchip",
+											text: "Memory",
+											onclick: function () { appMemory._live(appName); },
+										} ),
+										{ $type: "hr" },
+									]
+								},
+								{
+									class: "col-sm-6",
+									$components: [
+										button( {
+											icon: "fa fa-question-circle-o",
+											text: "Environment variables",
+											onclick: function () { appEnvironmentVariables._live(appName); },
+										} ),
+										button( {
+											icon: "fa fa-compass",
+											text: "Services",
+											onclick: function () { appServices._live(appName); },
+										} ),
+										{ $type: "hr" },
+										button( {
+											icon: "fa fa-list-ol",
+											text: "Build report",
+											onclick: function () { appBuildReport._live(appName); },
+										} ),
+										button( {
+											icon: "fa fa-stethoscope",
+											text: "Diagnostics",
+											onclick: function () { appDiagnostics._live(appName); },
+										} ),
+									]
+								},
+							]
+						}
 					]
 				}
 			}

@@ -18,7 +18,7 @@ class V0
           App.new self, name
         end
 
-        def post(route, params)
+        def post(route, params={})
           handle_response do
             RestClient::Request.execute(
               method: :post,
@@ -28,7 +28,22 @@ class V0
               timeout: 120,
               verify_ssl: false,
               headers: {
-                # contentType: 'application/json',
+                access_token: @token
+              }
+            )
+          end
+        end
+
+        def put_stream(route, params={})
+          handle_response do
+            RestClient::Request.execute(
+              method: :put,
+              url: "#{@url}/v0/#{route}",
+              payload: { api_vars: params }.to_json,
+              contentType: 'application/octet-stream',
+              timeout: 120,
+              verify_ssl: false,
+              headers: {
                 access_token: @token
               }
             )
@@ -66,11 +81,14 @@ class V0
         def handle_response
           response = yield
           case response.headers[:content_type].split(';').first
-          when 'text/plain'
-            response.body
           when 'application/json'
             JSON.parse response.body, symbolize_names: true
+          when 'text/plain'
+            response.body
+          when 'application/octet-stream'
+            response.body
           else
+            # byebug
             raise StandardError.new 'An unhandled content type was returned by the system API.'
           end
         rescue RestClient::Forbidden
@@ -81,8 +99,8 @@ class V0
           # raise e
 
         rescue RestClient::MethodNotAllowed
-          raise NonFatalError.new 'Not allowed.', 406
-        rescue Errno::ECONNREFUSED, Errno::ECONNRESET, RestClient::ServerBrokeConnection
+          raise NonFatalError.new 'Not allowed.', 405
+        rescue Errno::ECONNREFUSED, Errno::ECONNRESET, RestClient::ServerBrokeConnection, OpenSSL::SSL::SSLError
           raise NonFatalError.new "System busy.", 503
         # rescue => e
         #   # raise NonFatalError.new "Unhandled Engines API error.", 500

@@ -5,7 +5,7 @@ var $systemDomainsDefaultEdit = {
 	
 	
 	_live: function( defaultDomain ) {
-		$$("#modal")._live(
+		modal._live(
 			{
 				header: icon( { icon: "fa fa-star-o", text: "Default domain" } ),
 				body: {
@@ -52,7 +52,7 @@ var $systemDomainsDefaultEdit = {
 			components: [
 				formField( {
 					type: "select", 
-					name: "form[default_domain]", 
+					name: "data[default_domain]", 
 					id: "systemDomainsDefaultEditField_default_domain", 
 					label: "Default domain",
 					value: data.default,
@@ -60,7 +60,7 @@ var $systemDomainsDefaultEdit = {
 				} ),
 				formCancel ( { onclick: "systemDomains._live();" } ),
 				formSubmit(),
-//				pp( { object: data } )
+//				pp( data )
 			],
 			action: "/system/domains/default",
 			method: "PUT",

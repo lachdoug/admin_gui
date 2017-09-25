@@ -7,7 +7,7 @@ class V0
       end
 
       put "/system/timezone" do
-        system.update_timezone(params[:form]).to_json
+        system.update_timezone(params[:data]).to_json
       end
 
     end

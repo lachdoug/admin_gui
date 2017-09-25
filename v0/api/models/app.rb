@@ -40,6 +40,7 @@ class V0
         ######################################################################
 
         def instruct(instruction)
+          # byebug
           return { message: "OK" } if app_api.instruct_container(instruction) == 'true'
           raise NonFatalError.new "Failed to instruct #{name} to #{instruction}.", 405
         end
@@ -99,16 +100,25 @@ class V0
         end
 
         ######################################################################
-        # Environment
+        # Environment variables
         ######################################################################
 
         def environment
           {}.tap do |result|
-            container[:environments].group_by do |variable|
+            container[:environments].map do |variable|
+              if [ "Memory", "LANGUAGE", "LANG", "LC_ALL" ].include? variable[:name]
+                variable[:owner_type] = "system"
+                variable
+              else
+                variable
+              end
+            end.group_by do |variable|
               variable[:owner_type]
             end.tap do |envs|
-              result[:application] = application_environment_variables_for envs["application"]
-              result[:service_consumers] = service_consumer_environment_variables_for envs["service_consumer"]
+              result[:application] = application_environment_variables_for envs["application"] || []
+              result[:user] = envs["user"] || []
+              result[:system] = envs["system"] || []
+              result[:service_consumers] = service_consumer_environment_variables_for envs["service_consumer"] || []
             end
           end
 
@@ -117,7 +127,7 @@ class V0
         def application_environment_variables_for(application_envs)
           {
             variables: application_envs || [],
-            software_environment_variables: blueprint[:software][:environment_variables]
+            blueprint_environment_variables: blueprint[:software][:environment_variables]
           }
         end
 
@@ -126,90 +136,215 @@ class V0
           service_consumer_envs.group_by do |env|
             env[:owner_path].split(':').first
           end.map do |owner_group, envs|
-            service_definition = @system.service_definition_for( owner_group )
+            publisher_namespace, *type_path = owner_group.split('/')
+            type_path = type_path.join('/')
+            service_definition = @system.service_definition_for( publisher_namespace, type_path )
             {
-              owner_group => { variables: envs, params: service_definition[:consumer_params], label: service_definition[:title] }
+              owner_group => { variables: envs, consumer_params: service_definition[:consumer_params].values, label: service_definition[:title] }
             }
           end.inject :merge
+        end
+
+        def update_environment_variables( data )
+          byebug
+          app_api.update_environment_variables( variables: data ) == 'true'
         end
 
         ########################################################################
         # Services
         ########################################################################
 
-        # <%= report_collapse_data 'Available services', @app.app_api.available_services %>
-        # <%= report_collapse_data 'Non-persistent services', @app.app_api.non_persistent_services %>
-        # <%= report_collapse_data 'Persistent services', @app.app_api.persistent_services %>
-
-        # services
-
         def services
           {
-            persistent: app_api.persistent_services.sort_by{ |service| service[:container_name] }.map do |service|
-              service_detail_for(service)
-            end,
-            non_persistent: app_api.non_persistent_services.sort_by{ |service| service[:container_name] }.map do |service|
-              service_detail_for(service)
-            end
+            persistent: app_api.persistent_services.map do |service|
+              service_summary_for(service)
+            end.sort_by{ |service| service[:label] },
+            non_persistent: app_api.non_persistent_services.map do |service|
+              service_summary_for(service)
+            end.sort_by{ |service| service[:label] }
           }
         end
 
-        def service_detail_for(service)
-          definition_path = service[:publisher_namespace] + "/" + service[:type_path]
-          service_definition = @system.service_definition_for( definition_path )
-          service_handle = service[:service_handle]
+        def service_summary_for( service )
+          service_definition = @system.service_definition_for( service[:publisher_namespace], service[:type_path] )
           {
-            label: "#{service_definition[:title]} (#{service_handle})",
+            label: "#{service_definition[:title]} #{service[:service_container_name]}:#{service[:service_handle]}",
             description: service_definition[:description],
-            definition_path: definition_path,
+            publisher_namespace: service[:publisher_namespace],
+            type_path: service[:type_path],
+            service_handle: service[:service_handle],
+            origin: service[:shared] ? "shared" : service[:freed_orphan] ? "adopted" : "created",
+          }
+        end
+
+        def service_detail_for( publisher_namespace, type_path, service_handle )
+          service_definition = @system.service_definition_for( publisher_namespace, type_path )
+          persistent_services = app_api.persistent_services_for( publisher_namespace: publisher_namespace, type_path: type_path )
+          service = persistent_services.find do |service|
+            service[:service_handle] == service_handle
+          end
+          {
+            label: "#{service_definition[:title]} #{service[:service_container_name]}:#{service_handle}",
+            description: service_definition[:description],
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
             service_handle: service_handle,
-            # consumer: service,
             params: service_definition[:consumer_params].keys.map do |name|
               param = service_definition[:consumer_params][name]
               param[:value] = service[:variables][name]
               if param[:input]
                 param
               else
-                Lib.update_legacy_input_definition_for param
+                Lib.legacy_input_definition_for param
               end
             end,
           }
         end
 
+        def update_persistent_service( publisher_namespace, type_path, service_handle, form_params )
+          app_api.update_persistent_service( {
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
+            service_handle: service_handle,
+            variables: form_params[:variables]
+          } )
+        end
+
+        def export_persistent_service( publisher_namespace, type_path, service_handle )
+          app_api.export_persistent_service( {
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
+            service_handle: service_handle,
+          } )
+        end
+
+        def import_persistent_service( publisher_namespace, type_path, service_handle, file )
+          app_api.import_persistent_service( {
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
+            service_handle: service_handle,
+            file: file
+          } )
+        end
 
         def available_services
           app_api.available_services.map do |type, services|
             {
               type => services.map do |service|
                 {
+                  publisher_namespace: service[:publisher_namespace],
+                  type_path: service[:type_path],
                   label: "#{service[:title]} (#{service[:service_container]})",
-                  definition_id: "#{service[:publisher_namespace]}/#{service[:type_path]}".gsub( "/", "|" )
+                  description: service[:description],
                 }
               end
             }
           end.inject :merge
         end
 
-        def available_persistent_service_for( definition_id )
-          definition_path = definition_id.gsub( "|", "/" )
-          service_definition = @system.service_definition_for( definition_path )
+        def available_persistent_services_for( publisher_namespace, type_path )
+          service_definition = @system.service_definition_for( publisher_namespace, type_path )
+          params = service_definition[:consumer_params].values.select do |param|
+            param[:ask_at_build_time] == true || param[:immutable] != true
+          end.map do |param|
+            if param[:input]
+              param
+            else
+              Lib.legacy_input_definition_for param
+            end
+          end
           {
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
             label: service_definition[:title],
             description: service_definition[:description],
-            definition_id: definition_id,
-            shareable: @system.shareable_service_consumers_for( definition_path ),
-            adoptable: @system.adoptable_service_consumers_for( definition_path ),
-            params: service_definition[:consumer_params].keys.map do |name|
-              param = service_definition[:consumer_params][name]
-              if param[:input]
-                param
-              else
-                Lib.update_legacy_input_definition_for param
-              end
-            end,
+            shareable: @system.shareable_service_consumers_for( publisher_namespace, type_path ),
+            adoptable: @system.adoptable_service_consumers_for( publisher_namespace, type_path ),
+            params: params,
           }
         end
 
+        def create_new_persistent_service( publisher_namespace, type_path, data )
+          app_api.create_new_persistent_service(
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
+            variables: data[:variables] )
+        end
+
+        def delete_persistent_service( publisher_namespace, type_path, service_handle )
+          app_api.share_existing_persistent_service(
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
+            service_handle: service_handle )
+        end
+
+        def share_existing_persistent_service( publisher_namespace, type_path, service_handle, data )
+          app_api.share_existing_persistent_service(
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
+            service_handle: service_handle,
+            variables: data[:variables] )
+        end
+
+        def adopt_orphan_persistent_service( publisher_namespace, type_path, service_handle, data )
+          app_api.adopt_orphan_persistent_service(
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
+            service_handle: service_handle,
+            variables: data[:variables] )
+        end
+
+        def register_nonpersistent_service( publisher_namespace, type_path, service_handle )
+          app_api.register_nonpersistent_service(
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
+            service_handle: service_handle )
+        end
+
+        def deregister_nonpersistent_service( publisher_namespace, type_path, service_handle )
+          app_api.deregister_nonpersistent_service(
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
+            service_handle: service_handle )
+        end
+
+        def reregister_nonpersistent_service( publisher_namespace, type_path, service_handle )
+          app_api.reregister_nonpersistent_service(
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
+            service_handle: service_handle )
+        end
+
+        ######################################################################
+        # Actions
+        ######################################################################
+
+        def perform_action( actionator_name, variables )
+          app_api.perform_action(
+            actionator_name: actionator_name,
+            variables: variables
+          )
+        end
+
+        ######################################################################
+        # Resolve strings
+        ######################################################################
+
+        def resolve_strings(strings)
+          strings.map do |string|
+            # byebug if string == "_Engines_System(random(10))"
+            app_api.resolve_string(string)
+          end
+        end
+
+
+        ######################################################################
+        # OOM
+        ######################################################################
+
+        def clear_had_oom
+          app_api.clear_had_oom
+        end
 
       end
     end

@@ -75,7 +75,7 @@ var $systemLastInstall = {
 						}, 
 						{
 							label: "Params",
-							body: pp( { object: data.params } )
+							body: pp( data.params )
 						} 
 					]
 				} )

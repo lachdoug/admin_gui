@@ -98,7 +98,7 @@ var $systemServiceCertificates = {
 	  			};
 	  		} )
 	    },
-			pp({ object: data}),
+			pp( data ),
 		];
 	},
 

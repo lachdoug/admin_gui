@@ -88,7 +88,7 @@ var $appLogs = {
 			action: "/apps/" + this._appName + "/logs",
 			callbacks: {
 				200: function(response) {
-					$$("#appLogsContent")._refresh( response );
+					appLogsContent._refresh( response );
 				}
 			}
 		});

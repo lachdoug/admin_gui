@@ -43,14 +43,14 @@ var $systemTimezone = {
 			components: [
 				formField( {
 					type: "timezone", 
-					name: "form[timezone]", 
+					name: "data[timezone]", 
 					id: "systemTimezoneField_timezone", 
 					label: "Country",
 					value: timezoneData.timezone
 				} ),
 				formCancel ( { onclick: "systemControlPanel._live();" } ),
 				formSubmit(),
-//				pp( { object: timezoneData } )
+//				pp( timezoneData )
 			],
 			action: "/system/timezone",
 			method: "PUT",

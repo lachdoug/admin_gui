@@ -24,14 +24,7 @@ var $systemUpdateEngines = {
 			action: "/system/update_engines",
 			callbacks: {
 				200: function() {
-					systemUnavailable._live( 
-						{
-							$components: [
-								{ $type: "p", $text: "Engines update is starting." },
-								{ $type: "p", $text: "The update process normally takes a minute or two, but can take longer in some cases." }
-							]
-						}
-					)
+					systemUnavailable._live( "Engines update is starting." )
 				},
 				405: function() {
 					systemUpdateEngines._alreadyUpToDate();
@@ -51,7 +44,7 @@ var $systemUpdateEngines = {
 					$components: [
 						{ $text: "Engines is already up-to-date." },
 						button( {
-							onclick: "$$('#systemMenu')._live()",
+							onclick: systemMenu._live,
 							icon: "fa fa-check",
 							text: "OK",
 							wrapperClass: "pull-right"

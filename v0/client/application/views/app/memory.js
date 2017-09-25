@@ -56,7 +56,7 @@ var $appMemory = {
 			components: [
 				formField( {
 					type: "number",
-					name: "form[memory]",
+					name: "data[memory]",
 					label: "Memory (MB)",
 					value: data.memory
 				}),

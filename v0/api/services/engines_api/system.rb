@@ -8,8 +8,8 @@ class V0
             @system_api = system_api
           end
 
-          def sign_in(params)
-            @system_api.post 'system/login', params
+          def sign_in( args )
+            @system_api.post 'system/login', args
           end
 
           ##########################################################################
@@ -52,17 +52,17 @@ class V0
             @system_api.get 'system/control/base_os/restart'
           end
 
-          def shutdown(params)
+          def shutdown( args )
             # return 'true'
-            @system_api.post 'system/control/base_os/shutdown', params
+            @system_api.post 'system/control/base_os/shutdown', args
           end
 
           ##########################################################################
           # Admin
           ##########################################################################
 
-          def update_admin_user(params)
-            @system_api.post "system/user/admin", params
+          def update_admin_user( args )
+            @system_api.post "system/user/admin", args
           end
 
           def admin_user
@@ -101,17 +101,17 @@ class V0
             @system_api.get 'system/control/base_os/timezone'
           end
 
-          def update_timezone(params)
+          def update_timezone( args )
             # timezone = ActiveSupport::TimeZone.find_tzinfo(timezone).to_s.sub(' - ', '/')
-            @system_api.post 'system/control/base_os/timezone', params
+            @system_api.post 'system/control/base_os/timezone', args
           end
 
           def locale
             @system_api.get 'system/control/base_os/locale'
           end
 
-          def update_locale(params)
-            @system_api.post 'system/control/base_os/locale', params
+          def update_locale( args )
+            @system_api.post 'system/control/base_os/locale', args
           end
 
           ##########################################################################
@@ -126,20 +126,20 @@ class V0
             @system_api.get 'system/config/default_domain'
           end
 
-          def update_default_domain(params)
-            @system_api.post 'system/config/default_domain', params
+          def update_default_domain( args )
+            @system_api.post 'system/config/default_domain', args
           end
 
-          def create_domain(params)
-            @system_api.post 'system/domains/', params
+          def create_domain( args )
+            @system_api.post 'system/domains/', args
           end
 
           def domain(domain_name)
             @system_api.get "system/domain/#{domain_name}"
           end
 
-          def update_domain(domain_name, params)
-            @system_api.post "system/domain/#{domain_name}", params
+          def update_domain(domain_name, args) # TODO: put domain into args
+            @system_api.post "system/domain/#{domain_name}", args
           end
 
           def delete_domain(domain_name)
@@ -154,8 +154,8 @@ class V0
             @system_api.get 'system/keys/user/engines'
           end
 
-          def update_public_ssh_key(params)
-            @system_api.post 'system/keys/user/engines', params
+          def update_public_ssh_key( args )
+            @system_api.post 'system/keys/user/engines', args
           end
 
           def private_ssh_key
@@ -170,8 +170,8 @@ class V0
             @system_api.get 'system/config/default_site'
           end
 
-          def update_default_site(params)
-            @system_api.post 'system/config/default_site', params
+          def update_default_site( args )
+            @system_api.post 'system/config/default_site', args
           end
 
           ##########################################################################
@@ -204,23 +204,23 @@ class V0
           # Service manager
           ##########################################################################
 
-          def service_definition_for(service_path)
-            @system_api.get "service_manager/service_definitions/#{service_path}"
+          def service_definition_for( args )
+            @system_api.get "service_manager/service_definitions/#{args[:publisher_namespace]}/#{args[:type_path]}"
           end
 
-          def shareable_service_consumers_for(service_path)
-            @system_api.get "service_manager/persistent_services/#{service_path}"
+          def shareable_service_consumers_for( args )
+            @system_api.get "service_manager/persistent_services/#{args[:publisher_namespace]}/#{args[:type_path]}"
           end
 
-          def adoptable_service_consumers_for(service_path)
-            @system_api.get "service_manager/orphan_services/#{service_path}"
+          def adoptable_service_consumers_for( args )
+            @system_api.get "service_manager/orphan_services/#{args[:publisher_namespace]}/#{args[:type_path]}"
           end
 
           def orphan_data
             @system_api.get "service_manager/orphan_services/"
           end
 
-          def delete_orphan_data(orphan_path)
+          def delete_orphan_data( orphan_path )
             @system_api.delete "service_manager/orphan_service/#{orphan_path}"
           end
 
@@ -228,9 +228,9 @@ class V0
           # Install app
           ##########################################################################
 
-          def install(params)
+          def install( args )
             # byebug
-            @system_api.post 'containers/engines/build', params
+            @system_api.post 'containers/engines/build', args
           end
 
           def current_build
@@ -327,12 +327,12 @@ class V0
             @system_api.get "system/certs/system_ca"
           end
 
-          def save_default_certificate(params)
-            @system_api.post 'system/certs/default', params
+          def create_default_certificate( args )
+            @system_api.post 'system/certs/default', args
           end
 
-          def save_service_certificate(params)
-            @system_api.post 'system/certs/', params
+          def create_service_certificate( args )
+            @system_api.post 'system/certs/', args
           end
 
           def service_certificates
@@ -343,6 +343,23 @@ class V0
           def update_service_certificate(service_certificate_path)
             @system_api.post "system/certs/default/#{service_certificate_path}"
           end
+
+          ######################################################################
+          # Exception logging
+          ######################################################################
+
+          def report_exceptions
+            @system_api.get 'system/config/remote_exception_logging'
+          end
+
+          def enable_exception_reporting
+            @system_api.post 'system/config/remote_exception_logging/enable'
+          end
+
+          def disable_exception_reporting
+            @system_api.post 'system/config/remote_exception_logging/disable'
+          end
+
 
         end
 
@@ -384,19 +401,6 @@ end
     #       post "system/login", params: { user_name: 'admin', password: password }, expect: :plain_text
     #     end
     #
-    #     # configs
-    #
-    #     def remote_exception_logging?
-    #       get 'system/config/remote_exception_logging', expect: :boolean
-    #     end
-    #
-    #     def enable_remote_exception_logging
-    #       post 'system/config/remote_exception_logging/enable', expect: :boolean
-    #     end
-    #
-    #     def disable_remote_exception_logging
-    #       post 'system/config/remote_exception_logging/disable', expect: :boolean
-    #     end
     #
     #     # container statuses
     #

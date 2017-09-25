@@ -51,7 +51,7 @@ var $appConsumedServices = {
 							},
 
 							$update: function () {
-								this.$components = [ pp( { object: appConsumedServicesContent._data } ) ];
+								this.$components = [ pp( appConsumedServicesContent._data ) ];
 							},
 
 						}
@@ -70,7 +70,7 @@ var $appConsumedServices = {
 			action: "/apps/" + this._appName + "/services",
 			callbacks: {
 				200: function(response) {
-					$$("#appConsumedServicesContent")._refresh( response );
+					appConsumedServicesContent._refresh( response );
 				}
 			}
 		});

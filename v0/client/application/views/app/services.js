@@ -19,7 +19,7 @@ var $appServices = {
 		var appName = this._appName;
 		modal._live (
 			{
-				dialogClass: "modal-lg",
+				// dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-compass",
 					text: "App services",
@@ -61,11 +61,11 @@ var $appServices = {
 							$update: function () {
 								this.$components = [
 									{ $type: "label", $text: "Persistent" },
-									appServices._services( "persistent" ),
+									appServices._persistentServices(),
 									{ $type: "hr" },
 									{ $type: "label", $text: "Non-persistent" },
-									appServices._services( "non_persistent" ),
-									pp( { object: this._data } )
+									appServices._nonpersistentServices(),
+									pp( this._data )
 
 								];
 							},
@@ -83,10 +83,10 @@ var $appServices = {
 	_load: function () {
 
 		apiRequest({
-			action: "/apps/" + this._appName + "/services",
+			action: "/apps/" + this._appName + "/service_manager/services",
 			callbacks: {
 				200: function(response) {
-					$$("#appServicesContent")._refresh( response );
+					appServicesContent._refresh( response );
 				}
 			}
 		});
@@ -94,17 +94,54 @@ var $appServices = {
 	},
 
 
-	_services: function ( type ) {
+	_persistentServices: function () {
+		var owned = appServicesContent._data[ "persistent" ].filter( function( service ) { return service.origin != "shared" } );
+		var shared = appServicesContent._data[ "persistent" ].filter( function( service ) { return service.origin == "shared" } );
 		return {
-			$components: appServicesContent._data[ type ].map( function( persistentService ) {
+			$components: [
+				{ $components: appServices._persistentServicesButtons( owned ) },
+				shared.length ? {
+					$components: [
+						{ $type: "small", $text: "Shared" },
+						{ $components: appServices._persistentServicesButtons( shared ) }
+					]
+				} : {}
+			]
+		};
+	},
+
+	_persistentServicesButtons: function( services ) {
+		return services.map( function( service ) {
+			return button( {
+				text: service.label,
+				onclick: function () {
+					appServicesPersistent._live(
+						appServices._appName,
+						service.publisher_namespace,
+						service.type_path,
+						service.service_handle );
+				}
+			} );
+		} )
+	},
+
+
+	_nonpersistentServices: function () {
+		return {
+			$components: appServicesContent._data[ "non_persistent" ].map( function( nonpersistentService ) {
 				return button( {
-					text: persistentService.label,
+					text: nonpersistentService.label,
 					onclick: function () {
-						appServicesPersistent._live( appServices._appName, persistentService );
+						appServicesNonpersistent._live(
+							appServices._appName,
+							nonpersistentService.publisher_namespace,
+							nonpersistentService.type_path,
+							nonpersistentService.service_handle );
 					}
 				} );
 			} )
 		};
-	}
+	},
+
 
 };

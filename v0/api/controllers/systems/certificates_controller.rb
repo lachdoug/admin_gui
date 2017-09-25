@@ -7,9 +7,17 @@ class V0
       end
 
       get '/system/certificates/' do
-        byebug
+        ## Query params: :certificate_path
         send_as_file "#{ ( params[:certificate_path] ).gsub("/", "_") }.crt",
           system.certificate( params[:certificate_path] )
+      end
+
+      post '/system/certificates' do
+        # byebug
+        system.create_certificate( params[:data] ).to_json
+        # ## Query params: :certificate_path
+        # send_as_file "#{ ( params[:certificate_path] ).gsub("/", "_") }.crt",
+        #   system.certificate( params[:certificate_path] )
       end
 
       get '/system/certificate_authority' do

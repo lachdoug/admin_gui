@@ -74,7 +74,7 @@ var $appProcesses = {
 											$type: "table",
 											class: "table",
 											$components: [
-												// pp( {object: appProcessesContent._data } )
+												// pp( appProcessesContent._data )
 												{
 													$type: "thead",
 													$components: [
@@ -122,7 +122,7 @@ var $appProcesses = {
 			action: "/apps/" + this._appName + "/processes",
 			callbacks: {
 				200: function(response) {
-					$$("#appProcessesContent")._refresh( response );
+					appProcessesContent._refresh( response );
 				}
 			}
 		});

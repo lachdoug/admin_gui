@@ -7,7 +7,7 @@ class V0
       end
 
       post "/system/install" do
-        system.install(params[:form]).to_json
+        system.install(params[:data]).to_json
       end
 
     end

@@ -11,7 +11,7 @@ class V0
       end
 
       put "/system/ssh_keys/public" do
-        system.update_public_ssh_key( params[:form] ).to_json
+        system.update_public_ssh_key( params[:data] ).to_json
       end
 
     end

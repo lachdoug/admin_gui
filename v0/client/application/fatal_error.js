@@ -6,7 +6,7 @@ var $fatalError = {
 
 	_live: function (error) {
 
-		$$("#modal")._live ( {
+		modal._live ( {
 			header: icon( { icon: "fa fa-bug", text: "Bug" } ),
 			body: {
 				$components: [
@@ -19,11 +19,11 @@ var $fatalError = {
 						$components: [
 							button( { onclick: "$('#fatalErrorDetail').toggle();", wrapperClass: "pull-left",
 												icon: "fa fa-info", text: "Detail", title: "Error detail" } ),
-							button( { onclick: "$$('#modal')._kill();", wrapperClass: "pull-right",
+							button( { onclick: modal._kill, wrapperClass: "pull-right",
 												icon: "fa fa-times", text: "Close", title: "Return to system" } ),
 						]
 					},
-					pp( {
+					prettyPrint( {
 						id: "fatalErrorDetail",
 						style: "display: none;",
 						object: error } ),

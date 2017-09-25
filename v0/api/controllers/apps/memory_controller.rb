@@ -9,7 +9,7 @@ class V0
 
       put '/apps/:app_name/memory' do
         set_app( params[:app_name] )
-        @app.update_memory( params[:form] ).to_json
+        @app.update_memory( params[:data] ).to_json
       end
 
     end

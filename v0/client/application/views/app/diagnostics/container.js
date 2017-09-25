@@ -56,7 +56,7 @@ var $appContainer = {
 							},
 
 							$update: function () {
-								this.$components = [ pp( { object: appContainerContent._data } ) ];
+								this.$components = [ pp( appContainerContent._data ) ];
 							},
 
 						}
@@ -75,7 +75,7 @@ var $appContainer = {
 			action: "/apps/" + this._appName + "/container",
 			callbacks: {
 				200: function(response) {
-					$$("#appContainerContent")._refresh( response );
+					appContainerContent._refresh( response );
 				}
 			}
 		});

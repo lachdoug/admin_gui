@@ -4,7 +4,7 @@ var $systemRestartBaseOS = {
 	id: "systemRestartBaseOS",
 
 	_live: function() {
-		var baseOSName = system._systemData.properties.version.base_os.name;
+		var baseOSName = system._data.properties.version.base_os.name;
 		modal._live(
 			{
 				header: icon( { icon: "fa fa-power-off", text: "Restart " + baseOSName } ),
@@ -14,8 +14,8 @@ var $systemRestartBaseOS = {
 						{
 							class: "clearfix",
 							$components: [
-								button({ icon: "fa fa-times", text: "Cancel", wrapperClass: "pull-left", onclick: "$$('#systemMenu')._live();"}),
-								button({ icon: "fa fa-check", text: "OK", wrapperClass: "pull-right", onclick: "$$('#systemRestartBaseOS')._restart();"}),
+								button( { icon: "fa fa-times", text: "Cancel", wrapperClass: "pull-left", onclick: systemMenu._live } ),
+								button( { icon: "fa fa-check", text: "OK", wrapperClass: "pull-right", onclick: systemRestartBaseOS._restart } ),
 							]
 						}
 					]
@@ -30,7 +30,7 @@ var $systemRestartBaseOS = {
 			action: "/system/restart_base_os",
 			callbacks: {
 				200: function() {
-					systemUnavailable._live( { $type: "p", $text: "Base OS restart has been initiated." } );
+					systemUnavailable._live( "Base OS restart has been initiated." );
 				}
 			}
 		});

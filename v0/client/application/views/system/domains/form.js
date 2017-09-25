@@ -8,12 +8,12 @@ var $systemDomainsNamesForm = {
     var isEditForm = data ? true : false;
     var method = isEditForm ? "PUT" : "POST";
     var action = isEditForm ? "/system/domains/names/" + data.domain_name : "/system/domains/names";
-    var data = isEditForm ? data : {};
+    data = isEditForm ? data : {};
 
 		return form( {
 			components: [
 				formField( {
-					name: "form[domain_name]",
+					name: "data[domain_name]",
 					id: "systemDomainsNamesFormField_domain_name",
 					label: "Domain name",
           disabled: isEditForm,
@@ -21,14 +21,14 @@ var $systemDomainsNamesForm = {
 				} ),
 				formField( {
 					type: "checkbox",
-					name: "form[self_hosted]",
+					name: "data[self_hosted]",
 					id: "systemDomainsNamesFormField_self_hosted",
 					label: "Self-hosted",
     			value: data.self_hosted,
 				} ),
 				formField( {
 					type: "checkbox",
-					name: "form[internal_only]",
+					name: "data[internal_only]",
 					id: "systemDomainsNamesFormField_internal_only",
 					label: "Internal only",
     			value: data.internal_only,

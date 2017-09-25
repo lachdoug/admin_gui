@@ -56,19 +56,19 @@ var $appNetwork = {
 			components: [
 				formField( {
 					type: "select",
-					name: "form[http_protocol]",
+					name: "data[http_protocol]",
 					label: "HTTP Protocol",
 					collection: availableHttpProtocols( data.default_http_protocol ),
 					value: data.http_protocol
 				}),
 				formField( {
-					name: "form[host_name]",
+					name: "data[host_name]",
 					label: "Host name",
 					value: data.host_name
 				}),
 				formField( {
 					type: "select",
-					name: "form[domain_name]",
+					name: "data[domain_name]",
 					label: "Domain name",
 					value: data.domain_name,
 					collection: data.available_domain_names

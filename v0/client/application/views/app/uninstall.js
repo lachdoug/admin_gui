@@ -27,7 +27,7 @@ var $appUninstall = {
 							components: [
 								formField( {
 									type: "checkbox",
-									name: "form[delete_app_data]",
+									name: "data[delete_app_data]",
 									id: "appUninstallField_delete_app_data",
 									label: "Delete app data",
 //									value: 'true',
@@ -35,7 +35,7 @@ var $appUninstall = {
 								} ),
 								formCancel ( {
 									onclick: function () {
-										$$("#appMenu")._live(appName);
+										appMenu._live(appName);
 									}
 								} ),
 								formSubmit(),
@@ -43,8 +43,8 @@ var $appUninstall = {
 							action: "/apps/" + appName + "/uninstall",
 							callbacks: {
 								200: function(response) {
-									$$("#system")._loadSystem();
-									$$("#modal")._kill();
+									system._loadSystem();
+									modal._kill();
 								},
 							}
 						} )

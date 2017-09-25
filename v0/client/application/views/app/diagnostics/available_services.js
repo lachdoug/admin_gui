@@ -51,7 +51,7 @@ var $appAvailableServices = {
 							},
 
 							$update: function () {
-								this.$components = [ pp( { object: appAvailableServicesContent._data } ) ];
+								this.$components = [ pp( appAvailableServicesContent._data ) ];
 							},
 
 						}
@@ -70,7 +70,7 @@ var $appAvailableServices = {
 			action: "/apps/" + this._appName + "/available_services",
 			callbacks: {
 				200: function(response) {
-					$$("#appAvailableServicesContent")._refresh( response );
+					appAvailableServicesContent._refresh( response );
 				}
 			}
 		});

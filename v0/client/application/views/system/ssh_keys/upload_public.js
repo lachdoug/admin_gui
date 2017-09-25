@@ -1,9 +1,9 @@
 var $systemSshKeysUploadPublic = {
-	
+
 	$cell: true,
 	id: "systemSshKeysUploadPublic",
-	
-	
+
+
 	_live: function() {
 		modal._live(
 			{
@@ -13,9 +13,9 @@ var $systemSshKeysUploadPublic = {
 						form( {
 							components: [
 								formField( {
-									name: "form[key]",
+									name: "data[key_file]",
 											id: "systemSshKeysUploadPublicField_key",
-											type: "file", 
+											type: "file",
 											label: "Public key file",
 											required: true
 								} ),
@@ -40,5 +40,5 @@ var $systemSshKeysUploadPublic = {
 			}
 		);
 	},
-	
+
 };

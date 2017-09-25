@@ -51,7 +51,7 @@ var $appBlueprint = {
 							},
 
 							$update: function () {
-								this.$components = [ pp( { object: appBlueprintContent._data } ) ];
+								this.$components = [ pp( appBlueprintContent._data ) ];
 							},
 
 						}
@@ -70,7 +70,7 @@ var $appBlueprint = {
 			action: "/apps/" + this._appName + "/blueprint",
 			callbacks: {
 				200: function(response) {
-					$$("#appBlueprintContent")._refresh( response );
+					appBlueprintContent._refresh( response );
 				}
 			}
 		});
