@@ -122,12 +122,12 @@ class V0
           end
 
           def create_new_persistent_service( args )
-            # byebug
+            
             @system_api.post "containers/engine/#{@name}/services/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}", { variables: args[:variables] }
           end
 
           def share_existing_persistent_service( args )
-            # byebug
+            
             @system_api.post "containers/engine/#{@name}/services/persistent/share/#{args[:parent_engine]}/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}", { variables: args[:variables] }
           end
 

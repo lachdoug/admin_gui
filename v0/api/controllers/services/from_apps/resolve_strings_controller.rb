@@ -4,7 +4,7 @@ class V0
 
       get '/services/:service_name/resolve_strings' do
         set_service(params[:service_name])
-        # byebug
+        
         @service.resolve_strings(params[:strings]).to_json
       end
 

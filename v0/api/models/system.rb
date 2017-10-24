@@ -47,7 +47,7 @@ class V0
         end
 
         def to_h
-          # byebug
+
 
           raise ( NonFatalError.new "Engines update in progress. The update process normally takes a minute or two, but can take longer in some cases.", 503 ) \
             if status[:is_engines_system_updating]
@@ -91,7 +91,7 @@ class V0
         def sign_in(params)
           engines_api_system.sign_in params
         # rescue NonFatalError => e
-          # byebug
+
           # raise NonFatalError.new "Invalid password.", 401
         end
 
@@ -417,7 +417,7 @@ p status
         end
 
         def app_status_for(container_name)
-          # byebug
+
           app(container_name).container[:status]
         end
 
@@ -451,8 +451,8 @@ p status
               puts "event in hash: #{ { event: event.force_encoding("UTF-8") } }"
               puts "event in hash to_json: #{ { event: event.force_encoding("UTF-8") }.to_json }"
               yield ( { type: :line, line: event.force_encoding("UTF-8") } )
-            # rescue => e
-            #   byebug
+            rescue => e
+              puts "event error: #{e}"
             end
           end
           yield ( { type: :eof } )
@@ -616,12 +616,12 @@ p status
         end
 
         def enable_exception_reporting
-          # byebug
+
           engines_api_system.enable_exception_reporting
         end
 
         def disable_exception_reporting
-          # byebug
+
           engines_api_system.disable_exception_reporting
         end
 
@@ -631,7 +631,7 @@ p status
         ########################################################################
 
         def shutdown(form_data)
-          # byebug
+
           return { message: "OK" } if engines_api_system.shutdown( { reason: form_data[:reason] } ) == 'true'
           raise NonFatalError.new "Failed to shutdown system.", 405
         end

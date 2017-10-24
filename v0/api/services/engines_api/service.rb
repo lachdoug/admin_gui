@@ -38,7 +38,7 @@ class V0
 #           ######################################################################
 #
           def instruct_container(instruction)
-            # byebug
+            
             if instruction == "destroy"
               @system_api.delete "containers/service/#{@name}/#{instruction}"
             else
@@ -128,7 +128,7 @@ class V0
 #           end
 #
 #           def share_existing_persistent_service( args )
-#             # byebug
+#             
 #             @system_api.post "containers/service/#{@name}/services/persistent/share/#{args[:parent_engine]}/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}", { variables: args[:variables] }
 #           end
 #

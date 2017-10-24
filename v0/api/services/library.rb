@@ -11,12 +11,12 @@ class V0
         # attr_reader :url
 
         def to_h
-          # byebug
+          
           @to_h ||= app_data
         end
 
         def update_data_file
-          # byebug
+          
           File.write @data_file_path, {
             timestamp: Time.now.to_i,
             library_apps: remote_data

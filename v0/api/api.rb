@@ -23,7 +23,7 @@ class V0
     end
 
     module Controllers
-      # byebug
+      
       include Models
       include Services
       extend Sinatra::Extension

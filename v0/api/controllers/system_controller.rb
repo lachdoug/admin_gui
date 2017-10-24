@@ -3,7 +3,7 @@ class V0
     module Controllers
 
       get '/system' do
-        # byebug
+        
         system.to_json
       end
 

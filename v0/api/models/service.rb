@@ -52,7 +52,7 @@ class V0
         ######################################################################
 
         def instruct(instruction)
-          # byebug
+
           return { message: "OK" } if service_api.instruct_container(instruction)
           raise NonFatalError.new "Failed to instruct #{name} to #{instruction}.", 405
         end
@@ -94,7 +94,7 @@ class V0
         # ######################################################################
         #
         # def network
-        #   # byebug
+        #
         #   {
         #     http_protocol: container[:protocol],
         #     host_name: container[:hostname],
@@ -171,7 +171,6 @@ class V0
         # end
         #
         # def update_environment_variables( data )
-        #   byebug
         #   service_api.update_environment_variables( variables: data )
         # end
         #
@@ -407,7 +406,7 @@ class V0
 
         def configuration_detail_for(configurator)
           configuration_for(configurator[:name])
-          byebug
+          # byebug
           configurator[:params] = ( configurator[:params] || [] ).map do |name, param|
             if param[:input]
               param
@@ -438,7 +437,7 @@ class V0
         #
         # def resolve_strings(strings)
         #   strings.map do |string|
-        #     # byebug if string == "_Engines_System(random(10))"
+        #      if string == "_Engines_System(random(10))"
         #     service_api.resolve_string(string)
         #   end
         # end

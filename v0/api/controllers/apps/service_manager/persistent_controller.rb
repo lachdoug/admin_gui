@@ -52,7 +52,7 @@ class V0
       post '/apps/:app_name/service_manager/persistent/import' do
         ## Query params: :publisher_namespace, :type_path, :service_handle
         set_app(params[:app_name])
-        # byebug
+        
         @app.import_persistent_service( params[:publisher_namespace], params[:type_path], params[:service_handle], params[:data][:file][:tempfile].read )
         # send_as_file "engines_data_export_#{@app.name}__"\
         #       "#{params[:publisher_namespace], params[:type_path].gsub '/', '_'}_"\

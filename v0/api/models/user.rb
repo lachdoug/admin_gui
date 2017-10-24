@@ -6,7 +6,6 @@ class V0
         def initialize( request_session_id, settings )
           @request_session_id = request_session_id
           @settings = settings
-          byebug
           FileUtils.touch "#{@settings.data_directory_path}/current_user.json"
         end
 

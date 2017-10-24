@@ -80,16 +80,16 @@ class V0 < Sinatra::Base
 
   set show_exceptions: false
   error do |error|
-    # byebug
+
     if error.is_a?(NonFatalError)
       [ error.status_code, { error: { message: error.message } }.to_json ]
     else
-      # byebug
+
       error_text = error.class.to_s + " (" + error.message + ")"
       if error.respond_to?(:response) && error.response.respond_to?(:net_http_res)
         system_error = JSON.parse( error.response.net_http_res.body, symbolize_names: true )
         error_text += "\n\n" + system_error[:error_object][:error_mesg].to_s
-        # byebug
+
       end
       [ 500, { error: { message: "Server error.",
         detail: {
@@ -178,7 +178,7 @@ class V0 < Sinatra::Base
   ##----------------------------------------------------------------------------
 
   before '*' do
-    # byebug
+
     if Sinatra::Base.development?
       puts 'Params'
       puts params.to_yaml

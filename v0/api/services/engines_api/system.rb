@@ -229,7 +229,7 @@ class V0
           ##########################################################################
 
           def install( args )
-            # byebug
+            
             @system_api.post 'containers/engines/build', args
           end
 
@@ -319,7 +319,7 @@ class V0
           end
 
           def delete_certificate(certificate_path)
-            # byebug
+            
             @system_api.delete "system/certs/#{certificate_path}"
           end
 

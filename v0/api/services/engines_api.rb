@@ -92,7 +92,7 @@ class V0
           when 'application/octet-stream'
             response.body
           else
-            # byebug
+            
             raise StandardError.new 'An unhandled content type was returned by the system API.'
           end
         rescue RestClient::Forbidden
