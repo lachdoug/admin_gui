@@ -5,7 +5,7 @@ This application provides an interface for administering an Engines instance.
 
 Framework
 ---------
-Sinatra.
+Sinatra (module style, with config.ru)
 
 Needs
 -----
