@@ -1,14 +1,14 @@
-var $appConsumedServices = {
+var $serviceServiceDefinition = {
 
 	$cell: true,
-	id: "appConsumedServices",
+	id: "serviceServiceDefinition",
 
-	_appName: null,
+	_serviceName: null,
 
 
-	_live: function (appName) {
+	_live: function (serviceName) {
 
-		this._appName = appName;
+		this._serviceName = serviceName;
 		this._show();
 
 	},
@@ -16,13 +16,13 @@ var $appConsumedServices = {
 
 	_show: function () {
 
-		var appName = this._appName;
+		var serviceName = this._serviceName;
 		modal._live (
 			{
 				dialogClass: "modal-lg",
 				header: icon ( {
-					icon: "fa fa-compass",
-					text: "App consumed services",
+					icon: false,
+					text: "{} Service definition",
 				} ),
 				body: {
 					$components: [
@@ -32,14 +32,14 @@ var $appConsumedServices = {
 								button( {
 									icon: "fa fa-arrow-up",
 									wrapperClass: "pull-right",
-									onclick: function () { appDiagnostics._live( appName ); }
+									onclick: function () { serviceDiagnostics._live( serviceName ); }
 								} ),
-								{ $type: "h4", $text: appName },
+								{ $type: "h4", $text: serviceName },
 							]
 						},
 						{ $type: "hr" },
 						{
-							id: "appConsumedServicesContent",
+							id: "serviceServiceDefinitionContent",
 							_data: null,
 
 							$components: [
@@ -51,7 +51,7 @@ var $appConsumedServices = {
 							},
 
 							$update: function () {
-								this.$components = [ pp( appConsumedServicesContent._data ) ];
+								this.$components = [ pp( serviceServiceDefinitionContent._data ) ];
 							},
 
 						}
@@ -67,10 +67,10 @@ var $appConsumedServices = {
 	_load: function () {
 
 		apiRequest({
-			action: "/apps/" + this._appName + "/services",
+			action: "/services/" + this._serviceName + "/service_definition",
 			callbacks: {
 				200: function(response) {
-					appConsumedServicesContent._refresh( response );
+					serviceServiceDefinitionContent._refresh( response );
 				}
 			}
 		});

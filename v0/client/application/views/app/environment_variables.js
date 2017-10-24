@@ -17,7 +17,7 @@ var $appEnvironmentVariables = {
 	_show: function () {
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-question-circle-o", text: "Environment variables" } ),
+				header: icon( { icon: "fa fa-question-circle-o", text: "App environment variables" } ),
 				body: {
 					$components: [
 						{

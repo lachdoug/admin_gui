@@ -1,4 +1,5 @@
-var serverApiUrl = "<%= @server_url %>";
+var systemApiUrl = "<%= settings.system_api_url %>";
+var enableEventStreaming = "<%= settings.enable_client_event_streaming %>";
 
 <% Dir.glob( [ './v0/client/application/**/*.js' ] ).each do |file| %>
  	<%= File.read file %>

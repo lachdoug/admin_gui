@@ -37,9 +37,10 @@ var $installNewApp = {
 
 		// https://github.com/EnginesBlueprints/apache_php_web
 		// https://raw.githubusercontent.com/EnginesBlueprints/prosody/master/blueprint.json
-		var raw_blueprint_url = this._blueprintUrl.replace('github.com', 'raw.githubusercontent.com') + '/master/blueprint.json';
+		// var raw_blueprint_url = this._blueprintUrl.replace('github.com', 'raw.githubusercontent.com') + '/master/blueprint.json';
+		var blueprintUrl = this._blueprintUrl // .replace('github.com', 'raw.githubusercontent.com') + '/master/blueprint.json';
 		apiRequest({
-			action: '/system/install?blueprint_url=' + encodeURIComponent( raw_blueprint_url ),
+			action: '/system/install?blueprint_url=' + encodeURIComponent( blueprintUrl ),
 			callbacks: {
 				200: function(response) {
 					installNewApp._data = response

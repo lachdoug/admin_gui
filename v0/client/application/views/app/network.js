@@ -17,7 +17,7 @@ var $appNetwork = {
 	_show: function () {
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-sitemap", text: "Network" } ),
+				header: icon( { icon: "fa fa-sitemap", text: "App network" } ),
 				body: {
 					$components: [
 						{ $type: "h4", $text: appNetwork._appName },

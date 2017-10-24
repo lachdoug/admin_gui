@@ -18,6 +18,10 @@ class V0
           App.new self, name
         end
 
+        def service(name)
+          Service.new self, name
+        end
+
         def post(route, params={})
           handle_response do
             RestClient::Request.execute(

@@ -22,7 +22,7 @@ var $appLogs = {
 				dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-list-ol",
-					text: "App logs",
+					text: "App diagnostics logs",
 				} ),
 				body: {
 					$components: [

@@ -114,7 +114,7 @@ var $installBuild = {
 	_streamLog: function() {
 
 		if ( this._builderLogEventSource ) { this._builderLogEventSource.close() };
-		this._builderLogEventSource = new EventSource( serverApiUrl + '/system/builder_log_events' );
+		this._builderLogEventSource = new EventSource( '/system/builder_log_events' );
 		this._builderLogEventSource.onmessage = function(e) {
 			response = JSON.parse(e.data);
 			if ( response.type == "line" ) {

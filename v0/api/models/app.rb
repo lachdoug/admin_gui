@@ -27,7 +27,7 @@ class V0
         ######################################################################
 
         def uninstall(opts)
-          return { message: "OK" } if app_api.uninstall == 'true'
+          return { message: "OK" } if app_api.uninstall
           raise NonFatalError.new "Failed to uninstall #{name}.", 405
         end
 
@@ -41,7 +41,7 @@ class V0
 
         def instruct(instruction)
           # byebug
-          return { message: "OK" } if app_api.instruct_container(instruction) == 'true'
+          return { message: "OK" } if app_api.instruct_container(instruction)
           raise NonFatalError.new "Failed to instruct #{name} to #{instruction}.", 405
         end
 
@@ -53,8 +53,12 @@ class V0
           app_api.websites
         end
 
+        ######################################################################
+        # About
+        ######################################################################
+
         def about
-          app_api.blueprint.dig(:metadata)
+          blueprint[:metadata]
         end
 
         def processes
@@ -95,7 +99,7 @@ class V0
 
         def update_memory( form_params )
           return { message: "OK" } \
-            if app_api.update_memory( form_params ) == 'true'
+            if app_api.update_memory( form_params )
           raise NonFatalError.new "Failed to update memory.", 405
         end
 
@@ -103,7 +107,7 @@ class V0
         # Environment variables
         ######################################################################
 
-        def environment
+        def environment_variables
           {}.tap do |result|
             container[:environments].map do |variable|
               if [ "Memory", "LANGUAGE", "LANG", "LC_ALL" ].include? variable[:name]
@@ -146,13 +150,22 @@ class V0
         end
 
         def update_environment_variables( data )
-          byebug
-          app_api.update_environment_variables( variables: data ) == 'true'
+          # byebug
+          app_api.update_environment_variables( variables: data )
         end
 
         ########################################################################
         # Services
         ########################################################################
+
+        def services_report
+          {
+            persistent: app_api.persistent_services,
+            non_persistent: app_api.non_persistent_services,
+            available: app_api.available_services
+          }
+        end
+
 
         def services
           {
@@ -176,6 +189,17 @@ class V0
             origin: service[:shared] ? "shared" : service[:freed_orphan] ? "adopted" : "created",
           }
         end
+
+        # def services_detail
+        #   {
+        #     persistent: app_api.persistent_services.map do |service|
+        #       service_detail_for(service[:publisher_namespace], service[:type_path], service[:service_handle] )
+        #     end.sort_by{ |service| service[:label] },
+        #     non_persistent: app_api.non_persistent_services.map do |service|
+        #       service_detail_for(service[:publisher_namespace], service[:type_path], service[:service_handle] )
+        #     end.sort_by{ |service| service[:label] }
+        #   }
+        # end
 
         def service_detail_for( publisher_namespace, type_path, service_handle )
           service_definition = @system.service_definition_for( publisher_namespace, type_path )
@@ -318,6 +342,10 @@ class V0
         ######################################################################
         # Actions
         ######################################################################
+
+        def actions
+          blueprint.dig( :software, :actionators ) || []
+        end
 
         def perform_action( actionator_name, variables )
           app_api.perform_action(

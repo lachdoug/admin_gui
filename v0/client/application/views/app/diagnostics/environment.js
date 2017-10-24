@@ -22,7 +22,7 @@
 // 				dialogClass: "modal-lg",
 // 				header: icon ( {
 // 					icon: "fa fa-question-circle-o",
-// 					text: "App environment",
+// 					text: "App diagnostics environment",
 // 				} ),
 // 				body: {
 // 					$components: [

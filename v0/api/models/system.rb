@@ -90,8 +90,9 @@ class V0
 
         def sign_in(params)
           engines_api_system.sign_in params
-        rescue NonFatalError
-          raise NonFatalError.new "Invalid password.", 401
+        # rescue NonFatalError => e
+          # byebug
+          # raise NonFatalError.new "Invalid password.", 401
         end
 
         def sign_out
@@ -376,23 +377,41 @@ class V0
 p :event
 p event
                 container_name = event[:container_name]
-p :app_status_from_app_statuses
-p engines_api_system.app_statuses[container_name.to_sym]
+p :container_name
+p event[:container_name]
+p :container_type
+p event[:container_type]
+
+# p :app_status_from_app_statuses
+# p engines_api_system.app_statuses[container_name.to_sym]
+# p :app_status_from_app_statuses
+# p engines_api_system.app_statuses[container_name.to_sym]
+
                 case event[:container_type].to_sym
                 when :container, :application ## James needs to standardize this
                   container_type = :app
                   status = app_status_for container_name
+
+p :status
+p status
+
                 when :service
                   container_type = :service
                   status = service_status_for container_name
+
+p :status
+p status
+
                 end
-                yield ( { type: :container_status,
-                          container_type: container_type,
-                          container_name: container_name,
-                          status: status.merge( { name: container_name } ) } )
+                if status
+                  yield ( { type: :container_status,
+                            container_type: container_type,
+                            container_name: container_name,
+                            status: status.merge( { name: container_name } ) } )
+                end
               end
-            rescue JSON::ParserError
-              yield( {type: :heartbeat} )
+            # rescue JSON::ParserError
+            #   yield( {type: :heartbeat} )
             end
           end
         end
@@ -494,7 +513,6 @@ p engines_api_system.app_statuses[container_name.to_sym]
         #                 '' : " - (#{service_consumer[:service_handle]})" ) ) ]
         #   end
         # end
-
 
         ########################################################################
         # Orphan data

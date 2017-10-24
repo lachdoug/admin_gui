@@ -93,10 +93,10 @@ var $appAbout = {
 
 	_load: function() {
 		apiRequest({
-			action: "/apps/" + this._appName + "/blueprint",
+			action: "/apps/" + this._appName + "/about",
 			callbacks: {
 				200: function( data ) {
-					appAboutContent._refresh( data.metadata );
+					appAboutContent._refresh( data );
 				},
 			}
 		});

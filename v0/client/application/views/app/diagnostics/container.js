@@ -22,7 +22,7 @@ var $appContainer = {
 				dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-cube",
-					text: "App container",
+					text: "App diagnostics container",
 				} ),
 				body: {
 					$components: [

@@ -73,11 +73,11 @@ var $appActions = {
 
 	_load: function () {
 
-		apiRequest({
-			action: "/apps/" + this._appName + "/blueprint",
+		apiRequest( {
+			action: "/apps/" + this._appName + "/actions",
 			callbacks: {
 				200: function(response) {
-					appActionsContent._refresh( dig( response, "software", "actionators" ) || [] );
+					appActionsContent._refresh( response );
 				}
 			}
 		});

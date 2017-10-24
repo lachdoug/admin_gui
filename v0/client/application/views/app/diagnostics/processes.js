@@ -22,7 +22,7 @@ var $appProcesses = {
 				dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-list-ol",
-					text: "App processes",
+					text: "App diagnostics processes",
 				} ),
 				body: {
 					$components: [

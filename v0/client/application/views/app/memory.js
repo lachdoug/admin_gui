@@ -17,7 +17,7 @@ var $appMemory = {
 	_show: function () {
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-microchip", text: "Memory" } ),
+				header: icon( { icon: "fa fa-microchip", text: "App memory" } ),
 				body: {
 					$components: [
 						{ $type: "h4", $text: appMemory._appName },

@@ -67,7 +67,7 @@ var $appControlPanel = {
 									$components: [
 										button( {
 											icon: "fa fa-question-circle-o",
-											text: "Environment variables",
+											text: "Environment",
 											onclick: function () { appEnvironmentVariables._live(appName); },
 										} ),
 										button( {

@@ -4,6 +4,6 @@ gem 'sinatra'
 gem 'sinatra-contrib'
 
 gem 'rest-client'
-gem 'pry'
+# gem 'pry'
 
 # gem 'sprockets-helpers'

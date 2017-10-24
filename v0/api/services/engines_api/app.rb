@@ -122,7 +122,7 @@ class V0
           end
 
           def create_new_persistent_service( args )
-            byebug
+            # byebug
             @system_api.post "containers/engine/#{@name}/services/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}", { variables: args[:variables] }
           end
 

@@ -11,7 +11,7 @@ var api = {
 			var method = ( form.method || "POST" );
 
 			$.ajax({
-				url: serverApiUrl + form.action,
+				url: form.action,
 				method: method,
 				data: data,
 //				async: false,
@@ -33,7 +33,7 @@ var api = {
 
 	_request: function( args ) {
 		$.ajax( {
-			url: serverApiUrl + args.action,
+			url: args.action,
 			method: ( args.method || "GET" ),
 			data: args.data || null,
 			complete: function( response ) {

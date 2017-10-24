@@ -74,37 +74,35 @@ var $appMenu = {
 
 	_load: function() {
 		apiRequest({
-			action: "/apps/" + this._appName + "/blueprint",
+			action: "/apps/" + this._appName + "/websites",
 			callbacks: {
 				200: function( data ) {
-					appMenuWebsites._refresh( data.software.base.deployment_type );
+					appMenuWebsites._refresh( data );
 				},
 			}
 		});
 	},
 
 
-	_websites: function ( deploymentType ) {
+	_websites: function ( websites ) {
 
 		var appName = this._appName;
-		
+
 		return {
 			id: "appMenuWebsites",
 
-			$components: [
-				// icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
-			],
+			// $components: [
+			// 	// icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
+			// ],
 
-			_refresh: function( deploymentType ) {
+			_refresh: function( websites ) {
 				this.$components = [
-					deploymentType == "worker" ?
-					{} :
-		 			button( {
+					button( $.extend( {
 		 				icon: "fa fa-globe",
 		 				text: "Websites",
 		 				class: "pull-left-md",
 		 				onclick: function () { appWebsites._live( appName ); },
-		 			} )
+		 			}, websites.length == 0 ? { disabled: "disabled", title: 'No websites' } : {} ) )
 				]
 			}
 		};

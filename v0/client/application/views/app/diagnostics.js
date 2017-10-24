@@ -66,14 +66,8 @@ var $appDiagnostics = {
 
 						button( {
 							icon: "fa fa-compass",
-							text: "Consumed services",
-							onclick: function () { appConsumedServices._live(appName); },
-						} ),
-
-						button( {
-							icon: "fa fa-plus",
-							text: "Available services",
-							onclick: function () { appAvailableServices._live(appName); },
+							text: "Services",
+							onclick: function () { appDiagnosticsServices._live(appName); },
 						} ),
 
 						{ $type: "hr" },

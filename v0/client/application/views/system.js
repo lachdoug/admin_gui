@@ -8,8 +8,9 @@ var $system = {
 
 
 	_refresh: function(data, afterUpdateCallback ) {
-
-		this._streamContainerEvents();
+		if ( enableEventStreaming == 'true' ) {
+			this._streamContainerEvents();
+		};
 		this._data = data;
 		this._afterUpdateCallback = afterUpdateCallback;
 
@@ -130,6 +131,14 @@ var $system = {
 
 	},
 
+	_serviceDataFor: function (serviceName) {
+
+		return this._data.services.find( function( serviceData ) {
+			return serviceData.name == serviceName
+		} );
+
+	},
+
 
 	_closeContainerEvents: function () {
 
@@ -145,15 +154,15 @@ var $system = {
 
 		this._closeContainerEvents();
 		this._containerEvents = new EventSource(
-			serverApiUrl + '/system/container_events'
+			'/system/container_events'
 		);
 		this._containerEvents.onmessage = function(e) {
 			var event = JSON.parse(e.data);
 			// debugger;
-			// console.log(event);
+			console.log(event);
 			system._handleContainerEvent( event );
 			appMenu._handleContainerEvent( event );
-			// serviceMenu._handleContainerEvent( event );
+			serviceMenu._handleContainerEvent( event );
 		};
 
 	},

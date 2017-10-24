@@ -5,7 +5,9 @@ require "sinatra/streaming"
 
 require 'tempfile'
 require 'rest-client'
-require 'pry'
+# require 'pry'
+require 'byebug'
+require 'yaml'
 
 # Asset management for client app
 # require 'sprockets'
@@ -18,16 +20,17 @@ class V0 < Sinatra::Base
   ##############################################################################
 
   set public_folder: 'public'
-  set gui_api_url: ENV['ENGINES_ADMIN_GUI_API_URL'] || ''
+  set data_directory_path: 'data/v0'
+
   set session_secret: ENV['ENGINES_ADMIN_GUI_SESSION_SECRET'] || '0'
-  set user_inactivity_timeout: ( ( ENV['ENGINES_ADMIN_GUI_USER_INACTIVITY_TIMEOUT'] || 30 ) * 60 ).to_i
-  set system_api_url: ( ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] || 'https://127.0.0.1:2380' )
-  set data_directory_path: ( ENV['ENGINES_ADMIN_GUI_PERSISTENT_VOLUME_PATH'] || './data' )  + '/v0'
+  set user_inactivity_timeout: ( ( ENV['ENGINES_ADMIN_GUI_USER_INACTIVITY_TIMEOUT'].to_i || 30 ) * 60 ).to_i
+  set system_api_url: ( ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] || 'https://192.168.1.117:2380' )
   set library_url: ENV['ENGINES_ADMIN_GUI_LIBRARY_URL'] || "https://library.engines.org/api/v0/apps"
+  set bug_reports_url: ENV['ENGINES_ADMIN_GUI_BUG_REPORTS_URL'] || 'https://127.0.0.1:3666'
   set banner_text: ENV['ENGINES_ADMIN_GUI_BANNER_TEXT'] || nil
   set banner_text_color: ENV['ENGINES_ADMIN_GUI_BANNER_TEXT_COLOR'] || '#fff'
   set banner_background_color: ENV['ENGINES_ADMIN_GUI_BANNER_BACKGROUND_COLOR'] || '#48d'
-
+  set enable_client_event_streaming: false #true #!Sinatra::Base.development?
 
 
   ##############################################################################
@@ -38,7 +41,7 @@ class V0 < Sinatra::Base
 
   get '/' do
     content_type :html
-    @server_url = settings.gui_api_url
+    # @server_url = settings.gui_api_url
     erb :index
   end
 
@@ -84,7 +87,9 @@ class V0 < Sinatra::Base
       # byebug
       error_text = error.class.to_s + " (" + error.message + ")"
       if error.respond_to?(:response) && error.response.respond_to?(:net_http_res)
-        error_text += "\n\n" + JSON.parse( error.response.net_http_res.body, symbolize_names: true )[:error_object][:error_mesg].to_s
+        system_error = JSON.parse( error.response.net_http_res.body, symbolize_names: true )
+        error_text += "\n\n" + system_error[:error_object][:error_mesg].to_s
+        # byebug
       end
       [ 500, { error: { message: "Server error.",
         detail: {
@@ -94,6 +99,7 @@ class V0 < Sinatra::Base
           method: request.request_method,
           path: request.fullpath,
           backtrace: error.backtrace,
+          system_error: system_error
       } } }.to_json ]
     end
   end

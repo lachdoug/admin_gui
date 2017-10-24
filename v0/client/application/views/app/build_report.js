@@ -54,11 +54,16 @@ var $appBuildReport = {
 								} else {
 									report = {
 										$components: [
-											markdown( this._buildReport ),
+											{
+												id: "appBuildReportDisplayReportHtml",
+												$components: [
+													markdown( this._buildReport )
+												]
+											},
 											{ $type: "hr" },
 											button( {
 												onclick: function() {
-													var html = '<div style=\'font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 14px; line-height: 1.42857143; color: #333;"\'>' + $("#appBuildReportDisplay").html() + '</div>';
+													var html = '<div style=\'font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 14px; line-height: 1.42857143; color: #333;"\'>' + $("#appBuildReportDisplayReportHtml").html() + '</div>';
 													var newWindow = window.open('','Engines app build report','width=600, height=600');
 													newWindow.document.title = appName + " build report"
 													$(newWindow.document.body).html( html );

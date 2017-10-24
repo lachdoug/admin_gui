@@ -3,6 +3,7 @@ class V0
     module Controllers
 
       get '/system/install' do
+        # byebug
         system.new_app(params[:blueprint_url]).to_json
       end
 

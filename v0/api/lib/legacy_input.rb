@@ -55,9 +55,11 @@ class V0
       def self.update_legacy_collection_for(legacy_collection)
         JSON.parse( legacy_collection )
       rescue JSON::ParserError
-        JSON.parse( "[" + legacy_collection + "]" )
-      rescue JSON::ParserError
-        []
+        begin
+          JSON.parse( "[" + legacy_collection + "]" )
+        rescue JSON::ParserError
+          []
+        end
       end
 
 

@@ -25,13 +25,9 @@ class V0
           end
 
           def blueprint
+            # byebug
             @blueprint ||= handle_response do
-              RestClient::Request.execute(
-                method: :get,
-                url: "#{@blueprint_url}",
-                timeout: 120,
-                verify_ssl: false,
-              )
+              RestClient::Request.execute( method: :get, url: "#{@blueprint_url}", timeout: 120, verify_ssl: false )
             end
           end
 
@@ -40,6 +36,8 @@ class V0
           rescue JSON::ParserError
             # byebug
             raise NonFatalError.new "Invalid blueprint.", 405
+          rescue RestClient::NotFound
+            raise NonFatalError.new "Could not find blueprint.", 405
           end
 
           def consumable_services
