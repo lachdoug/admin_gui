@@ -1,5 +1,6 @@
 # Ignore persistent user data
-/data/v0/*
+/data/v0/current_user.json
+/data/v0/library.json
 
 # Ignore scrap
 /scrap
