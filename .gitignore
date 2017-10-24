@@ -1,5 +1,5 @@
 # Ignore persistent user data
-/data/v0/
+/data/v0/*
 
 # Ignore scrap
 /scrap
