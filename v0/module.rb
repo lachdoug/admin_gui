@@ -6,7 +6,7 @@ require "sinatra/streaming"
 require 'tempfile'
 require 'rest-client'
 # require 'pry'
-require 'byebug'
+require 'byebug' if Sinatra::Base.development?
 require 'yaml'
 
 # Asset management for client app
