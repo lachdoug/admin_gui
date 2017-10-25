@@ -23,7 +23,7 @@ class V0 < Sinatra::Base
   set data_directory_path: 'data/v0'
 
   set session_secret: ENV['ENGINES_ADMIN_GUI_SESSION_SECRET'] || '0'
-  set user_inactivity_timeout: ( ( ENV['ENGINES_ADMIN_GUI_USER_INACTIVITY_TIMEOUT'].to_i || 30 ) * 60 ).to_i
+  set user_inactivity_timeout: ( ENV['ENGINES_ADMIN_GUI_USER_INACTIVITY_TIMEOUT'] || 30 ).to_i * 60
   set system_api_url: ( ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] || 'https://192.168.1.117:2380' )
   set library_url: ENV['ENGINES_ADMIN_GUI_LIBRARY_URL'] || "https://library.engines.org/api/v0/apps"
   set bug_reports_url: ENV['ENGINES_ADMIN_GUI_BUG_REPORTS_URL'] || 'https://127.0.0.1:3666'

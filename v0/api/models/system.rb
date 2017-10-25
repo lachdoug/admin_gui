@@ -80,7 +80,8 @@ class V0
           }
 
         rescue => e
-          raise NonFatalError.new "System busy.", 503 if e.status_code == 405
+          # byebug
+          # raise NonFatalError.new "System busy.", 503 if e.status_code == 405
           raise e
         end
 

@@ -11,12 +11,12 @@ class V0
 
         def sign_in( system, form_params )
           api_token = system.sign_in( { user_name: :admin, password: form_params[:password] } )
-          save api_token
+          save_current_user api_token
           { user: :admin }
         end
 
         def sign_out
-          save(nil)
+          save_current_user(nil)
           { user: nil }
         end
 
@@ -30,7 +30,7 @@ class V0
 
         private
 
-        def save(new_system_api_token)
+        def save_current_user(new_system_api_token)
           File.write "#{@settings.data_directory_path}/current_user.json",
            {
              system_api_token: new_system_api_token,
