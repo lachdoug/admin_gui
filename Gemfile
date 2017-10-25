@@ -4,6 +4,13 @@ gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'thin'
 gem 'rest-client'
-# gem 'pry'
+# gem 'byebug'
 
 # gem 'sprockets-helpers'
+
+
+current working code
+
+master ready for production
+
+production
