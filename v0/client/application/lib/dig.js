@@ -1,6 +1,6 @@
 function dig(obj, ...keys) {
 
-  for (const key of keys) {
+  for (var key in keys) {
     if ( obj == null ) {
       return null;
     } else {
@@ -9,5 +9,5 @@ function dig(obj, ...keys) {
   };
 
   return obj;
-  
+
 };

@@ -30,7 +30,7 @@ class V0 < Sinatra::Base
   set banner_text: ENV['ENGINES_ADMIN_GUI_BANNER_TEXT'] || nil
   set banner_text_color: ENV['ENGINES_ADMIN_GUI_BANNER_TEXT_COLOR'] || '#fff'
   set banner_background_color: ENV['ENGINES_ADMIN_GUI_BANNER_BACKGROUND_COLOR'] || '#48d'
-  set enable_client_event_streaming: false #true #!Sinatra::Base.development?
+  set enable_client_event_streaming: !Sinatra::Base.development?
 
 
   ##############################################################################
