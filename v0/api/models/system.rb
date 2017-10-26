@@ -375,13 +375,13 @@ class V0
               #   yield ( { type: :container_oom,
               #             name: event[:container_name] } )
               else
-p :event
-p event
+# p :event
+# p event
                 container_name = event[:container_name]
-p :container_name
-p event[:container_name]
-p :container_type
-p event[:container_type]
+# p :container_name
+# p event[:container_name]
+# p :container_type
+# p event[:container_type]
 
 # p :app_status_from_app_statuses
 # p engines_api_system.app_statuses[container_name.to_sym]
@@ -393,15 +393,15 @@ p event[:container_type]
                   container_type = :app
                   status = app_status_for container_name
 
-p :status
-p status
+# p :status
+# p status
 
                 when :service
                   container_type = :service
                   status = service_status_for container_name
 
-p :status
-p status
+# p :status
+# p status
 
                 end
                 if status

@@ -19,7 +19,9 @@ class V0 < Sinatra::Base
   ## Settings
   ##############################################################################
 
+  set dump_errors: false
   set public_folder: 'public'
+
   set data_directory_path: 'data/v0'
 
   set session_secret: ENV['ENGINES_ADMIN_GUI_SESSION_SECRET'] || '0'
