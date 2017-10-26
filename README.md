@@ -13,12 +13,18 @@ public directory: public
 persistent volume: data  
 Note: does not need a DB and does not send mail.
 
+config.ru
+---------
+require_relative 'v0/module'  
+map('/') { run V0 }  
+
 Environment
 -----------
 **Required**  
 ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] include port, for example: "https://192.168.1.117:2380"  
 ENV['ENGINES_ADMIN_GUI_SESSION_SECRET']  
 **Optional**  
+ENV['ENGINES_ADMIN_GUI_SHOW_SERVICES_BY_DEFAULT'] default is false  
 ENV['ENGINES_ADMIN_GUI_USER_INACTIVITY_TIMEOUT'] default is 30 (i.e. 30 minutes)  
 ENV['ENGINES_ADMIN_GUI_LIBRARY_URL'] default is "https://library.engines.org/api/v0/apps"  
 ENV['ENGINES_ADMIN_GUI_BANNER_TEXT'] default is nil  

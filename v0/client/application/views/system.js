@@ -8,7 +8,7 @@ var $system = {
 
 
 	_refresh: function(data, afterUpdateCallback ) {
-		if ( enableEventStreaming == 'true' ) {
+		if ( enableEventStreaming ) {
 			this._streamContainerEvents();
 		};
 		this._data = data;
@@ -72,12 +72,39 @@ var $system = {
 										return system._systemApp(app);
 									} )
 								},
-								{ $type: "hr" },
-								{ class: "system-containers",
-									$components: this._data.services.map( function(service) {
-										return system._systemService(service);
-									} )
-								}
+								button({
+									icon: "fa fa-caret-down",
+									id: "show_services_button",
+									title: "Show services",
+									style: showServices ? "display: none;" : "",
+									onclick: function () {
+										$('#services').slideDown();
+										$('#hide_services_button').show();
+										$(this).hide();
+									},
+								}),
+								button({
+									icon: "fa fa-caret-up",
+									id: "hide_services_button",
+									style: showServices ? "" : "display: none;",
+									title: "Hide services",
+									onclick: function () {
+										$('#services').slideUp();
+										$('#show_services_button').show();
+										$(this).hide();
+									},
+								}),
+								{
+									id: "services",
+									style: showServices ? "" : "display: none;",
+									$components: [
+										{ class: "system-containers",
+											$components: this._data.services.map( function(service) {
+												return system._systemService(service);
+											} )
+										}
+									]
+								},
 							]
 						}
 					]

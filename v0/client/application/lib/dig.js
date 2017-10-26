@@ -4,7 +4,7 @@ function dig(obj, ...keys) {
     if ( obj == null ) {
       return null;
     } else {
-      obj = obj[key] || null;
+      obj = obj[ keys[key] ] || null;
     }
   };
 

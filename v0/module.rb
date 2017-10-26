@@ -19,11 +19,12 @@ class V0 < Sinatra::Base
   ## Settings
   ##############################################################################
 
-  set dump_errors: false
+  set dump_errors: Sinatra::Base.development?
   set public_folder: 'public'
 
   set data_directory_path: 'data/v0'
 
+  set show_services: ENV['ENGINES_ADMIN_GUI_SHOW_SERVICES_BY_DEFAULT']
   set session_secret: ENV['ENGINES_ADMIN_GUI_SESSION_SECRET'] || '0'
   set user_inactivity_timeout: ( ENV['ENGINES_ADMIN_GUI_USER_INACTIVITY_TIMEOUT'] || 30 ).to_i * 60
   set system_api_url: ( ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] || 'https://192.168.1.117:2380' )
@@ -116,22 +117,28 @@ class V0 < Sinatra::Base
       } } }.to_json
   end
 
-  ## CORS
+  ## Default content type to JSON
   ##----------------------------------------------------------------------------
 
   before do
-    headers['Access-Control-Allow-Methods'] = 'HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS'
-    headers['Access-Control-Allow-Origin'] = '*'
-    headers['Access-Control-Allow-Headers'] = 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept'
-    headers['Access-Control-Expose-Headers'] = 'Content-Disposition, Content-Type'
     content_type :json
   end
 
-  options "*" do
-    response.headers["Allow"] = "HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS"
-    response.headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept"
-    status 200
-  end
+  # ## CORS
+  # ##----------------------------------------------------------------------------
+  #
+  # before do
+  #   headers['Access-Control-Allow-Methods'] = 'HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS'
+  #   headers['Access-Control-Allow-Origin'] = '*'
+  #   headers['Access-Control-Allow-Headers'] = 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept'
+  #   headers['Access-Control-Expose-Headers'] = 'Content-Disposition, Content-Type'
+  # end
+  #
+  # options "*" do
+  #   response.headers["Allow"] = "HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS"
+  #   response.headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept"
+  #   status 200
+  # end
 
   ## Authenticate
   ##----------------------------------------------------------------------------

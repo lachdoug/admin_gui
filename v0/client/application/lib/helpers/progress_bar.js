@@ -12,7 +12,7 @@ function progressBar(obj) {
 				$components: [
 					{
 						role: "progressbar",
-						class: "major progress-bar"
+						class: "major progress-bar progress-bar-striped active"
 					},
 					{
 						role: "progressbar",
