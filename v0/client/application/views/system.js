@@ -78,7 +78,7 @@ var $system = {
 									title: "Show services",
 									style: showServices ? "display: none;" : "",
 									onclick: function () {
-										$('#services').slideDown();
+										$('#services').slideDown('fast');
 										$('#hide_services_button').show();
 										$(this).hide();
 									},
@@ -89,7 +89,7 @@ var $system = {
 									style: showServices ? "" : "display: none;",
 									title: "Hide services",
 									onclick: function () {
-										$('#services').slideUp();
+										$('#services').slideUp('fast');
 										$('#show_services_button').show();
 										$(this).hide();
 									},
