@@ -38,7 +38,7 @@ class V0
 #           ######################################################################
 #
           def instruct_container(instruction)
-            
+
             if instruction == "destroy"
               @system_api.delete "containers/service/#{@name}/#{instruction}"
             else
@@ -128,7 +128,7 @@ class V0
 #           end
 #
 #           def share_existing_persistent_service( args )
-#             
+#
 #             @system_api.post "containers/service/#{@name}/services/persistent/share/#{args[:parent_engine]}/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}", { variables: args[:variables] }
 #           end
 #
@@ -165,7 +165,8 @@ class V0
           ######################################################################
 
           def perform_action(args)
-            @system_api.post "containers/service/#{@name}/action/#{args[:actionator_name]}", { variables: args[:variables] }
+            # byebug
+            @system_api.post "containers/service/#{@name}/action/#{args[:actionator_name]}", args[:variables]
           end
 
           ######################################################################
@@ -177,7 +178,7 @@ class V0
           end
 
           def perform_configuration(args)
-            @system_api.post "containers/service/#{@name}/configuration/#{args[:configurator_name]}", { variables: args[:variables] }
+            @system_api.post "containers/service/#{@name}/configuration/#{args[:configurator_name]}", args[:variables]
           end
 
 #           ######################################################################

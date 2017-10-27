@@ -8,8 +8,9 @@ var $serviceActionsNew = {
 
 
 	_live: function (serviceName, data) {
+		// debugger;
 
-		if ( data.variables && data.variables.length ) {
+		if ( data.params && data.params.length ) {
 			this._serviceName = serviceName;
 			this._data = data;
 			this._show();
@@ -25,8 +26,6 @@ var $serviceActionsNew = {
 					},
 				}
 			});
-
-
 		};
 
 	},
@@ -57,8 +56,8 @@ var $serviceActionsNew = {
 				    			value: data.name
 								} ),
 								{
-									$components: ( data.variables || [] ).map( function ( variable ) {
-										variable.name_prefix = "variable";
+									$components: ( data.params || [] ).map( function ( variable ) {
+										variable.name_prefix = "variables";
 										return enginesField( variable );
 									} )
 								},
