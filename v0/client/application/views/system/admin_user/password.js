@@ -33,7 +33,7 @@ var $systemAdminUserPassword = {
 				} ),
 				formField( {
 					type: "hidden",
-					name: "data[user_name]",
+					name: "data[username]",
 					value: "admin",
 				} ),
 				formField( {

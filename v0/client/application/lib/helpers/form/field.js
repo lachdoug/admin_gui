@@ -23,6 +23,8 @@ function formField(args) {
 			return formFieldInput( $.extend( {}, args, { style: "height: inherit; " + args.style } ) )
 		case "password":
 			return formFieldPassword( args );
+		case "password2":
+			return formFieldPassword2( args );
 		case "password_with_confirmation":
 			return formFieldPasswordWithConfirmation(args);
 		case "site_password":

@@ -3,11 +3,14 @@ class V0
     module Controllers
 
       post '/session' do
-        User.new( user_tracking_id, settings ).sign_in( system( without_token: true ), params[:data] ).to_json
+        @user = User.new( user_tracking_id, settings )
+        @user.sign_in( system( without_token: true ), params[:data] )
+        { username: @user.username }.to_json
       end
 
       delete '/session' do
-        current_user.sign_out.to_json
+         current_user.sign_out.to_json if current_user
+         {}.to_json
       end
 
     end

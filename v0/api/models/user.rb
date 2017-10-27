@@ -3,6 +3,8 @@ class V0
     module Models
       class User
 
+        attr_reader :username
+
         def initialize( request_session_id, settings )
           @request_session_id = request_session_id
           @settings = settings
@@ -10,14 +12,13 @@ class V0
         end
 
         def sign_in( system, form_params )
-          api_token = system.sign_in( { user_name: :admin, password: form_params[:password] } )
+          api_token = system.sign_in( { username: :admin, password: form_params[:password] } )
+          @username = 'admin'
           save_current_user api_token
-          { user: :admin }
         end
 
         def sign_out
           save_current_user(nil)
-          { user: nil }
         end
 
         def authenticated?

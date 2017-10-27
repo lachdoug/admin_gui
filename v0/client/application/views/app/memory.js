@@ -60,6 +60,12 @@ var $appMemory = {
 					label: "Memory (MB)",
 					value: data.memory
 				}),
+				formField( {
+					type: "password2",
+					name: "data[password]",
+					label: "Password",
+					value: data.memory
+				}),
 				formCancel ( { onclick: () => { appControlPanel._live( appMemory._appName ); } } ),
 				formSubmit(),
 			],

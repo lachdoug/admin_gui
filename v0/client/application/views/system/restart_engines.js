@@ -10,29 +10,49 @@ var $systemRestartEngines = {
 				body: {
 					$components: [
 						{ $type: "p", $text: "Restart Engines?" },
-						{
-							class: "clearfix",
-							$components: [
-								button( { icon: "fa fa-times", text: "Cancel", wrapperClass: "pull-left", onclick: systemMenu._live } ),
-								button( { icon: "fa fa-check", text: "OK", wrapperClass: "pull-right", onclick: systemRestartEngines._restart } ),
-							]
-						}
+						systemRestartEngines._form(),
+						// {
+						// 	class: "clearfix",
+						// 	$components: [
+						// 		button( { icon: "fa fa-times", text: "Cancel", wrapperClass: "pull-left", onclick: systemMenu._live } ),
+						// 		button( { icon: "fa fa-check", text: "OK", wrapperClass: "pull-right", onclick: systemRestartEngines._restart } ),
+						// 	]
+						// }
 					]
 				}
 			}
 		);
 	},
 
+	_form: function () {
 
-	_restart: function () {
-		apiRequest( {
+		return form ( {
+			components: [
+				formCancel ( { onclick: systemMenu._live } ),
+				formSubmit(),
+			],
 			action: "/system/restart_engines",
+			method: 'GET',
 			callbacks: {
-				200: function() {
+				200: function(response) {
 					systemUnavailable._live( "Engines restart has been initiated." );
-				}
+				},
 			}
-		} );
-	}
+		});
+
+	},
+
+
+
+	// _restart: function () {
+	// 	apiRequest( {
+	// 		action: "/system/restart_engines",
+	// 		callbacks: {
+	// 			200: function() {
+	// 				systemUnavailable._live( "Engines restart has been initiated." );
+	// 			}
+	// 		}
+	// 	} );
+	// }
 
 };

@@ -9,7 +9,7 @@ class V0
           end
 
           def sign_in( args )
-            @system_api.post 'system/login', args
+            @system_api.post 'system/login', { user_name: args[:username], password: args[:password] }
           end
 
           ##########################################################################
@@ -229,7 +229,7 @@ class V0
           ##########################################################################
 
           def install( args )
-            
+
             @system_api.post 'containers/engines/build', args
           end
 
@@ -319,7 +319,7 @@ class V0
           end
 
           def delete_certificate(certificate_path)
-            
+
             @system_api.delete "system/certs/#{certificate_path}"
           end
 
@@ -384,11 +384,11 @@ end
     #     # admin
     #
     #     def update_password(params)
-    #       post "system/user/admin", params: params.merge({ user_name: 'admin', current_password: params[:current_password], new_password: params[:new_password]}), expect: :boolean
+    #       post "system/user/admin", params: params.merge({ username: 'admin', current_password: params[:current_password], new_password: params[:new_password]}), expect: :boolean
     #     end
     #
     #     def update_email(params)
-    #       post "system/user/admin", params: { user_name: 'admin', current_password: params[:current_password], email: params[:email] }, expect: :boolean
+    #       post "system/user/admin", params: { username: 'admin', current_password: params[:current_password], email: params[:email] }, expect: :boolean
     #     end
     #
     #     def admin_user
@@ -398,7 +398,7 @@ end
     #     # authentication
     #
     #     def authenticate(password)
-    #       post "system/login", params: { user_name: 'admin', password: password }, expect: :plain_text
+    #       post "system/login", params: { username: 'admin', password: password }, expect: :plain_text
     #     end
     #
     #
