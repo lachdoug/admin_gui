@@ -48,7 +48,7 @@ var $appActionsNew = {
 						{ $type: "hr" },
 						form( {
 							components: [
-								pp(data),
+								inDevelopment ? pp(data) : {},
 								formField( {
 									type: "hidden",
 									name: "actionator_name",
