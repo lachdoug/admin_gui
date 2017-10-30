@@ -25,8 +25,9 @@ var formFieldCheckbox = function( args ) {
 							[ 'checked', 'true', 'on', 'yes' ].some( function(option) { return option == ( args.value || "" ).toString().toLowerCase(); } ) ? { checked: "checked" } : {},
 						),
 						{
-							$type: "span",
-							$text: ( args.label || args.name )
+							$type: "strong",
+							style: "margin-left: 3px;",
+							$text: ( ' ' + ( args.label || args.name ) )
 						}
 					],
 				}

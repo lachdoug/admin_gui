@@ -21,11 +21,9 @@ class V0 < Sinatra::Base
 
   set dump_errors: Sinatra::Base.development?
   set public_folder: 'public'
-
   set data_directory_path: 'data/v0'
-
+  set system_api_url: nil # ( ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] || ( 'https://192.168.1.117:2380' if Sinatra::Base.development? ) )
   set remote_management: ENV['ENGINES_ADMIN_GUI_REMOTE_MANAGEMENT'] || false
-  set system_api_url: ( ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] || 'https://192.168.1.117:2380' )
   set show_services: ENV['ENGINES_ADMIN_GUI_SHOW_SERVICES_BY_DEFAULT'] || false
   set session_secret: ENV['ENGINES_ADMIN_GUI_SESSION_SECRET'] || '0'
   set user_inactivity_timeout: ( ENV['ENGINES_ADMIN_GUI_USER_INACTIVITY_TIMEOUT'] || 30 ).to_i * 60
@@ -36,10 +34,10 @@ class V0 < Sinatra::Base
   set banner_background_color: ENV['ENGINES_ADMIN_GUI_BANNER_BACKGROUND_COLOR'] || '#48d'
   set enable_client_event_streaming: !Sinatra::Base.development?
 
-  before do
-    session[:system_api_url] = session[:system_api_url] || settings.system_api_url
-    session[:remote_management] = settings.remote_management
-  end
+  # before do
+  #   session[:system_api_url] = session[:system_api_url] || settings.system_api_url
+  #   session[:remote_management] = settings.remote_management
+  # end
 
   ##############################################################################
   ## CLIENT
@@ -152,23 +150,28 @@ class V0 < Sinatra::Base
 
   before do
     raise NonFatalError.new('Not signed in.', 401) unless
-      current_user ||
-      request.path_info == '/' ||
-      request.path_info == '/client' ||
-      request.path_info == '/session'
+      is_public_route || current_user
+  end
+
+  def is_public_route
+    request.path_info == '/' ||
+    request.path_info == '/client' ||
+    request.path_info == '/session' ||
+    request.path_info == '/system/select'
   end
 
   def system_api_token
     current_user.system_api_token if current_user
   end
 
-  def user_tracking_id
-    session[:tracking]["HTTP_USER_AGENT"]
+  def system_api_url
+    session[:system_api_url] || settings.system_api_url
   end
+
 
   def current_user
     return @current_user if @current_user
-    user = User.new user_tracking_id, settings
+    user = User.new session, settings
     @current_user = user if user.authenticated?
   end
 
@@ -178,10 +181,14 @@ class V0 < Sinatra::Base
   def system(opts={})
     @system ||=
       System.new(
-        settings.system_api_url,
+        system_api_url,
         opts[:without_token] ? nil : system_api_token,
         settings )
   end
+
+  # def selected_system_api_url
+  #   session[:system_api_url] || settings.system_api_url
+  # end
 
   # def libraries
   #   @libraries ||=

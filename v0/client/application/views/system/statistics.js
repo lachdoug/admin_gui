@@ -345,13 +345,13 @@ var $systemStatistics = {
 			} );
 
 			if ( data.length > 17 ) {
-				var othersData = data.slice( 17, -1).reduce(function (a, b) {
+				var othersData = data.slice( 17).reduce( function (a, b) {
 					return a + b;
-				});
+				} );
 				var othersLabel = "" +
-						labels.slice( 17, -1 ).length +
+						labels.slice( 17 ).length +
 						" " +
-						( labels.slice( 17, -1 ).length == 1 ? "other" : "others" ) +
+						( labels.slice( 17 ).length == 1 ? "other" : "others" ) +
 						" " +
 						othersData.toFixed(1) +
 						"MB";

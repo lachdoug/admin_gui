@@ -3,7 +3,7 @@ class V0
     module Controllers
 
       post '/session' do
-        @user = User.new( user_tracking_id, settings )
+        @user = User.new( session, settings )
         @user.sign_in( system( without_token: true ), params[:data] )
         { username: @user.username }.to_json
       end

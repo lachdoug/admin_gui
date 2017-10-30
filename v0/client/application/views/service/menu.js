@@ -34,11 +34,13 @@ var $serviceMenu = {
 						{
 							class: "clearfix",
 							$components: [
-								{ $type: "h4", class: "pull-left-md", $text: serviceName },
+								{ $type: "h4",
+									class: "pull-left-md",
+									$text: serviceName },
 								button( {
 									icon: "fa fa-cogs",
 									text: "Control panel",
-									class: "pull-right-md",
+									wrapperClass: "pull-right-md",
 									onclick: function () { serviceControlPanel._live( serviceName ); }
 								} ),
 							]
@@ -302,9 +304,9 @@ var $serviceMenu = {
 		if (state == "running" ) {
 			return {
 				$components: [
-					button({ onclick: function () { serviceMenu._instruct('stop'); }, icon: "fa fa-stop", text: "Stop", wrapperStyle: "display: inline-block"}),
+					( serviceName == 'mgmt' && !remoteManagement ) ? {} : button({ onclick: function () { serviceMenu._instruct('stop'); }, icon: "fa fa-stop", text: "Stop", wrapperStyle: "display: inline-block"}),
 					button({ onclick: function () { serviceMenu._instruct('restart'); }, icon: "fa fa-play-circle", text: "Restart", wrapperStyle: "display: inline-block"}),
-					button({ onclick: function () { serviceMenu._instruct('pause'); }, icon: "fa fa-pause", text: "Pause", wrapperStyle: "display: inline-block"})
+					( serviceName == 'mgmt' && !remoteManagement ) ? {} : button({ onclick: function () { serviceMenu._instruct('pause'); }, icon: "fa fa-pause", text: "Pause", wrapperStyle: "display: inline-block"})
 				]
 			};
 		} else if ( state == "stopped" ) {

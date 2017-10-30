@@ -119,7 +119,12 @@ var $system = {
 
 
 	_live: function( afterUpdateCallback ) {
-		this._loadSystem( afterUpdateCallback );
+		if ( systemApiUrl ) {
+			this._loadSystem( afterUpdateCallback );
+		} else {
+			selectSystem._live();
+			$("#pageLoadingSpinner").fadeOut();
+		}
 	},
 
 

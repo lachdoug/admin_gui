@@ -1,7 +1,8 @@
-var systemApiUrl = "<%= settings.system_api_url %>";
+var systemApiUrl = "<%= system_api_url %>";
 var enableEventStreaming = <%= settings.enable_client_event_streaming %>;
 var showServices = <%= settings.show_services ? true : false %>;
 var inDevelopment = <%= Sinatra::Base.development? %>;
+var remoteManagement = <%= settings.remote_management %>;
 
 <% Dir.glob( [ './v0/client/application/**/*.js' ] ).each do |file| %>
  	<%= File.read file %>

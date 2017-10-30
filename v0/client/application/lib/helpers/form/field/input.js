@@ -25,15 +25,17 @@ var formFieldInputUnwrapped = function( args ) {
 			oninput: args.oninput || null,
 			// onchange: args.onchange || null,
 			autocomplete: args.autocomplete || null,
-			onchange: function(el) {
+			onchange: function(e) {
 				// debugger;
-				if ( args.onchange ) { args.onchange(el) };
-				if(el.target.validity.patternMismatch) {
-					el.target.setCustomValidity(
+				if ( args.onchange ) { args.onchange(e) };
+				if(e.target.validity.patternMismatch) {
+					e.target.setCustomValidity(
 						args.patternMessage ||
 						( 'Must match pattern ' + args.pattern )
-					)
-				} else { el.target.setCustomValidity('')
+					);
+					// return false;
+				} else { e.target.setCustomValidity('')
+					// return true;
 			  };
 			},
 			// setCustomValidity('') allows other validations (e.g. required) to show errors

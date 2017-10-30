@@ -104,7 +104,12 @@ class V0
 
         rescue RestClient::MethodNotAllowed
           raise NonFatalError.new 'Not allowed.', 405
-        rescue Errno::EHOSTUNREACH, Errno::ECONNREFUSED, Errno::ECONNRESET, RestClient::ServerBrokeConnection, OpenSSL::SSL::SSLError
+        rescue  Errno::EHOSTUNREACH,
+                Errno::ECONNREFUSED,
+                Errno::ECONNRESET,
+                RestClient::ServerBrokeConnection,
+                OpenSSL::SSL::SSLError,
+                RestClient::Exceptions::OpenTimeout
           raise NonFatalError.new "System busy.", 503
         # rescue => e
         #   # raise NonFatalError.new "Unhandled Engines API error.", 500

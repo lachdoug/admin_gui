@@ -27,7 +27,7 @@ var $systemUnavailable = {
 				}
 			}
 		);
-		this._pollServer();
+		// this._pollServer();
 		$("#pageLoadingSpinner").fadeIn();
 		system._kill();
 
@@ -47,7 +47,9 @@ var $systemUnavailable = {
 						systemUnavailable._pollServer();
 					},
 					503: function(response) {
-						systemUnavailableMessage._updateMessage( response.error.message );
+						if (typeof systemUnavailableMessage !== 'undefined') {
+							systemUnavailable._live( response.error.message );
+						};
 						systemUnavailable._pollServer();
 					},
 					200: function(response) {

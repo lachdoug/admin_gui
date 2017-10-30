@@ -5,8 +5,8 @@ class V0
 
         attr_reader :username
 
-        def initialize( request_session_id, settings )
-          @request_session_id = request_session_id
+        def initialize( session, settings )
+          @session = session
           @settings = settings
           FileUtils.touch "#{@settings.data_directory_path}/current_user.json"
         end
@@ -22,7 +22,7 @@ class V0
         end
 
         def authenticated?
-          ( @request_session_id == session_id ) && within_timeout?
+          ( session_id == stored_session_id ) && within_timeout?
         end
 
         def system_api_token
@@ -31,11 +31,15 @@ class V0
 
         private
 
+        def session_id
+          @session[:tracking]["HTTP_USER_AGENT"]
+        end
+
         def save_current_user(new_system_api_token)
           File.write "#{@settings.data_directory_path}/current_user.json",
            {
              system_api_token: new_system_api_token,
-             session_id: new_system_api_token ? @request_session_id : nil,
+             session_id: new_system_api_token ? session_id : nil,
              timestamp: new_system_api_token ? Time.now.to_i : 0
            }.to_json
         end
@@ -49,7 +53,7 @@ class V0
           end
         end
 
-        def session_id
+        def stored_session_id
           current_user_tokens[:session_id]
         end
 

@@ -2,6 +2,7 @@ function button( args ) {
 	return {
 		class: ( args.wrapperClass || null ),
 		style: ( args.wrapperStyle || null ),
+		id: ( args.wrapperId || null ),
 		$components: [
 			buttonUnwrapped( args )
 		]

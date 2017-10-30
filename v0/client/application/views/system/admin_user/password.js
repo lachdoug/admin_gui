@@ -1,9 +1,9 @@
 var $systemAdminUserPassword = {
-	
+
 	$cell: true,
 	id: "systemAdminUserPassword",
-	
-	
+
+
 	_live: function() {
 		modal._live(
 			{
@@ -13,7 +13,7 @@ var $systemAdminUserPassword = {
 						{
 							id: "systemAdminUserPasswordForm",
 							$components: [
-								systemAdminUserPassword._form() 
+								systemAdminUserPassword._form()
 							],
 						}
 					]
@@ -21,14 +21,14 @@ var $systemAdminUserPassword = {
 			}
 		);
 	},
-	
+
 	_form: function () {
 		return form ( {
 			components: [
 				formField( {
-					type: "site_password", 
-					name: "data[current_password]", 
-					id: "systemAdminUserPasswordField_current_password", 
+					type: "site_password",
+					name: "data[current_password]",
+					id: "systemAdminUserPasswordField_current_password",
 					label: "Current password",
 				} ),
 				formField( {
@@ -37,9 +37,9 @@ var $systemAdminUserPassword = {
 					value: "admin",
 				} ),
 				formField( {
-					type: "site_password_with_confirmation", 
-					name: "data[new_password]", 
-					id: "systemAdminUserPasswordField_new_password", 
+					type: "site_password_with_confirmation",
+					name: "data[new_password]",
+					id: "systemAdminUserPasswordField_new_password",
 					label: "New password",
 				} ),
 				formCancel ( { onclick: "systemAdminUser._live();" } ),
@@ -53,13 +53,13 @@ var $systemAdminUserPassword = {
 						"You will be redirected to the sign in page. " +
 						"Please sign in again using your new password.\n\n" +
 						"If your browser has asked to update your password, " +
-						"you should do this first, then click OK."
+						"you should accept this first, then click OK."
 					);
 					location.reload();
 				},
 			}
 		});
-		
+
 	},
-	
+
 };
