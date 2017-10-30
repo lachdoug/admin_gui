@@ -32,7 +32,7 @@ class V0
       def self.update_legacy_input_type_for(legacy_field_type)
         case legacy_field_type.to_s.to_sym
         when :boolean
-          :boolean
+          :checkbox
         when :collection, :select, :select_single
           :select
         when :int

@@ -21,10 +21,22 @@ var formFieldInputUnwrapped = function( args ) {
 			pattern: args.pattern || null,
 			min: args.min || null,
 			max: args.max || null,
-			_patternMessage: args.patternMessage || null,
+			// _patternMessage:  || null,
 			oninput: args.oninput || null,
-			onchange: args.onchange || null,
+			// onchange: args.onchange || null,
 			autocomplete: args.autocomplete || null,
+			onchange: function(el) {
+				// debugger;
+				if ( args.onchange ) { args.onchange(el) };
+				if(el.target.validity.patternMismatch) {
+					el.target.setCustomValidity(
+						args.patternMessage ||
+						( 'Must match pattern ' + args.pattern )
+					)
+				} else { el.target.setCustomValidity('')
+			  };
+			},
+			// setCustomValidity('') allows other validations (e.g. required) to show errors
 
 			$init: function () {
 

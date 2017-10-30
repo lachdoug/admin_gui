@@ -91,9 +91,13 @@ class V0
 
         def sign_in(params)
           engines_api_system.sign_in params
-        # rescue NonFatalError => e
-
-          # raise NonFatalError.new "Invalid password.", 401
+        rescue NonFatalError => e
+          if e.status_code == 401
+            # use a more semantic error message
+            raise NonFatalError.new "Invalid password.", 401
+          else
+            raise e
+          end
         end
 
         def sign_out

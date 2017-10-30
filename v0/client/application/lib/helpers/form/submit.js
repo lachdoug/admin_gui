@@ -1,4 +1,4 @@
-var formSubmit = function (obj={}) {
+function formSubmit( obj={} ) {
 	return {
 		class: ( obj.wrapperClass || null ),
 		$components: [
@@ -11,19 +11,15 @@ var formSubmit = function (obj={}) {
 					obj.text == false ? {} : { $type: "span", $text: " " + ( obj.text || "OK" ) }
 				],
 			 	onclick: function ( e ) {
-					e.preventDefault();
 					var form = $(this).parents("form")[0];
 					if ( form.checkValidity() ) {
-						$(form).submit();
 						$(form).find("button").prop("disabled", "disabled");
 						this.$components = [
 							hourglass(),
 							{ $type: "span", $text: " " + ( obj.disabledText || obj.text || "OK" ) }
 						];
+					// } else { console.log("form validation failed.");   
 					};
-					// if ( obj.onclick ) {
-					// 	obj.onclick( form );
-					// };
 				}
 			}
 		]

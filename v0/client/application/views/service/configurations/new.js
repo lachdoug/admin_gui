@@ -64,6 +64,11 @@ var $serviceConfigurationNew = {
 										serviceConfiguration._live( serviceName );
 									}
 								} ),
+								// {
+								// 	$type: 'button',
+								// 	type: 'submit',
+								// 	$text: "SUBMIT"
+								// },
 								formSubmit(),
 							],
 							action: "/services/" + serviceName + "/configuration",

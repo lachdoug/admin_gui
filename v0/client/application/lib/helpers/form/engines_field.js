@@ -8,7 +8,7 @@ function enginesField( args ) {
 		required: args.mandatory,
 		title: dig( args, "input", "title" ) || dig( args, "input", "label" ) || args.name,
 		pattern: dig( args, "input", "validation", "pattern" ) ,
-		patternMessage: dig( args, "input", "validation", "pattern" ),
+		patternMessage: dig( args, "input", "validation", "message" ),
 		comment: dig( args, "input", "comment" ),
 		hint: dig( args, "input", "hint" ),
 		placeholder: dig( args, "input", "placeholder" ),

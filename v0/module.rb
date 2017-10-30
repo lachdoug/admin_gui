@@ -24,10 +24,11 @@ class V0 < Sinatra::Base
 
   set data_directory_path: 'data/v0'
 
-  set show_services: ENV['ENGINES_ADMIN_GUI_SHOW_SERVICES_BY_DEFAULT']
+  set remote_management: ENV['ENGINES_ADMIN_GUI_REMOTE_MANAGEMENT'] || false
+  set system_api_url: ( ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] || 'https://192.168.1.117:2380' )
+  set show_services: ENV['ENGINES_ADMIN_GUI_SHOW_SERVICES_BY_DEFAULT'] || false
   set session_secret: ENV['ENGINES_ADMIN_GUI_SESSION_SECRET'] || '0'
   set user_inactivity_timeout: ( ENV['ENGINES_ADMIN_GUI_USER_INACTIVITY_TIMEOUT'] || 30 ).to_i * 60
-  set system_api_url: ( ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] || 'https://192.168.1.117:2380' )
   set library_url: ENV['ENGINES_ADMIN_GUI_LIBRARY_URL'] || "https://library.engines.org/api/v0/apps"
   set bug_reports_url: ENV['ENGINES_ADMIN_GUI_BUG_REPORTS_URL'] || 'https://127.0.0.1:3666'
   set banner_text: ENV['ENGINES_ADMIN_GUI_BANNER_TEXT'] || nil
@@ -35,16 +36,20 @@ class V0 < Sinatra::Base
   set banner_background_color: ENV['ENGINES_ADMIN_GUI_BANNER_BACKGROUND_COLOR'] || '#48d'
   set enable_client_event_streaming: !Sinatra::Base.development?
 
+  before do
+    session[:system_api_url] = session[:system_api_url] || settings.system_api_url
+    session[:remote_management] = settings.remote_management
+  end
 
   ##############################################################################
   ## CLIENT
   ##############################################################################
 
+  # Here are the erb files
   set :views, Proc.new { File.join(root, "client") }
 
   get '/' do
     content_type :html
-    # @server_url = settings.gui_api_url
     erb :index
   end
 
@@ -145,6 +150,14 @@ class V0 < Sinatra::Base
 
   enable :sessions
 
+  before do
+    raise NonFatalError.new('Not signed in.', 401) unless
+      current_user ||
+      request.path_info == '/' ||
+      request.path_info == '/client' ||
+      request.path_info == '/session'
+  end
+
   def system_api_token
     current_user.system_api_token if current_user
   end
@@ -186,7 +199,7 @@ class V0 < Sinatra::Base
   ## For debugging
   ##----------------------------------------------------------------------------
 
-  before '*' do
+  before do
 
     if Sinatra::Base.development?
       puts 'Params'
