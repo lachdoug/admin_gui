@@ -370,44 +370,38 @@ class V0
         def container_event_stream( &block )
           engines_api_system.container_event_stream do |event_json|
             begin
-              # p "event: #{event}"
               event = JSON.parse(event_json, symbolize_names: true)
-              # p "event: #{event}"
+
+puts "Received event on #{event[:container_name]}: #{event}"
+puts "Event state: #{event[:state]}"
+
               if event[:container_name].nil?
                 yield ( {type: :heartbeat} )
-              # elsif event[:state] == "oom"
-              #   yield ( { type: :container_oom,
-              #             name: event[:container_name] } )
               else
-# p :event
-# p event
+                # sleep 5
                 container_name = event[:container_name]
-# p :container_name
-# p event[:container_name]
-# p :container_type
-# p event[:container_type]
-
-# p :app_status_from_app_statuses
-# p engines_api_system.app_statuses[container_name.to_sym]
-# p :app_status_from_app_statuses
-# p engines_api_system.app_statuses[container_name.to_sym]
-
                 case event[:container_type].to_sym
                 when :container, :application ## James needs to standardize this
                   container_type = :app
                   status = app_status_for container_name
-
-# p :status
-# p status
-
                 when :service
                   container_type = :service
                   status = service_status_for container_name
-
-# p :status
-# p status
-
                 end
+
+begin
+puts "AFTER EVENT container[:status][:state] #{status[:state]}"
+rescue => e
+puts '[------------------------------------------------------'
+puts "Event error"
+puts :event
+puts event
+puts :status
+puts status
+puts :error
+puts e
+puts ']------------------------------------------------------'
+end
                 if status
                   yield ( { type: :container_status,
                             container_type: container_type,

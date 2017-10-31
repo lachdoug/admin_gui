@@ -32,7 +32,7 @@ class V0 < Sinatra::Base
   set banner_text: ENV['ENGINES_ADMIN_GUI_BANNER_TEXT'] || nil
   set banner_text_color: ENV['ENGINES_ADMIN_GUI_BANNER_TEXT_COLOR'] || '#fff'
   set banner_background_color: ENV['ENGINES_ADMIN_GUI_BANNER_BACKGROUND_COLOR'] || '#48d'
-  set enable_client_event_streaming: !Sinatra::Base.development?
+  set enable_client_event_streaming: true || !Sinatra::Base.development?
 
   # before do
   #   session[:system_api_url] = session[:system_api_url] || settings.system_api_url
@@ -209,12 +209,9 @@ class V0 < Sinatra::Base
   before do
 
     if Sinatra::Base.development?
-      puts 'Params'
-      puts params.to_yaml
-
-      # puts 'Routes'
-      # Sinatra::Application::V0.routes.each { |route_k, route_v| puts "#{route_k} #{route_v}" }
-
+      puts 'Request'
+      puts request.path_info
+      puts params.inspect
     end
   end
 

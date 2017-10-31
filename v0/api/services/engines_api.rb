@@ -102,8 +102,9 @@ class V0
           # raise NonFatalError.new "#{message}", 500
           # raise e
 
-        rescue RestClient::MethodNotAllowed
-          raise NonFatalError.new 'Not allowed.', 405
+        rescue RestClient::MethodNotAllowed => e
+          system_error_message = JSON.parse(e.response.body, symbolize_names: true)[:error_object][:error_mesg]
+          raise NonFatalError.new "Not allowed. (#{system_error_message})", 405
         rescue  Errno::EHOSTUNREACH,
                 Errno::ECONNREFUSED,
                 Errno::ECONNRESET,

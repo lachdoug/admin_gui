@@ -48,7 +48,7 @@ var api = {
 		responseContentType = response.getResponseHeader("Content-Type")
 		// debugger;
 		if ( response.status == 0 ) {
-			api._handleNoResponse();
+			api._handleNoResponse( response, args );
 		} else if ( responseContentType == "application/json" ) {
 			api._handleJsonResponse(response, args);
 		} else if ( responseContentType == "application/octet-stream" ) {
@@ -71,7 +71,17 @@ var api = {
 		};
 	},
 
-	_handleNoResponse: function () {
+	_handleNoResponse: function ( response, args ) {
+		var callbacks = args.callbacks || {};
+		var callback = callbacks[response.status];
+		if ( ( typeof(callback) === "undefined" ) ) {
+			this._defaultNoResponseHandler(response, args);
+		} else {
+			callback();
+		};
+	},
+
+	_defaultNoResponseHandler: function ( response, args ) {
 		systemUnavailable._live();
 	},
 
@@ -120,7 +130,7 @@ var api = {
 				break;
 			case 405:
 				alert( JSON.parse(response.responseText).error.message );
-				modal._kill();
+				// modal._kill();
 				break;
 			// case 440:
 			// 	alert("Failed to authenticate.\n\n" + JSON.parse(response.responseText).error.message );

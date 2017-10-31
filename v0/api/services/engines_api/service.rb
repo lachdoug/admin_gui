@@ -10,6 +10,7 @@ class V0
           end
 
           def container
+            p "get container for #{@name}"
              @system_api.get "containers/service/#{@name}"
           end
 #

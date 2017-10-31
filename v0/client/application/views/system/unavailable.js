@@ -22,12 +22,25 @@ var $systemUnavailable = {
 						{
 							$type: "p",
 							$text: "Please wait."
-						}
+						},
+						// remoteManagement ? form( {
+						// 	components: [
+						// 		formField( { name: "data[system_api_url]", value: '', label: 'System API URL', type: 'hidden' } ),
+						// 		formSubmit({ icon: "fa fa-times", text: "Reset" })
+						// 	],
+						// 	action: "/system/select",
+				    //   method: "PUT",
+						// 	callbacks: {
+						// 		200: function ( response ) {
+				    //       location.reload();
+						// 		}
+						// 	}
+						// } ) : {}
 					]
 				}
 			}
 		);
-		// this._pollServer();
+		this._pollServer();
 		$("#pageLoadingSpinner").fadeIn();
 		system._kill();
 
@@ -35,22 +48,18 @@ var $systemUnavailable = {
 
 
 	_pollServer: function () {
-
 		setTimeout( function() {
 			apiRequest({
 				action: "/system",
 				callbacks: {
 					0: function() {
-						systemUnavailable._pollServer();
+						systemUnavailable._handlePollingResponseFailure();
 					},
 					500: function() {
-						systemUnavailable._pollServer();
+						systemUnavailable._handlePollingResponseFailure();
 					},
 					503: function(response) {
-						if (typeof systemUnavailableMessage !== 'undefined') {
-							systemUnavailable._live( response.error.message );
-						};
-						systemUnavailable._pollServer();
+						systemUnavailable._handlePollingResponseFailure(response.error.message);
 					},
 					200: function(response) {
 						alert("System connected.");
@@ -59,6 +68,18 @@ var $systemUnavailable = {
 				}
 			});
 		}, 5000 );
+	},
+
+	_handlePollingResponseFailure: function( message) {
+		if (typeof systemUnavailableMessage !== 'undefined') {
+			if ( message ) {
+				systemUnavailableMessage._updateMessage( message );
+			};
+			systemUnavailable._pollServer();
+		} else {
+			system._showDisconnectedSystem();
+			$("#pageLoadingSpinner").fadeOut();
+		};
 	},
 
 

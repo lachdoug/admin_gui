@@ -23,7 +23,7 @@ var $system = {
 
 	$update: function(){
 
-		if (this._data) {
+		if ( this._data ) {
 
 			var needsAttention = 	this._data.status.needs_reboot ||
 														this._data.status.needs_engines_update ||
@@ -133,6 +133,26 @@ var $system = {
 		this._closeContainerEvents();
 		this._data = null;
 
+	},
+
+	_showDisconnectedSystem: function() {
+		this._kill();
+	// 	this._showNoSystem();
+	// },
+	//
+	// _showNoSystem: function() {
+		this.$components = [
+			{
+				class: "text-center",
+				$components: [
+					{ $text: "System not connected." },
+					button({
+						icon: "fa fa-repeat",
+						onclick: "location.reload();"
+					})
+				]
+			}
+	 	];
 	},
 
 
