@@ -13,7 +13,7 @@ class V0
 
         def sign_in( system, form_params )
           api_token = system.sign_in( { username: :admin, password: form_params[:password] } )
-          @username = 'admin'
+          # @username = 'admin'
           save_current_user api_token
         end
 
@@ -22,11 +22,15 @@ class V0
         end
 
         def authenticated?
-          ( session_id == stored_session_id ) && within_timeout?
+          ( session_id == stored_session_id ) && check_timeout
         end
 
         def system_api_token
           current_user_tokens[:system_api_token]
+        end
+
+        def within_timeout?
+          ( Time.now.to_i - current_user_tokens[:timestamp].to_i ) < @settings.user_inactivity_timeout
         end
 
         private
@@ -57,19 +61,15 @@ class V0
           current_user_tokens[:session_id]
         end
 
-        def within_timeout?
+        def check_timeout
           if current_user_tokens[:timestamp]
-            if in_time?
+            if within_timeout?
               refresh_timestamp
             else
               sign_out
               raise NonFatalError.new "Signed out due to inactivity.", 401
             end
           end
-        end
-
-        def in_time?
-          ( Time.now.to_i - current_user_tokens[:timestamp] ) < @settings.user_inactivity_timeout
         end
 
         def refresh_timestamp

@@ -168,7 +168,6 @@ class V0 < Sinatra::Base
     session[:system_api_url] || settings.system_api_url
   end
 
-
   def current_user
     return @current_user if @current_user
     user = User.new session, settings

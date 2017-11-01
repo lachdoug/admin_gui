@@ -81,6 +81,7 @@ var $system = {
 										$('#services').slideDown('fast');
 										$('#hide_services_button').show();
 										$(this).hide();
+										showServices = true;
 									},
 								}),
 								button({
@@ -92,6 +93,7 @@ var $system = {
 										$('#services').slideUp('fast');
 										$('#show_services_button').show();
 										$(this).hide();
+										showServices = false;
 									},
 								}),
 								{
@@ -122,7 +124,11 @@ var $system = {
 		if ( systemApiUrl ) {
 			this._loadSystem( afterUpdateCallback );
 		} else {
-			selectSystem._live();
+			if ( remoteManagement ) {
+				selectSystem._live();
+			} else {
+				alert('No system API URL.')
+			};
 			$("#pageLoadingSpinner").fadeOut();
 		}
 	},
@@ -221,15 +227,28 @@ var $system = {
 
 
 	_handleContainerEvent: function( event ) {
-		this._data.apps.map(
-			function( app ) {
-				if ( app.name == event.container_name ) {
-					return $.extend( app, event.status );
-				} else {
-					return app;
-				};
-			}
-		);
+		// debugger;
+		if ( event.container_type == "service" ) {
+			this._data.services.map(
+				function( service ) {
+					if ( service.name == event.container_name ) {
+						return $.extend( service, event.status );
+					} else {
+						return service;
+					};
+				}
+			);
+		} else {
+			this._data.apps.map(
+				function( app ) {
+					if ( app.name == event.container_name ) {
+						return $.extend( app, event.status );
+					} else {
+						return app;
+					};
+				}
+			);
+		};
 	},
 
 

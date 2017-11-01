@@ -93,7 +93,7 @@ class V0
           engines_api_system.sign_in params
         rescue NonFatalError => e
           if e.status_code == 401
-            # use a more semantic error message
+            # use a more semantic error message than "Not signed in."
             raise NonFatalError.new "Invalid password.", 401
           else
             raise e
