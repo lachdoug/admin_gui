@@ -22,7 +22,7 @@ class V0 < Sinatra::Base
   set dump_errors: Sinatra::Base.development?
   set public_folder: 'public'
   set data_directory_path: 'data/v0'
-  set system_api_url: nil # ( ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] || ( 'https://192.168.1.117:2380' if Sinatra::Base.development? ) )
+  set system_api_url: ( ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] || ( 'https://192.168.1.117:2380' if Sinatra::Base.development? ) )
   set remote_management: ENV['ENGINES_ADMIN_GUI_REMOTE_MANAGEMENT'] || false
   set show_services: ENV['ENGINES_ADMIN_GUI_SHOW_SERVICES_BY_DEFAULT'] || false
   set session_secret: ENV['ENGINES_ADMIN_GUI_SESSION_SECRET'] || '0'
