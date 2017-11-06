@@ -179,6 +179,7 @@ class V0
           end
 
           def perform_configuration(args)
+            # byebug
             @system_api.post "containers/service/#{@name}/configuration/#{args[:configurator_name]}", { variables: args[:variables] }
           end
 

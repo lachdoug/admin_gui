@@ -5,7 +5,7 @@ var $system = {
 
 	_data: null,
 	_containerEvents: null,
-	_disconnected: false,
+	// _disconnected: false,
 
 
 	_refresh: function(data, afterUpdateCallback ) {
@@ -24,22 +24,10 @@ var $system = {
 
 	$update: function(){
 
-		if ( this._disconnected ) {
-			this.$components = [
-				{
-					class: "text-center",
-					style: "display: none;",
-					$init: function() { $(this).fadeIn(); },
-					$components: [
-						{ $text: "System not connected." },
-						button({
-							icon: "fa fa-repeat",
-							onclick: "location.reload();"
-						})
-					]
-				}
-		 	];
-		} else if ( this._data ) {
+		// if ( this._disconnected ) {
+
+		// } else
+		if ( this._data ) {
 
 			var needsAttention = 	this._data.status.needs_reboot ||
 														this._data.status.needs_engines_update ||
@@ -166,14 +154,14 @@ var $system = {
 	_kill: function() {
 		this._closeContainerEvents();
 		this._data = null;
-		this._disconnected = false;
+		// this._disconnected = false;
 	},
 
-	_showDisconnected: function() {
-		this._closeContainerEvents();
-		this._data = null;
-		this._disconnected = true;
-	},
+	// _showDisconnected: function() {
+	// 	this._closeContainerEvents();
+	// 	this._data = null;
+	// 	this._disconnected = true;
+	// },
 
 	_loadSystem: function ( afterUpdateCallback ) {
 		// console.log("get /system from system._loadSystem");
@@ -186,9 +174,10 @@ var $system = {
 					$("#navbarSignOutButton").show();
 					$("#pageLoadingSpinner").fadeOut();
 				},
-				// 401: function() {
-				// 	main._renderSignedOut();
-				// }
+				401: function() {
+					// override default behaviour to skip alert message.
+					main._renderSignedOut();
+				}
 			}
 		});
 

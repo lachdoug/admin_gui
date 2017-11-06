@@ -46,7 +46,8 @@ var $main = {
 		// $(".modal").modal("hide");
 		$("#navbarSignOutButton").hide();
 		$("#pageLoadingSpinner").fadeOut();
-		system._showDisconnected();
+		system._kill();
+		systemDisconnected._live();
 	}
 
 

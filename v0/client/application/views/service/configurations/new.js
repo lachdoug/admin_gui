@@ -55,7 +55,7 @@ var $serviceConfigurationNew = {
 								} ),
 								{
 									$components: ( Object.values( data.params ) || [] ).map( function ( variable ) {
-										variable.name_prefix = "variable";
+										variable.name_prefix = "variables";
 										return enginesField( variable );
 									} )
 								},
