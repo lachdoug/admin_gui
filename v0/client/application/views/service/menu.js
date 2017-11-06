@@ -78,7 +78,7 @@ var $serviceMenu = {
 			action: "/services/" + this._serviceName + "/websites",
 			callbacks: {
 				200: function( data ) {
-					console.log(data);
+					// console.log(data);
 					serviceMenuWebsites._refresh( data );
 				},
 			}

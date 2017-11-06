@@ -176,12 +176,12 @@ var $system = {
 	},
 
 	_loadSystem: function ( afterUpdateCallback ) {
-		console.log("get /system from system._loadSystem");
+		// console.log("get /system from system._loadSystem");
 		apiRequest({
 			action: '/system',
 			callbacks: {
 				200: function(response) {
-					console.log("got /system");
+					// console.log("got /system");
 					system._refresh(response, afterUpdateCallback);
 					$("#navbarSignOutButton").show();
 					$("#pageLoadingSpinner").fadeOut();

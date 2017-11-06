@@ -18,7 +18,7 @@ var $systemUnavailable = {
 								this._updateMessage ( message || "Failed to connect to system.\n\nPlease wait." )
 							},
 							_updateMessage: function ( message ) {
-								console.log("message is: " + message);
+								// console.log("message is: " + message);
 								this.$components = [ { $type: "p", style: "white-space: pre-wrap;", $text: message || "Failed to connect to system.\n\nPlease wait." } ];
 							},
 						},
@@ -33,7 +33,7 @@ var $systemUnavailable = {
 
 
 	_pollServer: function () {
-		console.log("start polling");
+		// console.log("start polling");
 		setTimeout( function() {
 			if (typeof systemUnavailableMessage !== 'undefined') {
 				systemUnavailableMessage._updateMessage( "Trying again..." );

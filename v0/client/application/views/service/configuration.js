@@ -78,7 +78,7 @@ var $serviceConfiguration = {
 			callbacks: {
 				200: function(response) {
 					var configs = Object.values( response );
-					console.log( configs );
+					// console.log( configs );
 					serviceConfigurationContent._refresh( configs );
 				}
 			}

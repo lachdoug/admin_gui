@@ -78,7 +78,7 @@ var $serviceActions = {
 			callbacks: {
 				200: function(response) {
 					var actionators = Object.values( response );
-					console.log( actionators );
+					// console.log( actionators );
 					serviceActionsContent._refresh( actionators );
 				}
 			}
