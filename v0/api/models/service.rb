@@ -245,7 +245,7 @@ class V0
               if param[:input]
                 param
               else
-                Lib.legacy_input_definition_for param
+                Helpers.legacy_input_definition_for param
               end
             end,
           }
@@ -301,7 +301,7 @@ class V0
         #     if param[:input]
         #       param
         #     else
-        #       Lib.legacy_input_definition_for param
+        #       Lib.Helpers.legacy_input_definition_for param
         #     end
         #   end
         #   {
@@ -381,7 +381,8 @@ class V0
             if param[:input]
               param
             else
-              Lib.legacy_input_definition_for param
+              # byebug
+              Helpers.legacy_input_definition_for param
             end
           end
           actionator
@@ -411,7 +412,8 @@ class V0
             if param[:input]
               param
             else
-              Lib.legacy_input_definition_for param
+              # byebug
+              Helpers.legacy_input_definition_for param
             end
           end
           configurator

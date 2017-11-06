@@ -64,7 +64,7 @@ var $appBuildReport = {
 											button( {
 												onclick: function() {
 													var html = '<div style=\'font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 14px; line-height: 1.42857143; color: #333;"\'>' + $("#appBuildReportDisplayReportHtml").html() + '</div>';
-													var newWindow = window.open('','Engines app build report','width=600, height=600');
+													var newWindow = window.open('','Engines app build report','width=600, height=600, location=no, toolbar=0');
 													newWindow.document.title = appName + " build report"
 													$(newWindow.document.body).html( html );
 												},

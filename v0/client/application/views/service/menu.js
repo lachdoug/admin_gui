@@ -256,7 +256,7 @@ var $serviceMenu = {
 					{
 						$type: "h4",
 						style: "margin-left: 17px;",
-						title: "Container state is " + this._serviceData.state + ( this._serviceData.state == "stopped" ? " (" + this._serviceData.why_stop + ")." : "." ),
+						title: "Container state is " + this._serviceData.state + ( ( this._serviceData.state == "stopped" && this._serviceData.why_stop ) ? " (" + this._serviceData.why_stop + ")." : "." ),
 						$components: [
 							containerStateIcon(this._serviceData.state),
 							{

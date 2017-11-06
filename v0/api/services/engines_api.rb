@@ -92,29 +92,25 @@ class V0
           when 'application/octet-stream'
             response.body
           else
-
             raise StandardError.new 'An unhandled content type was returned by the system API.'
           end
+        # rescue => e
+        #   byebug
         rescue RestClient::Forbidden
           raise NonFatalError.new 'Not signed in.', 401
-        # rescue RestClient::NotFound => e
-          # message = JSON.parse(e.response.net_http_res.body, symbolize_names: true )[:error_object][:error_mesg]
-          # raise NonFatalError.new "#{message}", 500
-          # raise e
-
         rescue RestClient::MethodNotAllowed => e
           system_error_message = JSON.parse(e.response.body, symbolize_names: true)[:error_object][:error_mesg]
-          raise NonFatalError.new "Not allowed. (#{system_error_message})", 405
+          raise NonFatalError.new "Not allowed.\n\nReason: #{system_error_message}", 405
+        rescue Errno::ENETUNREACH => e
+          raise NonFatalError.new "Admin GUI server is not connected to the network.\n\nReason: #{e.message}\n\nThe connection will be tried again in a moment.", 503
         rescue  Errno::EHOSTUNREACH,
                 Errno::ECONNREFUSED,
                 Errno::ECONNRESET,
                 RestClient::ServerBrokeConnection,
                 OpenSSL::SSL::SSLError,
-                RestClient::Exceptions::OpenTimeout
-          raise NonFatalError.new "System busy.", 503
-        # rescue => e
-        #   # raise NonFatalError.new "Unhandled Engines API error.", 500
-        #   raise e
+                RestClient::Exceptions::OpenTimeout => e
+                # byebug
+          raise NonFatalError.new "The system is unavailable.\n\nReason: #{e.message}\n\nThis usually temporary and happens when the system is busy or restarting.\n\nPlease wait a moment.", 503
         end
 
         # read stream
@@ -133,10 +129,10 @@ class V0
                   yield event
                 end
               end
-            rescue EOFError
-              return
             end
           end
+        rescue => e
+          puts "Event stream closed with error #{e}"
         end
 
       end

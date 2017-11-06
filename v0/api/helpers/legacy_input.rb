@@ -1,6 +1,6 @@
 class V0
   module Api
-    module Lib
+    module Helpers
 
       def self.legacy_input_definition_for(param)
         {

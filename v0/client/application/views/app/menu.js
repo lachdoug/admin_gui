@@ -254,7 +254,9 @@ var $appMenu = {
 					{
 						$type: "h4",
 						style: "margin-left: 17px;",
-						title: "Container state is " + this._appData.state + ( this._appData.state == "stopped" ? " (" + this._appData.why_stop + ")." : "." ),
+						title: "Container state is " + this._appData.state +
+							( ( this._appData.state == "stopped" && this._appData.why_stop ) ?
+							" (" + this._appData.why_stop + ")." : "." ),
 						$components: [
 							containerStateIcon(this._appData.state),
 							{

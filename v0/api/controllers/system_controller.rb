@@ -3,14 +3,19 @@ class V0
     module Controllers
 
       get '/system' do
-        system.to_json
+        # byebug
+        system.to_json include_software_titles: session[:show_software_titles]
       end
 
-      put '/system/select' do
-        halt 404 unless settings.remote_management
-        session[:system_api_url] = params[:data][:system_api_url]
-        # :system_selection is an index (of which system to select from settings)
-        { system_api_url: session[:system_api_url] }.to_json
+      post '/system/signin' do
+        @user = User.new( session, settings )
+        @user.sign_in( system( without_token: true ), params[:data] )
+        { username: @user.username }.to_json
+      end
+
+      delete '/system/signin' do
+         current_user.sign_out.to_json if current_user
+         {}.to_json
       end
 
     end

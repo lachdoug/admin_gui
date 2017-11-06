@@ -3,24 +3,20 @@ class V0
     module Controllers
 
       get '/system/container_events' do
-
-# random = Random.new()
-# p :random
-# p random
         content_type "text/event-stream"
         user = current_user
         stream do |out|
           system.container_event_stream do |event|
-            # p :random
-            # p random
             if user.within_timeout?
               begin
                 out.puts "data: #{event.to_json}\n\n"
               rescue => e
-                # p :close_random
-                # p random
-                break if out.closed?
-                raise e
+                if out.closed?
+                  puts "Client closed event stream"
+                  break
+                else
+                  raise e
+                end
               end
             else
               out.close

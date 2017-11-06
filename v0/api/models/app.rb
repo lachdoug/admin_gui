@@ -40,8 +40,12 @@ class V0
         ######################################################################
 
         def instruct(instruction)
-          return { message: "OK" } if app_api.instruct_container(instruction)
-          raise NonFatalError.new "Failed to instruct #{name} to #{instruction}.", 405
+          Thread.new do
+            app_api.instruct_container(instruction)
+          end
+          { message: "OK" }
+          # return { message: "OK" } if app_api.instruct_container(instruction)
+          # raise NonFatalError.new "Failed to instruct #{name} to #{instruction}.", 405
         end
 
         ######################################################################
@@ -57,7 +61,7 @@ class V0
         ######################################################################
 
         def about
-          blueprint[:metadata]
+          blueprint[:metadata] || {}
         end
 
         def processes
@@ -105,7 +109,7 @@ class V0
         # Environment variables
         ######################################################################
 
-        def environment_variables
+        def environment
           {}.tap do |result|
             container[:environments].map do |variable|
               if [ "Memory", "LANGUAGE", "LANG", "LC_ALL" ].include? variable[:name]
@@ -216,7 +220,7 @@ class V0
               if param[:input]
                 param
               else
-                Lib.legacy_input_definition_for param
+                Helpers.legacy_input_definition_for param
               end
             end,
           }
@@ -271,7 +275,7 @@ class V0
             if param[:input]
               param
             else
-              Lib.legacy_input_definition_for param
+              Helpers.legacy_input_definition_for param
             end
           end
           {

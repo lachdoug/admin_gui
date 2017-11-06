@@ -5,6 +5,7 @@ var $system = {
 
 	_data: null,
 	_containerEvents: null,
+	_disconnected: false,
 
 
 	_refresh: function(data, afterUpdateCallback ) {
@@ -23,7 +24,22 @@ var $system = {
 
 	$update: function(){
 
-		if ( this._data ) {
+		if ( this._disconnected ) {
+			this.$components = [
+				{
+					class: "text-center",
+					style: "display: none;",
+					$init: function() { $(this).fadeIn(); },
+					$components: [
+						{ $text: "System not connected." },
+						button({
+							icon: "fa fa-repeat",
+							onclick: "location.reload();"
+						})
+					]
+				}
+		 	];
+		} else if ( this._data ) {
 
 			var needsAttention = 	this._data.status.needs_reboot ||
 														this._data.status.needs_engines_update ||
@@ -43,6 +59,19 @@ var $system = {
 							class: "modal-content",
 							style: "margin-top: 20px; margin-bottom: 100px; padding: 10px;",
 							$components: [
+								showSoftwareTitles ?
+								button({
+									id: "hideSoftwareTitlesButton",
+									class: "pull-right",
+									icon: "fa fa-info",
+									onclick: system._hideSoftwareTitles
+								}) :
+								button({
+									id: "showSoftwareTitlesButton",
+									class: "pull-right",
+									icon: "fa fa-info",
+									onclick: system._showSoftwareTitles,
+								}),
 								{
 									$components: [
 										{
@@ -135,46 +164,31 @@ var $system = {
 
 
 	_kill: function() {
-
 		this._closeContainerEvents();
 		this._data = null;
-
+		this._disconnected = false;
 	},
 
-	_showDisconnectedSystem: function() {
-		this._kill();
-	// 	this._showNoSystem();
-	// },
-	//
-	// _showNoSystem: function() {
-		this.$components = [
-			{
-				class: "text-center",
-				$components: [
-					{ $text: "System not connected." },
-					button({
-						icon: "fa fa-repeat",
-						onclick: "location.reload();"
-					})
-				]
-			}
-	 	];
+	_showDisconnected: function() {
+		this._closeContainerEvents();
+		this._data = null;
+		this._disconnected = true;
 	},
-
 
 	_loadSystem: function ( afterUpdateCallback ) {
-
+		console.log("get /system from system._loadSystem");
 		apiRequest({
 			action: '/system',
 			callbacks: {
 				200: function(response) {
+					console.log("got /system");
 					system._refresh(response, afterUpdateCallback);
 					$("#navbarSignOutButton").show();
 					$("#pageLoadingSpinner").fadeOut();
 				},
-				401: function() {
-					main._renderSignedOut();
-				}
+				// 401: function() {
+				// 	main._renderSignedOut();
+				// }
 			}
 		});
 
@@ -207,22 +221,30 @@ var $system = {
 
 	},
 
+	_containerEventsStreamRunning: function () {
+		return ( this._containerEvents && ( this._containerEvents.readyState != 2 ) )
+	},
 
 	_streamContainerEvents: function () {
-
-		this._closeContainerEvents();
-		this._containerEvents = new EventSource(
-			'/system/container_events'
-		);
-		this._containerEvents.onmessage = function(e) {
-			var event = JSON.parse(e.data);
+		if ( !this._containerEventsStreamRunning() ) {
 			// debugger;
-			console.log(event);
-			system._handleContainerEvent( event );
-			appMenu._handleContainerEvent( event );
-			serviceMenu._handleContainerEvent( event );
+			this._closeContainerEvents();
+			this._containerEvents = new EventSource(
+				'/system/container_events'
+			);
+			this._containerEvents.onmessage = function(e) {
+				var event = JSON.parse(e.data);
+				console.log(event);
+				system._handleContainerEvent( event );
+				appMenu._handleContainerEvent( event );
+				serviceMenu._handleContainerEvent( event );
+			};
+			// this._containerEvents.onerror = function(e) {
+			// 	this._closeContainerEvents;
+			// 	alert("Event stream error: Lost connection to the server.");
+			// 	system._live();
+			// };
 		};
-
 	},
 
 
@@ -255,29 +277,46 @@ var $system = {
 	_systemApp: function( app ) {
 
 		return {
+			style: "width: 100%;",
 			$components: [
 				{
 					$type: "button",
 					class: "btn btn-lg btn-custom",
+					style: "width: 100%;",
 					title: app.name + " menu",
 					$components: [
-						containerStateIcon(app.state),
 						{
-							$type: "span",
-							$text: app.name
-						},
-						( app.had_oom || app.restart_required ) ? {
-							$type: "span",
 							$components: [
-								{ $type: "span", $html: "&nbsp;" },
-								icon( { icon: "fa fa-warning", style: "font-size: 14px; color: red;" } )
+								containerStateIcon(app.state),
+								{
+									$type: "span",
+									$text: app.name
+								},
+								( app.had_oom || app.restart_required ) ? {
+									$type: "span",
+									$components: [
+										{ $type: "span", $html: "&nbsp;" },
+										icon( { icon: "fa fa-warning", style: "font-size: 14px; color: red;" } )
+									]
+								} : {},
 							]
-						} : {},
+						},
+						{
+							style: "width: 100%; overflow-x: hidden;",
+							$components: [
+								{
+									$type: "small",
+									style: "color: #333",
+									$text: app.title
+								},
+							],
+						},
 					],
 					onclick: function () { appMenu._live( app.name ) }
 				},
 				// pp(app),
-			]
+			],
+
 		}
 	},
 
@@ -289,18 +328,76 @@ var $system = {
 				{
 					$type: "button",
 					class: "btn btn-lg btn-custom",
+					style: "width: 100%;",
 					title: service.name,
 					$components: [
-						containerStateIcon(service.state),
 						{
-							$type: "span",
-							$text: service.name
+							$components: [
+								containerStateIcon(service.state),
+								{
+									$type: "span",
+									$text: service.name
+								},
+								// ( service.had_oom || service.restart_required ) ? {
+								// 	$type: "span",
+								// 	$components: [
+								// 		{ $type: "span", $html: "&nbsp;" },
+								// 		icon( { icon: "fa fa-warning", style: "font-size: 14px; color: red;" } )
+								// 	]
+								// } : {},
+							]
 						},
+						{
+							style: "width: 100%; overflow-x: hidden;",
+							$components: [
+								{
+									$type: "small",
+									style: "color: #333",
+									$text: service.title
+								},
+							],
+						},
+
+
 					],
 					onclick: function () { serviceMenu._live( service.name ) }
-				}
+				},
+				// pp(service),
+
 			]
 		}
-	}
+	},
+
+
+	_showSoftwareTitles: function () {
+		showSoftwareTitlesButton.$components = [ icon( { icon: "fa fa-spinner fa-spin" } ) ];
+		apiRequest({
+			action: '/client/display_settings',
+			method: "PATCH",
+			data: { show_software_titles: true },
+			callbacks: {
+				200: function(response) {
+					showSoftwareTitles = true;
+					system._live();
+				},
+			}
+		});
+	},
+
+	_hideSoftwareTitles: function () {
+		hideSoftwareTitlesButton.$components = [ icon( { icon: "fa fa-spinner fa-spin" } ) ];
+		apiRequest({
+			action: '/client/display_settings',
+			method: "PATCH",
+			data: { show_software_titles: false },
+			callbacks: {
+				200: function(response) {
+					showSoftwareTitles = false;
+					system._live();
+				},
+			}
+		});
+	},
+
 
 };

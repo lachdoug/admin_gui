@@ -104,14 +104,14 @@ var $installNewApp = {
 							icon: "fa fa-edit",
 							text: "Custom",
 							onclick: function () {
-								$("#installNewAppFormCustomCollapse").toggle();
+								$(".installNewAppFormCustomCollapse").toggle();
 							}
 						} ),
 					]
 				},
 				{
 					style: "display: none;",
-					id: "installNewAppFormCustomCollapse",
+					class: "installNewAppFormCustomCollapse",
 					$components: [
 						formField({ type: "hidden", name: "data[blueprint_url]", value: blueprintUrl }),
 						formField( {
@@ -173,7 +173,7 @@ var $installNewApp = {
 								return installNewApp._formServiceConfigurationFields (obj, i);
 							}
 						) },
-						environmentVariables.leangth ? legend ( { text: "Environment variables" } ) : {},
+						environmentVariables.length ? legend ( { text: "Environment variables" } ) : {},
 					]
 				},
 				{

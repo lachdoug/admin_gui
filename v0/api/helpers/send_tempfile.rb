@@ -1,6 +1,6 @@
 class V0
   module Api
-    module Lib
+    module Helpers
 
       def send_as_file( filename, contents )
         send_file(

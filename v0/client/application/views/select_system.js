@@ -18,9 +18,10 @@ var $selectSystem = {
 		return form( {
 			components: [
 				formField( { name: "data[system_api_url]", value: systemApiUrl, label: 'System API URL', type: 'url', required: true } ),
+				formCancel(),
 				formSubmit()
 			],
-			action: "/system/select",
+			action: "/client/select_system",
       method: "PUT",
 			callbacks: {
 				200: function ( response ) {

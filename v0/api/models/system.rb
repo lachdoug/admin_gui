@@ -42,12 +42,11 @@ class V0
         # System summary
         ########################################################################
 
-        def to_json
-          to_h.to_json
+        def to_json(opts={})
+          to_h(opts).to_json
         end
 
-        def to_h
-
+        def to_h(opts={})
 
           raise ( NonFatalError.new "Engines update in progress. The update process normally takes a minute or two, but can take longer in some cases.", 503 ) \
             if status[:is_engines_system_updating]
@@ -55,6 +54,8 @@ class V0
             if status[:is_base_system_updating]
           raise ( NonFatalError.new "Reboot in progress.", 503 ) \
             if status[:is_rebooting]
+
+          include_software_titles = opts[:include_software_titles] || false;
 
           {
             url: url,
@@ -75,8 +76,8 @@ class V0
               status: engines_api_system.builder_status,
               current: current_build
             },
-            apps: app_statuses,
-            services: service_statuses
+            apps: app_statuses( include_software_titles: include_software_titles ),
+            services: service_statuses( include_software_titles: include_software_titles )
           }
 
         rescue => e
@@ -92,9 +93,11 @@ class V0
         def sign_in(params)
           engines_api_system.sign_in params
         rescue NonFatalError => e
+          # cusotmize error messages for signin
           if e.status_code == 401
-            # use a more semantic error message than "Not signed in."
             raise NonFatalError.new "Invalid password.", 401
+          elsif e.status_code == 503
+            raise NonFatalError.new "Failed to connect to system.\n\nPlease check that the system is running and accessable on the network at the URL provided.", 503
           else
             raise e
           end
@@ -124,15 +127,26 @@ class V0
           @status ||= engines_api_system.status
         end
 
-        def app_statuses
+        def app_statuses(opts={})
           engines_api_system.app_statuses.sort.map do |k,v|
-            { name: k }.merge v
+            if opts[:include_software_titles]
+              display = app(k).about.dig(:software, :display) || {}
+              title = display[:label] || display[:title]
+            else
+              title = nil
+            end
+            { name: k, title: title }.merge v
           end
         end
 
-        def service_statuses
+        def service_statuses(opts={})
           engines_api_system.service_statuses.sort.map do |k,v|
-            { name: k }.merge v
+            if opts[:include_software_titles]
+              title = service(k).about[:title]
+            else
+              title = nil
+            end
+            { name: k, title: title }.merge v
           end
         end
 
@@ -371,10 +385,10 @@ class V0
           engines_api_system.container_event_stream do |event_json|
             begin
               event = JSON.parse(event_json, symbolize_names: true)
-
-puts "Received event on #{event[:container_name]}: #{event}"
-puts "Event state: #{event[:state]}"
-
+#
+# puts "Received event on #{event[:container_name]}: #{event}"
+# puts "Event state: #{event[:state]}"
+#
               if event[:container_name].nil?
                 yield ( {type: :heartbeat} )
               else
@@ -389,19 +403,23 @@ puts "Event state: #{event[:state]}"
                   status = service_status_for container_name
                 end
 
-begin
-puts "AFTER EVENT container[:status][:state] #{status[:state]}"
-rescue => e
-puts '[------------------------------------------------------'
-puts "Event error"
-puts :event
-puts event
-puts :status
-puts status
-puts :error
-puts e
-puts ']------------------------------------------------------'
-end
+# begin
+#   if status
+#     puts "AFTER EVENT container[:status][:state] #{status[:state]}"
+#   else
+#     puts "AFTER EVENT no container[:status]"
+#   end
+# rescue => e
+# puts '[------------------------------------------------------'
+# puts "Event error"
+# puts :event
+# puts event
+# puts :status
+# puts status
+# puts :error
+# puts e
+# puts ']------------------------------------------------------'
+# end
                 if status
                   yield ( { type: :container_status,
                             container_type: container_type,

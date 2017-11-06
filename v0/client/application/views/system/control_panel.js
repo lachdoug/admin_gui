@@ -49,10 +49,10 @@ var $systemControlPanel = {
 							{
 								class: "col-sm-6",
 								$components: [
-									button( { onclick: systemLastInstall._live,
-														icon: "fa fa-history", text: "Last install" } ),
 									button( { onclick: installSideLoad._live,
 														icon: "fa fa-caret-square-o-right", text: "Side load" } ),
+									button( { onclick: systemLastInstall._live,
+														icon: "fa fa-history", text: "Last install" } ),
 									{ $type: "hr" },
 									button( { onclick: systemRegistry._live,
 														icon: "fa fa-arrows", text: "Registry" } ),

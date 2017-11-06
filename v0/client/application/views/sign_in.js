@@ -27,7 +27,7 @@ var $signIn = {
 								formField( { id:"signInPassword", label: false, name: "data[password]", type: "site_password", placeholder: "Password", title: "System admin password" } ),
 								formSubmit( { title: "Sign in", text: "Sign in", icon: "fa fa-sign-in", disabledText: "Signing in" } )
 							],
-							action: "/session",
+							action: "/system/signin",
 							callbacks: {
 								200: function () {
 									signIn._kill();

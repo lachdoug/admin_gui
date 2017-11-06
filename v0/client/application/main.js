@@ -7,6 +7,12 @@ var $main = {
 	$cell: true,
 	id: "main",
 
+	$init: function () {
+		$(window).on('unload', function(){
+    	alert('Are you sure you want to leave?');
+   	});
+	},
+
 
 	_live: function () {
 		$( this ).show();
@@ -17,7 +23,7 @@ var $main = {
 
 	_signOut: function () {
 		apiRequest( {
-			action: "/session",
+			action: "/system/signin",
 			method: "DELETE",
 			callbacks: {
 				200: function() {
@@ -33,6 +39,15 @@ var $main = {
 		$("#navbarSignOutButton").hide();
 		system._kill();
 		signIn._live();
+	},
+
+
+	_renderDisconnectedSystem: function () {
+		// $(".modal").modal("hide");
+		$("#navbarSignOutButton").hide();
+		$("#pageLoadingSpinner").fadeOut();
+		system._showDisconnected();
 	}
+
 
 };

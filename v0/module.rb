@@ -22,13 +22,14 @@ class V0 < Sinatra::Base
   set dump_errors: Sinatra::Base.development?
   set public_folder: 'public'
   set data_directory_path: 'data/v0'
-  set system_api_url: ( ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] || ( 'https://192.168.1.117:2380' if Sinatra::Base.development? ) )
-  set remote_management: ENV['ENGINES_ADMIN_GUI_REMOTE_MANAGEMENT'] || false
+  set system_api_url: ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL']
+  set remote_management: Sinatra::Base.development? || ENV['ENGINES_ADMIN_GUI_REMOTE_MANAGEMENT']
   set show_services: ENV['ENGINES_ADMIN_GUI_SHOW_SERVICES_BY_DEFAULT'] || false
+  set show_software_titles: ENV['ENGINES_ADMIN_GUI_SHOW_SOFTWARE_TITLES_BY_DEFAULT'] || false
   set session_secret: ENV['ENGINES_ADMIN_GUI_SESSION_SECRET'] || '0'
   set user_inactivity_timeout: ( ENV['ENGINES_ADMIN_GUI_USER_INACTIVITY_TIMEOUT'] || 30 ).to_i * 60
   set library_url: ENV['ENGINES_ADMIN_GUI_LIBRARY_URL'] || "https://library.engines.org/api/v0/apps"
-  set bug_reports_url: ENV['ENGINES_ADMIN_GUI_BUG_REPORTS_URL'] || 'https://127.0.0.1:3666'
+  set bug_reports_url: ENV['ENGINES_ADMIN_GUI_BUG_REPORTS_URL'] || 'http://127.0.0.1:3666/v0/bugs'
   set banner_text: ENV['ENGINES_ADMIN_GUI_BANNER_TEXT'] || nil
   set banner_text_color: ENV['ENGINES_ADMIN_GUI_BANNER_TEXT_COLOR'] || '#fff'
   set banner_background_color: ENV['ENGINES_ADMIN_GUI_BANNER_BACKGROUND_COLOR'] || '#48d'
@@ -52,9 +53,38 @@ class V0 < Sinatra::Base
   end
 
   get '/client' do
+    # byebug
     content_type :'application/javascript'
     erb :client
   end
+
+  put '/client/select_system' do
+    halt 404 unless settings.remote_management
+    session[:system_api_url] = params[:data][:system_api_url]
+    # :system_selection is an index (of which system to select from settings)
+    { system_api_url: session[:system_api_url] }.to_json
+  end
+
+  patch '/client/display_settings' do
+    # byebug
+    session[:show_services] = params[:show_services] == 'true' if params[:show_services]
+    session[:show_software_titles] = params[:show_software_titles] == 'true' if params[:show_software_titles]
+    # :system_selection is an index (of which system to select from settings)
+    {}.to_json
+  end
+
+  ##############################################################################
+  ## Errors
+  ##############################################################################
+
+  class NonFatalError < StandardError;
+    def initialize(message, status_code=500)
+      @message = message
+      @status_code = status_code
+    end
+    attr_reader :status_code, :message
+  end
+
 
   ##############################################################################
   ## API
@@ -64,9 +94,14 @@ class V0 < Sinatra::Base
   ##----------------------------------------------------------------------------
 
   require_relative 'api/api'
-  include Api
-  include Models
-  register Controllers
+  # include Api
+  # include Models
+  register Api::Controllers
+
+  ## Helpers
+  ##----------------------------------------------------------------------------
+
+  helpers Api::Helpers
 
   ## Enable streaming
   ##----------------------------------------------------------------------------
@@ -156,8 +191,9 @@ class V0 < Sinatra::Base
   def is_public_route
     request.path_info == '/' ||
     request.path_info == '/client' ||
-    request.path_info == '/session' ||
-    request.path_info == '/system/select'
+    request.path_info == '/system/signin' ||
+    request.path_info == '/client/select_system' ||
+    request.path_info == '/client/display_settings'
   end
 
   def system_api_token
@@ -168,9 +204,15 @@ class V0 < Sinatra::Base
     session[:system_api_url] || settings.system_api_url
   end
 
+  def show_software_titles
+    session[:show_software_titles].nil? ?
+    settings.show_software_titles :
+    session[:show_software_titles]
+  end
+
   def current_user
     return @current_user if @current_user
-    user = User.new session, settings
+    user = Api::Models::User.new session, settings
     @current_user = user if user.authenticated?
   end
 
@@ -179,7 +221,7 @@ class V0 < Sinatra::Base
 
   def system(opts={})
     @system ||=
-      System.new(
+      Api::Models::System.new(
         system_api_url,
         opts[:without_token] ? nil : system_api_token,
         settings )
