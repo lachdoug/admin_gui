@@ -48,7 +48,16 @@ var $main = {
 		$("#pageLoadingSpinner").fadeOut();
 		system._kill();
 		systemDisconnected._live();
-	}
+	},
+
+
+	_renderUnavailableSystem: function( message ) {
+		// $("#navbarSignOutButton").hide();
+		// $("#pageLoadingSpinner").fadeOut();
+		system._kill();
+		// systemDisconnected._live();
+		systemUnavailable._live();
+	},
 
 
 };

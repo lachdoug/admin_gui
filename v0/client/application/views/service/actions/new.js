@@ -18,7 +18,7 @@ var $serviceActionsNew = {
 			var queryString =
 				"actionator_name=" + encodeURIComponent( data.name );
 			apiRequest({
-				action: "/services/" + serviceName + "/actions?" + queryString,
+				action: "/services/" + serviceName + "/action?" + queryString,
 				method: "POST",
 				callbacks: {
 					200: function( response ) {
@@ -68,7 +68,7 @@ var $serviceActionsNew = {
 								} ),
 								formSubmit(),
 							],
-							action: "/services/" + serviceName + "/actions",
+							action: "/services/" + serviceName + "/action",
 							method: "POST",
 							callbacks: {
 								200: function(response) {

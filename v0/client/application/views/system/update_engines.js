@@ -24,7 +24,7 @@ var $systemUpdateEngines = {
 			action: "/system/update_engines",
 			callbacks: {
 				200: function() {
-					systemUnavailable._live( "Engines update is starting." )
+					main._renderUnavailableSystem( "Engines update is starting." )
 				},
 				405: function() {
 					systemUpdateEngines._alreadyUpToDate();

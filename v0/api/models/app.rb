@@ -40,12 +40,12 @@ class V0
         ######################################################################
 
         def instruct(instruction)
-          Thread.new do
-            app_api.instruct_container(instruction)
-          end
-          { message: "OK" }
-          # return { message: "OK" } if app_api.instruct_container(instruction)
-          # raise NonFatalError.new "Failed to instruct #{name} to #{instruction}.", 405
+          # Thread.new do
+          #   app_api.instruct_container(instruction)
+          # end
+          # { message: "OK" }
+          return { message: "OK" } if app_api.instruct_container(instruction)
+          raise NonFatalError.new "Failed to instruct #{name} to #{instruction}.", 405
         end
 
         ######################################################################
@@ -362,7 +362,7 @@ class V0
         def resolve_strings(strings)
           strings.map do |string|
             #  if string == "_Engines_System(random(10))"
-            app_api.resolve_string(string)
+            app_api.resolve_string(string.to_s)
           end
         end
 

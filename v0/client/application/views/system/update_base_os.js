@@ -24,7 +24,7 @@ var $systemUpdateBaseOS = {
 			action: "/system/update_base_os",
 			callbacks: {
 				200: function() {
-					systemUnavailable._live( "Base OS update is starting." );
+					main._renderUnavailableSystem( "Base OS update is starting." );
 				},
 				405: function() {
 					systemUpdateBaseOS._alreadyUpToDate();

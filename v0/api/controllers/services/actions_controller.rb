@@ -7,7 +7,7 @@ class V0
         @service.actions.to_json
       end
 
-      post '/services/:service_name/actions' do
+      post '/services/:service_name/action' do
         set_service( params[:service_name] )
         @service.perform_action( params[:actionator_name], params[:variables] ).to_json
       end

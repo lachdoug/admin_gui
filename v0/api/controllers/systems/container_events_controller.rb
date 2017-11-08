@@ -4,7 +4,7 @@ class V0
 
       get '/system/container_events' do
         content_type "text/event-stream"
-        user = current_user
+        user = current_user( skip_timeout: true )
         stream do |out|
           system.container_event_stream do |event|
             if user.within_timeout?
@@ -24,6 +24,7 @@ class V0
               break
             end
           end
+          # byebug
         end
       end
 

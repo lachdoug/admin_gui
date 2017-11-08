@@ -183,13 +183,13 @@ class V0
             @system_api.post "containers/service/#{@name}/configuration/#{args[:configurator_name]}", { variables: args[:variables] }
           end
 
-#           ######################################################################
-#           # Resolve string
-#           ######################################################################
-#
-#           def resolve_string(string)
-#             @system_api.post "containers/service/#{@name}/template", { template_string: string }
-#           end
+          ######################################################################
+          # Resolve string
+          ######################################################################
+
+          def resolve_string(string)
+            @system_api.post "containers/service/#{@name}/template", { template_string: string }
+          end
 #
 #           ######################################################################
 #           # OOM

@@ -20,7 +20,7 @@ var $fatalError = {
 							button( { onclick: "$('#fatalErrorDetail').toggle();", wrapperClass: "pull-left",
 												icon: "fa fa-info", text: "Detail", title: "Error detail" } ),
 							button( { onclick: modal._kill, wrapperClass: "pull-right",
-												icon: "fa fa-times", text: "Close" } ),
+												icon: "fa fa-times", text: "No thanks" } ),
 							{
 								$type: 'form',
 								$init: function() {
@@ -45,7 +45,7 @@ var $fatalError = {
 										$components: [
 											icon( {
 												icon: 'fa fa-paper-plane-o',
-												text: "Send bug report"
+												text: "Send report"
 											} )
 										]
 									}

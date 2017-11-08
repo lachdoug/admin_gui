@@ -21,8 +21,9 @@ class V0
           save_current_user(nil)
         end
 
-        def authenticated?
-          ( session_id == stored_session_id ) && check_timeout
+        def authenticated?(opts={})
+          ( session_id == stored_session_id ) &&
+          ( opts[:skip_timeout] || check_timeout )
         end
 
         def system_api_token

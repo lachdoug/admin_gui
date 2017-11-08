@@ -35,7 +35,7 @@ var $systemRestartEngines = {
 			method: 'GET',
 			callbacks: {
 				200: function(response) {
-					systemUnavailable._live( "Engines restart has been initiated." );
+					main._renderUnavailableSystem( "Engines restart has been initiated." );
 				},
 			}
 		});
@@ -49,7 +49,7 @@ var $systemRestartEngines = {
 	// 		action: "/system/restart_engines",
 	// 		callbacks: {
 	// 			200: function() {
-	// 				systemUnavailable._live( "Engines restart has been initiated." );
+	// 				main._renderUnavailableSystem( "Engines restart has been initiated." );
 	// 			}
 	// 		}
 	// 	} );

@@ -113,7 +113,8 @@ var $appServices = {
 	_persistentServicesButtons: function( services ) {
 		return services.map( function( service ) {
 			return button( {
-				text: service.label,
+				text: service.label || service.name,
+				// title: service.description || service.label || service.name,
 				onclick: function () {
 					appServicesPersistent._live(
 						appServices._appName,
@@ -130,7 +131,8 @@ var $appServices = {
 		return {
 			$components: appServicesContent._data[ "non_persistent" ].map( function( nonpersistentService ) {
 				return button( {
-					text: nonpersistentService.label,
+					text: nonpersistentService.label || nonpersistentService.name,
+					// title: nonpersistentService.description || nonpersistentService.label || nonpersistentService.name,
 					onclick: function () {
 						appServicesNonpersistent._live(
 							appServices._appName,

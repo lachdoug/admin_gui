@@ -56,6 +56,7 @@ class V0
             if status[:is_rebooting]
 
           include_software_titles = opts[:include_software_titles] || false;
+          include_services = opts[:include_services] || false;
 
           {
             url: url,
@@ -77,13 +78,13 @@ class V0
               current: current_build
             },
             apps: app_statuses( include_software_titles: include_software_titles ),
-            services: service_statuses( include_software_titles: include_software_titles )
+            services: include_services ? service_statuses( include_software_titles: include_software_titles ) : []
           }
 
-        rescue => e
-          # byebug
-          # raise NonFatalError.new "System busy.", 503 if e.status_code == 405
-          raise e
+        # rescue => e
+        #   # byebug
+        #   # raise NonFatalError.new "System busy.", 503 if e.status_code == 405
+        #   raise e
         end
 
         ########################################################################

@@ -1,6 +1,6 @@
 var systemApiUrl = "<%= system_api_url %>";
 var enableEventStreaming = <%= settings.enable_client_event_streaming %>;
-var showServices = <%= settings.show_services ? true : false %>;
+var showServices = <%= show_services %>;
 var showSoftwareTitles = <%= show_software_titles %>;
 var inDevelopment = <%= Sinatra::Base.development? %>;
 var remoteManagement = <%= settings.remote_management %>;

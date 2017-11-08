@@ -18,16 +18,16 @@ var $system = {
 		if ( data.builder.current.engine_name ) {
 			installBuild._live();
 		};
-
-	},
-
-
-	$update: function(){
+	//
+	// },
+	//
+	//
+	// $update: function(){
 
 		// if ( this._disconnected ) {
 
 		// } else
-		if ( this._data ) {
+		// if ( this._data ) {
 
 			var needsAttention = 	this._data.status.needs_reboot ||
 														this._data.status.needs_engines_update ||
@@ -42,6 +42,9 @@ var $system = {
 				} : {} ),
 				{
 					class: "container",
+					$init: function () {
+						if (showServices) { $('#services').slideDown('fast'); };
+					},
 					$components: [
 						{
 							class: "modal-content",
@@ -52,12 +55,14 @@ var $system = {
 									id: "hideSoftwareTitlesButton",
 									class: "pull-right",
 									icon: "fa fa-info",
+									title: "Hide software titles",
 									onclick: system._hideSoftwareTitles
 								}) :
 								button({
 									id: "showSoftwareTitlesButton",
 									class: "pull-right",
 									icon: "fa fa-info",
+									title: "Show software titles",
 									onclick: system._showSoftwareTitles,
 								}),
 								{
@@ -91,31 +96,25 @@ var $system = {
 								},
 								button({
 									icon: "fa fa-caret-down",
-									id: "show_services_button",
+									class: "pull-right",
+									wrapperClass: "clearfix",
+									id: "showServicesButton",
 									title: "Show services",
 									style: showServices ? "display: none;" : "",
-									onclick: function () {
-										$('#services').slideDown('fast');
-										$('#hide_services_button').show();
-										$(this).hide();
-										showServices = true;
-									},
+									onclick: system._showServices,
 								}),
 								button({
 									icon: "fa fa-caret-up",
-									id: "hide_services_button",
+									class: "pull-right",
+									wrapperClass: "clearfix",
+									id: "hideServicesButton",
 									style: showServices ? "" : "display: none;",
 									title: "Hide services",
-									onclick: function () {
-										$('#services').slideUp('fast');
-										$('#show_services_button').show();
-										$(this).hide();
-										showServices = false;
-									},
+									onclick: system._hideServices,
 								}),
 								{
 									id: "services",
-									style: showServices ? "" : "display: none;",
+									style: "display: none;",
 									$components: [
 										{ class: "system-containers",
 											$components: this._data.services.map( function(service) {
@@ -130,9 +129,9 @@ var $system = {
 				},
 			];
 			if ( this._afterUpdateCallback ) { this._afterUpdateCallback(); };
-		} else {
-			this.$components = [];
-		}
+		// } else {
+		// 	this.$components = [];
+		// }
 
 	},
 
@@ -154,6 +153,8 @@ var $system = {
 	_kill: function() {
 		this._closeContainerEvents();
 		this._data = null;
+		this.$components = [];
+		// $(this).hide();
 		// this._disconnected = false;
 	},
 
@@ -360,6 +361,7 @@ var $system = {
 
 	_showSoftwareTitles: function () {
 		showSoftwareTitlesButton.$components = [ icon( { icon: "fa fa-spinner fa-spin" } ) ];
+		$(showSoftwareTitlesButton).prop("disabled", true);
 		apiRequest({
 			action: '/client/display_settings',
 			method: "PATCH",
@@ -375,6 +377,7 @@ var $system = {
 
 	_hideSoftwareTitles: function () {
 		hideSoftwareTitlesButton.$components = [ icon( { icon: "fa fa-spinner fa-spin" } ) ];
+		$(hideSoftwareTitlesButton).prop("disabled", true);
 		apiRequest({
 			action: '/client/display_settings',
 			method: "PATCH",
@@ -387,6 +390,52 @@ var $system = {
 			}
 		});
 	},
+
+	_showServices: function () {
+		showServicesButton.$components = [ icon( { icon: "fa fa-spinner fa-spin" } ) ];
+		$(showServicesButton).prop("disabled", true);
+		apiRequest({
+			action: '/client/display_settings',
+			method: "PATCH",
+			data: { show_services: true },
+			callbacks: {
+				200: function(response) {
+					showServices = true;
+					system._live();
+				},
+			}
+		});
+	},
+
+	_hideServices: function () {
+		hideServicesButton.$components = [ icon( { icon: "fa fa-spinner fa-spin" } ) ];
+		$(hideServicesButton).prop("disabled", true);
+		$('#services').slideUp('fast');
+		apiRequest({
+			action: '/client/display_settings',
+			method: "PATCH",
+			data: { show_services: false },
+			callbacks: {
+				200: function(response) {
+					showServices = false;
+					system._live();
+				},
+			}
+		});
+	},
+
+ // function () {
+ //  $('#services').slideDown('fast');
+ //  $('#hideServicesButton').show();
+ //  $(this).hide();
+ //  // showServices = true;
+ // },
+ // function () {
+ //  $('#services').slideUp('fast');
+ //  $('#showServicesButton').show();
+ //  $(this).hide();
+ //  // showServices = false;
+ // }
 
 
 };

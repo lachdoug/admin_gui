@@ -15,6 +15,20 @@ require 'yaml'
 
 class V0 < Sinatra::Base
 
+  ## For debugging
+  ##----------------------------------------------------------------------------
+
+  before do
+
+    if Sinatra::Base.development?
+      puts 'Request'
+      puts request.path_info
+      puts params.inspect
+    end
+  end
+
+
+
   ##############################################################################
   ## Settings
   ##############################################################################
@@ -185,15 +199,17 @@ class V0 < Sinatra::Base
 
   before do
     raise NonFatalError.new('Not signed in.', 401) unless
-      is_public_route || current_user
+      no_auth || current_user
   end
 
-  def is_public_route
+  def no_auth
     request.path_info == '/' ||
-    request.path_info == '/client' ||
     request.path_info == '/system/signin' ||
-    request.path_info == '/client/select_system' ||
-    request.path_info == '/client/display_settings'
+    request.path_info == '/system/container_events' ||
+    request.path_info == '/client' ||
+    request.path_info == '/client/select_system'
+    #  ||
+    # request.path_info == '/client/display_settings'
   end
 
   def system_api_token
@@ -210,10 +226,16 @@ class V0 < Sinatra::Base
     session[:show_software_titles]
   end
 
-  def current_user
+  def show_services
+    session[:show_services].nil? ?
+    settings.show_services :
+    session[:show_services]
+  end
+
+  def current_user(opts={})
     return @current_user if @current_user
     user = Api::Models::User.new session, settings
-    @current_user = user if user.authenticated?
+    @current_user = user if user.authenticated?(opts)
   end
 
   ## Set core resources
@@ -244,16 +266,5 @@ class V0 < Sinatra::Base
     @service = system.service service_name
   end
 
-  ## For debugging
-  ##----------------------------------------------------------------------------
-
-  before do
-
-    if Sinatra::Base.development?
-      puts 'Request'
-      puts request.path_info
-      puts params.inspect
-    end
-  end
 
 end

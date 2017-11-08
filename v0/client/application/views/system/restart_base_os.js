@@ -37,7 +37,7 @@ var $systemRestartBaseOS = {
 			method: 'GET',
 			callbacks: {
 				200: function(response) {
-					systemUnavailable._live( "Base OS restart has been initiated." );
+					main._renderUnavailableSystem( "Base OS restart has been initiated." );
 				},
 			}
 		});
@@ -50,7 +50,7 @@ var $systemRestartBaseOS = {
 	// 		action: "/system/restart_base_os",
 	// 		callbacks: {
 	// 			200: function() {
-	// 				systemUnavailable._live( "Base OS restart has been initiated." );
+	// 				main._renderUnavailableSystem( "Base OS restart has been initiated." );
 	// 			}
 	// 		}
 	// 	});

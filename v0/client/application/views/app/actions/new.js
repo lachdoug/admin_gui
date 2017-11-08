@@ -17,7 +17,7 @@ var $appActionsNew = {
 			var queryString =
 				"actionator_name=" + encodeURIComponent( data.name );
 			apiRequest({
-				action: "/apps/" + appName + "/actions?" + queryString,
+				action: "/apps/" + appName + "/action?" + queryString,
 				method: "POST",
 				callbacks: {
 					200: function( response ) {
@@ -67,7 +67,7 @@ var $appActionsNew = {
 								} ),
 								formSubmit(),
 							],
-							action: "/apps/" + appName + "/actions",
+							action: "/apps/" + appName + "/action",
 							method: "POST",
 							callbacks: {
 								200: function(response) {

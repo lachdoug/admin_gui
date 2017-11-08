@@ -39,11 +39,19 @@ var $serviceEnvironmentVariables = {
 							],
 							_refresh: function ( data ) {
 								this.$components = [
+									dataList({
+										items: data.map( function( variable ) {
+											return {
+												label: variable.label || variable.name,
+												data: variable.value
+											};
+										})
+									}),
 									// serviceEnvironmentVariables._serviceEnvironmentVariables( data ),
 									// serviceEnvironmentVariables._userEnvironmentVariables( data ),
 									// serviceEnvironmentVariables._systemEnvironmentVariables( data ),
 									// serviceEnvironmentVariables._serviceConsumerEnvironmentVariables( data ),
-									pp( data ),
+									// pp( data ),
 								];
 							},
 

@@ -1,7 +1,7 @@
-var $serviceConfiguration = {
+var $serviceConfigurations = {
 
 	$cell: true,
-	id: "serviceConfiguration",
+	id: "serviceConfigurations",
 
 	_serviceName: null,
 
@@ -22,7 +22,7 @@ var $serviceConfiguration = {
 				// dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-crosshairs",
-					text: "Service configuration",
+					text: "Service configurations",
 				} ),
 				body: {
 					$components: [
@@ -39,7 +39,7 @@ var $serviceConfiguration = {
 						},
 						{ $type: "hr" },
 						{
-							id: "serviceConfigurationContent",
+							id: "serviceConfigurationsContent",
 							_data: null,
 
 							$components: [
@@ -52,10 +52,18 @@ var $serviceConfiguration = {
 
 							$update: function () {
 								this.$components =
-									serviceConfigurationContent._data.length ?
-										serviceConfigurationContent._data.map(
-											function( action ) {
-												return button( { text: action.label || action.name, onclick: function () { serviceConfigurationNew._live( serviceName, action ) } });
+									serviceConfigurationsContent._data.length ?
+										serviceConfigurationsContent._data.map(
+											function( configuration ) {
+												return button( {
+													text: ( configuration.label || configuration.name ) + ' ' + configuration.no_save,
+													title: configuration.description || configuration.label || configuration.name,
+													onclick: function () {
+														configuration.no_save ?
+														serviceConfigurationsEdit._live( serviceName, configuration.name ) :
+														serviceConfigurationsShow._live( serviceName, configuration.name )
+													}
+												} );
 											}
 										) : [
 										{ $type: "i", $text: "This service does not have any configurations." }
@@ -74,12 +82,12 @@ var $serviceConfiguration = {
 	_load: function () {
 
 		apiRequest({
-			action: "/services/" + this._serviceName + "/configuration",
+			action: "/services/" + this._serviceName + "/configurations",
 			callbacks: {
 				200: function(response) {
 					var configs = Object.values( response );
 					// console.log( configs );
-					serviceConfigurationContent._refresh( configs );
+					serviceConfigurationsContent._refresh( configs );
 				}
 			}
 		});

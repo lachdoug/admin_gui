@@ -7,7 +7,7 @@ function dataList (args) {
 			return {
 				$components: [
 					{ $type: "dt", $html: ( item.label || "" ) },
-					( typeof item.data === 'object' ? { $type: "dd", $components: [ item.data ] } : { $type: "dd", $html: ( item.data || "" ) } )
+					( typeof item.data === 'object' ? { $type: "dd", $components: [ item.data ] } : { $type: "dd", $html: ( item.data ) } )
 				]
 			}
 		} )

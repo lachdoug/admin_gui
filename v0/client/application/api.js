@@ -82,7 +82,7 @@ var api = {
 	},
 
 	_defaultNoResponseHandler: function ( response, args ) {
-		systemUnavailable._live();
+		main._renderUnavailableSystem();
 	},
 
 	_handleHtmlResponse: function( response, args ) {
@@ -140,7 +140,7 @@ var api = {
 				fatalError._live( JSON.parse(response.responseText).error );
 				break;
 			case 503:
-				systemUnavailable._live( JSON.parse(response.responseText).error.message );
+				main._renderUnavailableSystem( JSON.parse(response.responseText).error.message );
 				break;
 			default:
 				var backtrace = ( new Error() ).stack.split("\n");

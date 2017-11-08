@@ -51,11 +51,21 @@ class V0
         # Instructions
         ######################################################################
 
+        # def instruct(instruction)
+        #
+        #   return { message: "OK" } if service_api.instruct_container(instruction)
+        #   raise NonFatalError.new "Failed to instruct #{name} to #{instruction}.", 405
+        # end
         def instruct(instruction)
-
-          return { message: "OK" } if service_api.instruct_container(instruction)
+          # Thread.new do
+          #   service_api.instruct_container(instruction)
+          # end
+          # { message: "OK" }
+          return { message: "OK" } if app_api.instruct_container(instruction)
           raise NonFatalError.new "Failed to instruct #{name} to #{instruction}.", 405
         end
+
+
         #
         ######################################################################
         # Websites
@@ -401,22 +411,76 @@ class V0
 
         def configurations
           ( service_definition[:configurators] || {} ).values.map do |configurator|
-            configuration_detail_for(configurator)
+            # byebug
+            # configuration_detail_for(configurator)
+            {
+              name: configurator[:name],
+              label: configurator[:label] || configurator[:name],
+              no_save: configurator[:no_save],
+              description: configurator[:description],
+            }
           end
         end
 
-        def configuration_detail_for(configurator)
-          configuration_for(configurator[:name])
-          # byebug
-          configurator[:params] = ( configurator[:params] || [] ).map do |name, param|
+        def configuration(configurator_name)
+          configurator = configurator_for(configurator_name)
+          if configurator[:no_save]
+            variables = []
+          else
+            current_config = configuration_for(configurator_name)[:variables]
+            variables = configurator[:params].map do |param|
+              {
+                label: param.dig(:input, :label) || param[:name],
+                value: current_config[ param[:name].to_sym ]
+              }
+            end
+          end
+          {
+            name: configurator[:name],
+            label: configurator[:label] || configurator[:name],
+            no_save: configurator[:no_save],
+            description: configurator[:description],
+            variables: variables
+          }
+        end
+
+        def configuration_edit(configurator_name)
+          configurator = configurator_for(configurator_name)
+          if configurator[:no_save]
+            configurator[:params] = configurator[:params].map do |param|
+              param[:value] = resolve_string( param[:value] )
+              param
+            end
+          else
+            current_config = configuration_for(configurator_name)[:variables]
+            configurator[:params] = configurator[:params].map do |param|
+# puts "current_config #{current_config}"
+# byebug
+              current_value = current_config[ param[:name].to_sym ]
+              param[:value] =
+                current_value ? current_value : resolve_string( param[:value] )
+              param
+            end
+          end
+          configurator
+        end
+
+        def configurator_for(configurator_name)
+          configurator = service_definition[:configurators][configurator_name.to_sym]
+          configurator[:params] = ( configurator[:params] || {} ).map do |name, param|
             if param[:input]
               param
             else
-              # byebug
               Helpers.legacy_input_definition_for param
             end
           end
           configurator
+        end
+
+        def configuration_for(configurator_name)
+          service_api.configuration(
+            configurator_name: configurator_name
+          )
         end
 
         def perform_configuration( configurator_name, variables )
@@ -426,23 +490,17 @@ class V0
           )
         end
 
-        def configuration_for(configurator_name)
-          service_api.configuration(
-            configurator_name: configurator_name
-          )
+        ######################################################################
+        # Resolve string
+        ######################################################################
+
+        def resolve_string(string)
+          return "" if string.to_s == ""
+          # strings.map do |string|
+            #  if string == "_Engines_System(random(10))"
+            service_api.resolve_string(string.to_s)
+          # end
         end
-
-
-        # ######################################################################
-        # # Resolve strings
-        # ######################################################################
-        #
-        # def resolve_strings(strings)
-        #   strings.map do |string|
-        #      if string == "_Engines_System(random(10))"
-        #     service_api.resolve_string(string)
-        #   end
-        # end
         #
         #
         # ######################################################################

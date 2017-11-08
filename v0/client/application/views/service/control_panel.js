@@ -51,7 +51,7 @@ var $serviceControlPanel = {
 										button( {
 											icon: "fa fa-cog",
 											text: "Configuration",
-											onclick: function () { serviceConfiguration._live(serviceName); },
+											onclick: function () { serviceConfigurations._live(serviceName); },
 										} ),
 										{ $type: "hr" },
 										button( {

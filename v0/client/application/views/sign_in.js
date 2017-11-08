@@ -30,6 +30,7 @@ var $signIn = {
 							action: "/system/signin",
 							callbacks: {
 								200: function () {
+									$("#pageLoadingSpinner").fadeIn();
 									signIn._kill();
 									system._live();
 								},
