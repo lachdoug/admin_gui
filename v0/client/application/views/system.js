@@ -4,14 +4,31 @@ var $system = {
 	id: "system",
 
 	_data: null,
-	_containerEvents: null,
-	// _disconnected: false,
 
+	_showOptions: {
+		showServices :showServices,
+		showSoftwareTitles: showSoftwareTitles,
+	  showContainerMemoryUsage: showContainerMemoryUsage
+	},
 
 	_refresh: function(data, afterUpdateCallback ) {
+
+		this._showOptions = {
+			showServices :showServices,
+			showSoftwareTitles: showSoftwareTitles,
+		  showContainerMemoryUsage: showContainerMemoryUsage
+		};
+
+		console.log(this._showOptions);
+
 		if ( enableEventStreaming ) {
 			this._streamContainerEvents();
 		};
+
+		if ( showContainerMemoryUsage ) {
+			this._pollContainerMemory();
+		};
+
 		this._data = data;
 		this._afterUpdateCallback = afterUpdateCallback;
 
@@ -19,15 +36,22 @@ var $system = {
 			installBuild._live();
 		};
 	//
-	// },
+	},
 	//
 	//
-	// $update: function(){
+	$update: function(){
 
 		// if ( this._disconnected ) {
 
 		// } else
-		// if ( this._data ) {
+		if ( this._data ) {
+
+			console.log({
+				showServices :showServices,
+				showSoftwareTitles: showSoftwareTitles,
+			  showContainerMemoryUsage: showContainerMemoryUsage
+			});
+
 
 			var needsAttention = 	this._data.status.needs_reboot ||
 														this._data.status.needs_engines_update ||
@@ -42,29 +66,87 @@ var $system = {
 				} : {} ),
 				{
 					class: "container",
-					$init: function () {
-						if (showServices) { $('#services').slideDown('fast'); };
-					},
+					// $init: function () {
+					// 	if (showServices) { $('#services').slideDown('fast'); };
+					// },
 					$components: [
 						{
 							class: "modal-content",
 							style: "margin-top: 20px; margin-bottom: 100px; padding: 10px;",
 							$components: [
-								showSoftwareTitles ?
-								button({
-									id: "hideSoftwareTitlesButton",
-									class: "pull-right",
-									icon: "fa fa-info",
-									title: "Hide software titles",
-									onclick: system._hideSoftwareTitles
-								}) :
-								button({
-									id: "showSoftwareTitlesButton",
-									class: "pull-right",
-									icon: "fa fa-info",
-									title: "Show software titles",
-									onclick: system._showSoftwareTitles,
-								}),
+								{
+									id: "displayOptionsButtons",
+
+									_showLoading: function () {
+										this.$components = [
+											{
+												class: "pull-right",
+												style: "color: #48d; padding: 10px 16px; font-size: 18px; line-height: 1.3333333;",
+												$components: [
+													icon( { icon: "fa fa-spinner fa-spin" } )
+												]
+											}
+										];
+									},
+
+									$components: [
+										showContainerMemoryUsage ?
+										button({
+											id: "hideContainerMemoryUsageButton",
+											class: "pull-right",
+											icon: "fa fa-microchip",
+											title: "Hide container memory usage",
+											onclick: system._hideContainerMemoryUsage
+										}) :
+										button({
+											id: "showContainerMemoryUsageButton",
+											style: "color: #999;",
+											onMouseOver: "this.style.color='inherit'",
+											onMouseOut: "this.style.color='#999'",
+											class: "pull-right",
+											icon: "fa fa-microchip",
+											title: "Show container memory usage",
+											onclick: system._showContainerMemoryUsage,
+										}),
+										showServices ?
+										button({
+											icon: "fa fa-compass",
+											class: "pull-right",
+											id: "hideServicesButton",
+											title: "Hide services",
+											onclick: system._hideServices,
+										}) :
+										button({
+											icon: "fa fa-compass",
+											style: "color: #999;",
+											onMouseOver: "this.style.color='inherit'",
+											onMouseOut: "this.style.color='#999'",
+											class: "pull-right",
+											id: "showServicesButton",
+											title: "Show services",
+											onclick: system._showServices,
+										}),
+										showSoftwareTitles ?
+										button({
+											id: "hideSoftwareTitlesButton",
+											class: "pull-right",
+											icon: "fa fa-info",
+											title: "Hide software titles",
+											onclick: system._hideSoftwareTitles
+										}) :
+										button({
+											id: "showSoftwareTitlesButton",
+											style: "color: #999;",
+											onMouseOver: "this.style.color='inherit'",
+											onMouseOut: "this.style.color='#999'",
+											class: "pull-right",
+											icon: "fa fa-info",
+											title: "Show software titles",
+											onclick: system._showSoftwareTitles,
+										}),
+									]
+								},
+
 								{
 									$components: [
 										{
@@ -94,28 +176,11 @@ var $system = {
 										return system._systemApp(app);
 									} )
 								},
-								button({
-									icon: "fa fa-caret-down",
-									class: "pull-right",
-									wrapperClass: "clearfix",
-									id: "showServicesButton",
-									title: "Show services",
-									style: showServices ? "display: none;" : "",
-									onclick: system._showServices,
-								}),
-								button({
-									icon: "fa fa-caret-up",
-									class: "pull-right",
-									wrapperClass: "clearfix",
-									id: "hideServicesButton",
-									style: showServices ? "" : "display: none;",
-									title: "Hide services",
-									onclick: system._hideServices,
-								}),
 								{
 									id: "services",
-									style: "display: none;",
+									style: showServices ? "" : "display: none;",
 									$components: [
+										{ $type: "hr" },
 										{ class: "system-containers",
 											$components: this._data.services.map( function(service) {
 												return system._systemService(service);
@@ -129,9 +194,9 @@ var $system = {
 				},
 			];
 			if ( this._afterUpdateCallback ) { this._afterUpdateCallback(); };
-		// } else {
-		// 	this.$components = [];
-		// }
+		} else {
+			this.$components = [];
+		};
 
 	},
 
@@ -145,7 +210,7 @@ var $system = {
 			} else {
 				alert('No system API URL.')
 			};
-			$("#pageLoadingSpinner").fadeOut();
+			// $("#pageLoadingSpinner").fadeOut();
 		}
 	},
 
@@ -291,7 +356,7 @@ var $system = {
 								} : {},
 							]
 						},
-						{
+						showSoftwareTitles ? {
 							style: "width: 100%; overflow-x: hidden;",
 							$components: [
 								{
@@ -300,7 +365,25 @@ var $system = {
 									$text: app.title
 								},
 							],
-						},
+						} : {},
+						showContainerMemoryUsage ?
+						{
+							style: "width: 100%; height: 7px; border: 1px solid #eee",
+							$components: [
+								app.current_memory ?
+								{
+									style: "height: 5px; margin-top: -13px;",
+									$components: [
+										{
+											style: "background-color: #48d; display: inline-block; height: 5px; width: " + app.current_memory * 100 + "%;",
+										},
+										{
+											style: "background-color: #F1AD4D; display: inline-block; height: 5px; width: " + ( app.max_memory - app.current_memory ) * 100 + "%;",
+										}
+									]
+								} : {}
+							],
+						} : {},
 					],
 					onclick: function () { appMenu._live( app.name ) }
 				},
@@ -337,7 +420,7 @@ var $system = {
 								// } : {},
 							]
 						},
-						{
+						showSoftwareTitles ? {
 							style: "width: 100%; overflow-x: hidden;",
 							$components: [
 								{
@@ -346,7 +429,25 @@ var $system = {
 									$text: service.title
 								},
 							],
-						},
+						} : {},
+						showContainerMemoryUsage ?
+						{
+							style: "width: 100%; height: 7px; border: 1px solid #eee",
+							$components: [
+								service.current_memory ?
+								{
+									style: "height: 5px; margin-top: -13px;",
+									$components: [
+										{
+											style: "background-color: #48d; display: inline-block; height: 5px; width: " + service.current_memory * 100 + "%;",
+										},
+										{
+											style: "background-color: #F1AD4D; display: inline-block; height: 5px; width: " + ( service.max_memory - service.current_memory ) * 100 + "%;",
+										}
+									]
+								} : {}
+							],
+						} : {},
 
 
 					],
@@ -360,8 +461,7 @@ var $system = {
 
 
 	_showSoftwareTitles: function () {
-		showSoftwareTitlesButton.$components = [ icon( { icon: "fa fa-spinner fa-spin" } ) ];
-		$(showSoftwareTitlesButton).prop("disabled", true);
+		displayOptionsButtons._showLoading();
 		apiRequest({
 			action: '/client/display_settings',
 			method: "PATCH",
@@ -376,8 +476,7 @@ var $system = {
 	},
 
 	_hideSoftwareTitles: function () {
-		hideSoftwareTitlesButton.$components = [ icon( { icon: "fa fa-spinner fa-spin" } ) ];
-		$(hideSoftwareTitlesButton).prop("disabled", true);
+		displayOptionsButtons._showLoading();
 		apiRequest({
 			action: '/client/display_settings',
 			method: "PATCH",
@@ -391,9 +490,38 @@ var $system = {
 		});
 	},
 
+	_showContainerMemoryUsage: function () {
+		displayOptionsButtons._showLoading();
+		apiRequest({
+			action: '/client/display_settings',
+			method: "PATCH",
+			data: { show_container_memory_usage: true },
+			callbacks: {
+				200: function(response) {
+					showContainerMemoryUsage = true;
+					system._live();
+				},
+			}
+		});
+	},
+
+	_hideContainerMemoryUsage: function () {
+		displayOptionsButtons._showLoading();
+		apiRequest({
+			action: '/client/display_settings',
+			method: "PATCH",
+			data: { show_software_titles: false },
+			callbacks: {
+				200: function(response) {
+					showContainerMemoryUsage = false;
+					system._live();
+				},
+			}
+		});
+	},
+
 	_showServices: function () {
-		showServicesButton.$components = [ icon( { icon: "fa fa-spinner fa-spin" } ) ];
-		$(showServicesButton).prop("disabled", true);
+		displayOptionsButtons._showLoading();
 		apiRequest({
 			action: '/client/display_settings',
 			method: "PATCH",
@@ -408,8 +536,7 @@ var $system = {
 	},
 
 	_hideServices: function () {
-		hideServicesButton.$components = [ icon( { icon: "fa fa-spinner fa-spin" } ) ];
-		$(hideServicesButton).prop("disabled", true);
+		displayOptionsButtons._showLoading();
 		$('#services').slideUp('fast');
 		apiRequest({
 			action: '/client/display_settings',
@@ -436,6 +563,57 @@ var $system = {
  //  $(this).hide();
  //  // showServices = false;
  // }
+
+
+	_pollContainerMemory: function () {
+		if (showContainerMemoryUsage) {
+			apiRequest({
+				action: '/system/statistics/container_memory',
+				callbacks: {
+					200: function(response) {
+						if (showContainerMemoryUsage) {
+							system._handleMemoryUpdate(response);
+							setTimeout( function() {
+								system._pollContainerMemory();
+							}, 7000)
+						};
+					},
+				}
+			});
+		};
+	},
+
+
+	_handleMemoryUpdate: function( data ) {
+		console.log(data.containers);
+		// if ( event.container_type == "service" ) {
+			this._data.services.map(
+				function( service ) {
+					var memory = data.containers.services[service.name];
+					if (memory) {
+						var current_memory = memory.current / memory.limit;
+						var max_memory = memory.maximum / memory.limit;
+						return $.extend( service, { current_memory: current_memory, max_memory: max_memory } );
+					} else {
+						return $.extend( service, { current_memory: 0, max_memory: 0 } );
+					};
+				}
+			);
+		// } else {
+			this._data.apps.map(
+				function( app ) {
+					var memory = data.containers.applications[app.name];
+					if (memory) {
+						var current_memory = memory.current / memory.limit;
+						var max_memory = memory.maximum / memory.limit;
+						return $.extend( app, { current_memory: current_memory, max_memory: max_memory } );
+					} else {
+						return $.extend( app, { current_memory: 0, max_memory: 0 } );
+					};
+				}
+			);
+		// };
+	},
 
 
 };

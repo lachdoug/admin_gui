@@ -4,10 +4,15 @@ function dataList (args) {
 //		class: ( args.horizontal != false ? "dl-horizontal" : null ),
 		class: ( args.class || null ),
 		$components: args.items.map( function ( item ) {
+			// debugger;
 			return {
 				$components: [
-					{ $type: "dt", $html: ( item.label || "" ) },
-					( typeof item.data === 'object' ? { $type: "dd", $components: [ item.data ] } : { $type: "dd", $html: ( item.data ) } )
+					{ $type: "dt", title: item.label, $html: ( item.label || "" ) },
+					(
+						typeof item.data === 'object' ?
+						{ $type: "dd", title: item.label, $components: [ item.data || {} ] } :
+						{ $type: "dd", title: item.label, $html: ( item.data || '' ) }
+					)
 				]
 			}
 		} )

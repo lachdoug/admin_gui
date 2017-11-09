@@ -179,6 +179,10 @@ class V0
           }
         end
 
+        def container_memory_statistics
+          engines_api_system.container_memory_statistics
+        end
+
         ########################################################################
         # Registry
         ########################################################################

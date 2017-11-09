@@ -1,18 +1,18 @@
-var $appServicesNonpersistentRegistration = {
+var $serviceServicesNonpersistentRegistration = {
 
 	$cell: true,
-	id: "appServicesNonpersistentRegistration",
+	id: "serviceServicesNonpersistentRegistration",
 
-	_appName: null,
+	_serviceName: null,
 	_publisherNamespace: null,
 	_typePath: null,
 	_serviceHandle: null,
 	_data: null,
 
 
-	_live: function( appName, publisherNamespace, typePath, serviceHandle, data ) {
+	_live: function( serviceName, publisherNamespace, typePath, serviceHandle, data ) {
 
-		this._appName = appName;
+		this._serviceName = serviceName;
 		this._publisherNamespace = publisherNamespace;
 		this._typePath = typePath;
 		this._serviceHandle = serviceHandle;
@@ -24,7 +24,7 @@ var $appServicesNonpersistentRegistration = {
 
 	_show: function () {
 
-		var appName = this._appName;
+		var serviceName = this._serviceName;
 		var publisherNamespace = this._publisherNamespace;
 		var typePath = this._typePath;
 		var serviceHandle = this._serviceHandle;
@@ -33,7 +33,7 @@ var $appServicesNonpersistentRegistration = {
 			{
 				header: icon ( {
 					icon: "fa fa-tag",
-					text: "App non-persistent service registration",
+					text: "Service non-persistent service registration",
 				} ),
 				body: {
 					$components: [
@@ -43,26 +43,26 @@ var $appServicesNonpersistentRegistration = {
 								button( {
 									icon: "fa fa-arrow-up",
 									wrapperClass: "pull-right",
-									onclick: function () { appServicesNonpersistent._live( appName, publisherNamespace, typePath, serviceHandle ); }
+									onclick: function () { serviceServicesNonpersistent._live( serviceName, publisherNamespace, typePath, serviceHandle ); }
 								} ),
-								{ $type: "h4", $text: appName },
+								{ $type: "h4", $text: serviceName },
 							]
 						},
 						{ $type: "hr" },
-						{ $type: "h4", $text: appServicesNonpersistentRegistration._data.label },
-						{ $type: "p", $text: appServicesNonpersistentRegistration._data.description },
+						{ $type: "h4", $text: serviceServicesNonpersistentRegistration._data.label },
+						{ $type: "p", $text: serviceServicesNonpersistentRegistration._data.description },
 						{ $type: "hr" },
 						button( {
 							text: "Register",
-							onclick: function () { appServicesNonpersistentRegistration._registration( "PUT" ) }
+							onclick: function () { serviceServicesNonpersistentRegistration._registration( "PUT" ) }
 						} ),
 						button( {
 							text: "Deregister",
-							onclick: function () { appServicesNonpersistentRegistration._registration( "DELETE" ) }
+							onclick: function () { serviceServicesNonpersistentRegistration._registration( "DELETE" ) }
 						} ),
 						button( {
 							text: "Reregister",
-							onclick: function () { appServicesNonpersistentRegistration._registration( "PATCH" ) }
+							onclick: function () { serviceServicesNonpersistentRegistration._registration( "PATCH" ) }
 						} ),
 					]
 				}
@@ -73,7 +73,7 @@ var $appServicesNonpersistentRegistration = {
 
 	_registration: function( method ) {
 
-		var appName = this._appName;
+		var serviceName = this._serviceName;
 		var publisherNamespace = this._publisherNamespace;
 		var typePath = this._typePath;
 		var serviceHandle = this._serviceHandle;
@@ -84,12 +84,12 @@ var $appServicesNonpersistentRegistration = {
 			"&service_handle=" + encodeURIComponent( serviceHandle );
 
 		apiRequest({
-			action: "/apps/" + appName +
+			action: "/services/" + serviceName +
 			"/service_manager/nonpersistent/registration/?" + queryString,
 			method: method,
 			callbacks: {
 				200: function() {
-					appServicesNonpersistent._live( appName, publisherNamespace, typePath, serviceHandle );
+					serviceServicesNonpersistent._live( serviceName, publisherNamespace, typePath, serviceHandle );
 				}
 			},
 		});

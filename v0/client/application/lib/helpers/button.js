@@ -23,5 +23,7 @@ function buttonUnwrapped( args ) {
 			  $text: args.text ? " " + args.text : null }
 		],
 		onclick: args.onclick,
+		onMouseOver: args.onMouseOver,
+		onMouseOut: args.onMouseOut,
 	}, args.disabled ? { disabled: "disabled" } : {} );
 };

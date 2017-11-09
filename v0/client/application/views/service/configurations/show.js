@@ -81,10 +81,11 @@ var $serviceConfigurationsShow = {
 						{ $type: "h4", $text: data.label },
 						{ $type: "p", $text: data.description },
 						{ $type: "hr" },
-						pp(data),
+						// pp(data),
 						dataList({
+							class: "dl-horizontal",
 							items: data.variables.map( function( variable ) {
-								return { label: variable.label, data: variable.value || "&nbsp;" };
+								return { label: variable.label, data: variable.value };
 							} )
 						}),
 						button({

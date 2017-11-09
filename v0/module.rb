@@ -40,6 +40,7 @@ class V0 < Sinatra::Base
   set remote_management: Sinatra::Base.development? || ENV['ENGINES_ADMIN_GUI_REMOTE_MANAGEMENT'] || false
   set show_services: ENV['ENGINES_ADMIN_GUI_SHOW_SERVICES_BY_DEFAULT'] || false
   set show_software_titles: ENV['ENGINES_ADMIN_GUI_SHOW_SOFTWARE_TITLES_BY_DEFAULT'] || false
+  set show_container_memory_usage: ENV['ENGINES_ADMIN_GUI_SHOW_CONTAINER_MEMORY_USAGE_BY_DEFAULT'] || false
   set session_secret: ENV['ENGINES_ADMIN_GUI_SESSION_SECRET'] || '0'
   set user_inactivity_timeout: ( ENV['ENGINES_ADMIN_GUI_USER_INACTIVITY_TIMEOUT'] || 30 ).to_i * 60
   set library_url: ENV['ENGINES_ADMIN_GUI_LIBRARY_URL'] || "https://library.engines.org/api/v0/apps"
@@ -81,8 +82,15 @@ class V0 < Sinatra::Base
 
   patch '/client/display_settings' do
     # byebug
-    session[:show_services] = params[:show_services] == 'true' if params[:show_services]
-    session[:show_software_titles] = params[:show_software_titles] == 'true' if params[:show_software_titles]
+    unless params[:show_services].nil?
+      session[:show_services] = ( params[:show_services] == 'true' )
+    end
+    unless params[:show_software_titles].nil?
+      session[:show_software_titles] = ( params[:show_software_titles] == 'true' )
+    end
+    unless params[:show_container_memory_usage].nil?
+      session[:show_container_memory_usage] = ( params[:show_container_memory_usage] == 'true' )
+    end
     # :system_selection is an index (of which system to select from settings)
     {}.to_json
   end
@@ -206,6 +214,7 @@ class V0 < Sinatra::Base
     request.path_info == '/' ||
     request.path_info == '/system/signin' ||
     request.path_info == '/system/container_events' ||
+    request.path_info == '/system/statistics/container_memory' ||
     request.path_info == '/client' ||
     request.path_info == '/client/select_system'
     #  ||
@@ -231,6 +240,13 @@ class V0 < Sinatra::Base
     settings.show_services :
     session[:show_services]
   end
+
+  def show_container_memory_usage
+    session[:show_container_memory_usage].nil? ?
+    settings.show_container_memory_usage :
+    session[:show_container_memory_usage]
+  end
+
 
   def current_user(opts={})
     return @current_user if @current_user

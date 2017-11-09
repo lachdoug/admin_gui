@@ -149,17 +149,17 @@ class V0
 #             @system_api.put_stream "containers/service/#{@name}/service/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/#{args[:write]}", { file: args[:file] }
 #           end
 #
-#           def register_nonpersistent_service(args)
-#             @system_api.get "containers/service/#{@name}/service/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/register"
-#           end
-#
-#           def deregister_nonpersistent_service(args)
-#             @system_api.get "containers/service/#{@name}/service/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/deregister"
-#           end
-#
-#           def reregister_nonpersistent_service(args)
-#             @system_api.get "containers/service/#{@name}/service/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/reregister"
-#           end
+          def register_nonpersistent_service(args)
+            @system_api.get "containers/service/#{@name}/service/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/register"
+          end
+
+          def deregister_nonpersistent_service(args)
+            @system_api.get "containers/service/#{@name}/service/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/deregister"
+          end
+
+          def reregister_nonpersistent_service(args)
+            @system_api.get "containers/service/#{@name}/service/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/reregister"
+          end
 
           ######################################################################
           # Actions

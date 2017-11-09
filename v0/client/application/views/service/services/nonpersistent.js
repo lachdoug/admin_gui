@@ -1,17 +1,17 @@
-var $appServicesNonpersistent = {
+var $serviceServicesNonpersistent = {
 
 	$cell: true,
-	id: "appServicesNonpersistent",
+	id: "serviceServicesNonpersistent",
 
-	_appName: null,
+	_serviceName: null,
 	_publisherNamespace: null,
 	_typePath: null,
 	_serviceHandle: null,
 
 
-	_live: function( appName, publisherNamespace, typePath, serviceHandle ) {
+	_live: function( serviceName, publisherNamespace, typePath, serviceHandle ) {
 
-		this._appName = appName;
+		this._serviceName = serviceName;
 		this._publisherNamespace = publisherNamespace;
 		this._typePath = typePath;
 		this._serviceHandle = serviceHandle;
@@ -22,13 +22,13 @@ var $appServicesNonpersistent = {
 
 	_show: function () {
 
-		var appName = this._appName;
+		var serviceName = this._serviceName;
 		modal._live (
 			{
 				// dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-compass",
-					text: "App non-persistent service",
+					text: "Service non-persistent service",
 				} ),
 				body: {
 					$components: [
@@ -38,29 +38,27 @@ var $appServicesNonpersistent = {
 								button( {
 									icon: "fa fa-arrow-up",
 									wrapperClass: "pull-right",
-									onclick: function () { appServices._live( appName ); }
+									onclick: function () { serviceServices._live( serviceName ); }
 								} ),
-								{ $type: "h4", $text: appName },
+								{ $type: "h4", $text: serviceName },
 							]
 						},
 						{ $type: "hr" },
 						{
-							id: "appServicesNonpersistentContent",
+							id: "serviceServicesNonpersistentContent",
 							_data: null,
 
 							$components: [
 								icon ( { icon: "fa fa-spinner fa-spin", text: "Loading" } )
 							],
 
-							$init: appServicesNonpersistent._load(),
+							$init: serviceServicesNonpersistent._load(),
 
 							_refresh: function (data) {
 								this._data = data
 							},
 
 							$update: function () {
-								var immutableParams = this._data.params.filter( function(param) { return param.immutable } );
-								var mutableParams = this._data.params.filter( function(param) { return param.immutable != true } );
 								this.$components = [
 									{ $type: "h4", $text: this._data.label },
 									{ $type: "p", $text: this._data.description },
@@ -68,36 +66,17 @@ var $appServicesNonpersistent = {
 									button( {
 										icon: "fa fa-tag",
 										text: "Registration",
-										// wrapperClass: "clearfix",
-										// class: "pull-right",
-										onclick: function () { appServicesNonpersistentRegistration._live(
-											appServicesNonpersistent._appName,
-											appServicesNonpersistent._publisherNamespace,
-											appServicesNonpersistent._typePath,
-											appServicesNonpersistent._serviceHandle,
+										onclick: function () { serviceServicesNonpersistentRegistration._live(
+											serviceServicesNonpersistent._serviceName,
+											serviceServicesNonpersistent._publisherNamespace,
+											serviceServicesNonpersistent._typePath,
+											serviceServicesNonpersistent._serviceHandle,
 											this._data ); }
 									} ),
 									{ $type: "hr" },
-									{ $type: "label", $text: "Immutable" },
-									dataList( { class: "dl-horizontal", items: ( immutableParams.map( function( param ) {
+									dataList( { class: "dl-horizontal", items: ( this._data.params.map( function( param ) {
 										return { label: ( dig( param, "input", "label" ) || param.name ), data: param.value };
 									} ) ) } ),
-									{ $type: "label", $text: "Mutable" },
-									dataList( { class: "dl-horizontal", items: ( mutableParams.map( function( param ) {
-										return { label: ( dig( param, "input", "label" ) || param.name ), data: param.value };
-									} ) ) } ),
-									button( {
-										icon: "fa fa-edit",
-										wrapperClass: "clearfix",
-										class: "pull-right-md",
-										text: "Edit",
-										onclick: () => { appServicesNonpersistentEdit._live(
-											appServicesNonpersistent._appName,
-											appServicesNonpersistent._publisherNamespace,
-											appServicesNonpersistent._typePath,
-											appServicesNonpersistent._serviceHandle,
-											this._data ); }
-									} ),
 
 								];
 							},
@@ -119,10 +98,10 @@ var $appServicesNonpersistent = {
 			"&service_handle=" + encodeURIComponent( this._serviceHandle );
 
 		apiRequest({
-			action: "/apps/" + this._appName + "/service_manager/services/?" + queryString,
+			action: "/services/" + this._serviceName + "/service_manager/services/?" + queryString,
 			callbacks: {
 				200: function(response) {
-					appServicesNonpersistentContent._refresh( response );
+					serviceServicesNonpersistentContent._refresh( response );
 				}
 			}
 		});
@@ -137,12 +116,12 @@ var $appServicesNonpersistent = {
 	// 		"&service_handle=" + encodeURIComponent( this._serviceHandle );
 	//
 	// 	apiRequest({
-	// 		action: "/apps/" + this._appName +
+	// 		action: "/services/" + this._serviceName +
 	// 		"/service_manager/nonpersistent/registration/?" + queryString,
 	// 		method: method,
 	// 		callbacks: {
 	// 			200: function() {
-	// 				appServicesNonpersistent._show();
+	// 				serviceServicesNonpersistent._show();
 	// 			}
 	// 		},
 	// 	});

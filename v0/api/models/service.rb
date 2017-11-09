@@ -61,7 +61,7 @@ class V0
           #   service_api.instruct_container(instruction)
           # end
           # { message: "OK" }
-          return { message: "OK" } if app_api.instruct_container(instruction)
+          return { message: "OK" } if service_api.instruct_container(instruction)
           raise NonFatalError.new "Failed to instruct #{name} to #{instruction}.", 405
         end
 
@@ -355,26 +355,26 @@ class V0
         #     variables: data[:variables] )
         # end
         #
-        # def register_nonpersistent_service( publisher_namespace, type_path, service_handle )
-        #   service_api.register_nonpersistent_service(
-        #     publisher_namespace: publisher_namespace,
-        #     type_path: type_path,
-        #     service_handle: service_handle )
-        # end
-        #
-        # def deregister_nonpersistent_service( publisher_namespace, type_path, service_handle )
-        #   service_api.deregister_nonpersistent_service(
-        #     publisher_namespace: publisher_namespace,
-        #     type_path: type_path,
-        #     service_handle: service_handle )
-        # end
-        #
-        # def reregister_nonpersistent_service( publisher_namespace, type_path, service_handle )
-        #   service_api.reregister_nonpersistent_service(
-        #     publisher_namespace: publisher_namespace,
-        #     type_path: type_path,
-        #     service_handle: service_handle )
-        # end
+        def register_nonpersistent_service( publisher_namespace, type_path, service_handle )
+          service_api.register_nonpersistent_service(
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
+            service_handle: service_handle )
+        end
+
+        def deregister_nonpersistent_service( publisher_namespace, type_path, service_handle )
+          service_api.deregister_nonpersistent_service(
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
+            service_handle: service_handle )
+        end
+
+        def reregister_nonpersistent_service( publisher_namespace, type_path, service_handle )
+          service_api.reregister_nonpersistent_service(
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
+            service_handle: service_handle )
+        end
 
         ######################################################################
         # Actions

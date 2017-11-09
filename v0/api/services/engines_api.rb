@@ -125,7 +125,9 @@ class V0
               request = Net::HTTP::Get.new URI("#{@url}/v0/#{route}")
               request['access_token'] = @token
               http.request(request) do |response|
+                # puts "response #{response}"
                 response.read_body do |event|
+                  # puts "event #{event}"
                   yield event
                 end
               end
