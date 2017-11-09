@@ -38,14 +38,6 @@ var $serviceServices = {
 							]
 						},
 						{ $type: "hr" },
-						button( {
-							icon: "fa fa-plus",
-							text: "New",
-							onclick: () => {
-								serviceServicesNew._live( serviceName );
-							}
-						} ),
-						{ $type: "hr" },
 						{
 							id: "serviceServicesContent",
 							_data: null,
