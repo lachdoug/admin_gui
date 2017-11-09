@@ -332,13 +332,13 @@ var $system = {
 	_systemApp: function( app ) {
 
 		return {
-			style: "width: 100%;",
+			class: "engines_container",
 			$components: [
 				{
 					$type: "button",
 					class: "btn btn-lg btn-custom",
 					style: "width: 100%;",
-					title: app.name + " menu",
+					title: app.name,
 					$components: [
 						{
 							$components: [
@@ -366,27 +366,28 @@ var $system = {
 								},
 							],
 						} : {},
-						showContainerMemoryUsage ?
-						{
-							style: "width: 100%; height: 7px; border: 1px solid #eee",
-							$components: [
-								app.current_memory ?
-								{
-									style: "height: 5px; margin-top: -13px;",
-									$components: [
-										{
-											style: "background-color: #48d; display: inline-block; height: 5px; width: " + app.current_memory * 100 + "%;",
-										},
-										{
-											style: "background-color: #F1AD4D; display: inline-block; height: 5px; width: " + ( app.max_memory - app.current_memory ) * 100 + "%;",
-										}
-									]
-								} : {}
-							],
-						} : {},
 					],
 					onclick: function () { appMenu._live( app.name ) }
 				},
+				showContainerMemoryUsage ?
+				{
+					style: "border-radius: 5px !important; min-height: 10px; box-shadow: 0px 0px 5px 0px #eee inset;",
+					title: app.name + ( app.memory_current ? " memory usage\nCurrent " + (app.memory_current/1024/1024).toFixed(1) + " MB\nPeak " + (app.memory_max/1024/1024).toFixed(1) + " MB\nAllocated " + (app.memory_limit/1024/1024).toFixed(0) + " MB" : " memory usage\nnone" ),
+					$components: [
+						app.memory_current ?
+						{
+							style: "line-height: 0px; position: relative;",
+							$components: [
+								{
+									style: "position: absolute; border-radius: 5px !important; background-color: #48d3; box-shadow: 0px 0px 10px 0px #48d inset; display: inline-block; height: 10px; width: " + app.memory_current / app.memory_limit * 100 + "%;",
+								},
+								{
+									style: "position: absolute; border-radius: 5px !important; background-color: #48d3; display: inline-block; height: 10px; width: " + app.memory_max / app.memory_limit * 100 + "%;",
+								}
+							]
+						} : {}
+					],
+				} : {},
 				// pp(app),
 			],
 
@@ -397,6 +398,7 @@ var $system = {
 	_systemService: function (service) {
 
 		return {
+			class: "engines_container",
 			$components: [
 				{
 					$type: "button",
@@ -430,29 +432,28 @@ var $system = {
 								},
 							],
 						} : {},
-						showContainerMemoryUsage ?
-						{
-							style: "width: 100%; height: 7px; border: 1px solid #eee",
-							$components: [
-								service.current_memory ?
-								{
-									style: "height: 5px; margin-top: -13px;",
-									$components: [
-										{
-											style: "background-color: #48d; display: inline-block; height: 5px; width: " + service.current_memory * 100 + "%;",
-										},
-										{
-											style: "background-color: #F1AD4D; display: inline-block; height: 5px; width: " + ( service.max_memory - service.current_memory ) * 100 + "%;",
-										}
-									]
-								} : {}
-							],
-						} : {},
-
-
 					],
 					onclick: function () { serviceMenu._live( service.name ) }
 				},
+				showContainerMemoryUsage ?
+				{
+					style: "border-radius: 5px !important; min-height: 10px; box-shadow: 0px 0px 5px 0px #eee inset;",
+					title: service.name + ( service.memory_current ? " memory usage\nCurrent " + (service.memory_current/1024/1024).toFixed(1) + " MB\nPeak " + (service.memory_max/1024/1024).toFixed(1) + " MB\nAllocated " + (service.memory_limit/1024/1024).toFixed(0) + " MB" : " memory usage\nnone" ),
+					$components: [
+						service.memory_current ?
+						{
+							style: "line-height: 0px; position: relative;",
+							$components: [
+								{
+									style: "position: absolute; border-radius: 5px !important; background-color: #48d3; box-shadow: 0px 0px 10px 0px #48d inset; display: inline-block; height: 10px; width: " + service.memory_current / service.memory_limit * 100 + "%;",
+								},
+								{
+									style: "position: absolute; border-radius: 5px !important; background-color: #48d3; display: inline-block; height: 10px; width: " + service.memory_max / service.memory_limit * 100 + "%;",
+								}
+							]
+						} : {}
+					],
+				} : {},
 				// pp(service),
 
 			]
@@ -510,7 +511,7 @@ var $system = {
 		apiRequest({
 			action: '/client/display_settings',
 			method: "PATCH",
-			data: { show_software_titles: false },
+			data: { show_container_memory_usage: false },
 			callbacks: {
 				200: function(response) {
 					showContainerMemoryUsage = false;
@@ -574,7 +575,7 @@ var $system = {
 						if (showContainerMemoryUsage) {
 							system._handleMemoryUpdate(response);
 							setTimeout( function() {
-								system._pollContainerMemory();
+								// system._pollContainerMemory();
 							}, 7000)
 						};
 					},
@@ -591,11 +592,9 @@ var $system = {
 				function( service ) {
 					var memory = data.containers.services[service.name];
 					if (memory) {
-						var current_memory = memory.current / memory.limit;
-						var max_memory = memory.maximum / memory.limit;
-						return $.extend( service, { current_memory: current_memory, max_memory: max_memory } );
+						return $.extend( service, { memory_current: memory.current, memory_max: memory.maximum, memory_limit: memory.limit } );
 					} else {
-						return $.extend( service, { current_memory: 0, max_memory: 0 } );
+						return $.extend( service, { memory_current: 0, memory_max: 0, memory_limit: 0 } );
 					};
 				}
 			);
@@ -604,11 +603,9 @@ var $system = {
 				function( app ) {
 					var memory = data.containers.applications[app.name];
 					if (memory) {
-						var current_memory = memory.current / memory.limit;
-						var max_memory = memory.maximum / memory.limit;
-						return $.extend( app, { current_memory: current_memory, max_memory: max_memory } );
+						return $.extend( app, { memory_current: memory.current, memory_max: memory.maximum, memory_limit: memory.limit } );
 					} else {
-						return $.extend( app, { current_memory: 0, max_memory: 0 } );
+						return $.extend( app, { memory_current: 0, memory_max: 0, memory_limit: 0 } );
 					};
 				}
 			);

@@ -25,4 +25,12 @@ var $cssSystems = css( `
   }
 }
 
+.engines_container {
+  margin-bottom: 5px;
+  border: 1px solid #fff;
+}
+.engines_container:hover {
+  border: 1px dotted #eeeeee;
+}
+
 `);
