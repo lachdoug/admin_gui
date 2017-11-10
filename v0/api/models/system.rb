@@ -400,7 +400,7 @@ class V0
                 # sleep 5
                 container_name = event[:container_name]
                 case event[:container_type].to_sym
-                when :container, :application ## James needs to standardize this
+                when :container, :application, :app ## James needs to standardize this
                   container_type = :app
                   status = app_status_for container_name
                 when :service

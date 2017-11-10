@@ -379,7 +379,7 @@ var $system = {
 							style: "line-height: 0px; position: relative;",
 							$components: [
 								{
-									style: "position: absolute; border-radius: 5px !important; background-color: " + ( app.memory_current/app.memory_limit > 0.9 ? "#F00c" : "#48dc") + "; box-shadow: 0px 0px 10px 0px #48d inset; display: inline-block; height: 10px; width: " + app.memory_current / app.memory_limit * 100 + "%;",
+									style: "position: absolute; border-radius: 5px !important; background-color: " + ( app.memory_current/app.memory_limit > 0.9 ? "#F00c" : "#48dc") + "; box-shadow: 0px 0px 10px 0px #999 inset; display: inline-block; height: 10px; width: " + app.memory_current / app.memory_limit * 100 + "%;",
 								},
 								{
 									style: "position: absolute; border-radius: 5px !important; background-color: " + ( app.memory_max/app.memory_limit > 0.9 ? "#F003" : "#48d3") + "; display: inline-block; height: 10px; width: " + app.memory_max / app.memory_limit * 100 + "%;",
@@ -445,7 +445,7 @@ var $system = {
 							style: "line-height: 0px; position: relative;",
 							$components: [
 								{
-									style: "position: absolute; border-radius: 5px !important; background-color: " + ( service.memory_current/service.memory_limit > 0.9 ? "#F00c" : "#48dc") + "; box-shadow: 0px 0px 10px 0px #48d inset; display: inline-block; height: 10px; width: " + service.memory_current / service.memory_limit * 100 + "%;",
+									style: "position: absolute; border-radius: 5px !important; background-color: " + ( service.memory_current/service.memory_limit > 0.9 ? "#F00c" : "#48dc") + "; box-shadow: 0px 0px 10px 0px #999 inset; display: inline-block; height: 10px; width: " + service.memory_current / service.memory_limit * 100 + "%;",
 								},
 								{
 									style: "position: absolute; border-radius: 5px !important; background-color: " + ( service.memory_max/service.memory_limit > 0.9 ? "#F003" : "#48d3") + "; display: inline-block; height: 10px; width: " + service.memory_max / service.memory_limit * 100 + "%;",
@@ -575,7 +575,7 @@ var $system = {
 						if (showContainerMemoryUsage) {
 							system._handleMemoryUpdate(response);
 							setTimeout( function() {
-								// system._pollContainerMemory();
+								system._pollContainerMemory();
 							}, 7000)
 						};
 					},
