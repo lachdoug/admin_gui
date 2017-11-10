@@ -143,16 +143,15 @@ class V0 < Sinatra::Base
 
   set show_exceptions: false
   error do |error|
-
     if error.is_a?(NonFatalError)
       [ error.status_code, { error: { message: error.message } }.to_json ]
     else
-
       error_text = error.class.to_s + " (" + error.message + ")"
-      if error.respond_to?(:response) && error.response.respond_to?(:net_http_res)
+      begin
+      # if error.respond_to?(:response) && error.response.respond_to?(:net_http_res) && !error.response.net_http_res.body.empty?
         system_error = JSON.parse( error.response.net_http_res.body, symbolize_names: true )
         error_text += "\n\n" + system_error[:error_object][:error_mesg].to_s
-
+      rescue
       end
       [ 500, { error: { message: "Server error.",
         detail: {

@@ -88,14 +88,21 @@ var $appServicesNew = {
 
 	_services: function ( type ) {
 		return {
-			$components: appServicesNewContent._data[ type ].map( function( persistentService ) {
+			$components: appServicesNewContent._data[ type ].map( function( service ) {
 				return button( {
-					text: persistentService.label,
+					text: service.label,
 					onclick: function () {
-						appServicesPersistentNewType._live(
-							appServicesNew._appName,
-							persistentService.publisher_namespace,
-							persistentService.type_path );
+						if ( type == "persistent") {
+							appServicesPersistentNewType._live(
+								appServicesNew._appName,
+								service.publisher_namespace,
+								service.type_path );
+						} else {
+							appServicesNonpersistentNew._live(
+								appServicesNew._appName,
+								service.publisher_namespace,
+								service.type_path );
+						}
 					}
 				} );
 			} )

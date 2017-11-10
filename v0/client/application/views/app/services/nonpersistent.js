@@ -96,7 +96,18 @@ var $appServicesNonpersistent = {
 											appServicesNonpersistent._publisherNamespace,
 											appServicesNonpersistent._typePath,
 											appServicesNonpersistent._serviceHandle,
-											this._data ); }
+											this._data ); },
+									} ),
+									{ $type: "hr" },
+									button( {
+										icon: "fa fa-trash",
+										wrapperClass: "clearfix",
+										text: "Delete",
+										onclick: function () {
+											if( confirm("Are you sure that you want to delete this non-persistent service?") ) {
+												appServicesNonpersistent._delete();
+											};
+										}
 									} ),
 
 								];
@@ -129,24 +140,27 @@ var $appServicesNonpersistent = {
 
 	},
 
-	// _registration: function( method ) {
-	//
-	// 	var queryString =
-	// 		"publisher_namespace=" + encodeURIComponent( this._publisherNamespace ) +
-	// 		"&type_path=" + encodeURIComponent( this._typePath ) +
-	// 		"&service_handle=" + encodeURIComponent( this._serviceHandle );
-	//
-	// 	apiRequest({
-	// 		action: "/apps/" + this._appName +
-	// 		"/service_manager/nonpersistent/registration/?" + queryString,
-	// 		method: method,
-	// 		callbacks: {
-	// 			200: function() {
-	// 				appServicesNonpersistent._show();
-	// 			}
-	// 		},
-	// 	});
-	//
-	// },
+
+	_delete: function( method ) {
+
+		var appName = this._appName;
+
+		var queryString =
+			"publisher_namespace=" + encodeURIComponent( this._publisherNamespace ) +
+			"&type_path=" + encodeURIComponent( this._typePath ) +
+			"&service_handle=" + encodeURIComponent( this._serviceHandle );
+
+		apiRequest({
+			method: "DELETE",
+			action: "/apps/" + appName +
+					"/service_manager/nonpersistent/?" + queryString,
+			callbacks: {
+				200: function(response) {
+					appServices._live( appName );
+				},
+			},
+		});
+
+	},
 
 };

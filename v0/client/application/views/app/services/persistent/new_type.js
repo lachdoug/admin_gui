@@ -52,7 +52,7 @@ var $appServicesPersistentNewType = {
 									{ $type: "p", $text: this._data.description },
 									{ $type: "hr" },
 									appServicesPersistentNewType._form(),
-									pp( this._data ),
+									// pp( this._data ),
 								];
 							},
 

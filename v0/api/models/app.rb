@@ -87,8 +87,8 @@ class V0
           }
         end
 
-        def update_network( form_params )
-          app_api.update_network( form_params )
+        def update_network( data )
+          app_api.update_network( data )
         end
 
         ######################################################################
@@ -99,9 +99,9 @@ class V0
           { memory: app_api.memory_metrics[:limit].to_i/1024/1024 }
         end
 
-        def update_memory( form_params )
+        def update_memory( data )
           return { message: "OK" } \
-            if app_api.update_memory( form_params )
+            if app_api.update_memory( data )
           raise NonFatalError.new "Failed to update memory.", 405
         end
 
@@ -226,12 +226,12 @@ class V0
           }
         end
 
-        def update_persistent_service( publisher_namespace, type_path, service_handle, form_params )
+        def update_persistent_service( publisher_namespace, type_path, service_handle, data )
           app_api.update_persistent_service( {
             publisher_namespace: publisher_namespace,
             type_path: type_path,
             service_handle: service_handle,
-            variables: form_params[:variables]
+            variables: data[:variables]
           } )
         end
 
@@ -296,26 +296,59 @@ class V0
             variables: data[:variables] )
         end
 
-        def delete_persistent_service( publisher_namespace, type_path, service_handle )
-          app_api.share_existing_persistent_service(
+        def delete_persistent_service( publisher_namespace, type_path, service_handle, data )
+          app_api.delete_existing_persistent_service(
             publisher_namespace: publisher_namespace,
             type_path: type_path,
-            service_handle: service_handle )
+            service_handle: service_handle,
+            delete_data: data && data[:delete_data] == 'true' )
         end
 
-        def share_existing_persistent_service( publisher_namespace, type_path, service_handle, data )
+        def share_existing_persistent_service( publisher_namespace, type_path, service_handle, parent, data )
           app_api.share_existing_persistent_service(
             publisher_namespace: publisher_namespace,
             type_path: type_path,
             service_handle: service_handle,
+            parent: parent,
             variables: data[:variables] )
         end
 
-        def adopt_orphan_persistent_service( publisher_namespace, type_path, service_handle, data )
+        def adopt_orphan_persistent_service( publisher_namespace, type_path, service_handle, parent, data )
           app_api.adopt_orphan_persistent_service(
             publisher_namespace: publisher_namespace,
             type_path: type_path,
             service_handle: service_handle,
+            parent: parent,
+            variables: data[:variables] )
+        end
+
+        def new_nonpersistent_service( publisher_namespace, type_path )
+          service_definition = @system.service_definition_for( publisher_namespace, type_path )
+          params = service_definition[:consumer_params].values.select do |param|
+            param[:ask_at_build_time] == true || param[:immutable] != true
+          end.map do |param|
+            if param[:input]
+              param
+            else
+              Helpers.legacy_input_definition_for param
+            end
+          end.map do |param|
+            param[:value] = resolve_string( param[:value] )
+            param
+          end
+          {
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
+            label: service_definition[:title],
+            description: service_definition[:description],
+            params: params,
+          }
+        end
+
+        def create_nonpersistent_service( publisher_namespace, type_path, data )
+          app_api.create_nonpersistent_service(
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
             variables: data[:variables] )
         end
 
@@ -340,6 +373,29 @@ class V0
             service_handle: service_handle )
         end
 
+        def reregister_nonpersistent_service( publisher_namespace, type_path, service_handle )
+          app_api.reregister_nonpersistent_service(
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
+            service_handle: service_handle )
+        end
+
+        def update_nonpersistent_service( publisher_namespace, type_path, service_handle, data )
+          app_api.update_nonpersistent_service(
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
+            service_handle: service_handle,
+            variables: data[:variables] )
+        end
+
+        def delete_nonpersistent_service( publisher_namespace, type_path, service_handle )
+          app_api.delete_nonpersistent_service(
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
+            service_handle: service_handle )
+        end
+
+
         ######################################################################
         # Actions
         ######################################################################
@@ -361,9 +417,12 @@ class V0
 
         def resolve_strings(strings)
           strings.map do |string|
-            #  if string == "_Engines_System(random(10))"
-            app_api.resolve_string(string.to_s)
+            resolve_string(string)
           end
+        end
+
+        def resolve_string(string)
+          app_api.resolve_string(string.to_s)
         end
 
 

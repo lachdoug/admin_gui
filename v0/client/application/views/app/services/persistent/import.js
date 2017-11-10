@@ -84,7 +84,7 @@ var $appServicesPersistentImport = {
 				formCancel ( { onclick: () => { appServicesPersistent._live(
 					appServicesPersistentImport._appName,
 					appServicesPersistentImport._publisherNamespace,
-					appServicesPersistentImport._typePath, 
+					appServicesPersistentImport._typePath,
 					appServicesPersistentImport._serviceHandle );
 				} } ),
 				formSubmit(),

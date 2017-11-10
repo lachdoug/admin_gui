@@ -121,18 +121,21 @@ class V0
             @system_api.get "containers/engine/#{@name}/services/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}"
           end
 
-          def create_new_persistent_service( args )
+          def delete_existing_persistent_service( args )
+            # byebug
+            @system_api.delete "containers/engine/#{@name}/services/persistent/#{ args[:delete_data] == true ? 'all' : 'none' }/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}"
+          end
 
+          def create_new_persistent_service( args )
             @system_api.post "containers/engine/#{@name}/services/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}", { variables: args[:variables] }
           end
 
           def share_existing_persistent_service( args )
-
-            @system_api.post "containers/engine/#{@name}/services/persistent/share/#{args[:parent_engine]}/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}", { variables: args[:variables] }
+            @system_api.post "containers/engine/#{@name}/services/persistent/share/#{args[:parent]}/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}", { variables: args[:variables] }
           end
 
           def adopt_orphan_persistent_service( args )
-            @system_api.post "containers/engine/#{@name}/services/persistent/orphan/#{args[:parent_engine]}/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}", { variables: args[:variables] }
+            @system_api.post "containers/engine/#{@name}/services/persistent/orphan/#{args[:parent]}/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}", { variables: args[:variables] }
           end
 
           def update_persistent_service( args )
@@ -147,6 +150,11 @@ class V0
             @system_api.put_stream "containers/engine/#{@name}/service/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/#{args[:write]}", { file: args[:file] }
           end
 
+          def create_nonpersistent_service( args )
+            # byebug
+            @system_api.post "containers/engine/#{@name}/services/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}", { variables: args[:variables] }
+          end
+
           def register_nonpersistent_service(args)
             @system_api.get "containers/engine/#{@name}/service/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/register"
           end
@@ -157,6 +165,14 @@ class V0
 
           def reregister_nonpersistent_service(args)
             @system_api.get "containers/engine/#{@name}/service/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/reregister"
+          end
+
+          def update_nonpersistent_service( args )
+            @system_api.post "containers/engine/#{@name}/service/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}", { variables: args[:variables] }
+          end
+
+          def delete_nonpersistent_service( args )
+            @system_api.delete "containers/engine/#{@name}/services/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}"
           end
 
           ######################################################################

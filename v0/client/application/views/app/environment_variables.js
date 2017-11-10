@@ -43,7 +43,7 @@ var $appEnvironmentVariables = {
 									appEnvironmentVariables._userEnvironmentVariables( data ),
 									appEnvironmentVariables._systemEnvironmentVariables( data ),
 									appEnvironmentVariables._serviceConsumerEnvironmentVariables( data ),
-									pp( data ),
+									// pp( data ),
 								];
 							},
 

@@ -1,7 +1,7 @@
-var $appServicesPersistentEdit = {
+var $appServicesNonpersistentEdit = {
 
 	$cell: true,
-	id: "appServicesPersistentEdit",
+	id: "appServicesNonpersistentEdit",
 
 	_appName: null,
 	_publisherNamespace: null,
@@ -29,7 +29,7 @@ var $appServicesPersistentEdit = {
 			{
 				header: icon ( {
 					icon: "fa fa-compass",
-					text: "App persistent service",
+					text: "App non-persistent service",
 				} ),
 				body: {
 					$components: [
@@ -45,10 +45,10 @@ var $appServicesPersistentEdit = {
 							]
 						},
 						{ $type: "hr" },
-						{ $type: "h4", $text: appServicesPersistentEdit._data.label },
-						{ $type: "p", $text: appServicesPersistentEdit._data.description },
+						{ $type: "h4", $text: appServicesNonpersistentEdit._data.label },
+						{ $type: "p", $text: appServicesNonpersistentEdit._data.description },
 						{ $type: "hr" },
-						appServicesPersistentEdit._form(),
+						appServicesNonpersistentEdit._form(),
 					]
 				}
 			}
@@ -58,10 +58,10 @@ var $appServicesPersistentEdit = {
 
 	_form: function () {
 
-		var appName = appServicesPersistentEdit._appName;
-		var publisherNamespace = appServicesPersistentEdit._publisherNamespace;
-		var typePath = appServicesPersistentEdit._typePath;
-		var serviceHandle = appServicesPersistentEdit._serviceHandle;
+		var appName = appServicesNonpersistentEdit._appName;
+		var publisherNamespace = appServicesNonpersistentEdit._publisherNamespace;
+		var typePath = appServicesNonpersistentEdit._typePath;
+		var serviceHandle = appServicesNonpersistentEdit._serviceHandle;
 		var mutableParams = this._data.params.filter( function(param) { return param.immutable != true } );
 		var queryString = "publisher_namespace=" + encodeURIComponent( this._publisherNamespace ) + "&type_path=" + encodeURIComponent( this._typePath ) + "&service_handle=" + encodeURIComponent( this._serviceHandle );
 
@@ -74,18 +74,18 @@ var $appServicesPersistentEdit = {
 					})
 				},
 				formCancel ( { onclick: () => {
-					appServicesPersistent._live(
+					appServicesNonpersistent._live(
 						appName, publisherNamespace, typePath, serviceHandle
 					);
 				} } ),
 				formSubmit(),
 			],
 
-			action: "/apps/" + this._appName + "/service_manager/persistent/?" + queryString,
+			action: "/apps/" + this._appName + "/service_manager/nonpersistent/?" + queryString,
 			method: 'PUT',
 			callbacks: {
 				200: function(response) {
-					appServicesPersistent._live(
+					appServicesNonpersistent._live(
 						appName, publisherNamespace, typePath, serviceHandle
 					);
 				}

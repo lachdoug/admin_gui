@@ -59,8 +59,15 @@ var $appServicesPersistent = {
 							},
 
 							$update: function () {
+
+								var appName = appServicesPersistent._appName;
+								var publisherNamespace = appServicesPersistent._publisherNamespace;
+								var typePath = appServicesPersistent._typePath;
+								var serviceHandle = appServicesPersistent._serviceHandle;
+
 								var immutableParams = this._data.params.filter( function(param) { return param.immutable } );
 								var mutableParams = this._data.params.filter( function(param) { return param.immutable != true } );
+
 								this.$components = [
 									{ $type: "h4", $text: this._data.label },
 									{ $type: "p", $text: this._data.description },
@@ -79,10 +86,10 @@ var $appServicesPersistent = {
 												class: "pull-right-md",
 												text: "Import",
 												onclick: () => { appServicesPersistentImport._live(
-													appServicesPersistent._appName,
-													appServicesPersistent._publisherNamespace,
-													appServicesPersistent._typePath,
-													appServicesPersistent._serviceHandle,
+													appName,
+													publisherNamespace,
+													typePath,
+													serviceHandle,
 													this._data ); }
 											} ),
 										]
@@ -102,10 +109,10 @@ var $appServicesPersistent = {
 										class: "pull-right-md",
 										text: "Edit",
 										onclick: () => { appServicesPersistentEdit._live(
-											appServicesPersistent._appName,
-											appServicesPersistent._publisherNamespace,
-											appServicesPersistent._typePath,
-											appServicesPersistent._serviceHandle,
+											appName,
+											publisherNamespace,
+											typePath,
+											serviceHandle,
 											this._data ); }
 									} ),
 									{ $type: "hr" },
@@ -113,7 +120,12 @@ var $appServicesPersistent = {
 										icon: "fa fa-trash",
 										class: "pull-left-md",
 										text: "Delete",
-										onclick: appServicesPersistent._delete
+										onclick: function() { appServicesPersistentDelete._live(
+											appName,
+											publisherNamespace,
+											typePath,
+											serviceHandle
+										) },
 									} ),
 
 								];
@@ -156,26 +168,6 @@ var $appServicesPersistent = {
 		apiRequest({
 			action: "/apps/" + this._appName +
 			"/service_manager/persistent/export?" + queryString,
-		});
-
-	},
-
-	_delete: function () {
-
-		var queryString =
-			"publisher_namespace=" + encodeURIComponent( this._publisherNamespace ) +
-			"&type_path=" + encodeURIComponent( this._typePath ) +
-			"&service_handle=" + encodeURIComponent( this._serviceHandle );
-
-		apiRequest({
-			method: "DELETE",
-			action: "/apps/" + this._appName +
-			"/service_manager/persistent/?" + queryString,
-			callbacks: {
-				200: function(response) {
-					appServices._live( appName );
-				},
-			}
 		});
 
 	},

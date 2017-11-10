@@ -57,7 +57,7 @@ var $serviceServices = {
 									{ $type: "hr" },
 									{ $type: "label", $text: "Non-persistent" },
 									serviceServices._nonpersistentServices(),
-									pp( this._data )
+									// pp( this._data )
 
 								];
 							},

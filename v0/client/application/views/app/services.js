@@ -65,7 +65,7 @@ var $appServices = {
 									{ $type: "hr" },
 									{ $type: "label", $text: "Non-persistent" },
 									appServices._nonpersistentServices(),
-									pp( this._data )
+									// pp( this._data )
 
 								];
 							},

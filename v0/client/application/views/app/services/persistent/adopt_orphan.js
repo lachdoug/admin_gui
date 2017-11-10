@@ -1,7 +1,7 @@
-var $appServicesPersistentShareExisting = {
+var $appServicesPersistentAdoptOrphan = {
 
 	$cell: true,
-	id: "appServicesPersistentShareExisting",
+	id: "appServicesPersistentAdoptOrphan",
 
 	_appName: null,
 	_data: null,
@@ -25,7 +25,7 @@ var $appServicesPersistentShareExisting = {
 			{
 				header: icon ( {
 					icon: "fa fa-plus",
-					text: "App share existing persistent service",
+					text: "App adopt orphan persistent service",
 				} ),
 				body: {
 					$components: [
@@ -33,10 +33,10 @@ var $appServicesPersistentShareExisting = {
 						{ $type: "hr" },
 						{
 							$components: [
-								{ $type: "h4", $text: appServicesPersistentShareExisting._data.label },
-								{ $type: "p", $text: appServicesPersistentShareExisting._data.description },
+								{ $type: "h4", $text: appServicesPersistentAdoptOrphan._data.label },
+								{ $type: "p", $text: appServicesPersistentAdoptOrphan._data.description },
 								{ $type: "hr" },
-								appServicesPersistentShareExisting._form(),
+								appServicesPersistentAdoptOrphan._form(),
 							],
 
 						},
@@ -50,7 +50,7 @@ var $appServicesPersistentShareExisting = {
 
 	_form: function () {
 
-		var serviceConsumer = this._data.shareable[ this._index ];
+		var serviceConsumer = this._data.adoptable[ this._index ];
 
 		var queryString =
 			"publisher_namespace=" + this._data.publisher_namespace +
@@ -67,7 +67,7 @@ var $appServicesPersistentShareExisting = {
 
 		return form ( {
 			components: [
-				{ $type: "strong", $text: "Share " + ( serviceConsumer.parent == serviceConsumer.service_handle ? serviceConsumer.parent : serviceConsumer.parent + " - " + serviceConsumer.service_handle ) },
+				{ $type: "strong", $text: "Adopt " + ( serviceConsumer.parent == serviceConsumer.service_handle ? serviceConsumer.parent : serviceConsumer.parent + " - " + serviceConsumer.service_handle ) },
 				{ $type: "hr" },
 				{
 					$components: params.map( function( field ) {
@@ -75,14 +75,14 @@ var $appServicesPersistentShareExisting = {
 						return enginesField( field );
 					} )
 				},
-				formCancel ( { onclick: () => { appServicesNew._live( appServicesPersistentShareExisting._appName ); } } ),
+				formCancel ( { onclick: () => { appServicesNew._live( appServicesPersistentAdoptOrphan._appName ); } } ),
 				formSubmit(),
 			],
-			action: "/apps/" + this._appName + "/service_manager/persistent/share_existing?" + queryString,
+			action: "/apps/" + this._appName + "/service_manager/persistent/adopt_orphan?" + queryString,
 			method: 'POST',
 			callbacks: {
 				200: function() {
-					appServices._live( appServicesPersistentShareExisting._appName );
+					appServices._live( appServicesPersistentAdoptOrphan._appName );
 				},
 			}
 		});
