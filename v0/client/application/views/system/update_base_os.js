@@ -7,7 +7,7 @@ var $systemUpdateBaseOS = {
 	_live: function() {
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-refresh", text: "Update Base OS" } ),
+				header: icon( { icon: "fa fa-refresh", text: "System update Base OS" } ),
 				body: {
 					$components: [
 						icon( { icon: "fa fa-spinner fa-spin", text: "Checking for updates." } )
@@ -24,7 +24,7 @@ var $systemUpdateBaseOS = {
 			action: "/system/update_base_os",
 			callbacks: {
 				200: function() {
-					main._renderUnavailableSystem( "Base OS update is starting." );
+					main._renderUnavailableSystem( { message: "Base OS update is starting.", behavior: "base_os_update" } );
 				},
 				405: function() {
 					systemUpdateBaseOS._alreadyUpToDate();

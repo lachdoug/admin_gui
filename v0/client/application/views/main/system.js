@@ -74,79 +74,78 @@ var $system = {
 							class: "modal-content",
 							style: "margin-top: 20px; margin-bottom: 100px; padding: 10px;",
 							$components: [
-								{
-									id: "displayOptionsButtons",
-
-									_showLoading: function () {
-										this.$components = [
-											{
-												class: "pull-right",
-												style: "color: #48d; padding: 10px 16px; font-size: 18px; line-height: 1.3333333;",
-												$components: [
-													icon( { icon: "fa fa-spinner fa-spin" } )
-												]
-											}
-										];
-									},
-
-									$components: [
-										showContainerMemoryUsage ?
-										button({
-											id: "hideContainerMemoryUsageButton",
-											class: "pull-right",
-											icon: "fa fa-microchip",
-											title: "Hide container memory usage",
-											onclick: system._hideContainerMemoryUsage
-										}) :
-										button({
-											id: "showContainerMemoryUsageButton",
-											style: "color: #999;",
-											onMouseOver: "this.style.color='inherit'",
-											onMouseOut: "this.style.color='#999'",
-											class: "pull-right",
-											icon: "fa fa-microchip",
-											title: "Show container memory usage",
-											onclick: system._showContainerMemoryUsage,
-										}),
-										showServices ?
-										button({
-											icon: "fa fa-compass",
-											class: "pull-right",
-											id: "hideServicesButton",
-											title: "Hide services",
-											onclick: system._hideServices,
-										}) :
-										button({
-											icon: "fa fa-compass",
-											style: "color: #999;",
-											onMouseOver: "this.style.color='inherit'",
-											onMouseOut: "this.style.color='#999'",
-											class: "pull-right",
-											id: "showServicesButton",
-											title: "Show services",
-											onclick: system._showServices,
-										}),
-										showSoftwareTitles ?
-										button({
-											id: "hideSoftwareTitlesButton",
-											class: "pull-right",
-											icon: "fa fa-info",
-											title: "Hide software titles",
-											onclick: system._hideSoftwareTitles
-										}) :
-										button({
-											id: "showSoftwareTitlesButton",
-											style: "color: #999;",
-											onMouseOver: "this.style.color='inherit'",
-											onMouseOut: "this.style.color='#999'",
-											class: "pull-right",
-											icon: "fa fa-info",
-											title: "Show software titles",
-											onclick: system._showSoftwareTitles,
-										}),
-									]
-								},
-
+								// {
+								// 	id: "displayOptionsButtons",
+								//
+								// 	_showLoading: function () {
+								// 		this.$components = [
+								// 			{
+								// 				class: "pull-right",
+								// 				style: "color: #48d; padding: 10px 16px; font-size: 18px; line-height: 1.3333333;",
+								// 				$components: [
+								// 					icon( { icon: "fa fa-spinner fa-spin" } )
+								// 				]
+								// 			}
+								// 		];
+								// 	},
+								//
+								// 	$components: [
+								// 		showContainerMemoryUsage ?
+								// 		button({
+								// 			id: "hideContainerMemoryUsageButton",
+								// 			class: "pull-right",
+								// 			icon: "fa fa-microchip",
+								// 			title: "Hide container memory usage",
+								// 			onclick: systemMenu._hideContainerMemoryUsage
+								// 		}) :
+								// 		button({
+								// 			id: "showContainerMemoryUsageButton",
+								// 			style: "color: #999;",
+								// 			onMouseOver: "this.style.color='inherit'",
+								// 			onMouseOut: "this.style.color='#999'",
+								// 			class: "pull-right",
+								// 			icon: "fa fa-microchip",
+								// 			title: "Show container memory usage",
+								// 			onclick: systemMenu._showContainerMemoryUsage,
+								// 		}),
+								// 		showServices ?
+								// 		button({
+								// 			icon: "fa fa-compass",
+								// 			class: "pull-right",
+								// 			id: "hideServicesButton",
+								// 			title: "Hide services",
+								// 			onclick: systemMenu._hideServices,
+								// 		}) :
+								// 		button({
+								// 			icon: "fa fa-compass",
+								// 			style: "color: #999;",
+								// 			onMouseOver: "this.style.color='inherit'",
+								// 			onMouseOut: "this.style.color='#999'",
+								// 			class: "pull-right",
+								// 			id: "showServicesButton",
+								// 			title: "Show services",
+								// 			onclick: systemMenu._showServices,
+								// 		}),
+								// 		showSoftwareTitles ?
+								// 		button({
+								// 			id: "hideSoftwareTitlesButton",
+								// 			class: "pull-right",
+								// 			icon: "fa fa-info",
+								// 			title: "Hide software titles",
+								// 			onclick: systemMenu._hideSoftwareTitles
+								// 		}) :
+								// 		button({
+								// 			id: "showSoftwareTitlesButton",
+								// 			style: "color: #999;",
+								// 			onMouseOver: "this.style.color='inherit'",
+								// 			onMouseOut: "this.style.color='#999'",
+								// 			class: "pull-right",
+								// 			icon: "fa fa-info",
+								// 			title: "Show software titles",
+								// 			onclick: systemMenu._showSoftwareTitles,
+								// 		}),
+								// 	]
+								// },
 								{
 									$components: [
 										{
@@ -282,7 +281,7 @@ var $system = {
 
 	_streamContainerEvents: function () {
 		if ( !this._containerEventsStreamRunning() ) {
-			// debugger;
+			
 			this._closeContainerEvents();
 			this._containerEvents = new EventSource(
 				'/system/container_events'
@@ -304,7 +303,7 @@ var $system = {
 
 
 	_handleContainerEvent: function( event ) {
-		// debugger;
+		
 		if ( event.container_type == "service" ) {
 			this._data.services.map(
 				function( service ) {
@@ -371,6 +370,7 @@ var $system = {
 				},
 				showContainerMemoryUsage ?
 				{
+					$type: "p",
 					style: "border-radius: 5px !important; min-height: 10px; box-shadow: 0px 0px 5px 0px #eee inset;",
 					title: app.name + ( app.memory_current ? " memory usage\nCurrent " + (app.memory_current/1024/1024).toFixed(1) + " MB\nPeak " + (app.memory_max/1024/1024).toFixed(1) + " MB\nAllocated " + (app.memory_limit/1024/1024).toFixed(0) + " MB" : " memory usage\nnone" ),
 					$components: [
@@ -379,10 +379,10 @@ var $system = {
 							style: "line-height: 0px; position: relative;",
 							$components: [
 								{
-									style: "position: absolute; border-radius: 5px !important; background-color: " + ( app.memory_current/app.memory_limit > 0.9 ? "#F00c" : "#48dc") + "; box-shadow: 0px 0px 10px 0px #999 inset; display: inline-block; height: 10px; width: " + app.memory_current / app.memory_limit * 100 + "%;",
+									style: "position: absolute; border-radius: 5px !important; background-color: " + ( app.memory_current/app.memory_limit > 0.9 ? "#F00c" : "#48dc") + "; box-shadow: 0px 0px 10px 0px #999 inset; display: inline-block; height: 10px; width: " + app.memory_current / app.memory_limit * 100 + "%; min-width: 10px;",
 								},
 								{
-									style: "position: absolute; border-radius: 5px !important; background-color: " + ( app.memory_max/app.memory_limit > 0.9 ? "#F003" : "#48d3") + "; display: inline-block; height: 10px; width: " + app.memory_max / app.memory_limit * 100 + "%;",
+									style: "position: absolute; border-radius: 5px !important; background-color: " + ( app.memory_max/app.memory_limit > 0.9 ? "#F003" : "#48d3") + "; display: inline-block; height: 10px; width: " + app.memory_max / app.memory_limit * 100 + "%; min-width: 10px;",
 								}
 							]
 						} : {}
@@ -437,6 +437,7 @@ var $system = {
 				},
 				showContainerMemoryUsage ?
 				{
+					$type: "p",
 					style: "border-radius: 5px !important; min-height: 10px; box-shadow: 0px 0px 5px 0px #eee inset;",
 					title: service.name + ( service.memory_current ? " memory usage\nCurrent " + (service.memory_current/1024/1024).toFixed(1) + " MB\nPeak " + (service.memory_max/1024/1024).toFixed(1) + " MB\nAllocated " + (service.memory_limit/1024/1024).toFixed(0) + " MB" : " memory usage\nnone" ),
 					$components: [
@@ -445,10 +446,10 @@ var $system = {
 							style: "line-height: 0px; position: relative;",
 							$components: [
 								{
-									style: "position: absolute; border-radius: 5px !important; background-color: " + ( service.memory_current/service.memory_limit > 0.9 ? "#F00c" : "#48dc") + "; box-shadow: 0px 0px 10px 0px #999 inset; display: inline-block; height: 10px; width: " + service.memory_current / service.memory_limit * 100 + "%;",
+									style: "position: absolute; border-radius: 5px !important; background-color: " + ( service.memory_current/service.memory_limit > 0.9 ? "#F00c" : "#48dc") + "; box-shadow: 0px 0px 10px 0px #999 inset; display: inline-block; height: 10px; width: " + service.memory_current / service.memory_limit * 100 + "%; min-width: 10px;",
 								},
 								{
-									style: "position: absolute; border-radius: 5px !important; background-color: " + ( service.memory_max/service.memory_limit > 0.9 ? "#F003" : "#48d3") + "; display: inline-block; height: 10px; width: " + service.memory_max / service.memory_limit * 100 + "%;",
+									style: "position: absolute; border-radius: 5px !important; background-color: " + ( service.memory_max/service.memory_limit > 0.9 ? "#F003" : "#48d3") + "; display: inline-block; height: 10px; width: " + service.memory_max / service.memory_limit * 100 + "%; min-width: 10px;",
 								}
 							]
 						} : {}
@@ -461,112 +462,8 @@ var $system = {
 	},
 
 
-	_showSoftwareTitles: function () {
-		displayOptionsButtons._showLoading();
-		apiRequest({
-			action: '/client/display_settings',
-			method: "PATCH",
-			data: { show_software_titles: true },
-			callbacks: {
-				200: function(response) {
-					showSoftwareTitles = true;
-					system._live();
-				},
-			}
-		});
-	},
-
-	_hideSoftwareTitles: function () {
-		displayOptionsButtons._showLoading();
-		apiRequest({
-			action: '/client/display_settings',
-			method: "PATCH",
-			data: { show_software_titles: false },
-			callbacks: {
-				200: function(response) {
-					showSoftwareTitles = false;
-					system._live();
-				},
-			}
-		});
-	},
-
-	_showContainerMemoryUsage: function () {
-		displayOptionsButtons._showLoading();
-		apiRequest({
-			action: '/client/display_settings',
-			method: "PATCH",
-			data: { show_container_memory_usage: true },
-			callbacks: {
-				200: function(response) {
-					showContainerMemoryUsage = true;
-					system._live();
-				},
-			}
-		});
-	},
-
-	_hideContainerMemoryUsage: function () {
-		displayOptionsButtons._showLoading();
-		apiRequest({
-			action: '/client/display_settings',
-			method: "PATCH",
-			data: { show_container_memory_usage: false },
-			callbacks: {
-				200: function(response) {
-					showContainerMemoryUsage = false;
-					system._live();
-				},
-			}
-		});
-	},
-
-	_showServices: function () {
-		displayOptionsButtons._showLoading();
-		apiRequest({
-			action: '/client/display_settings',
-			method: "PATCH",
-			data: { show_services: true },
-			callbacks: {
-				200: function(response) {
-					showServices = true;
-					system._live();
-				},
-			}
-		});
-	},
-
-	_hideServices: function () {
-		displayOptionsButtons._showLoading();
-		$('#services').slideUp('fast');
-		apiRequest({
-			action: '/client/display_settings',
-			method: "PATCH",
-			data: { show_services: false },
-			callbacks: {
-				200: function(response) {
-					showServices = false;
-					system._live();
-				},
-			}
-		});
-	},
-
- // function () {
- //  $('#services').slideDown('fast');
- //  $('#hideServicesButton').show();
- //  $(this).hide();
- //  // showServices = true;
- // },
- // function () {
- //  $('#services').slideUp('fast');
- //  $('#showServicesButton').show();
- //  $(this).hide();
- //  // showServices = false;
- // }
-
-
 	_pollContainerMemory: function () {
+		clearTimeout( system._pullContainerMemoryTimeout );
 		if (showContainerMemoryUsage) {
 			apiRequest({
 				action: '/system/statistics/container_memory',
@@ -574,8 +471,8 @@ var $system = {
 					200: function(response) {
 						if (showContainerMemoryUsage) {
 							system._handleMemoryUpdate(response);
-							setTimeout( function() {
-								system._pollContainerMemory();
+							system._pullContainerMemoryTimeout = setTimeout( function() {
+								// system._pollContainerMemory();
 							}, 7000)
 						};
 					},

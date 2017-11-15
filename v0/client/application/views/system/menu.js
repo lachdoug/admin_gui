@@ -15,10 +15,10 @@ var $systemMenu = {
 						class: "clearfix",
 						$components: [
 							button( { onclick: "installFromLibrary._live();",
-												wrapperClass: "pull-left-md",
+												class: "pull-left-md",
 												icon: "fa fa-plus", text: "Install app"	} ),
 							button( { onclick: "systemControlPanel._live();",
-												wrapperClass: "pull-right-md",
+												class: "pull-right-md",
 												icon: "fa fa-gears", text: "Control panel" } ),
 						]
 					},
@@ -42,13 +42,13 @@ var $systemMenu = {
 								]
 							} ),
 							button( {
-								wrapperClass: "pull-right-md",
+								class: "pull-right-md",
 								onclick: "systemUpdateEngines._live();",
 								icon: "fa fa-refresh",
 								text: "Update",
 								title: "Update Engines"
 							} ),
-							button( { onclick: "systemRestartEngines._live();", wrapperClass: "pull-right-md",
+							button( { onclick: "systemRestartEngines._live();", class: "pull-right-md",
 												icon: "fa fa-play-circle", text: "Restart", title: "Restart Engines" } ),
 						]
 					},
@@ -78,20 +78,181 @@ var $systemMenu = {
 								]
 							} ),
 							button( {
-								wrapperClass: "pull-right-md",
+								class: "pull-right-md",
 								onclick: "systemUpdateBaseOS._live();",
 								icon: "fa fa-refresh",
 								text: "Update",
 								title: "Update " + baseOsName
 							} ),
-							button( { onclick: "systemRestartBaseOS._live();", wrapperClass: "pull-right-md",
+							button( { onclick: "systemRestartBaseOS._live();", class: "pull-right-md",
 												icon: "fa fa-power-off", text: "Reboot", title: "Restart " + baseOsName + " (reboot system)" } ),
 						]
 					},
+					{ $type: "hr" },
+					{
+						id: "systemMenuDisplayOptions",
+
+						$components: [
+							button({
+								icon: "fa fa-dashboard",
+								text: "Display",
+								onclick: function () { systemMenuDisplayOptions._showOptions(); },
+							})
+						],
+
+						_showOptions: function () {
+							this.$components = [
+								showContainerMemoryUsage ?
+								button({
+									id: "hideContainerMemoryUsageButton",
+									icon: "fa fa-microchip",
+									text: "Hide memory usage",
+									title: "Hide container memory usage",
+									onclick: systemMenu._hideContainerMemoryUsage
+								}) :
+								button({
+									id: "showContainerMemoryUsageButton",
+									icon: "fa fa-microchip",
+									text: "Show memory usage",
+									title: "Show container memory usage",
+									onclick: systemMenu._showContainerMemoryUsage,
+								}),
+								showServices ?
+								button({
+									icon: "fa fa-compass",
+									id: "hideServicesButton",
+									text: "Hide services",
+									title: "Hide services",
+									onclick: systemMenu._hideServices,
+								}) :
+								button({
+									icon: "fa fa-compass",
+									id: "showServicesButton",
+									text: "Show services",
+									title: "Show services",
+									onclick: systemMenu._showServices,
+								}),
+								showSoftwareTitles ?
+								button({
+									id: "hideSoftwareTitlesButton",
+									icon: "fa fa-info",
+									text: "Hide software titles",
+									title: "Hide software titles",
+									onclick: systemMenu._hideSoftwareTitles
+								}) :
+								button({
+									id: "showSoftwareTitlesButton",
+									icon: "fa fa-info",
+									text: "Show software titles",
+									title: "Show software titles",
+									onclick: systemMenu._showSoftwareTitles,
+								}),
+							]
+						},
+					},
+
 				]
 			}
 		} );
 
-	}
+	},
+
+	_showSoftwareTitles: function () {
+		apiRequest({
+			action: '/client/display_settings',
+			method: "PATCH",
+			data: { show_software_titles: true },
+			callbacks: {
+				200: function(response) {
+					$("#pageLoadingSpinner").fadeIn();
+					$(".modal").modal("hide");
+					showSoftwareTitles = true;
+					system._live();
+				},
+			}
+		});
+	},
+
+	_hideSoftwareTitles: function () {
+		apiRequest({
+			action: '/client/display_settings',
+			method: "PATCH",
+			data: { show_software_titles: false },
+			callbacks: {
+				200: function(response) {
+					$("#pageLoadingSpinner").fadeIn();
+					$(".modal").modal("hide");
+					showSoftwareTitles = false;
+					system._live();
+				},
+			}
+		});
+	},
+
+	_showContainerMemoryUsage: function () {
+		apiRequest({
+			action: '/client/display_settings',
+			method: "PATCH",
+			data: { show_container_memory_usage: true },
+			callbacks: {
+				200: function(response) {
+					$("#pageLoadingSpinner").fadeIn();
+					$(".modal").modal("hide");
+					showContainerMemoryUsage = true;
+					system._live();
+				},
+			}
+		});
+	},
+
+	_hideContainerMemoryUsage: function () {
+		apiRequest({
+			action: '/client/display_settings',
+			method: "PATCH",
+			data: { show_container_memory_usage: false },
+			callbacks: {
+				200: function(response) {
+					$("#pageLoadingSpinner").fadeIn();
+					$(".modal").modal("hide");
+					showContainerMemoryUsage = false;
+					system._live();
+				},
+			}
+		});
+	},
+
+	_showServices: function () {
+		apiRequest({
+			action: '/client/display_settings',
+			method: "PATCH",
+			data: { show_services: true },
+			callbacks: {
+				200: function(response) {
+					$("#pageLoadingSpinner").fadeIn();
+					$(".modal").modal("hide");
+					showServices = true;
+					system._live();
+				},
+			}
+		});
+	},
+
+	_hideServices: function () {
+		apiRequest({
+			action: '/client/display_settings',
+			method: "PATCH",
+			data: { show_services: false },
+			callbacks: {
+				200: function(response) {
+					$("#pageLoadingSpinner").fadeIn();
+					$(".modal").modal("hide");
+					$('#services').slideUp('fast');
+					showServices = false;
+					system._live();
+				},
+			}
+		});
+	},
+
 
 };

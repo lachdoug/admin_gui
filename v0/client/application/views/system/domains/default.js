@@ -1,9 +1,9 @@
 var $systemDomainsDefaultEdit = {
-	
+
 	$cell: true,
 	id: "systemDomainsDefaultEdit",
-	
-	
+
+
 	_live: function( defaultDomain ) {
 		modal._live(
 			{
@@ -13,7 +13,7 @@ var $systemDomainsDefaultEdit = {
 						{
 							id: "systemDomainsDefaultEditForm",
 							$components: [
-								icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } ) 
+								icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
 							],
 							_refresh: function( data ) {
 								this.$components = [ systemDomainsDefaultEdit._form( data ) ];
@@ -25,7 +25,7 @@ var $systemDomainsDefaultEdit = {
 		);
 		this._load();
 	},
-	
+
 	_load: function () {
 		apiRequest({
 			action: "/system/domains",
@@ -37,7 +37,7 @@ var $systemDomainsDefaultEdit = {
 		});
 	},
 
-	
+
 	_form: function (data) {
 
 		var namesCollection = data.names.map( function( domain ) { return domain.domain_name } );
@@ -45,15 +45,12 @@ var $systemDomainsDefaultEdit = {
 			namesCollection.push( "local" );
 		};
 
-//debugger		
-		
-		
 		return form ( {
 			components: [
 				formField( {
-					type: "select", 
-					name: "data[default_domain]", 
-					id: "systemDomainsDefaultEditField_default_domain", 
+					type: "select",
+					name: "data[default_domain]",
+					id: "systemDomainsDefaultEditField_default_domain",
 					label: "Default domain",
 					value: data.default,
 					collection: namesCollection,
@@ -70,7 +67,7 @@ var $systemDomainsDefaultEdit = {
 				},
 			}
 		});
-		
+
 	},
-	
+
 };

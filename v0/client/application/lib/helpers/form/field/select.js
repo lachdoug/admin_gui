@@ -8,7 +8,13 @@ var formFieldSelect = function( args ) {
 			id: ( args.id || "" ),
 			placeholder: ( args.placeholder || null ),
 			required: ( args.required || false ),
-			$components: formFieldSelectOptions( args )
+			$components: formFieldSelectOptions( args ),
+			onchange: function(e) {
+				if ( args.onchange ) {
+					return args.onchange(e)
+				};
+			},
+
 		}
 	);
 };

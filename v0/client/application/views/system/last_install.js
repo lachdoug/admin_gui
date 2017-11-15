@@ -1,13 +1,13 @@
 var $systemLastInstall = {
-	
+
 	$cell: true,
 	id: "systemLastInstall",
-	
-	
+
+
 	_live: function() {
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-history", text: "Last install" } ),
+				header: icon( { icon: "fa fa-history", text: "System last install" } ),
 				dialogClass: "modal-lg",
 				body: {
 					$components: [
@@ -17,14 +17,14 @@ var $systemLastInstall = {
 								{
 									class: "clearfix",
 									$components: [
-										button( { 
+										button( {
 											onclick: "systemControlPanel._live()",
-											icon: "fa fa-arrow-up", 
-											wrapperClass: "pull-right" 
+											icon: "fa fa-arrow-up",
+											wrapperClass: "pull-right"
 										} ),
 									]
 								},
-								icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } ) 
+								icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
 							],
 							_refresh: function ( data ) {
 								this.$components = [ systemLastInstall._content( data ) ];
@@ -36,7 +36,7 @@ var $systemLastInstall = {
 		);
 		this._load();
 	},
-	
+
 	_load: function () {
 		apiRequest({
 			action: "/system/last_install",
@@ -48,17 +48,17 @@ var $systemLastInstall = {
 		});
 	},
 
-	
+
 	_content: function ( data ) {
 		return {
 			$components: [
 				{
 					class: "clearfix",
 					$components: [
-						button( { 
+						button( {
 							onclick: "systemControlPanel._live()",
-							icon: "fa fa-arrow-up", 
-							wrapperClass: "pull-right" 
+							icon: "fa fa-arrow-up",
+							wrapperClass: "pull-right"
 						} ),
 						{
 							$type: "h4",
@@ -67,21 +67,21 @@ var $systemLastInstall = {
 						},
 					]
 				},
-				tabs( { 
-					items: [ 
+				tabs( {
+					items: [
 						{
 							label: "Log",
 							body: { $type: "pre", $text: data.log }
-						}, 
+						},
 						{
 							label: "Params",
 							body: pp( data.params )
-						} 
+						}
 					]
 				} )
 			]
 		};
-		
+
 	},
-	
+
 };

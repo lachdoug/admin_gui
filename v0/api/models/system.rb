@@ -48,9 +48,9 @@ class V0
 
         def to_h(opts={})
 
-          raise ( NonFatalError.new "Engines update in progress. The update process normally takes a minute or two, but can take longer in some cases.", 503 ) \
+          raise ( NonFatalError.new "Engines update in progress.\n\nThe update process normally takes a minute or two, but can take longer in some cases.", 503 ) \
             if status[:is_engines_system_updating]
-          raise ( NonFatalError.new "Base OS update in progress. The update process normally takes a minute or two, but can take longer in some cases.", 503 ) \
+          raise ( NonFatalError.new "Base OS update in progress.\n\nThe update process normally takes a minute or two, but can take longer in some cases.", 503 ) \
             if status[:is_base_system_updating]
           raise ( NonFatalError.new "Reboot in progress.", 503 ) \
             if status[:is_rebooting]
@@ -112,8 +112,8 @@ class V0
         # Admin user
         ########################################################################
 
-        def update_admin_user(form_data)
-          engines_api_system.update_admin_user( form_data )
+        def update_admin_user(data)
+          engines_api_system.update_admin_user( data )
         end
 
         def admin_user
@@ -209,10 +209,10 @@ class V0
           engines_api_system.locale
         end
 
-        def update_locale(form_data)
+        def update_locale(data)
           engines_api_system.update_locale(
-            { lang_code: form_data["lang_code"],
-              country_code: form_data["country_code"] } )
+            { lang_code: data["lang_code"],
+              country_code: data["country_code"] } )
         end
 
         ########################################################################
@@ -223,9 +223,9 @@ class V0
           { timezone: engines_api_system.timezone }
         end
 
-        def update_timezone(form_data)
+        def update_timezone(data)
           engines_api_system.update_timezone(
-            { timezone: form_data["timezone"] } )
+            { timezone: data["timezone"] } )
         end
 
         ########################################################################
@@ -248,38 +248,41 @@ class V0
           engines_api_system.default_domain
         end
 
-        def update_default_domain( form_data )
-          engines_api_system.update_default_domain( form_data )
+        def update_default_domain( data )
+          engines_api_system.update_default_domain( data )
         end
 
-        def create_domain( form_data )
-          engines_api_system.create_domain( form_data )
+        def create_domain( data )
+          engines_api_system.create_domain( data )
         end
 
         def domain( domain_name)
           engines_api_system.domain( domain_name )
         end
 
-        def update_domain( domain_name, form_data )
-          engines_api_system.update_domain( domain_name, form_data )
+        def update_domain( domain_name, data )
+          engines_api_system.update_domain( domain_name, data )
         end
 
         def delete_domain( domain_name)
-          return { message: "OK" } \
-            if engines_api_system.delete_domain( domain_name ) == 'true'
-          raise NonFatalError.new "Failed to delete domain.", 405
+          engines_api_system.delete_domain( domain_name )
+          # return { message: "OK" } \
+          #   if engines_api_system.delete_domain( domain_name ) == 'true'
+          # raise NonFatalError.new "Failed to delete domain.", 405
         end
 
         def enable_zeroconf
-          return { message: "OK" } \
-            if create_domain( { domain_name: :local, self_hosted: false, internal_only: false } ) == 'true'
-          raise NonFatalError.new "Failed to enable Avahi (zeroconf).", 405
+          # return { message: "OK" } \
+          #   if create_domain( { domain_name: :local, self_hosted: false, internal_only: false } ) == 'true'
+          create_domain( { domain_name: :local, self_hosted: false, internal_only: false } )
+        # rescue 405
+        #   raise NonFatalError.new "Failed to enable Avahi (zeroconf).", 405
         end
 
         def disable_zeroconf
           delete_domain( :local )
-        rescue 405
-          raise NonFatalError.new "Failed to disable Avahi (zeroconf).", 405
+        # rescue 405
+        #   raise NonFatalError.new "Failed to disable Avahi (zeroconf).", 405
         end
 
         ########################################################################
@@ -290,10 +293,11 @@ class V0
           { default_site: engines_api_system.default_site }
         end
 
-        def update_default_site( form_data )
-          return { message: "OK" } \
-            if engines_api_system.update_default_site( form_data ) == 'true'
-          raise NonFatalError.new "Failed to update domain.", 405
+        def update_default_site( data )
+          # return { message: "OK" } \
+          #   if engines_api_system.update_default_site( data ) == 'true'
+          # raise NonFatalError.new "Failed to update domain.", 405
+          engines_api_system.update_default_site( data )
         end
 
         ########################################################################
@@ -301,23 +305,27 @@ class V0
         ########################################################################
 
         def restart_base_os
-          return { message: "OK" } if engines_api_system.restart_base_os == 'true'
-          raise NonFatalError.new "Failed to reboot system.", 405
+          engines_api_system.restart_base_os
+          # return { message: "OK" } if engines_api_system.restart_base_os == 'true'
+          # raise NonFatalError.new "Failed to reboot system.", 405
         end
 
         def restart_engines
-          return { message: "OK" } if engines_api_system.restart_engines == 'true'
-          raise NonFatalError.new "Failed to restart Engines.", 405
+          engines_api_system.restart_engines
+          # return { message: "OK" } if engines_api_system.restart_engines == 'true'
+          # raise NonFatalError.new "Failed to restart Engines.", 405
         end
 
         def update_engines
-          return { message: "OK" } if engines_api_system.update_engines == 'true'
-          raise NonFatalError.new "Engines is already up to date.", 405
+          engines_api_system.update_engines
+          # return { message: "OK" } if engines_api_system.update_engines == 'true'
+          # raise NonFatalError.new "Engines is already up to date.", 405
         end
 
         def update_base_os
-          return { message: "OK" } if engines_api_system.update_base_os == 'true'
-          raise NonFatalError.new "Base OS is already up to date.", 405
+          engines_api_system.update_base_os
+          # return { message: "OK" } if engines_api_system.update_base_os == 'true'
+          # raise NonFatalError.new "Base OS is already up to date.", 405
         end
 
         ########################################################################
@@ -329,8 +337,8 @@ class V0
         end
 
 
-        def update_public_ssh_key( form_data )
-          key = Base64.encode64 form_data[:key_file][:tempfile].read
+        def update_public_ssh_key( data )
+          key = Base64.encode64 data[:key_file][:tempfile].read
           engines_api_system.update_public_ssh_key( { public_key: key } )
         end
 
@@ -350,19 +358,19 @@ class V0
           engines_api_system.certificate certificate_path # certificate_id.gsub( "|", "/" )
         end
 
-        def create_certificate( form_data )
+        def create_certificate( data )
           api_args = {
-            certificate: form_data[:certificate_file][:tempfile],
+            certificate: data[:certificate_file][:tempfile],
             domain_name: "",
             set_as_default: true
           }
-          if form_data[:for] == "default"
+          if data[:for] == "default"
             engines_api_system.create_default_certificate( api_args )
           else
-            form_data[:target] = nil if form_data[:for] == :unassigned
+            data[:target] = nil if data[:for] == :unassigned
             engines_api_system.create_service_certificate( api_args )
           end
-          # key = Base64.encode64 form_data[:key_file][:tempfile].read
+          # key = Base64.encode64 data[:key_file][:tempfile].read
         end
 
         def delete_certificate( certificate_path )
@@ -574,23 +582,24 @@ class V0
         # Install
         ########################################################################
 
-        def install(form_data)
-          install_params = install_params_for(form_data)
-          return { message: "OK" } if engines_api_system.install(install_params) == 'true'
-          raise NonFatalError.new "Failed to install.", 405
+        def install(data)
+          install_params = install_params_for(data)
+          engines_api_system.install(install_params)
+          # return { message: "OK" } if engines_api_system.install(install_params) == 'true'
+          # raise NonFatalError.new "Failed to install.", 405
         end
 
-        def install_params_for(form_data)
+        def install_params_for(data)
           {
-            engine_name: form_data[:engine_name],
-            host_name: form_data[:host_name],
-            domain_name: form_data[:domain_name],
-            http_protocol: form_data[:http_protocol],
-            memory: form_data[:memory],
-            country_code: form_data[:country_code],
-            lang_code: form_data[:language_code],
-            variables: form_data[:environment_variables],
-            attached_services: form_data[:services].map do |service|
+            engine_name: data[:engine_name],
+            host_name: data[:host_name],
+            domain_name: data[:domain_name],
+            http_protocol: data[:http_protocol],
+            memory: data[:memory],
+            country_code: data[:country_code],
+            lang_code: data[:language_code],
+            variables: data[:environment_variables],
+            attached_services: ( data[:services] || [] ).map do |service|
               if service[:create_type] == "share"
                 create_type = "existing"
                 parent_engine, service_handle = *service[:share].split("#")
@@ -608,7 +617,7 @@ class V0
                 service_handle: service_handle
               }
             end,
-            repository_url: form_data[:blueprint_url]
+            repository_url: data[:blueprint_url]
           }
         end
 
@@ -652,10 +661,11 @@ class V0
         # Shutdown
         ########################################################################
 
-        def shutdown(form_data)
-
-          return { message: "OK" } if engines_api_system.shutdown( { reason: form_data[:reason] } ) == 'true'
-          raise NonFatalError.new "Failed to shutdown system.", 405
+        def shutdown(data)
+          engines_api_system.shutdown( { reason: data[:reason] } )
+          # byebug
+          # return { message: "OK" } if engines_api_system.shutdown( { reason: data[:reason] } ) == 'true'
+          # raise NonFatalError.new "Failed to shutdown system.", 405
         end
 
       end

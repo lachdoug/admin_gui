@@ -4,7 +4,7 @@ function dataList (args) {
 //		class: ( args.horizontal != false ? "dl-horizontal" : null ),
 		class: ( args.class || null ),
 		$components: args.items.map( function ( item ) {
-			// debugger;
+			
 			return {
 				$components: [
 					{ $type: "dt", title: item.label, $html: ( item.label || "" ) },

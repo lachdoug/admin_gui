@@ -1,22 +1,22 @@
-var $systemTimezone = {
-	
+var $systemRegionTimezone = {
+
 	$cell: true,
-	id: "systemTimezone",
-	
-	
+	id: "systemRegionTimezone",
+
+
 	_live: function() {
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-clock-o", text: "Timezone" } ),
+				header: icon( { icon: "fa fa-clock-o", text: "System timezone edit" } ),
 				body: {
 					$components: [
 						{
-							id: "systemTimezoneForm",
+							id: "systemRegionTimezoneForm",
 							$components: [
-								icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } ) 
+								icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
 							],
 							_refresh: function (timezoneData) {
-								this.$components = [ systemTimezone._form(timezoneData) ];
+								this.$components = [ systemRegionTimezone._form(timezoneData) ];
 							},
 						}
 					]
@@ -25,30 +25,30 @@ var $systemTimezone = {
 		);
 		this._load();
 	},
-	
+
 	_load: function () {
 		apiRequest({
 			action: "/system/timezone",
 			callbacks: {
 				200: function(response) {
-					systemTimezoneForm._refresh(response);
+					systemRegionTimezoneForm._refresh(response);
 				},
 			}
 		});
 	},
 
-	
+
 	_form: function (timezoneData) {
 		return form ( {
 			components: [
 				formField( {
-					type: "timezone", 
-					name: "data[timezone]", 
-					id: "systemTimezoneField_timezone", 
+					type: "timezone",
+					name: "data[timezone]",
+					// id: "systemRegionTimezoneField_timezone",
 					label: "Country",
 					value: timezoneData.timezone
 				} ),
-				formCancel ( { onclick: "systemControlPanel._live();" } ),
+				formCancel ( { onclick: systemRegion._live } ),
 				formSubmit(),
 //				pp( timezoneData )
 			],
@@ -56,11 +56,11 @@ var $systemTimezone = {
 			method: "PUT",
 			callbacks: {
 				200: function(response) {
-					systemControlPanel._live();
+					systemRegion._live();
 				},
 			}
 		});
-		
+
 	},
-	
+
 };

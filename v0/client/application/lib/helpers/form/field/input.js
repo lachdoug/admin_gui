@@ -1,5 +1,4 @@
 var formFieldInput = function( args ) {
-//	if ( args.name == "data[services][][publisher_namespace]" ) { debugger }
 	return formFieldWrapper(
 		args,
 		formFieldInputUnwrapped( args )
@@ -26,17 +25,25 @@ var formFieldInputUnwrapped = function( args ) {
 			// onchange: args.onchange || null,
 			autocomplete: args.autocomplete || null,
 			onchange: function(e) {
-				// debugger;
-				if ( args.onchange ) { args.onchange(e) };
-				if(e.target.validity.patternMismatch) {
-					e.target.setCustomValidity(
-						args.patternMessage ||
-						( 'Must match pattern ' + args.pattern )
-					);
-					// return false;
-				} else { e.target.setCustomValidity('')
-					// return true;
-			  };
+				function checkPattern() {
+					if(e.target.validity.patternMismatch) {
+						e.target.setCustomValidity(
+							args.patternMessage ||
+							( 'Must match pattern ' + args.pattern )
+						);
+						return false;
+					} else { e.target.setCustomValidity('')
+						return true;
+				  };
+				}
+
+				if ( args.onchange ) {
+					if ( args.onchange(e) ) {
+						return checkPattern()
+					}
+				} else {
+					return checkPattern();
+				};
 			},
 			// setCustomValidity('') allows other validations (e.g. required) to show errors
 

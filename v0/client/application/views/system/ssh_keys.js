@@ -7,7 +7,7 @@ var $systemSshKeys = {
 	_live: function () {
 
 		modal._live ( {
-			header: icon( { icon: "fa fa-key", text: "System SSH Keys" } ),
+			header: icon( { icon: "fa fa-key", text: "System system SSH Keys" } ),
 			body: {
 				$components: [
 					{

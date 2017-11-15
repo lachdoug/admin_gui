@@ -57,7 +57,7 @@ var $appServicesPersistentImport = {
 
 
 	_form: function () {
-// debugger
+
     var queryString =
 			"publisher_namespace=" + encodeURIComponent( this._publisherNamespace ) +
 			"&type_path=" + encodeURIComponent( this._typePath ) +

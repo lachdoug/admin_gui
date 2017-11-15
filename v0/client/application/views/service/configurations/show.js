@@ -31,7 +31,6 @@ var $serviceConfigurationsShow = {
 
 
 	// _render: function( data ) {
-	// 	debugger
 	// 	var variables = Object.values( data.params );
 	// 	if ( variables && variables.length ) {
 	// 		this._data = data;

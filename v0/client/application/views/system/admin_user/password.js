@@ -42,7 +42,7 @@ var $systemAdminUserPassword = {
 					id: "systemAdminUserPasswordField_new_password",
 					label: "New password",
 				} ),
-				formCancel ( { onclick: "systemAdminUser._live();" } ),
+				formCancel ( { onclick: "systemControlPanel._live();" } ),
 				formSubmit(),
 			],
 			action: "/system/user/admin",

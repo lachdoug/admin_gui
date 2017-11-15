@@ -7,7 +7,7 @@ var $systemDomains = {
 	_live: function() {
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-globe", text: "Domains" } ),
+				header: icon( { icon: "fa fa-globe", text: "System domains" } ),
 				body: {
 					$components: [
 						{

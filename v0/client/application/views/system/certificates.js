@@ -7,7 +7,7 @@ var $systemCertificates = {
 	_live: function() {
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-certificate", text: "Certificates" } ),
+				header: icon( { icon: "fa fa-certificate", text: "System certificates" } ),
 				body: {
 					$components: [
 						{

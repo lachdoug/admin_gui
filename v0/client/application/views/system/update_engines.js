@@ -7,7 +7,7 @@ var $systemUpdateEngines = {
 	_live: function() {
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-refresh", text: "Update engines" } ),
+				header: icon( { icon: "fa fa-refresh", text: "System update Engines" } ),
 				body: {
 					$components: [
 						icon( { icon: "fa fa-spinner fa-spin", text: "Checking for updates." } )
@@ -24,7 +24,7 @@ var $systemUpdateEngines = {
 			action: "/system/update_engines",
 			callbacks: {
 				200: function() {
-					main._renderUnavailableSystem( "Engines update is starting." )
+					main._renderUnavailableSystem( { message: "Engines update is starting.", behavior: "engines_update" } )
 				},
 				405: function() {
 					systemUpdateEngines._alreadyUpToDate();

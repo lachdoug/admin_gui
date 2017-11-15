@@ -5,16 +5,15 @@ function tabs ( args ) {
 				$type: "ul",
 				class: "nav nav-tabs",
 				style: "margin-bottom: 5px;",
-				$components: args.items.map( function (item, i) { 
-					return { 
+				$components: args.items.map( function (item, i) {
+					return {
 						$type: "li",
 						class: i == 0 ? "active" : "",
-						$components: [ 
+						$components: [
 							{
 								$type: "a",
 								$text: item.label,
 								onclick: function () {
-//									debugger
 									$(this).parent().parent().children().removeClass('active');
 									$(this).parent().addClass('active');
 									$(this).parent().parent().next().children().removeClass('active');
@@ -22,17 +21,17 @@ function tabs ( args ) {
 								}
 							}
 						]
-						
-					}; 
+
+					};
 				} )
 			},
 			{
 				class: "tab-content",
-				$components: args.items.map( function (item, i) { 
-					return { 
+				$components: args.items.map( function (item, i) {
+					return {
 						class: "tab-pane" + ( i == 0 ? " active" : "" ),
 						$components: [ item.body ]
-					}; 
+					};
 				} )
 			},
 		]

@@ -10,7 +10,7 @@ function formSubmit( obj={} ) {
 					obj.icon == false ? {} : { $type: "i", class: ( obj.icon || "fa fa-check" ) },
 					obj.text == false ? {} : { $type: "span", $text: " " + ( obj.text || "OK" ) }
 				],
-					onclick: function ( e ) {
+				onclick: function ( e ) {
 					var form = $(this).parents("form")[0];
 					if ( form.checkValidity() ) {
 						this.$components = [

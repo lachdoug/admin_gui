@@ -1,28 +1,28 @@
 var $systemShutdown = {
-	
+
 	$cell: true,
 	id: "systemShutdown",
-	
-	
+
+
 	_live: function() {
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-plug", text: "Shutdown" } ),
+				header: icon( { icon: "fa fa-plug", text: "System shutdown" } ),
 				body: {
 					$components: [
 						{
 							id: "systemShutdownForm",
 							$components: [
-								{ 
-									type: "p", 
-									style: "color: red;", 
-								 	$components: [ 
-										icon( { 
-											icon: "fa fa-warning", 
+								{
+									type: "p",
+									style: "color: red;",
+								 	$components: [
+										icon( {
+											icon: "fa fa-warning",
 											text: "The system will shutdown. You will need to manually restart." } )
-									] 
+									]
 								},
-								systemShutdown._form() 
+								systemShutdown._form()
 							],
 						}
 					]
@@ -31,7 +31,7 @@ var $systemShutdown = {
 		);
 	},
 
-	
+
 	_form: function () {
 		return form ( {
 			components: [
@@ -51,7 +51,7 @@ var $systemShutdown = {
 				},
 			}
 		});
-		
+
 	},
-	
+
 };

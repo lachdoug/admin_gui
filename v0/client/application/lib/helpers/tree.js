@@ -38,13 +38,12 @@ function treeBranch(branchData) {
         ],
         onclick: function () {
           var children = $(this).parent("li").find("ul");
-//						debugger;
           if ( children[0].$components.length == 0 ) {
             children[0].$components = [
               {
                 $type: "li",
                 $components: [
-                  pp( branchData.content ),
+                  pp( branchData.content || branchData.name ),
                 ].concat(
                   treeBranchBranches( branchData.children )
                 )

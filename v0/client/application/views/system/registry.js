@@ -8,7 +8,7 @@ var $systemRegistry = {
 		modal._live(
 			{
 				dialogClass: "modal-lg",
-				header: icon( { icon: "fa fa-arrows", text: "Registry" } ),
+				header: icon( { icon: "fa fa-arrows", text: "System registry" } ),
 				body: {
 					$components: [
 						{

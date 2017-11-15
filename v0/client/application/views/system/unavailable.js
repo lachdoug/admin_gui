@@ -4,8 +4,8 @@ var $systemUnavailable = {
 	id: "systemUnavailable",
 
 
-	_live: function (message) {
-		// debugger;
+	_live: function ( opts={} ) {
+
 
 		modal._live(
 			{
@@ -15,10 +15,14 @@ var $systemUnavailable = {
 						{
 							id: "systemUnavailableMessage",
 							$init: function () {
-								this._updateMessage ( message || "Failed to connect to system.\n\nPlease wait." )
+								this._updateMessage ( opts.message || "Failed to connect to system.\n\nPlease wait." )
 							},
 							_updateMessage: function ( message ) {
-								// console.log("message is: " + message);
+								if ( opts.behavior == "engines_update" ) {
+									message = "Engines update in progress.\n\nThe update process normally takes a minute or two, but can take longer in some cases."
+								// } else if ( opts.behaviour == "base_os_update" ) {
+								// 	message = "Base OS update in progress. The update process normally takes a minute or two, but can take longer in some cases."
+								};
 								this.$components = [ { $type: "p", style: "white-space: pre-wrap;", $text: message || "Failed to connect to system.\n\nPlease wait." } ];
 							},
 						},
@@ -64,7 +68,7 @@ var $systemUnavailable = {
 		}, 9000 );
 	},
 
-	_handlePollingResponseFailure: function( message) {
+	_handlePollingResponseFailure: function( message ) {
 		// check if modal still open, if not then don't poll
 		if (typeof systemUnavailableMessage !== 'undefined') {
 			systemUnavailableMessage._updateMessage( message );

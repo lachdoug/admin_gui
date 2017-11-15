@@ -88,7 +88,7 @@ var $installNewApp = {
 		var domains = this._data.domains;
 		var environmentVariables = blueprint.software.environment_variables || [];
 		var serviceConfigurations = blueprint.software.service_configurations || [];
-		// debugger;
+		
 		var licenseLabel = dig ( blueprint, "metadata", "software", "license", "label" );
 		var licenseUrl = dig ( blueprint, "metadata", "software", "license", "url" );
 
@@ -100,6 +100,7 @@ var $installNewApp = {
 					class: "clearfix",
 					$components: [
 						button( {
+							class: "installNewAppFormCustomCollapse",
 							wrapperClass: "pull-right",
 							icon: "fa fa-edit",
 							text: "Custom",
@@ -118,7 +119,10 @@ var $installNewApp = {
 							name: "data[engine_name]",
 							id: "installNewAppFormField_container_name",
 							label: "Name",
-							value: name
+							value: name,
+							onchange: function( e ) {
+								installNewApp._checkContainerNameReserved();
+							},
 						} ),
 						formField( {
 							type: "number",
@@ -157,7 +161,10 @@ var $installNewApp = {
 							name: "data[host_name]",
 							id: "installNewAppFormField_host_name",
 							label: "Host name",
-							value: name.replace('_','-')
+							value: name.replace('_','-'),
+							onchange: function( e ) {
+								installNewApp._checkFqdnReserved();
+							},
 						}),
 						formField( {
 							type: "select",
@@ -166,6 +173,9 @@ var $installNewApp = {
 							label: "Domain name",
 							value: defaultDomain,
 							collection: domains,
+							onchange: function( e ) {
+								installNewApp._checkFqdnReserved();
+							},
 						} ),
 						serviceConfigurations.length ? legend ( { text: "Services" } ) : {},
 						{ $components: serviceConfigurations.map(
@@ -209,7 +219,6 @@ var $installNewApp = {
 						]
 					}
 				: { $type: "p", $text: "No license." },
-				// pp( blueprint ),
 				formCancel ( { onclick: "installNewApp._cancelFunc()" } ),
 				formSubmit(),
 			],
@@ -229,7 +238,7 @@ var $installNewApp = {
 		var reserved_names = this._data.reserved.container_names;
 		var name = base_name.substring ( 0, 16 )
 		var index = 2
-		while ($.inArray ( name, reserved_names ) != -1) {
+		while ($.inArray ( name, reserved_names ) > -1) {
 			max_name_length = 16 - index.toString().length;
 			name = base_name.substring ( 0, max_name_length ) + index.toString();
 			index ++
@@ -237,6 +246,30 @@ var $installNewApp = {
 		return name;
 
 	},
+
+	_checkFqdnReserved: function () {
+		var fqdn = $("#installNewAppFormField_host_name").val() + '.' + $("#installNewAppFormField_domain_name").val();
+		if( $.inArray( fqdn, installNewApp._data.reserved.fqdns ) > -1 ) {
+			$("#installNewAppFormField_host_name")[0].setCustomValidity(
+				fqdn + " is already in use."
+			);
+		} else {
+			$("#installNewAppFormField_host_name")[0].setCustomValidity('')
+		};
+	},
+
+
+	_checkContainerNameReserved: function () {
+		var name = $("#installNewAppFormField_container_name").val();
+		if( $.inArray( name, installNewApp._data.reserved.container_names ) > -1 ) {
+			$("#installNewAppFormField_container_name")[0].setCustomValidity(
+				name + " is already in use."
+			);
+		} else {
+			$("#installNewAppFormField_container_name")[0].setCustomValidity('')
+		};
+	},
+
 
 	_formEnvironmentVariableField: function (field, i) {
 		if ( field.ask_at_build_time != true ) {

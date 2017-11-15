@@ -8,7 +8,7 @@ var $serviceActionsNew = {
 
 
 	_live: function (serviceName, data) {
-		// debugger;
+		
 
 		if ( data.params && data.params.length ) {
 			this._serviceName = serviceName;

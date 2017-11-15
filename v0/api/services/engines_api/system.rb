@@ -94,7 +94,7 @@ class V0
           end
 
           ##########################################################################
-          # Localization
+          # Region
           ##########################################################################
 
           def timezone
@@ -434,7 +434,7 @@ end
     #
 
     #
-    #     # localization
+    #     # region
     #
     #     def timezone
     #       get 'system/control/base_os/timezone', expect: :plain_text

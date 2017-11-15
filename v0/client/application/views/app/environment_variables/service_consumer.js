@@ -81,7 +81,6 @@
 // 			action: "/apps/" + this._appName + "/environment_variables",
 // 			callbacks: {
 // 				200: function(response) {
-// 					debugger;
 // 					appEnvironmentVariablesServiceConsumerContent._refresh( response.service_consumers[ appEnvironmentVariablesServiceConsumer._ownerGroup ] );
 // 				},
 // 			}

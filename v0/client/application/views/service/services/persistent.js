@@ -58,7 +58,7 @@ var $serviceServicesPersistent = {
 							},
 
 							$update: function () {
-								// debugger
+								
 								this.$components = [
 									{ $type: "h4", $text: this._data.label },
 									{ $type: "p", $text: this._data.description },

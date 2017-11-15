@@ -1,5 +1,5 @@
 function icon(args) {
-//	debugger;
+
 	return {
 		$type: "span",
 		style: args.style || null,

@@ -6,7 +6,7 @@ var $systemRestartEngines = {
 	_live: function() {
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-play-circle", text: "Restart Engines" } ),
+				header: icon( { icon: "fa fa-play-circle", text: "System restart Engines" } ),
 				body: {
 					$components: [
 						{ $type: "p", $text: "Restart Engines?" },
@@ -35,7 +35,7 @@ var $systemRestartEngines = {
 			method: 'GET',
 			callbacks: {
 				200: function(response) {
-					main._renderUnavailableSystem( "Engines restart has been initiated." );
+					main._renderUnavailableSystem( { message: "Engines restart has been initiated.", behavior: "engines_restart" } );
 				},
 			}
 		});

@@ -1,29 +1,29 @@
 var $systemAdminUser = {
-	
+
 	$cell: true,
 	id: "systemAdminUser",
-	
-	
+
+
 	_live: function() {
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-user", text: "Admin user" } ),
+				header: icon( { icon: "fa fa-user", text: "System admin user" } ),
 				body: {
 					$components: [
 						{
 							class: "clearfix",
 							$components: [
-								button( { 
+								button( {
 									onclick: "systemControlPanel._live()",
-									icon: "fa fa-arrow-up", 
-									wrapperClass: "pull-right" 
+									icon: "fa fa-arrow-up",
+									wrapperClass: "pull-right"
 								} ),
 							]
 						},
 						{
 							id: "systemAdminUserContent",
 							$components: [
-								icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } ) 
+								icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
 							],
 							_refresh: function ( data ) {
 								this.$components = [ systemAdminUser._content( data ) ];
@@ -35,7 +35,7 @@ var $systemAdminUser = {
 		);
 		this._load();
 	},
-	
+
 	_load: function () {
 		apiRequest({
 			action: "/system/user/admin",
@@ -47,9 +47,8 @@ var $systemAdminUser = {
 		});
 	},
 
-	
+
 	_content: function ( data ) {
-//		debugger
 		return {
 			$components: [
 				{
@@ -72,7 +71,7 @@ var $systemAdminUser = {
 				} ),
 			]
 		};
-		
+
 	},
-	
+
 };

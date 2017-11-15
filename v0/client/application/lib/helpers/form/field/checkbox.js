@@ -1,5 +1,5 @@
 var formFieldCheckbox = function( args ) {
-//	debugger;
+
 	return formFieldWrapper(
 		$.extend ( {}, args, { label: false } ),
 		{

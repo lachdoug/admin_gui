@@ -26,11 +26,15 @@ var $cssSystems = css( `
 }
 
 .engines_container {
-  margin-bottom: 5px;
-  border: 1px solid #fff;
+  // margin-bottom: 5px;
+  // border: 1px solid #fff;
+  // overflow: hidden;
+  // break-before: column;
+  // padding-bottom: 10px;
+  -webkit-column-break-inside: avoid;
+          page-break-inside: avoid;
+               break-inside: avoid;
 }
-.engines_container:hover {
-  border: 1px dotted #eeeeee;
-}
+
 
 `);

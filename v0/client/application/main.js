@@ -42,6 +42,14 @@ var $main = {
 	},
 
 
+	// _reloadSystem: function () {
+	// 	// $(".modal").modal("hide");
+	// 	// $("#pageLoadingSpinner").fadeIn();
+	// 	// system._kill();
+	// 	system._live();
+	// },
+
+
 	_renderDisconnectedSystem: function () {
 		// $(".modal").modal("hide");
 		$("#navbarSignOutButton").hide();
@@ -51,12 +59,10 @@ var $main = {
 	},
 
 
-	_renderUnavailableSystem: function( message ) {
-		// $("#navbarSignOutButton").hide();
-		// $("#pageLoadingSpinner").fadeOut();
+	_renderUnavailableSystem: function( opts={} ) {
+		// opts: { behavior: :engines_update or :base_os_update }
 		system._kill();
-		// systemDisconnected._live();
-		systemUnavailable._live();
+		systemUnavailable._live( opts );
 	},
 
 

@@ -7,7 +7,7 @@ var $systemRestartBaseOS = {
 		var baseOSName = system._data.properties.version.base_os.name;
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-power-off", text: "Restart " + baseOSName } ),
+				header: icon( { icon: "fa fa-power-off", text: "System restart " + baseOSName } ),
 				body: {
 					$components: [
 						{ $type: "p", $text: "Restart " + baseOSName + "? This will reboot the system." },
@@ -37,23 +37,12 @@ var $systemRestartBaseOS = {
 			method: 'GET',
 			callbacks: {
 				200: function(response) {
-					main._renderUnavailableSystem( "Base OS restart has been initiated." );
+					main._renderUnavailableSystem( { message: "Base OS restart has been initiated.", behavior: "base_os_restart" } );
 				},
 			}
 		});
 
 	},
 
-	//
-	// _restart: function () {
-	// 	apiRequest({
-	// 		action: "/system/restart_base_os",
-	// 		callbacks: {
-	// 			200: function() {
-	// 				main._renderUnavailableSystem( "Base OS restart has been initiated." );
-	// 			}
-	// 		}
-	// 	});
-	// }
 
 };

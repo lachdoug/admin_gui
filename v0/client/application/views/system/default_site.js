@@ -7,7 +7,7 @@ var $systemDefaultSite = {
 	_live: function() {
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-home", text: "Default site" } ),
+				header: icon( { icon: "fa fa-home", text: "System default site" } ),
 				body: {
 					$components: [
 						{
@@ -60,5 +60,5 @@ var $systemDefaultSite = {
 		});
 
 	},
-	
+
 };

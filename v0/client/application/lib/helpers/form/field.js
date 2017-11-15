@@ -1,5 +1,5 @@
 function formField(args) {
-//	debugger;
+
 	switch( args.type )	{
 		case "string":
 			return formFieldInput($.extend( {}, args, { type: "text" } ) );

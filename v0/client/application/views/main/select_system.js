@@ -25,7 +25,7 @@ var $selectSystem = {
       method: "PUT",
 			callbacks: {
 				200: function ( response ) {
-          // debugger;
+          
           location.reload();
           //
           // systemApiUrl = response.system_api_url;

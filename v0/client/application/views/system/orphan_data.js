@@ -7,7 +7,7 @@ var $systemOrphanData = {
 	_live: function() {
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-compass", text: "Orphan data" } ),
+				header: icon( { icon: "fa fa-compass", text: "System orphan data" } ),
 				body: {
 					$components: [
 						{
@@ -27,7 +27,7 @@ var $systemOrphanData = {
 								this._data = data;
 							},
 							_removeGroupItem: function( groupIndex, itemIndex ) {
-								// debugger
+								
 								$(this).find(".systemOrphanDataApp").eq( groupIndex )[0]._remove( itemIndex );
 							},
 							$components: [

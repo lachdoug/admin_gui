@@ -45,7 +45,7 @@ var $appAbout = {
 								var version = dig( data, "software", "display", "version" );
 								var websiteUrl = dig( data, "software", "display", "url" );
 								var licenseUrl = dig(data, "software", "license", "url" );
-								// debugger;
+								
 								this.$components = [
 									{
 										class: "panel panel-default",

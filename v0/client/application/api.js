@@ -46,7 +46,7 @@ var api = {
 	_handleResponse: function( response, args ) {
 //				alert("api call: " + args.action + " complete");
 		responseContentType = response.getResponseHeader("Content-Type")
-		// debugger;
+
 		if ( response.status == 0 ) {
 			api._handleNoResponse( response, args );
 		} else if ( responseContentType == "application/json" ) {
@@ -56,7 +56,7 @@ var api = {
 		} else if ( responseContentType == "text/html;charset=utf-8" ) {
 			api._handleHtmlResponse(response, args);
 		} else {
-			// debugger;
+
 			var backtrace = ( new Error() ).stack.split("\n");
 			var message = response.responseText;
 			fatalError._live( {
@@ -103,7 +103,7 @@ var api = {
 	_handleJsonResponse: function( response, args ) {
 
 		var callbacks = args.callbacks || {};
-//		debugger;
+
 		var callback = callbacks[response.status];
 		if ( ( typeof(callback) === "undefined" ) ) {
 			this._defaultJsonResponseHandler(response, args);
@@ -121,7 +121,7 @@ var api = {
 							JSON.stringify(JSON.parse(response.responseText), null, 2));
 				break;
 // 			case 400:
-// //				debugger;
+
 // //				alert("Client error.\n\n" + JSON.parse(response.responseText).error.message );
 // 				break;
 			case 401:
@@ -130,7 +130,7 @@ var api = {
 				break;
 			case 405:
 				alert( JSON.parse(response.responseText).error.message );
-				// modal._kill();
+				modal._kill();
 				break;
 			// case 440:
 			// 	alert("Failed to authenticate.\n\n" + JSON.parse(response.responseText).error.message );
@@ -140,11 +140,11 @@ var api = {
 				fatalError._live( JSON.parse(response.responseText).error );
 				break;
 			case 503:
-				main._renderUnavailableSystem( JSON.parse(response.responseText).error.message );
+				main._renderUnavailableSystem( { message: JSON.parse(response.responseText).error.message } );
 				break;
 			default:
 				var backtrace = ( new Error() ).stack.split("\n");
-				// debugger
+
 				var message = response.status ? JSON.parse(response.responseText).error.message : "No response.";
 				fatalError._live( {
 					message: message,

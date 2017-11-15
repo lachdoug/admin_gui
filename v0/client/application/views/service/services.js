@@ -103,10 +103,9 @@ var $serviceServices = {
 	},
 
 	_persistentServicesButtons: function( services ) {
-		return services.map( function( service ) {
+		return services.length ? services.map( function( service ) {
 			return button( {
 				text: service.label || service.name,
-				// title: service.description || service.label || service.name,
 				onclick: function () {
 					serviceServicesPersistent._live(
 						serviceServices._serviceName,
@@ -115,16 +114,15 @@ var $serviceServices = {
 						service.service_handle );
 				}
 			} );
-		} )
+		} ) : [ { $type: "i", $text: "None." } ];
 	},
 
 
 	_nonpersistentServices: function () {
 		return {
-			$components: serviceServicesContent._data[ "non_persistent" ].map( function( nonpersistentService ) {
+			$components: serviceServicesContent._data[ "non_persistent" ].length ? serviceServicesContent._data[ "non_persistent" ].map( function( nonpersistentService ) {
 				return button( {
 					text: nonpersistentService.label || nonpersistentService.name,
-					// title: nonpersistentService.description || nonpersistentService.label || nonpersistentService.name,
 					onclick: function () {
 						serviceServicesNonpersistent._live(
 							serviceServices._serviceName,
@@ -133,7 +131,7 @@ var $serviceServices = {
 							nonpersistentService.service_handle );
 					}
 				} );
-			} )
+			} ) : [ { $type: "i", $text: "None." } ]
 		};
 	},
 
