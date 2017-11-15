@@ -68,6 +68,9 @@ var $appActionsResult = {
 			case "json":
 				return pp( responseData );
 				break;
+			// case "file":
+			// 	return pp( responseData );
+			// 	break;
 			case "none":
 				return { class: "panel panel-default", $components: [ { class: "panel-body", $components: [ { $type: "i", $text: "Successfully performed action." } ] } ] };
 				break;

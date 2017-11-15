@@ -72,7 +72,7 @@ var $appServicesPersistentCreateNew = {
 
 		var params = appServicesPersistentCreateNew._data.params;
 		var queryString = params.map( function( param ) {
-			return "strings[]=" + param.value;
+			return "strings[]=" + ( param.value || '' );
 		} ).join("&");
 
 		apiRequest({

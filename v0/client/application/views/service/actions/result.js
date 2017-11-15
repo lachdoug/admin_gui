@@ -68,6 +68,13 @@ var $serviceActionsResult = {
 			case "json":
 				return pp( responseData );
 				break;
+			case "file":
+				return button({
+					onclick: function () { downloadTextAsFile( actionData.return_file_name, responseData ) },
+					icon: 'fa fa-download',
+					text: 'Download'
+				});
+				break;
 			case "none":
 				return { class: "panel panel-default", $components: [ { class: "panel-body", $components: [ { $type: "i", $text: "Successfully performed action." } ] } ] };
 				break;

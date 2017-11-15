@@ -269,6 +269,7 @@ class V0
 
         def available_persistent_services_for( publisher_namespace, type_path )
           service_definition = @system.service_definition_for( publisher_namespace, type_path )
+          # byebug
           params = service_definition[:consumer_params].values.select do |param|
             param[:ask_at_build_time] == true || param[:immutable] != true
           end.map do |param|

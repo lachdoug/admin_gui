@@ -55,6 +55,7 @@ var $main = {
 		$("#navbarSignOutButton").hide();
 		$("#pageLoadingSpinner").fadeOut();
 		system._kill();
+		signIn._kill();
 		systemDisconnected._live();
 	},
 
