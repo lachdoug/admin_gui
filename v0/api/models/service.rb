@@ -382,17 +382,18 @@ class V0
 
         def actions
           ( service_definition[:service_actionators] || {} ).values.map do |actionator|
-            format_actionator_for(actionator)
+            actionator_summary_for(actionator)
           end
         end
 
-        def format_actionator_for(actionator)
-          actionator[:params] = ( actionator[:params] || [] ).map do |name, param|
-            if param[:input]
-              param
-            else
-              # byebug
-              Helpers.legacy_input_definition_for param
+        def actionator_summary_for(actionator)
+          unless actionator[:variables]
+            actionator[:variables] = ( actionator[:params] || {} ).map do |name, param|
+              if param[:input]
+                param
+              else
+                Helpers.legacy_input_definition_for param
+              end
             end
           end
           actionator

@@ -8,9 +8,9 @@ var $serviceActionsNew = {
 
 
 	_live: function (serviceName, data) {
-		
 
-		if ( data.params && data.params.length ) {
+
+		if ( data.variables && data.variables.length ) {
 			this._serviceName = serviceName;
 			this._data = data;
 			this._show();
@@ -49,14 +49,14 @@ var $serviceActionsNew = {
 						{ $type: "hr" },
 						form( {
 							components: [
-								inDevelopment ? pp(data) : {},
+								// inDevelopment ? pp(data) : {},
 								formField( {
 									type: "hidden",
 									name: "actionator_name",
 				    			value: data.name
 								} ),
 								{
-									$components: ( data.params || [] ).map( function ( variable ) {
+									$components: ( data.variables || [] ).map( function ( variable ) {
 										variable.name_prefix = "variables";
 										return enginesField( variable );
 									} )
