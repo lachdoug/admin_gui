@@ -88,7 +88,7 @@ var $installNewApp = {
 		var domains = this._data.domains;
 		var environmentVariables = blueprint.software.environment_variables || [];
 		var serviceConfigurations = blueprint.software.service_configurations || [];
-		
+
 		var licenseLabel = dig ( blueprint, "metadata", "software", "license", "label" );
 		var licenseUrl = dig ( blueprint, "metadata", "software", "license", "url" );
 
@@ -220,7 +220,8 @@ var $installNewApp = {
 					}
 				: { $type: "p", $text: "No license." },
 				formCancel ( { onclick: "installNewApp._cancelFunc()" } ),
-				formSubmit(),
+				formSubmit( { onclick: installNewApp._checkFqdnReserved }),
+				// reason for checking fqdn is that default value may conflict if user has previously assigned an existing app to hostname with same container name as this new app.
 			],
 			action: "/system/install",
 			callbacks: {
@@ -248,13 +249,21 @@ var $installNewApp = {
 	},
 
 	_checkFqdnReserved: function () {
+		// alert("hiii");
+		// debugger;
 		var fqdn = $("#installNewAppFormField_host_name").val() + '.' + $("#installNewAppFormField_domain_name").val();
 		if( $.inArray( fqdn, installNewApp._data.reserved.fqdns ) > -1 ) {
+			if ( !$("#installNewAppFormField_host_name").is(':visible') ) {
+				$(".installNewAppFormCustomCollapse").toggle();
+			};
 			$("#installNewAppFormField_host_name")[0].setCustomValidity(
 				fqdn + " is already in use."
 			);
+			// debugger;
+			return true;
 		} else {
 			$("#installNewAppFormField_host_name")[0].setCustomValidity('')
+			return true;
 		};
 	},
 
@@ -262,6 +271,11 @@ var $installNewApp = {
 	_checkContainerNameReserved: function () {
 		var name = $("#installNewAppFormField_container_name").val();
 		if( $.inArray( name, installNewApp._data.reserved.container_names ) > -1 ) {
+
+			if ( !$("#installNewAppFormField_container_name").is(':visible') ) {
+				$(".installNewAppFormCustomCollapse").toggle();
+			};
+
 			$("#installNewAppFormField_container_name")[0].setCustomValidity(
 				name + " is already in use."
 			);

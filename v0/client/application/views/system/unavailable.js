@@ -33,7 +33,7 @@ var $systemUnavailable = {
 	_pollServer: function () {
 		setTimeout( function() {
 			if (typeof systemUnavailableMessage !== 'undefined') {
-				systemUnavailableMessage._updateMessage( "Trying again..." );
+				systemUnavailableMessage._updateMessage( "Checking system status..." );
 				setTimeout( function() {
 					apiRequest({
 						action: "/system",
