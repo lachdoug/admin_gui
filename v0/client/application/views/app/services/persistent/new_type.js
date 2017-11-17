@@ -157,7 +157,7 @@ var $appServicesPersistentNewType = {
 			],
 			init: function ( form ) {
 				$(form).submit( function( e ) {
-					
+
 					var formData = new FormData( form );
 					var serviceConsumerParams = appServicesPersistentNewTypeContent._data.params;
 					switch ( formData.get("data[create_type]") ) {

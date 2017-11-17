@@ -11,9 +11,8 @@ class V0
           FileUtils.touch "#{@settings.data_directory_path}/current_user.json"
         end
 
-        def sign_in( system, form_params )
-          api_token = system.sign_in( { username: :admin, password: form_params[:password] } )
-          # @username = 'admin'
+        def sign_in( system, data )
+          api_token = system.sign_in( { username: :admin, password: data[:password], ip_address: data[:ip_address] } )
           save_current_user api_token
         end
 

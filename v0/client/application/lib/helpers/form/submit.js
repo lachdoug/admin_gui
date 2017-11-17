@@ -3,7 +3,7 @@ function formSubmit( args={} ) {
 		class: ( args.wrapperClass || null ),
 		$components: [
 			{ $type: "button",
-				type: args.onclick ? "button" : "submit",
+				type: "submit",  // args.onclick ? "button" : "submit",
 				class: "btn btn-lg btn-custom pull-right",
 				title: ( args.title || "Submit" ),
 				$components: [
