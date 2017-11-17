@@ -4,7 +4,7 @@ class V0
 
       post '/system/signin' do
         @user = User.new( session, settings )
-        byebug
+        # byebug
         @user.sign_in( system( without_token: true ), params[:data].merge( { ip_address: request.ip } ) )
         { username: @user.username }.to_json
       end
