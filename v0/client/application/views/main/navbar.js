@@ -13,8 +13,8 @@ var $navbar = {
 				$components: [
 					{
 						$type: "span",
-						style: "vertical-align: middle;",
-						$components: [ enginesIconSvg(30) ]
+						style: "margin-top: -3px;",
+						$components: [ enginesIconSvg(20) ]
 					},
 					{
 						$type: "span",

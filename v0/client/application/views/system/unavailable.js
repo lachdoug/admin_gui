@@ -14,10 +14,10 @@ var $systemUnavailable = {
 						{
 							id: "systemUnavailableMessage",
 							$init: function () {
-								this._updateMessage ( opts.message || "Failed to connect to system.\n\nPlease wait." )
+								this._updateMessage ( opts.message || "Failed to connect.\n\nPlease wait." )
 							},
 							_updateMessage: function ( message ) {
-								this.$components = [ { $type: "p", style: "white-space: pre-wrap;", $text: message || "Failed to connect to system.\n\nPlease wait." } ];
+								this.$components = [ { $type: "p", style: "white-space: pre-wrap;", $text: message || "Failed to connect.\n\nPlease wait." } ];
 							},
 						},
 					]
