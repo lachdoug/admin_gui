@@ -12,7 +12,7 @@ function enginesField( args ) {
 		comment: dig( args, "input", "comment" ),
 		hint: dig( args, "input", "hint" ),
 		placeholder: dig( args, "input", "placeholder" ),
-		collection: dig( args, "input", "collection", "items" ),
+		collection: dig( args, "input", "collection", "items" ) || [],
 		collectionIncludeBlank: dig( args, "input", "collection", "include_blank" )
 	} );
 };

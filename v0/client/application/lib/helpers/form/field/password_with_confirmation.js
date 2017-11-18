@@ -1,19 +1,23 @@
 var formFieldPasswordWithConfirmation = function( args ) {
 	return formFieldWrapper(
 		args,
-		formFieldPasswordUnwrapped( 
-			$.extend( {}, args, { 
-				oninput: "formFieldPasswordWithConfirmationCheckMatch('" + args.id + "');",
-			} )
-		),
-		formFieldPasswordUnwrapped( 
-			$.extend ( {}, args, { 
-				id: args.id + "_confirmation", 
-				placeholder: "Confirm password", 
-				style: "margin-top: 5px;", 
-				oninput: "formFieldPasswordWithConfirmationCheckMatch('" + args.id + "');",
-			} ) 
-		),
+		{
+			$components: [
+				formFieldPasswordUnwrapped(
+					$.extend( {}, args, {
+						oninput: "formFieldPasswordWithConfirmationCheckMatch('" + args.id + "');",
+					} )
+				),
+				formFieldPasswordUnwrapped(
+					$.extend ( {}, args, {
+						id: args.id + "_confirmation",
+						placeholder: "Confirm password",
+						style: "margin-top: 5px;",
+						oninput: "formFieldPasswordWithConfirmationCheckMatch('" + args.id + "');",
+					} )
+				),
+			]
+		}
 	);
 };
 

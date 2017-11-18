@@ -6,7 +6,7 @@ var formFieldInput = function( args ) {
 };
 
 var formFieldInputUnwrapped = function( args ) {
-	// return pp(args);
+
 	return $.extend(
 		{
 			$type: "input",
@@ -20,11 +20,16 @@ var formFieldInputUnwrapped = function( args ) {
 			pattern: args.pattern || null,
 			min: args.min || null,
 			max: args.max || null,
-			// _patternMessage:  || null,
-			oninput: args.oninput || null,
-			// onchange: args.onchange || null,
 			autocomplete: args.autocomplete || null,
+
 			onchange: function(e) {
+				if ( args.onchange ) {
+					return args.onchange(e)
+				};
+			},
+
+			oninput: function(e) {
+
 				function checkPattern() {
 					if(e.target.validity.patternMismatch) {
 						e.target.setCustomValidity(
@@ -37,8 +42,8 @@ var formFieldInputUnwrapped = function( args ) {
 				  };
 				}
 
-				if ( args.onchange ) {
-					if ( args.onchange(e) ) {
+				if ( args.oninput ) {
+					if ( args.oninput(e) ) {
 						return checkPattern()
 					}
 				} else {

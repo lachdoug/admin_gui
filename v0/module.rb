@@ -161,9 +161,13 @@ class V0 < Sinatra::Base
           method: request.request_method,
           path: request.fullpath,
           backtrace: error.backtrace,
-          system_error: system_error
+          system_error: obscure_system_error_params( system_error )
       } } }.to_json ]
     end
+  end
+
+  def obscure_system_error_params( system_error )
+    system_error
   end
 
   not_found do

@@ -41,6 +41,7 @@ var $fatalError = {
 									{
 										$type: 'button',
 										type: 'submit',
+										title: 'Send report',
 										class: 'btn btn-custom btn-lg pull-right',
 										$components: [
 											icon( {

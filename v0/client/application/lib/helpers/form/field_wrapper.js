@@ -1,4 +1,4 @@
-var formFieldWrapper = function( args, input, input_confirmation={} ) {
+var formFieldWrapper = function( args, input) {
 	return {
 		class: "form-group " + ( args.wrapperClass || "" ),
 	  title: ( args.title || args.label || args.name || null ),
@@ -12,7 +12,7 @@ var formFieldWrapper = function( args, input, input_confirmation={} ) {
 			},
 			{ $text: ( args.comment == false ) ? null : ( args.comment || null ) },
 			input,
-			input_confirmation,
+			// secondary_inputs,
 			{ $type: "small", $text: ( args.hint == false ) ? null : ( args.hint || null ) },
 		],
 		_dependOn: ( args.dependOn || {} ),
@@ -31,7 +31,7 @@ var formFieldWrapper = function( args, input, input_confirmation={} ) {
 			);
 		},
 		_doDependOn: function () {
-			
+
 			if ( this._dependOn.input ) {
 				if (
 					(

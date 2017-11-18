@@ -169,11 +169,18 @@ var $system = {
 										},
  									]
 								},
+								this._data.apps.length ?
 								{
 									class: "system-containers",
 									$components: this._data.apps.map( function(app) {
 										return system._systemApp(app);
 									} )
+								} :
+								{
+									class: 'text-center',
+									$components: [
+										{ $type: 'p', $html: 'To install an app, click on <span style="color: #48D"><i class="fa fa-hdd-o"></i> System</span> then <span style="color: #48D"><i class="fa fa-plus"></i> Install app</span>.' },
+									]
 								},
 								{
 									id: "services",
@@ -281,7 +288,7 @@ var $system = {
 
 	_streamContainerEvents: function () {
 		if ( !this._containerEventsStreamRunning() ) {
-			
+
 			this._closeContainerEvents();
 			this._containerEvents = new EventSource(
 				'/system/container_events'
@@ -303,7 +310,7 @@ var $system = {
 
 
 	_handleContainerEvent: function( event ) {
-		
+
 		if ( event.container_type == "service" ) {
 			this._data.services.map(
 				function( service ) {

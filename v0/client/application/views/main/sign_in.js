@@ -23,8 +23,8 @@ var $signIn = {
 					$components: [
 						form( {
 							components: [
-								formField( { name: "data[username]", value: "admin", label: false, placeholder: "User name", wrapperClass: "hidden" } ),
-								formField( { id:"signInPassword", label: false, name: "data[password]", type: "site_password", placeholder: "Password", title: "System admin password" } ),
+								formField( { name: "data[username]", value: "admin", label: false, placeholder: "User name", type: "hidden" } ),
+								formField( { id:"signInPassword", label: false, name: "data[password]", type: "site_password", required: true, placeholder: "Password", title: "System admin password" } ),
 								formSubmit( { title: "Sign in", text: "Sign in", icon: "fa fa-sign-in", disabledText: "Signing in" } )
 							],
 							action: "/system/signin",

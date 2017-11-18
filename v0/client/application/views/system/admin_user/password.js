@@ -30,6 +30,7 @@ var $systemAdminUserPassword = {
 					name: "data[current_password]",
 					id: "systemAdminUserPasswordField_current_password",
 					label: "Current password",
+					required: true,
 				} ),
 				formField( {
 					type: "hidden",
@@ -41,6 +42,7 @@ var $systemAdminUserPassword = {
 					name: "data[new_password]",
 					id: "systemAdminUserPasswordField_new_password",
 					label: "New password",
+					required: true,
 				} ),
 				formCancel ( { onclick: "systemControlPanel._live();" } ),
 				formSubmit(),

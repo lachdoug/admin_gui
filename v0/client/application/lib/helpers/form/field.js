@@ -7,6 +7,8 @@ function formField(args) {
 			return formFieldTextArea( args );
 		case "select":
 			return formFieldSelect(args);
+		case "select_with_input":
+			return formFieldSelectWithInput(args);
 		case "radios":
 			return formFieldRadios(args);
 		case "checkbox":
