@@ -15,6 +15,7 @@ var $systemDomainsNamesForm = {
 				formField( {
 					name: "data[domain_name]",
 					id: "systemDomainsNamesFormField_domain_name",
+					required: true,
 					label: "Domain name",
           disabled: isEditForm,
     			value: data.domain_name

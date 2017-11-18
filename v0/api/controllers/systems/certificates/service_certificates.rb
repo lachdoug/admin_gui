@@ -2,25 +2,16 @@ class V0
   module Api
     module Controllers
 
-      # get '/system/service_certificates' do
-      #   system.service_certificates.to_json
-      # end
+      get '/system/service_certificates' do
+        system.service_certificates.to_json
+      end
 
-      # get "/system/domains/names/:domain_name" do
-      #   system.domain( domain_name ).to_json
-      # end
-      #
-      # put "/system/domains/names/:domain_name" do
-      #   system.update_domain( params[:domain_name], params[:data] ).to_json
-      # end
-      #
-      # post "/system/domains/names" do
-      #   system.create_domain( params[:data] ).to_json
-      # end
-      #
-      # delete "/system/domains/names/:domain_name" do
-      #   system.delete_domain( params[:domain_name] ).to_json
-      # end
+      put "/system/service_certificates/:service_name" do
+        system.update_service_certificate(
+          service_name: params[:service_name],
+          certificate: params[:data][:certificate],
+        ).to_json
+      end
 
     end
   end

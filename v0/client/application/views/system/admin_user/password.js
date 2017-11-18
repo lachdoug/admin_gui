@@ -55,7 +55,7 @@ var $systemAdminUserPassword = {
 						"You will be redirected to the sign in page. " +
 						"Please sign in again using your new password.\n\n" +
 						"If your browser has asked to update your password, " +
-						"you should accept this first, then click OK."
+						"you can accept this first, then click OK."
 					);
 					location.reload();
 				},

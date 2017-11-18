@@ -13,7 +13,6 @@ class V0
       end
 
       post '/system/certificates' do
-        
         system.create_certificate( params[:data] ).to_json
         # ## Query params: :certificate_path
         # send_as_file "#{ ( params[:certificate_path] ).gsub("/", "_") }.crt",
@@ -26,10 +25,6 @@ class V0
 
       delete '/system/certificates/' do
         system.delete_certificate( params[:certificate_path] ).to_json
-      end
-
-      get '/system/service_certificates' do
-        system.service_certificates.to_json
       end
 
     end

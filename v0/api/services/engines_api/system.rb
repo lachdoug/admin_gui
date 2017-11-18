@@ -339,9 +339,9 @@ class V0
             @system_api.get 'system/certs/service_certs'
           end
 
-          # service_certificate_path is :service_name/:certificate_name
-          def update_service_certificate(service_certificate_path)
-            @system_api.post "system/certs/default/#{service_certificate_path}"
+          def update_service_certificate( args )
+            # args includes keys: :service_name, :store_name, :cert_name
+            @system_api.post "system/certs/what_route_for_updating_service_certs", args
           end
 
           ######################################################################

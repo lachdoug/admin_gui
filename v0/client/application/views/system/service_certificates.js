@@ -68,11 +68,12 @@ var $systemServiceCertificates = {
 			{
 	      $type: "table",
 	      $components: data.map( function( serviceCertificate, i ) {
-	        var serviceCertificatePath = serviceCertificate.service_name + "/" + serviceCertificate.cert_name;
-	        var serviceCertificateId = serviceCertificatePath.replace(/\//g, "|");
+	        var serviceCertificatePath = serviceCertificate.cert_name ? serviceCertificate.store_name + "/" + serviceCertificate.cert_name : "";
+	        // var serviceCertificateId = serviceCertificatePath.replace(/\//g, "|");
 	  			return {
 	          $type: "tr",
 	  				$components: [
+							// pp( serviceCertificate ),
 	            {
 	              $type: "td",
 	              $components: [

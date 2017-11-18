@@ -81,7 +81,7 @@ var $systemCertificatesInstall = {
 					id: "systemCertificatesInstallFormInput_format",
 					label: "Format",
 					type: "radios",
-					collection: { "pem": "PEM", "pkcs": "PFX/PKCS#12" },
+					collection: { "pem": "PEM", "pkcs": "PFX or PKCS#12" },
 					value: "pem",
 				} ),
 

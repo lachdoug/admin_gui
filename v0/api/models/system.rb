@@ -385,9 +385,14 @@ class V0
           engines_api_system.service_certificates
         end
 
-        def update_service_certificate( service_certificate_id )
-          engines_api_system.
-            update_service_certificate service_certificate_id.gsub( "|", "/" )
+        def update_service_certificate( data )
+          cert_data = data[:certificate].split('|')
+          store_path = cert_data[0]
+          cert_name = cert_data[1]
+          engines_api_system.update_service_certificate(
+            service_name: data[:service_name],
+            store_path: store_path,
+            cert_name: cert_name )
         end
 
         ########################################################################
