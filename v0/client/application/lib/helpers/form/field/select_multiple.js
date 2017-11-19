@@ -1,4 +1,4 @@
-var formFieldSelectMulti = function( args ) {
+var formFieldSelectMultiple = function( args ) {
 	return formFieldWrapper(
 		args,
 		{

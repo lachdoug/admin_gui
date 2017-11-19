@@ -7,12 +7,20 @@ function formField(args) {
 			return formFieldTextArea( args );
 		case "select":
 			return formFieldSelect(args);
+		case "select_multiple":
+			return formFieldSelectMultiple(args);
 		case "select_with_input":
 			return formFieldSelectWithInput(args);
-		case "radios":
-			return formFieldRadios(args);
+		case "radios": // deprecated option
+		case "radio_buttons":
+			return formFieldRadioButtons(args);
 		case "checkbox":
+		case "boolean": // deprecated option
+		case "check_box": // deprecated option
 			return formFieldCheckbox(args);
+		case "checkboxes":
+		case "check_boxes": // deprecated option
+			return formFieldCheckboxes(args);
 		case "hidden":
 			return formFieldInputUnwrapped( args );
 		case "country":

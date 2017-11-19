@@ -19,7 +19,7 @@ var $system = {
 		  showContainerMemoryUsage: showContainerMemoryUsage
 		};
 
-		console.log(this._showOptions);
+		// console.log(this._showOptions);
 
 		if ( enableEventStreaming ) {
 			this._streamContainerEvents();
@@ -66,9 +66,6 @@ var $system = {
 				} : {} ),
 				{
 					class: "container",
-					// $init: function () {
-					// 	if (showServices) { $('#services').slideDown('fast'); };
-					// },
 					$components: [
 						{
 							class: "modal-content",
@@ -225,23 +222,13 @@ var $system = {
 		this._closeContainerEvents();
 		this._data = null;
 		this.$components = [];
-		// $(this).hide();
-		// this._disconnected = false;
 	},
 
-	// _showDisconnected: function() {
-	// 	this._closeContainerEvents();
-	// 	this._data = null;
-	// 	this._disconnected = true;
-	// },
-
 	_loadSystem: function ( afterUpdateCallback ) {
-		// console.log("get /system from system._loadSystem");
 		apiRequest({
 			action: '/system',
 			callbacks: {
 				200: function(response) {
-					// console.log("got /system");
 					system._refresh(response, afterUpdateCallback);
 					$("#navbarSignOutButton").show();
 					$("#pageLoadingSpinner").fadeOut();
@@ -337,6 +324,18 @@ var $system = {
 
 	_systemApp: function( app ) {
 
+		var title = app.name + ( showContainerMemoryUsage ?
+		(
+			"\n\nMemory usage" +
+			(
+				app.memory_current ?
+				"\nCurrent " + (app.memory_current/1024/1024).toFixed(1) +
+				" MB\nPeak " + (app.memory_max/1024/1024).toFixed(1) +
+				" MB\nAllocated " + (app.memory_limit/1024/1024).toFixed(0) + " MB"
+				: "\nnone"
+			)
+		)	: "" );
+
 		return {
 			class: "engines_container",
 			$components: [
@@ -344,7 +343,7 @@ var $system = {
 					$type: "button",
 					class: "btn btn-lg btn-custom",
 					style: "width: 100%;",
-					title: app.name,
+					title: title,
 					$components: [
 						{
 							$components: [
@@ -372,29 +371,29 @@ var $system = {
 								},
 							],
 						} : {},
+						showContainerMemoryUsage ?
+						{
+							$type: "p",
+							style: "border-radius: 5px !important; min-height: 10px; box-shadow: 0px 0px 5px 0px #eee inset;",
+							title: title,
+							$components: [
+								app.memory_current ?
+								{
+									style: "line-height: 0px; position: relative;",
+									$components: [
+										{
+											style: "position: absolute; border-radius: 5px !important; background-color: " + ( app.memory_current/app.memory_limit > 0.9 ? "#F00c" : "#48dc") + "; box-shadow: 0px 0px 10px 0px #999 inset; display: inline-block; height: 10px; width: " + app.memory_current / app.memory_limit * 100 + "%; min-width: 10px;",
+										},
+										{
+											style: "position: absolute; border-radius: 5px !important; background-color: " + ( app.memory_max/app.memory_limit > 0.9 ? "#F003" : "#48d3") + "; display: inline-block; height: 10px; width: " + app.memory_max / app.memory_limit * 100 + "%; min-width: 10px;",
+										}
+									]
+								} : {}
+							],
+						} : {},
 					],
 					onclick: function () { appMenu._live( app.name ) }
 				},
-				showContainerMemoryUsage ?
-				{
-					$type: "p",
-					style: "border-radius: 5px !important; min-height: 10px; box-shadow: 0px 0px 5px 0px #eee inset;",
-					title: app.name + ( app.memory_current ? " memory usage\nCurrent " + (app.memory_current/1024/1024).toFixed(1) + " MB\nPeak " + (app.memory_max/1024/1024).toFixed(1) + " MB\nAllocated " + (app.memory_limit/1024/1024).toFixed(0) + " MB" : " memory usage\nnone" ),
-					$components: [
-						app.memory_current ?
-						{
-							style: "line-height: 0px; position: relative;",
-							$components: [
-								{
-									style: "position: absolute; border-radius: 5px !important; background-color: " + ( app.memory_current/app.memory_limit > 0.9 ? "#F00c" : "#48dc") + "; box-shadow: 0px 0px 10px 0px #999 inset; display: inline-block; height: 10px; width: " + app.memory_current / app.memory_limit * 100 + "%; min-width: 10px;",
-								},
-								{
-									style: "position: absolute; border-radius: 5px !important; background-color: " + ( app.memory_max/app.memory_limit > 0.9 ? "#F003" : "#48d3") + "; display: inline-block; height: 10px; width: " + app.memory_max / app.memory_limit * 100 + "%; min-width: 10px;",
-								}
-							]
-						} : {}
-					],
-				} : {},
 				// pp(app),
 			],
 
@@ -404,6 +403,18 @@ var $system = {
 
 	_systemService: function (service) {
 
+		var title = service.name + ( showContainerMemoryUsage ?
+		(
+			"\n\nMemory usage" +
+			(
+				service.memory_current ?
+				"\nCurrent " + (service.memory_current/1024/1024).toFixed(1) +
+				" MB\nPeak " + (service.memory_max/1024/1024).toFixed(1) +
+				" MB\nAllocated " + (service.memory_limit/1024/1024).toFixed(0) + " MB"
+				: "\nnone"
+			)
+		)	: "" );
+
 		return {
 			class: "engines_container",
 			$components: [
@@ -411,7 +422,7 @@ var $system = {
 					$type: "button",
 					class: "btn btn-lg btn-custom",
 					style: "width: 100%;",
-					title: service.name,
+					title: title,
 					$components: [
 						{
 							$components: [
@@ -439,29 +450,29 @@ var $system = {
 								},
 							],
 						} : {},
+						showContainerMemoryUsage ?
+						{
+							$type: "p",
+							style: "border-radius: 5px !important; min-height: 10px; box-shadow: 0px 0px 5px 0px #eee inset;",
+							title: title,
+							$components: [
+								service.memory_current ?
+								{
+									style: "line-height: 0px; position: relative;",
+									$components: [
+										{
+											style: "position: absolute; border-radius: 5px !important; background-color: " + ( service.memory_current/service.memory_limit > 0.9 ? "#F00c" : "#48dc") + "; box-shadow: 0px 0px 10px 0px #999 inset; display: inline-block; height: 10px; width: " + service.memory_current / service.memory_limit * 100 + "%; min-width: 10px;",
+										},
+										{
+											style: "position: absolute; border-radius: 5px !important; background-color: " + ( service.memory_max/service.memory_limit > 0.9 ? "#F003" : "#48d3") + "; display: inline-block; height: 10px; width: " + service.memory_max / service.memory_limit * 100 + "%; min-width: 10px;",
+										}
+									]
+								} : {}
+							],
+						} : {},
 					],
 					onclick: function () { serviceMenu._live( service.name ) }
 				},
-				showContainerMemoryUsage ?
-				{
-					$type: "p",
-					style: "border-radius: 5px !important; min-height: 10px; box-shadow: 0px 0px 5px 0px #eee inset;",
-					title: service.name + ( service.memory_current ? " memory usage\nCurrent " + (service.memory_current/1024/1024).toFixed(1) + " MB\nPeak " + (service.memory_max/1024/1024).toFixed(1) + " MB\nAllocated " + (service.memory_limit/1024/1024).toFixed(0) + " MB" : " memory usage\nnone" ),
-					$components: [
-						service.memory_current ?
-						{
-							style: "line-height: 0px; position: relative;",
-							$components: [
-								{
-									style: "position: absolute; border-radius: 5px !important; background-color: " + ( service.memory_current/service.memory_limit > 0.9 ? "#F00c" : "#48dc") + "; box-shadow: 0px 0px 10px 0px #999 inset; display: inline-block; height: 10px; width: " + service.memory_current / service.memory_limit * 100 + "%; min-width: 10px;",
-								},
-								{
-									style: "position: absolute; border-radius: 5px !important; background-color: " + ( service.memory_max/service.memory_limit > 0.9 ? "#F003" : "#48d3") + "; display: inline-block; height: 10px; width: " + service.memory_max / service.memory_limit * 100 + "%; min-width: 10px;",
-								}
-							]
-						} : {}
-					],
-				} : {},
 				// pp(service),
 
 			]

@@ -1,19 +1,16 @@
-var formFieldRadios = function( args ) {
+var formFieldRadioButtons = function( args ) {
 	return formFieldWrapper(
 		args,
 		{
 			style: "margin-left: 10px; margin-top: -10px;",
 			id: ( args.id || "" ),
-			$components: formFieldRadiosOptions( args )
+			$components: formFieldRadioButtonsOptions( args )
 		}
 	);
 };
 
-var formFieldRadiosOptions = function( args ) {
-	var ary = [];
-	for ( var prop in args.collection ) {
-		ary.push ( [ prop, args.collection[prop] ] );
-	};
+var formFieldRadioButtonsOptions = function( args ) {
+	var ary = formFieldCollectionFormat( args );
 	return ary.map( function ( option, i ) {
 		return {
 			class: "radio",

@@ -22,5 +22,8 @@ var formFieldSelectUnwrapped = function( args ) {
 				return args.onchange(e)
 			};
 		},
+		$init: function () {
+			$(this).selectpicker();
+		},
 	};
 };
