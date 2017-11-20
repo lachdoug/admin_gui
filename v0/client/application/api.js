@@ -10,6 +10,14 @@ var api = {
 			var data = new FormData($(this)[0]);
 			var method = ( form.method || "POST" );
 
+			var formButons = $(form).find("button.disable_button_on_form_submit")
+			formButons.each(
+				function( index ) {
+					// debugger;
+					formButons[index]._disableButton();
+				}
+			);
+
 			$.ajax({
 				url: form.action,
 				method: method,
@@ -19,7 +27,13 @@ var api = {
 				contentType: false,
 				processData: false,
 				complete: ( response ) => {
-					api._handleResponse( response , { action: form.action, method: method, data: data, callbacks: form._callbacks } );
+					formButons.each(
+						function( index ) {
+							// debugger;
+							formButons[index]._enableButton();
+						}
+					);
+					api._handleResponse( response , { action: form.action, data: data, callbacks: form._callbacks } );
 				}
 			});
 
@@ -130,12 +144,7 @@ var api = {
 				break;
 			case 405:
 				alert( JSON.parse(response.responseText).error.message );
-				modal._kill();
 				break;
-			// case 440:
-			// 	alert("Failed to authenticate.\n\n" + JSON.parse(response.responseText).error.message );
-			// 	main._renderSignedOut();
-			// 	break;
 			case 500:
 				fatalError._live( JSON.parse(response.responseText).error );
 				break;

@@ -213,7 +213,6 @@ var $system = {
 			} else {
 				alert('No system API URL.')
 			};
-			// $("#pageLoadingSpinner").fadeOut();
 		}
 	},
 
