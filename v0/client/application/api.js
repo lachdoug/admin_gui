@@ -10,7 +10,8 @@ var api = {
 			var data = new FormData($(this)[0]);
 			var method = ( form.method || "POST" );
 
-			var formButons = $(form).find("button.disable_button_on_form_submit")
+			var formButons = $(form).find("button.disable_button_on_form_submit");
+			
 			formButons.each(
 				function( index ) {
 					// debugger;
@@ -22,14 +23,12 @@ var api = {
 				url: form.action,
 				method: method,
 				data: data,
-//				async: false,
 				cache: false,
 				contentType: false,
 				processData: false,
 				complete: ( response ) => {
 					formButons.each(
 						function( index ) {
-							// debugger;
 							formButons[index]._enableButton();
 						}
 					);

@@ -47,11 +47,11 @@ var $appControlPanel = {
 											icon: "fa fa-crosshairs",
 											text: "Actions",
 											onclick: function () {
-												// if ( system._appDataFor(appName).state == "running" ) {
+												if ( system._appDataFor(appName).state == "running" ) {
 													appActions._live(appName);
-												// } else {
-													// alert("App must be running to perform actions.")
-												// };
+												} else {
+													alert("App must be running to perform actions.")
+												}
 											},
 										} ),
 										{ $type: "hr" },
