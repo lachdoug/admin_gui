@@ -91,7 +91,9 @@ var $appServicesPersistentNewType = {
 					name: "data[create_type]",
 					id: "appServicesPersistentNewTypeCreateType",
 					label: false,
+					title: "Create type",
 					type: "select",
+					value: "create",
 					collection: serviceConsumerCreateType( appServicesPersistentNewTypeContent._data )
 				} ),
 				(

@@ -2,7 +2,7 @@ function enginesField( args ) {
 	return formField( {
 		type: dig( args, "input", "type" ),
 		name: args.name_prefix ? args.name_prefix + "[" + args.name + "]" : args.name,
-		id: args.id || "enginesFormField_" + args.name,
+		id: args.id || ("enginesFormField_" + args.name).replace(/(\[|\])/g, "_"),
 		label: dig( args, "input", "label" ) || args.name,
 		value: args.value,
 		required: args.mandatory,

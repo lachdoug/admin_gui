@@ -3,7 +3,7 @@ function formFieldSelectWithInput( args ) {
 	// debugger;
 
 	var selectCollectionValues = args.collection.map( function( item ) { return item[0] } );
-	var valueInSelectCollection = selectCollectionValues.includes( args.value );
+	var showSecondaryInput = args.value && !selectCollectionValues.includes( args.value );
 // debugger
 	args.collection = [["__SELECT_WITH_INPUT__USE_SECONDARY_INPUT__", "- Custom value -"]].concat( args.collection );
 
@@ -17,6 +17,7 @@ function formFieldSelectWithInput( args ) {
 					{
 						name: args.name,
 						id: args.id,
+						class: "form_field_select_with_input_hidden_input",
 						type: "hidden",
 						value: args.value
 					}
@@ -35,13 +36,15 @@ function formFieldSelectWithInput( args ) {
 						{},
 						args,
 						{
-							id: args.id + "_primary_select",
+							// id: args.id + "",
+							class: "form_field_select_with_input_primary_select",
+							value: args.value || '',
 							name: "",
 							// onchange: function() {
 							// 	formFieldSelectWithInputShowInputCheck(args.id);
 							// },
 						},
-						valueInSelectCollection ? {} : { value: "__SELECT_WITH_INPUT__USE_SECONDARY_INPUT__" }
+						showSecondaryInput ? { value: "__SELECT_WITH_INPUT__USE_SECONDARY_INPUT__" } : {}
 					)
 				),
 				formFieldInputUnwrapped(
@@ -49,34 +52,45 @@ function formFieldSelectWithInput( args ) {
 						{},
 						args,
 						{
-							id: args.id + "_secondary_input",
+							// id: args.id + "_secondary_input",
+							class: "form_field_select_with_input_secondary_input",
 							name: "",
 							placeholder: "Enter a custom value",
-							style: "margin-top: 5px;" + ( valueInSelectCollection ? " display: none;" : "" ),
+							style: "margin-top: 5px;" + ( showSecondaryInput ? "" : " display: none;" ),
 						},
-						valueInSelectCollection ? { value: '' } : {}
+						showSecondaryInput ? {} : { value: '' }
 					)
 				),
 			],
 			onchange: function() {
-				formFieldSelectWithInputUpdateControl(args.id);
+				formFieldSelectWithInputUpdateControl(this);
 			},
 			$init: function() {
-				formFieldSelectWithInputUpdateControl(args.id);
+				formFieldSelectWithInputUpdateControl(this);
 			},
 		}
 	);
 };
 
-function formFieldSelectWithInputUpdateControl(inputId) {
-	if ( $( "#" + inputId + "_primary_select" ).val() == "__SELECT_WITH_INPUT__USE_SECONDARY_INPUT__" ) {
-		$( "#" + inputId ).val( $( "#" + inputId + "_secondary_input" ).val() );
-		$( "#" + inputId + "_secondary_input" ).prop('disabled', false);
-		$( "#" + inputId + "_secondary_input" ).show();
+function formFieldSelectWithInputUpdateControl(control) {
+	// debugger;
+	if (
+		$(control).find(".form_field_select_with_input_primary_select").val() ==
+		"__SELECT_WITH_INPUT__USE_SECONDARY_INPUT__"
+	) {
+		$(control).find(".form_field_select_with_input_hidden_input").val(
+			$(control).find(".form_field_select_with_input_secondary_input" ).val()
+		);
+		var secondaryInput = $(control).find(".form_field_select_with_input_secondary_input");
+		secondaryInput.prop('disabled', false);
+		secondaryInput.show();
 	} else {
-		$( "#" + inputId ).val( $( "#" + inputId + "_primary_select" ).val() );
-		$( "#" + inputId + "_secondary_input" ).prop('disabled', true);
-		$( "#" + inputId + "_secondary_input" ).hide();
+		$(control).find(".form_field_select_with_input_hidden_input").val(
+			$(control).find(".form_field_select_with_input_primary_select").val()
+		);
+		var secondaryInput = $(control).find(".form_field_select_with_input_secondary_input");
+		secondaryInput.prop('disabled', true);
+		secondaryInput.hide();
 	};
 };
 

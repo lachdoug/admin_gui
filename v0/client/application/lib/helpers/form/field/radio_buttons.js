@@ -13,10 +13,11 @@ var formFieldRadioButtonsOptions = function( args ) {
 	var ary = formFieldCollectionFormat( args );
 	return ary.map( function ( option, i ) {
 		return {
-			class: "radio",
+			// class: "radio",
 			$components: [
 				{
 					$type: "label",
+					// title: args.title,
 					$components: [
 						$.extend (
 							{

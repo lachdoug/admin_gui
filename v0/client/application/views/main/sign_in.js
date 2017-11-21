@@ -23,11 +23,15 @@ var $signIn = {
 					$components: [
 						form( {
 							components: [
-								// enginesField( { name: "data[something]", value: "2", input: { validation: { pattern: "a", message: "Not cool."}, collection: { include_blank: true, items: [ ["1", "One"],["2", "Two"] ] } , type: "select_multiple", label: "hi", placeholder: "do it" } } ),
-								// enginesField( { name: "data[something]", value: "2", input: { validation: { pattern: "a", message: "Not cool."}, collection: { include_blank: true, items: [ ["1", "One"],["2", "Two"] ] } , type: "select", label: "hi", placeholder: "do it" } } ),
-								// enginesField( { name: "data[something]", mandatory: true, value: "1", id: "signinForm_test_select", input: { validation: { pattern: "a", message: "Not cool."}, collection: { include_blank: true, items: [ ["1", "One"],["2", "Two"] ] } , type: "select_", label: "hi", placeholder: "do it" } } ),
 								formField( { name: "data[username]", value: "admin", label: false, required: true, placeholder: "User name", type: "hidden" } ),
 								formField( { id:"signInPassword", label: false, name: "data[password]", type: "site_password", required: true, placeholder: "Password", title: "System admin password" } ),
+
+
+								// enginesField( { name: "data[something2]", value: "2,3", mandatory: true, input: { collection: { include_blank: true, items: [ ["1", "One"],["2", "Two"],["3", "Three"],["4", "Four"] ] } , type: "select_multiple", label: "hi", placeholder: "do it" } } ),
+								// enginesField( { name: "data[something3]", value: "2,4", mandatory: true, input: { collection: { include_blank: true, items: [ ["1", "One"],["2", "Two"],["3", "Three"],["4", "Four"] ] } , type: "checkboxes", label: "hi", placeholder: "do it" } } ),
+								// enginesField( { name: "data[something4]", value: "2", mandatory: true, input: { collection: { include_blank: true, items: [ ["1", "One"],["2", "Two"],["3", "Three"],["4", "Four"] ] } , type: "checkbox", label: "hi", placeholder: "do it" } } ),
+
+
 								formSubmit( { title: "Sign in", text: "Sign in", icon: "fa fa-sign-in", disabledText: "Signing in" } )
 							],
 							action: "/system/signin",

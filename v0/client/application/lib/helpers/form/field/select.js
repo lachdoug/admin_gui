@@ -11,7 +11,7 @@ var formFieldSelect = function( args ) {
 var formFieldSelectUnwrapped = function( args ) {
 	return {
 		$type: "select",
-		class: "form-control",
+		class: args.class + " form-control",
 		name: ( args.name || "" ),
 		id: ( args.id || "" ),
 		placeholder: ( args.placeholder || null ),
@@ -22,8 +22,8 @@ var formFieldSelectUnwrapped = function( args ) {
 				return args.onchange(e)
 			};
 		},
-		$init: function () {
-			$(this).selectpicker();
-		},
+		// $init: function () {
+		// 	$(this).selectpicker();
+		// },
 	};
 };

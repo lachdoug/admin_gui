@@ -9,7 +9,7 @@ function formFieldCollectionFormat ( args ) {
 		ary = formFieldCollectionFormatLabels( collection_ary_or_obj || [] );
 	};
 	if ( args.collectionIncludeBlank ) {
-		ary = [ [ "", ""] ].concat( ary );
+		ary = [ [ "", (args.placeholder || "") ] ].concat( ary );
 	};
   return ary;
 };

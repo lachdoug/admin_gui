@@ -26,8 +26,8 @@ var formFieldCheckbox = function( args ) {
 						),
 						{
 							$type: "strong",
-							style: "margin-left: 3px;",
-							$text: ( ' ' + ( args.label || args.name ) )
+							style: "margin-left: 5px;",
+							$text: ( args.label || args.name )
 						}
 					],
 				}
