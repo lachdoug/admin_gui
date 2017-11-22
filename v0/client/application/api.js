@@ -11,7 +11,7 @@ var api = {
 			var method = ( form.method || "POST" );
 
 			var formButons = $(form).find("button.disable_button_on_form_submit");
-			
+
 			formButons.each(
 				function( index ) {
 					// debugger;

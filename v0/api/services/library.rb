@@ -11,12 +11,12 @@ class V0
         # attr_reader :url
 
         def to_h
-          
+
           @to_h ||= app_data
         end
 
         def update_data_file
-          
+
           File.write @data_file_path, {
             timestamp: Time.now.to_i,
             library_apps: remote_data
@@ -32,6 +32,8 @@ class V0
               verify_ssl: false,
             )
           end
+        rescue
+          raise NonFatalError.new "Failed to load list of apps from #{@url}.", 405
         end
 
         def handle_response

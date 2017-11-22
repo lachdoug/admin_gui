@@ -26,6 +26,8 @@ var $signIn = {
 								formField( { name: "data[username]", value: "admin", label: false, required: true, placeholder: "User name", type: "hidden" } ),
 								formField( { id:"signInPassword", label: false, name: "data[password]", type: "site_password", required: true, placeholder: "Password", title: "System admin password" } ),
 
+								// formField( { name: "data[mybox1]", value: "admin", label: "Check me", required: true, placeholder: "User name", type: "checkbox" } ),
+								// formField( { name: "data[mybox2]", value: "admin", label: "Check me", required: true, placeholder: "User name", type: "checkbox_boolean" } ),
 
 								// enginesField( { name: "data[something2]", value: "2,3", mandatory: true, input: { collection: { include_blank: true, items: [ ["1", "One"],["2", "Two"],["3", "Three"],["4", "Four"] ] } , type: "select_multiple", label: "hi", placeholder: "do it" } } ),
 								// enginesField( { name: "data[something3]", value: "2,4", mandatory: true, input: { collection: { include_blank: true, items: [ ["1", "One"],["2", "Two"],["3", "Three"],["4", "Four"] ] } , type: "checkboxes", label: "hi", placeholder: "do it" } } ),

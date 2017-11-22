@@ -18,13 +18,12 @@ var formFieldCheckbox = function( args ) {
 								id: ( args.id || "" ),
 								required: ( args.required || null ),
 								// title: ( args.title || args.label ),
-								value: 'true',
+								value: args.value || '1',
 								type: "checkbox",
-	//							checked:  ? "checked" : null,
 							},
-							[ 'checked', 'true', 'on', 'yes' ].some( function(option) { return option == ( args.value || "" ).toString().toLowerCase(); } ) ? { checked: "checked" } : {},
+							[ 'checked', 'true', 'on', 'yes', '1' ].some( function(option) { return option == ( args.value || "" ).toString().toLowerCase(); } ) ? { checked: "checked" } : {},
 						),
-						{
+						args.label == false ? {} : {
 							$type: "strong",
 							style: "margin-left: 5px;",
 							$text: ( args.label || args.name )

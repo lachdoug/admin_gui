@@ -64,13 +64,13 @@ class V0 < Sinatra::Base
 
   get '/' do
     content_type :html
-    erb :index
+    erb :'index.html'
   end
 
   get '/client' do
     # byebug
     content_type :'application/javascript'
-    erb :client
+    erb :'client.js'
   end
 
   put '/client/select_system' do

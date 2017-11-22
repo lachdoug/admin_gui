@@ -46,6 +46,11 @@ var $installNewApp = {
 					installNewApp._data = response
 					installNewApp._renderForm();
 				},
+				405: function (response) {
+					// debugger;
+					alert( response.error.message );
+					installNewApp._cancelFunc();
+				}
 			}
 		});
 
@@ -61,13 +66,13 @@ var $installNewApp = {
 	},
 
 
-	_failedToLoad: function (message) {
-
-		installNewAppForm.$components = [
-			{ $text: message }
-		];
-
-	},
+	// _failedToLoad: function (message) {
+	//
+	// 	installNewAppForm.$components = [
+	// 		{ $text: message }
+	// 	];
+	//
+	// },
 
 
 	_form: function () {
@@ -219,7 +224,7 @@ var $installNewApp = {
 						]
 					}
 				: { $type: "p", $text: "No license." },
-				formCancel ( { onclick: "installNewApp._cancelFunc()" } ),
+				formCancel ( { onclick: installNewApp._cancelFunc } ),
 				formSubmit( { onclick: installNewApp._checkFqdnReserved }),
 				// reason for checking fqdn is that default value may conflict if user has previously assigned an existing app to hostname with same container name as this new app.
 			],

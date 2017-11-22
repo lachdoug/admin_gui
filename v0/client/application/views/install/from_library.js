@@ -46,6 +46,10 @@ var $installFromLibrary = {
 			callbacks: {
 				200: function(response) {
 					installFromLibrary._renderApps ( response.apps );
+				},
+				405: function (response) {
+					alert( response.error.message );
+					systemMenu._live();
 				}
 			}
 		});
@@ -118,14 +122,14 @@ var $installFromLibrary = {
 	},
 
 
-	_failedToLoad: function (error_message) {
-
-		installFromLibraryAppList.$components = [
-			{ $text: "Failed to load apps from library."},
-			{ $type: "br" },
-			{ $text: error_message }
-		];
-
-	},
+	// _failedToLoad: function (error_message) {
+	//
+	// 	installFromLibraryAppList.$components = [
+	// 		{ $text: "Failed to load apps from library."},
+	// 		{ $type: "br" },
+	// 		{ $text: error_message }
+	// 	];
+	//
+	// },
 
 };

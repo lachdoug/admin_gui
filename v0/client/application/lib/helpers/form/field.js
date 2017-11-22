@@ -18,6 +18,8 @@ function formField(args) {
 		case "boolean": // deprecated option
 		case "check_box": // deprecated option
 			return formFieldCheckbox(args);
+		case "checkbox_boolean": // deprecated option
+			return formFieldCheckboxBoolean(args);
 		case "checkboxes":
 		case "check_boxes": // deprecated option
 			return formFieldCheckboxes(args);
