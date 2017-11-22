@@ -56,7 +56,7 @@ var $serviceConfigurations = {
 										serviceConfigurationsContent._data.map(
 											function( configuration ) {
 												return button( {
-													text: ( configuration.label || configuration.name ) + ' ' + configuration.no_save,
+													text: ( configuration.label || configuration.name ),
 													title: configuration.description || configuration.label || configuration.name,
 													onclick: function () {
 														configuration.no_save ?

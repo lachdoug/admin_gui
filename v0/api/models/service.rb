@@ -429,7 +429,7 @@ class V0
             variables = []
           else
             current_config = configuration_for(configurator_name)[:variables]
-            variables = configurator[:params].map do |param|
+            variables = configurator[:variables].map do |param|
               {
                 label: param.dig(:input, :label) || param[:name],
                 value: current_config[ param[:name].to_sym ]
@@ -447,35 +447,37 @@ class V0
 
         def configuration_edit(configurator_name)
           configurator = configurator_for(configurator_name)
+          # byebug
           if configurator[:no_save]
-            configurator[:params] = configurator[:params].map do |param|
-              param[:value] = resolve_string( param[:value] )
-              param
+            configurator[:variables] = configurator[:variables].map do |variable|
+              variable[:value] = resolve_string( variable[:value] )
+              variable
             end
           else
             current_config = configuration_for(configurator_name)[:variables]
-            configurator[:params] = configurator[:params].map do |param|
+            configurator[:variables] = configurator[:variables].map do |variable|
 # puts "current_config #{current_config}"
-# byebug
-              current_value = current_config[ param[:name].to_sym ]
-              param[:value] =
-                current_value ? current_value : resolve_string( param[:value] )
-              param
+              current_value = current_config[ variable[:name].to_sym ]
+              variable[:value] =
+                current_value ? current_value : resolve_string( variable[:value] )
+              variable
             end
           end
           configurator
         end
 
         def configurator_for(configurator_name)
-          configurator = service_definition[:configurators][configurator_name.to_sym]
-          configurator[:params] = ( configurator[:params] || {} ).map do |name, param|
-            if param[:input]
-              param
-            else
-              Helpers.legacy_input_definition_for param
-            end
-          end
-          configurator
+          # configurator = service_definition[:configurators][configurator_name.to_sym]
+          # configurator[:variables] = ( configurator[:variables] || configurator[:params] || {} ).map do |name, param|
+          #   if param[:input]
+          #     param
+          #   else
+          #     Helpers.legacy_input_definition_for param
+          #   end
+          # end
+          # byebug
+          # configurator
+          service_definition[:configurators][configurator_name.to_sym]
         end
 
         def configuration_for(configurator_name)

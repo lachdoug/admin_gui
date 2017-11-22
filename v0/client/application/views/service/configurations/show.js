@@ -55,7 +55,6 @@ var $serviceConfigurationsShow = {
 
 		var serviceName = this._serviceName;
 		// var data = this._data;
-
 		modal._live (
 			{
 				// dialogClass: "modal-lg",

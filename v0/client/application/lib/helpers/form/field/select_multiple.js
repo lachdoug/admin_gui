@@ -51,21 +51,24 @@ var formFieldSelectMultiple = function( args ) {
 					class: "formFieldSelectMultipleSelectedItems",
 					style: "margin-top: 5px;",
 
-					_items: null,
+					_items: [],
 					_itemCount: 0,
 
 					$init: function () {
-						this._items = [];
-						var formFieldSelectMultipleSelectedItems = this;
-						var valuesList = args.value.replace(/\,\s*/g, ',').split(',');
 						// debugger
-						if ( valuesList.length ) {
-							valuesList.map( function( value ) {
+						items = [];
+						var formFieldSelectMultipleSelectedItems = this;
+						var preselectedValues = args.value ? args.value.replace(/\,\s*/g, ',').split(',') : [];
+						// debugger
+						if ( preselectedValues.length ) {
+							preselectedValues.map( function( value ) {
 								var label = $(formFieldSelectMultipleSelectedItems).prev().find("option[value='" + value + "']").text();
-								// debugger
-								formFieldSelectMultipleSelectedItems._addSelectedItem( { value: value, label: label } )
+								items.unshift( { value: value, label: label } );
+								formFieldSelectMultipleSelectedItems.previousSibling._disableListItem( value );
+								// formFieldSelectMultipleSelectedItems._addSelectedItem( { value: value, label: label } )
 							} )
 						};
+						this._items = items;
 						this._render();
 					},
 
@@ -81,9 +84,10 @@ var formFieldSelectMultiple = function( args ) {
 						this._render();
 					},
 
-					$update: this._render,
+					// $update: this._render,
 
 					_render: function () {
+						// alert( JSON.stringify(this._items) );
 						var newItemHasBeenAdded = this._items.length > this._itemCount;
 						this._itemCount = this._items.length;
 						this.$components = [
@@ -95,7 +99,7 @@ var formFieldSelectMultiple = function( args ) {
 										class: "formFieldSelectMultipleSelectedItem",
 										style: ( i == 0 && newItemHasBeenAdded ) ? "display: none;" : "",
 										$init: function() {
-											$(this).slideDown();
+											$(this).fadeIn();
 										},
 										$components: [
 											formFieldInputUnwrapped({

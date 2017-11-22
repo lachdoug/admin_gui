@@ -31,7 +31,7 @@ var $serviceConfigurationsEdit = {
 
 
 	// _precheck: function( data ) {
-	// 	
+	//
 	// 	var variables = Object.values( data.params );
 	// 	if ( variables && variables.length ) {
 	// 		this._data = data;
@@ -79,13 +79,15 @@ var $serviceConfigurationsEdit = {
 				    			value: data.name
 								} ),
 								{
-									$components: ( Object.values( data.params ) || [] ).map( function ( variable ) {
+									$components: ( Object.values( data.variables ) || [] ).map( function ( variable ) {
 										variable.name_prefix = "variables";
 										return enginesField( variable );
 									} )
 								},
 								formCancel ( {
 									onclick: function () {
+										data.no_save ?
+										serviceConfigurations._live( serviceName ) :
 										serviceConfigurationsShow._live( serviceName, data.name );
 									}
 								} ),

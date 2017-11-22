@@ -14,6 +14,7 @@ function form(obj) {
 			} else {
 				api._bindForm( this );
 			};
+			// debugger;
 			$(this).find("input:invalid").first().focus();
 		}
 	}
