@@ -15,10 +15,10 @@ function formField(args) {
 		case "radio_buttons":
 			return formFieldRadioButtons(args);
 		case "checkbox":
-		case "boolean": // deprecated option
 		case "check_box": // deprecated option
 			return formFieldCheckbox(args);
-		case "checkbox_boolean": // deprecated option
+		case "boolean": // deprecated option
+		case "checkbox_boolean":
 			return formFieldCheckboxBoolean(args);
 		case "checkboxes":
 		case "check_boxes": // deprecated option
