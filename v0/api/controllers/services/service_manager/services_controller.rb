@@ -21,11 +21,11 @@ class V0
       #   @service.available_services.to_json
       # end
       #
-      # ## Services full detail
-      # get '/services/:service_name/service_manager/report' do
-      #   set_service(params[:service_name])
-      #   @service.services_report.to_json
-      # end
+      ## Services full detail
+      get '/services/:service_name/service_manager/report' do
+        set_service(params[:service_name])
+        @service.services_report.to_json
+      end
 
     end
   end

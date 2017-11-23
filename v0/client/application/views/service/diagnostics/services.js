@@ -67,7 +67,7 @@ var $serviceDiagnosticsServices = {
 	_load: function () {
 
 		apiRequest({
-			action: "/services/" + this._serviceName + "/service_manager/services",
+			action: "/services/" + this._serviceName + "/service_manager/report",
 			callbacks: {
 				200: function(response) {
 					serviceDiagnosticsServicesContent._refresh( response );
