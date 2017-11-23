@@ -3,7 +3,7 @@ var formFieldCheckboxBoolean = function( args ) {
 	var checked = [ 'true', 'on', 'yes', '1' ].some( function(option) { return option == ( args.value || "" ).toString().toLowerCase(); } );
 
 	return formFieldWrapper(
-		$.extend ( {}, args, { label: false } ),
+		$.extend ( {}, args, { label: false, title: ( args.title || args.label ) } ),
 		{
 			class: "checkbox",
 			style: "margin-left: 10px;",
@@ -17,7 +17,7 @@ var formFieldCheckboxBoolean = function( args ) {
 				},
 				{
 					$type: "label",
-					title: ( args.title || args.label ),
+					// title: ( args.title || args.label ),
 					$components: [
 						$.extend(
 							{

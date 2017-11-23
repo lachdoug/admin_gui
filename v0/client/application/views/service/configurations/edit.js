@@ -70,7 +70,6 @@ var $serviceConfigurationsEdit = {
 						{ $type: "hr" },
 						{ $type: "h4", $text: data.label },
 						{ $type: "p", $text: data.description },
-						{ $type: "hr" },
 						form( {
 							components: [
 								formField( {

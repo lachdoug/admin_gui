@@ -25,12 +25,12 @@ var $systemUnavailable = {
 			}
 		);
 		this._pollServer();
-		$("#pageLoadingSpinner").fadeIn();
 		system._kill();
 	},
 
 
 	_pollServer: function () {
+		$("#pageLoadingSpinner").fadeIn();
 		setTimeout( function() {
 			if (typeof systemUnavailableMessage !== 'undefined') {
 				systemUnavailableMessage._updateMessage( "Checking system status..." );

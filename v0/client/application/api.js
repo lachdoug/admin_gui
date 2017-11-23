@@ -58,6 +58,8 @@ var api = {
 
 	_handleResponse: function( response, args ) {
 //				alert("api call: " + args.action + " complete");
+		$("#pageLoadingSpinner").fadeOut();
+
 		responseContentType = response.getResponseHeader("Content-Type")
 
 		if ( response.status == 0 ) {

@@ -78,7 +78,6 @@ var $serviceConfigurationsShow = {
 						{ $type: "hr" },
 						{ $type: "h4", $text: data.label },
 						{ $type: "p", $text: data.description },
-						{ $type: "hr" },
 						// pp(data),
 						dataList({
 							class: "dl-horizontal",

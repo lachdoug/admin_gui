@@ -26,7 +26,7 @@ var $appActionsResult = {
 				dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-crosshairs",
-					text: "App actions",
+					text: "App action result",
 				} ),
 				body: {
 					$components: [

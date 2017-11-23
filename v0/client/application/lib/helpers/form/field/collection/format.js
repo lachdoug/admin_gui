@@ -10,7 +10,7 @@ function formFieldCollectionFormat ( args ) {
 		ary = formFieldCollectionFormatLabels( collection_ary_or_obj || [] );
 	};
 	if ( args.collectionIncludeBlank ) {
-		ary = [ [ "", (args.placeholder || "Please select a value") ] ].concat( ary );
+		ary = [ [ "", (args.placeholder || "Please select") ] ].concat( ary );
 	};
   return ary;
 };

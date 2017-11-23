@@ -50,7 +50,6 @@ var formFieldInputUnwrapped = function( args ) {
 					return checkPattern();
 				};
 			},
-			// setCustomValidity('') allows other validations (e.g. required) to show errors
 
 			$init: function () {
 
