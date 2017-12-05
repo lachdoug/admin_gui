@@ -394,7 +394,7 @@ class V0
               variable
             end
             if action[:return_type] == 'file'
-              action[:return_file_name] = resolve_string variable[:return_file_name]
+              action[:return_file_name] = resolve_string action[:return_file_name]
             end
           end
         end
