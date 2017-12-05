@@ -95,6 +95,30 @@ class V0 < Sinatra::Base
     {}.to_json
   end
 
+  get '/test_kerberos' do
+
+    require 'kerberos_authenticator'
+
+    KerberosAuthenticator.setup do |config|
+      # Configure the server principal and keytab used to verify the credentials received from the KDC.
+      # Setting these to nil will let the underlying Kerberos 5 library try its own defaults.
+      config.server = 'server@EXAMPLE.ORG'
+      config.keytab_path = 'example.keytab'
+
+      # Provide a keytab as a Base64 encoded string (e.g from an enviromental variable).
+      # This will override keytab_path.
+      # config.keytab_base64 = Base64.encode64(File.read('example.keytab'))
+    end
+
+    begin
+      KerberosAuthenticator.authenticate!('user@EXAMPLE.ORG', 'mypassword')
+      'Successful authentication!'.to_json
+    rescue KerberosAuthenticator::Error => e
+       "Failed to authenticate! #{e.inspect}".to_json
+    end
+
+  end
+
   ##############################################################################
   ## Errors
   ##############################################################################

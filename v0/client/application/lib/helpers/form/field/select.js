@@ -9,6 +9,7 @@ var formFieldSelect = function( args ) {
 };
 
 var formFieldSelectUnwrapped = function( args ) {
+	debugger;
 	return {
 		$type: "select",
 		class: args.class + " form-control",

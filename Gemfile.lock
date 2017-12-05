@@ -6,13 +6,17 @@ GEM
     domain_name (0.5.20170404)
       unf (>= 0.0.5, < 1.0.0)
     eventmachine (1.2.5)
+    ffi (1.9.18)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
+    kerberos_authenticator (0.0.7)
+      ffi (~> 1.9)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
     multi_json (1.12.2)
     mustermann (1.0.1)
+    net-ldap (0.16.1)
     netrc (0.11.0)
     rack (2.0.3)
     rack-protection (2.0.0)
@@ -46,6 +50,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  kerberos_authenticator
+  net-ldap
   rest-client
   sinatra
   sinatra-contrib
