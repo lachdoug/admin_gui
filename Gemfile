@@ -4,6 +4,5 @@ gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'thin'
 gem 'rest-client'
-# gem 'byebug'
-
-# gem 'sprockets-helpers'
+# gem 'kerberos_authenticator'
+# gem 'net-ldap'
