@@ -45,16 +45,19 @@ var $systemUnavailable = {
 								systemUnavailable._handlePollingResponseFailure();
 							},
 							503: function(response) {
+								console.log('-----------ok1')
 								systemUnavailable._handlePollingResponseFailure(response.error.message);
 							},
 							200: function(response) {
 								modal._kill();
-								alert("System connected.");
+								alert("System ready.");
 								location.reload();
 							}
 						}
 					});
 				}, 1000 );
+			} else {
+				main._renderDisconnectedSystem();
 			};
 		}, 9000 );
 	},
@@ -62,6 +65,7 @@ var $systemUnavailable = {
 	_handlePollingResponseFailure: function( message ) {
 		// check if modal still open, if not then don't poll
 		if (typeof systemUnavailableMessage !== 'undefined') {
+			console.log('-----------ok')
 			if ( systemUnavailable._opts.behavior == "engines_update" ) {
 				message = "Engines update in progress.\n\nThe update process normally takes a minute or two, but can take longer in some cases."
 			// } else if ( opts.behaviour == "base_os_update" ) {
@@ -70,6 +74,7 @@ var $systemUnavailable = {
 			systemUnavailableMessage._updateMessage( message );
 			systemUnavailable._pollServer();
 		} else {
+			console.log('-----------not-ok')
 			main._renderDisconnectedSystem();
 		};
 	},

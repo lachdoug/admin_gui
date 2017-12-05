@@ -381,23 +381,36 @@ class V0
         ######################################################################
 
         def actions
-          ( service_definition[:service_actionators] || {} ).values.map do |actionator|
-            actionator_summary_for(actionator)
+          ( service_definition[:service_actionators] || {} ).values
+          # .map do |actionator|
+          #   actionator_summary_for(actionator)
+          # end
+        end
+
+        def action(action_name)
+          ( service_definition[:service_actionators] || {} )[action_name.to_sym].tap do |action|
+            action[:variables] = action[:variables].map do |variable|
+              variable[:value] = resolve_string variable[:value]
+              variable
+            end
           end
         end
 
-        def actionator_summary_for(actionator)
-          unless actionator[:variables]
-            actionator[:variables] = ( actionator[:params] || {} ).map do |name, param|
-              if param[:input]
-                param
-              else
-                Helpers.legacy_input_definition_for param
-              end
-            end
-          end
-          actionator
-        end
+        # def actionator_summary_for(actionator)
+        #   byebug
+        #   unless actionator[:variables]
+        #     actionator[:variables] = ( actionator[:params] || {} ).map do |name, param|
+        #       if param[:input]
+        #         param
+        #       else
+        #         Helpers.legacy_input_definition_for param
+        #       end
+        #     end
+        #   end
+        #   # byebug if actionator[:value] == '_Engines_System(default_domain)'
+        #   # actionator[:value] = resolve_string( actionator[:value] )
+        #   actionator
+        # end
 
         def perform_action( actionator_name, variables )
           service_api.perform_action(

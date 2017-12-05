@@ -6,7 +6,7 @@ var formFieldLanguage = function( args ) {
 			class: "form-control",
 			name: ( args.name || "" ),
 			id: ( args.id || "" ),
-			$components: formFieldSelectOptions ( 
+			$components: formFieldCollectionSelectOptions ( 
 				{ collection: formFieldLanguageCodesCollection, value: args.value } 
 			)
 		}

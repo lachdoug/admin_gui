@@ -31,6 +31,4 @@ ENV['ENGINES_ADMIN_GUI_LIBRARY_URL'] default is "https://library.engines.org/api
 ENV['ENGINES_ADMIN_GUI_BANNER_TEXT'] default is nil.  
 ENV['ENGINES_ADMIN_GUI_BANNER_TEXT_COLOR'] default is '#fff'.  
 ENV['ENGINES_ADMIN_GUI_BANNER_BACKGROUND_COLOR'] default is '#48d'.  
-**Todo**  
-i.e.: not working yet...  
 ENV['ENGINES_ADMIN_GUI_BUG_REPORTS_URL'] for example: "https://127.0.0.1:3666".  

@@ -6,7 +6,7 @@ var formFieldCountry = function( args ) {
 			class: "form-control",
 			name: ( args.name || "" ),
 			id: ( args.id || "" ),
-			$components: formFieldSelectOptions ( 
+			$components: formFieldCollectionSelectOptions ( 
 				{ collection: formFieldCountryCodesCollection, value: args.value }
 			)
 		}

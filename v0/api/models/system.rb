@@ -404,7 +404,7 @@ class V0
             begin
               event = JSON.parse(event_json, symbolize_names: true)
 #
-# puts "Received event on #{event[:container_name]}: #{event}"
+# puts "Processing event: #{event}"
 # puts "Event state: #{event[:state]}"
 #
               if event[:container_name].nil?

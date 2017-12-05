@@ -55,7 +55,7 @@ var $serviceActions = {
 									serviceActionsContent._data.length ?
 										serviceActionsContent._data.map(
 											function( action ) {
-												return button( { text: action.label || action.name, onclick: function () { serviceActionsNew._live( serviceName, action ) } });
+												return button( { text: action.label || action.name, onclick: function () { serviceActionsNew._live( serviceName, action.name ) } });
 											}
 										) : [
 										{ $type: "i", $text: "This service does not have any actions." }
@@ -77,9 +77,10 @@ var $serviceActions = {
 			action: "/services/" + this._serviceName + "/actions",
 			callbacks: {
 				200: function(response) {
-					var actionators = Object.values( response );
+					// debugger
+					// var actionators = Object.values( response );
 					// console.log( actionators );
-					serviceActionsContent._refresh( actionators );
+					serviceActionsContent._refresh( response );
 				}
 			}
 		});

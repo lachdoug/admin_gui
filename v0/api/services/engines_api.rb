@@ -22,14 +22,14 @@ class V0
           Service.new self, name
         end
 
-        def post(route, params={})
+        def post(route, params={}, opts={})
           handle_response do
             RestClient::Request.execute(
               method: :post,
               url: "#{@url}/v0/#{route}",
               payload: { api_vars: ( params || {} ) }.to_json,
               contentType: 'application/json',
-              timeout: 120,
+              timeout: opts[:timeout] || 120,
               verify_ssl: false,
               headers: {
                 access_token: @token
@@ -38,14 +38,14 @@ class V0
           end
         end
 
-        def put_stream(route, params={})
+        def put_stream(route, params={}, opts={})
           handle_response do
             RestClient::Request.execute(
               method: :put,
               url: "#{@url}/v0/#{route}",
               payload: { api_vars: ( params || {} ) }.to_json,
               contentType: 'application/octet-stream',
-              timeout: 120,
+              timeout: opts[:timeout] || 120,
               verify_ssl: false,
               headers: {
                 access_token: @token
@@ -54,12 +54,12 @@ class V0
           end
         end
 
-        def get(route)
+        def get(route, opts={})
           handle_response do
             RestClient::Request.execute(
               method: :get,
               url: "#{@url}/v0/#{route}",
-              timeout: 120,
+              timeout: opts[:timeout] || 120,
               verify_ssl: false,
               headers: {
                 access_token: @token
@@ -68,12 +68,12 @@ class V0
           end
         end
 
-        def delete(route)
+        def delete(route, opts={})
           handle_response do
             RestClient::Request.execute(
               method: :delete,
               url: "#{@url}/v0/#{route}",
-              timeout: 120,
+              timeout: opts[:timeout] || 120,
               verify_ssl: false,
               headers: {
                 access_token: @token
@@ -84,6 +84,7 @@ class V0
 
         def handle_response
           response = yield
+          return nil unless response.headers[:content_type]
           case response.headers[:content_type].split(';').first
           when 'application/json'
             JSON.parse response.body, symbolize_names: true

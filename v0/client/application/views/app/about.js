@@ -45,7 +45,7 @@ var $appAbout = {
 								var version = dig( data, "software", "display", "version" );
 								var websiteUrl = dig( data, "software", "display", "url" );
 								var licenseUrl = dig(data, "software", "license", "url" );
-								
+
 								this.$components = [
 									{
 										class: "panel panel-default",
@@ -80,6 +80,8 @@ var $appAbout = {
 											button( { icon: "fa fa-external-link", text: "License", class: "pull-right-md", onclick: () => { licenseUrl ? openUrl( licenseUrl ) : alert("Not available."); } } )
 										]
 									},
+									{ $type: 'hr' },
+									button( { icon: "fa fa-camera-retro", class: "pull-right-md", text: "Icon", onclick: () => { appIcon._live( appName ); } } ),
 								];
 							},
 						},

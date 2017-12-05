@@ -176,7 +176,7 @@ var $system = {
 								{
 									class: 'text-center',
 									$components: [
-										{ $type: 'p', $html: 'To install an app, click on <span style="color: #48D"><i class="fa fa-hdd-o"></i> System</span> then <span style="color: #48D"><i class="fa fa-plus"></i> Install app</span>.' },
+										{ $type: 'p', $html: 'To install an app click on <span style="color: #48D"><i class="fa fa-hdd-o"></i> System</span> then <span style="color: #48D"><i class="fa fa-plus"></i> Install app</span>.' },
 									]
 								},
 								{

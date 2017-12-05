@@ -24,7 +24,7 @@ var $systemUpdateEngines = {
 			action: "/system/update_engines",
 			callbacks: {
 				200: function() {
-					main._renderUnavailableSystem( { message: "Engines update is starting.", behavior: "engines_update" } )
+					main._renderUnavailableSystem( { message: "Engines update in progress.\n\nThe update process normally takes a minute or two, but can take longer in some cases.", behavior: "engines_update" } )
 				},
 				405: function() {
 					systemUpdateEngines._alreadyUpToDate();

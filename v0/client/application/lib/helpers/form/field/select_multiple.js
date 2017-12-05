@@ -45,7 +45,7 @@ var formFieldSelectMultiple = function( args ) {
 						$(this).find("option").first().prop('disabled', true);
 					},
 					// Always include blank in select list
-					$components: formFieldSelectOptions( $.extend( {}, args, { collectionIncludeBlank: true, value: '' } ) )
+					$components: formFieldCollectionSelectOptions( $.extend( {}, args, { collectionIncludeBlank: true, value: '' } ) )
 				},
 				{
 					class: "formFieldSelectMultipleSelectedItems",
@@ -58,7 +58,7 @@ var formFieldSelectMultiple = function( args ) {
 						// debugger
 						items = [];
 						var formFieldSelectMultipleSelectedItems = this;
-						var preselectedValues = args.value ? args.value.replace(/\,\s*/g, ',').split(',') : [];
+						var preselectedValues = formFieldCollectionMultipleValues( args.value );
 						// debugger
 						if ( preselectedValues.length ) {
 							preselectedValues.map( function( value ) {

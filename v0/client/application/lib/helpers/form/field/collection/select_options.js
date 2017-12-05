@@ -1,4 +1,4 @@
-var formFieldSelectOptions = function( args ) {
+var formFieldCollectionSelectOptions = function( args ) {
 	var ary = formFieldCollectionFormat( args );
 	return ary.map( function (option, i) {
 		return $.extend (

@@ -7,9 +7,10 @@ var $installNewApp = {
 	_blueprintUrl: null,
 	_data: null,
 
-	_live: function( appBlueprintUrl, cancelFunc ) {
+	_live: function( appData, cancelFunc ) {
 
-		this._blueprintUrl = appBlueprintUrl;
+		this._blueprintUrl = appData.blueprint_url;
+		this._iconUrl = appData.icon_url;
 		this._cancelFunc = cancelFunc
 		this._show();
 
@@ -84,6 +85,7 @@ var $installNewApp = {
 									name;
 		var comment = dig ( blueprint, "software", "base", "install_form_comment" );
 		var blueprintUrl = this._blueprintUrl;
+		var iconUrl = this._iconUrl;
 		var requiredMemory = dig ( blueprint, "software", "base", "memory", "required" ) || 0;
 		var recommendedMemory = dig ( blueprint, "software", "base", "memory", "recommended" ) || 0;
 		var country = this._data.locale.country_code;
@@ -120,6 +122,7 @@ var $installNewApp = {
 					class: "installNewAppFormCustomCollapse",
 					$components: [
 						formField({ type: "hidden", name: "data[blueprint_url]", value: blueprintUrl }),
+						formField({ type: "hidden", name: "data[icon_url]", value: iconUrl }),
 						formField( {
 							name: "data[engine_name]",
 							id: "installNewAppFormField_container_name",
@@ -297,7 +300,7 @@ var $installNewApp = {
 			field.id = "installNewAppFormFieldEnvironmentVariable_" + i;
 			field.name_prefix = "data[environment_variables]";
 			return {
-				class: ( field.mandatory == true ? "" : "collapse installNewAppFormCustomCollapse" ),
+				// class: ( field.mandatory == true ? "" : "collapse installNewAppFormCustomCollapse" ),
 				$components: [
 					enginesField(field)
 				]

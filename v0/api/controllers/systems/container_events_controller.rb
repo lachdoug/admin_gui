@@ -20,7 +20,7 @@ class V0
               end
             else
               out.close
-              puts "Timeout event stream"
+              puts "Event stream closed due to user timeout."
               break
             end
           end

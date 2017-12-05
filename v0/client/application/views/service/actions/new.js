@@ -3,23 +3,24 @@ var $serviceActionsNew = {
 	$cell: true,
 	id: "serviceActionsNew",
 
-	_serviceName: null,
-	_data: null,
+	// _serviceName: null,
+	// _actionName: null,
+	// _data: null,
 
 
-	_live: function (serviceName, data) {
+	_live: function (serviceName, actionName) {
 
 		this._serviceName = serviceName;
-		this._data = data;
-		this._show();
+		this._actionName = actionName;
+		this._load();
 
 	},
 
 
-	_show: function () {
+	_show: function ( data ) {
 
 		var serviceName = this._serviceName;
-		var data = this._data;
+		// this._data = data;
 
 		var hasVariables = data.variables && data.variables.length;
 
@@ -36,22 +37,22 @@ var $serviceActionsNew = {
 						{ $type: "h4", $text: data.label || data.name },
 						{ $type: "p", $text: data.description },
 						hasVariables ?
-						serviceActionsNew._form() :
+						serviceActionsNew._form( data ) :
 						icon ( { icon: "fa fa-spinner fa-spin", text: "Loading" } )
 					]
 				}
 			}
 		);
 
-		if ( !hasVariables ) { this._postWithoutParams() };
+		if ( !hasVariables ) { this._postWithoutParams( data ) };
 
 	},
 
 
-	_postWithoutParams: function () {
+	_postWithoutParams: function ( data ) {
 
 		var serviceName = this._serviceName;
-		var data = this._data;
+		// var data = this._data;
 
 		var queryString =
 			"actionator_name=" + encodeURIComponent( data.name );
@@ -66,10 +67,24 @@ var $serviceActionsNew = {
 		});
 	},
 
-	_form: function () {
+	_load: function () {
+		var queryString =
+			"actionator_name=" + encodeURIComponent( this._actionName );
+		apiRequest({
+			action: "/services/" + this._serviceName + "/action?" + queryString,
+			callbacks: {
+				200: function(response) {
+					serviceActionsNew._show( response );
+				}
+			}
+		});
+	},
+
+
+	_form: function ( data ) {
 
 		var serviceName = this._serviceName;
-		var data = this._data;
+		// var data = this._data;
 
 		return form( {
 			components: [

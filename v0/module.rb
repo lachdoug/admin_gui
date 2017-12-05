@@ -145,6 +145,8 @@ class V0 < Sinatra::Base
   error do |error|
     if error.is_a?(NonFatalError)
       [ error.status_code, { error: { message: error.message } }.to_json ]
+    elsif error.is_a?(RestClient::Exceptions::ReadTimeout)
+      [ 405, { error: { message: "The connection to the Engines system has timed-out." } }.to_json ]
     else
       error_text = error.class.to_s + " (" + error.message + ")"
       begin

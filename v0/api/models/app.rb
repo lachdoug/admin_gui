@@ -23,6 +23,19 @@ class V0
         end
 
         ######################################################################
+        # Icon
+        ######################################################################
+
+        def icon_url
+          { icon_url: app_api.icon_url }
+          # "https://library.engines.org/system/apps/icons/000/000/006/small/PhpMyAdmin_logo.png?1486242338"
+        end
+
+        def update_icon_url( data )
+          app_api.update_icon_url( data )
+        end
+
+        ######################################################################
         # Installation
         ######################################################################
 
@@ -63,6 +76,10 @@ class V0
         def about
           blueprint[:metadata] || {}
         end
+
+        # def icon
+        #   { icon_url: icon_url }
+        # end
 
         def processes
           app_api.processes
@@ -404,6 +421,16 @@ class V0
         def actions
           blueprint.dig( :software, :actionators ) || []
         end
+
+        def action(action_name)
+          actions.find{ |action| action[:name] == action_name }.tap do |action|
+            action[:variables] = ( action[:variables] || [] ).map do |variable|
+              variable[:value] = resolve_string variable[:value]
+              variable
+            end
+          end
+        end
+
 
         def perform_action( actionator_name, variables )
           app_api.perform_action(

@@ -13,11 +13,18 @@ var $installSideLoad = {
 						form( {
 							components: [
 								formField( {
-									name: "url",
-									id: "installSideLoadField_url",
+									name: "blueprint_url",
+									id: "installSideLoadField_blueprint_url",
 									type: "url",
 									label: "Blueprint URL",
 									required: true
+								} ),
+								formField( {
+									name: "icon_url",
+									id: "installSideLoadField_icon_url",
+									type: "url",
+									label: "Icon URL",
+									required: false
 								} ),
 								formCancel ( { onclick: systemControlPanel._live } ),
 								formSubmit()
@@ -25,7 +32,10 @@ var $installSideLoad = {
 							init: function ( form ) {
 								$(form).submit( function( e ) {
 									installNewApp._live(
-										$("#installSideLoadField_url").val(),
+										{
+											blueprint_url: $("#installSideLoadField_blueprint_url").val(),
+											icon_url: $("#installSideLoadField_icon_url").val()
+										},
 										function() {
 											installSideLoad._live();
 										}

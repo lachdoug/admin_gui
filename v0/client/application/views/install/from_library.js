@@ -108,7 +108,7 @@ var $installFromLibrary = {
 										}
 									],
 									onclick: function () {
-										installNewApp._live( appData.blueprint_url , function () { installFromLibrary._live() } )
+										installNewApp._live( appData, function () { installFromLibrary._live() } )
 									}
 								}
 							]

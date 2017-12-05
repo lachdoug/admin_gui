@@ -3,23 +3,23 @@ var $appActionsNew = {
 	$cell: true,
 	id: "appActionsNew",
 
-	_appName: null,
-	_data: null,
+	// _appName: null,
+	// _data: null,
 
 
-	_live: function (appName, data) {
+	_live: function (appName, actionName) {
 
 		this._appName = appName;
-		this._data = data;
-		this._show();
+		this._actionName = actionName;
+		this._load();
 
 	},
 
 
-	_show: function () {
+	_show: function ( data ) {
 
 		var appName = this._appName;
-		var data = this._data;
+		// var data = this._data;
 
 		var hasVariables = data.variables && data.variables.length;
 
@@ -36,22 +36,22 @@ var $appActionsNew = {
 						{ $type: "h4", $text: data.label || data.name },
 						{ $type: "p", $text: data.description },
 						hasVariables ?
-						appActionsNew._form() :
+						appActionsNew._form( data ) :
 						icon ( { icon: "fa fa-spinner fa-spin", text: "Loading" } )
 					]
 				}
 			}
 		);
 
-		if ( !hasVariables ) { this._postWithoutParams() };
+		if ( !hasVariables ) { this._postWithoutParams( data ) };
 
 	},
 
 
-	_postWithoutParams: function () {
+	_postWithoutParams: function ( data ) {
 
 		var appName = this._appName;
-		var data = this._data;
+		// var data = this._data;
 
 		var queryString =
 			"actionator_name=" + encodeURIComponent( data.name );
@@ -66,10 +66,23 @@ var $appActionsNew = {
 		});
 	},
 
-	_form: function () {
+	_load: function () {
+		var queryString =
+			"actionator_name=" + encodeURIComponent( this._actionName );
+		apiRequest({
+			action: "/apps/" + this._appName + "/action?" + queryString,
+			callbacks: {
+				200: function(response) {
+					appActionsNew._show( response );
+				}
+			}
+		});
+	},
+
+	_form: function ( data ) {
 
 		var appName = this._appName;
-		var data = this._data;
+		// var data = this._data;
 
 		return form( {
 			components: [
@@ -100,7 +113,6 @@ var $appActionsNew = {
 				},
 			}
 		} )
-
 
 	}
 

@@ -39,10 +39,10 @@ var $signIn = {
 									signIn._kill();
 									system._live();
 								},
-								503: function (responseJSON) {
-									alert( responseJSON.error.message );
-									signIn._live();
-								},
+								// 503: function (responseJSON) {
+								// 	alert( responseJSON.error.message );
+								// 	signIn._live();
+								// },
 								401: function (responseJSON) {
 									alert( responseJSON.error.message );
 									signIn._live();

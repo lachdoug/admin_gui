@@ -11,7 +11,7 @@ var formFieldCheckboxes = function( args ) {
 
 var formFieldCheckboxesOptions = function( args ) {
 	args.collectionIncludeBlank = false;
-	values = args.value.replace(/\,\s*/g, ',').split(',');
+	values = formFieldCollectionMultipleValues( args.value );
 	var ary = formFieldCollectionFormat( args );
 	return ary.map( function ( option, i ) {
 		return {

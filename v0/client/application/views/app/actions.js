@@ -55,7 +55,7 @@ var $appActions = {
 									appActionsContent._data.length ?
 										appActionsContent._data.map(
 											function( action ) {
-												return button( { text: action.label || action.name, onclick: function () { appActionsNew._live( appName, action ) } });
+												return button( { text: action.label || action.name, onclick: function () { appActionsNew._live( appName, action.name ) } });
 											}
 										) : [
 										{ $type: "i", $text: "This app does not have any actions." }
