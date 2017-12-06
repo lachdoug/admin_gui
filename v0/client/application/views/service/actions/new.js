@@ -97,7 +97,7 @@ var $serviceActionsNew = {
 				{
 					$components: ( data.variables || [] ).map( function ( variable ) {
 						variable.name_prefix = "variables";
-						debugger;
+						// debugger;
 						return enginesField( variable );
 					} )
 				},
