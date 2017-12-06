@@ -37,6 +37,8 @@ class V0 < Sinatra::Base
   set public_folder: 'public'
   set data_directory_path: 'data/v0'
   set system_api_url: ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL']
+  set kerberos_server: ENV['ENGINES_ADMIN_GUI_KERBEROS_SERVER']
+  set kerberos_keytab_path: ENV['ENGINES_ADMIN_GUI_KERBEROS_KEYTAB_PATH']
   set remote_management: Sinatra::Base.development? || ENV['ENGINES_ADMIN_GUI_REMOTE_MANAGEMENT'] || false
   set show_services: ENV['ENGINES_ADMIN_GUI_SHOW_SERVICES_BY_DEFAULT'] || false
   set show_software_titles: ENV['ENGINES_ADMIN_GUI_SHOW_SOFTWARE_TITLES_BY_DEFAULT'] || false
@@ -99,23 +101,23 @@ class V0 < Sinatra::Base
 
     require 'kerberos_authenticator'
 
-    KerberosAuthenticator.setup do |config|
-      # Configure the server principal and keytab used to verify the credentials received from the KDC.
-      # Setting these to nil will let the underlying Kerberos 5 library try its own defaults.
-      config.server = 'server@EXAMPLE.ORG'
-      config.keytab_path = 'example.keytab'
+    out = {
+      server: settings.kerberos_server,
+      keytab_path: settings.kerberos_keytab_path }
 
-      # Provide a keytab as a Base64 encoded string (e.g from an enviromental variable).
-      # This will override keytab_path.
-      # config.keytab_base64 = Base64.encode64(File.read('example.keytab'))
+    KerberosAuthenticator.setup do |config|
+      config.server = settings.kerberos_server
+      config.keytab_path = settings.kerberos_keytab_path
     end
 
     begin
       KerberosAuthenticator.authenticate!('user@EXAMPLE.ORG', 'mypassword')
-      'Successful authentication!'.to_json
+      out[:result] = 'Successful authentication!'.to_json
     rescue KerberosAuthenticator::Error => e
-       "Failed to authenticate! #{e.inspect}".to_json
+      out[:result] = "Failed to authenticate! #{e.inspect}".to_json
     end
+
+    out.to_json
 
   end
 
