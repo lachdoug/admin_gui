@@ -97,13 +97,19 @@ class V0 < Sinatra::Base
     {}.to_json
   end
 
-  get '/test_kerberos' do
+  post '/test_kerberos' do
 
     require 'kerberos_authenticator'
 
+    username = params[:data][:username]
+    password = params[:data][:password]
+
     out = {
       server: settings.kerberos_server,
-      keytab_path: settings.kerberos_keytab_path }
+      keytab_path: settings.kerberos_keytab_path,
+      username: username,
+      password: password
+    }
 
     KerberosAuthenticator.setup do |config|
       config.server = settings.kerberos_server
@@ -111,7 +117,7 @@ class V0 < Sinatra::Base
     end
 
     begin
-      KerberosAuthenticator.authenticate!('admin', 'password')
+      KerberosAuthenticator.authenticate!(username, password)
       out[:result] = 'Successful authentication!'.to_json
     rescue KerberosAuthenticator::Error => e
       out[:result] = "Failed to authenticate! #{e.inspect}".to_json
@@ -243,6 +249,7 @@ class V0 < Sinatra::Base
 
   def no_auth
     request.path_info == '/' ||
+    request.path_info == '/test_kerberos' ||
     request.path_info == '/system/signin' ||
     request.path_info == '/system/container_events' ||
     request.path_info == '/system/statistics/container_memory' ||
