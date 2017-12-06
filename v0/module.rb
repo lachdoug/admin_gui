@@ -101,12 +101,14 @@ class V0 < Sinatra::Base
 
     require 'kerberos_authenticator'
 
+    server = settings.kerberos_server
+    keytab_path = "/tmp/krb5cc_22050" # settings.kerberos_keytab_path
     username = params[:data][:username]
     password = params[:data][:password]
 
     out = {
-      server: settings.kerberos_server,
-      keytab_path: settings.kerberos_keytab_path,
+      server: server,
+      keytab_path: keytab_path,
       username: username,
       password: password
     }
