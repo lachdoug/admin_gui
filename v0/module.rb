@@ -127,7 +127,7 @@ class V0 < Sinatra::Base
     end
 
     ldap = Net::LDAP.new
-ldap.host = '127.0.0.1'
+ldap.host = 'ENGINES.INTERNAL'
 ldap.port = 389
 # ldap.auth "joe_user", "opensesame"
 if ldap.bind
