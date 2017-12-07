@@ -119,8 +119,8 @@ class V0 < Sinatra::Base
     end
 
     begin
-      KerberosAuthenticator.authenticate!(username, password)
-      out[:result] = 'Successful authentication!'.to_json
+      user = KerberosAuthenticator.authenticate!(username, password)
+      out[:result] = "Successful authentication! #{user.inspect}".to_json
     rescue KerberosAuthenticator::Error => e
       out[:result] = "Failed to authenticate! #{e.inspect}".to_json
     end
