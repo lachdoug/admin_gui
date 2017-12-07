@@ -100,6 +100,7 @@ class V0 < Sinatra::Base
   post '/test_kerberos' do
 
     require 'kerberos_authenticator'
+    require 'net/ldap'
 
     server = settings.kerberos_server
     keytab_path = "/tmp/krb5cc_22050" # settings.kerberos_keytab_path
@@ -124,6 +125,16 @@ class V0 < Sinatra::Base
     rescue KerberosAuthenticator::Error => e
       out[:result] = "Failed to authenticate! #{e.inspect}".to_json
     end
+
+    ldap = Net::LDAP.new
+ldap.host = server
+ldap.port = 389
+# ldap.auth "joe_user", "opensesame"
+if ldap.bind
+  out[:ldap] = "bind ok"
+else
+  out[:ldap] = "bind failed"
+end
 
     out.to_json
 
