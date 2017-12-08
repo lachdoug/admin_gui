@@ -103,7 +103,7 @@ class V0 < Sinatra::Base
     require 'net/ldap'
 
     server = settings.kerberos_server
-    keytab_path = "/tmp/krb5cc_22050" # settings.kerberos_keytab_path
+    keytab_path = settings.kerberos_keytab_path
     username = params[:data][:username]
     password = params[:data][:password]
 
