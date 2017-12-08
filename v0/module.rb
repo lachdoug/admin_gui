@@ -145,7 +145,7 @@ class V0 < Sinatra::Base
     treebase = "dc=engines,dc=internal"
 
     out[:ldap_search] = []
-    ldap.search( :base => treebase ).each do |entry|
+    ldap.search( :base => treebase ) do |entry|
       entry = { dn: entry.dn, attributes: [] }
       entry.each do |attribute, values|
         entry[:attributes] << { name: attribute, values: values }
