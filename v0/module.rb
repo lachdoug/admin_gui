@@ -121,19 +121,23 @@ class V0 < Sinatra::Base
 
     begin
       user = KerberosAuthenticator.authenticate!(username, password)
-      out[:result] = "Successful authentication! #{user.inspect}".to_json
+      out[:kerberos_result] = "Successful authentication! #{user.inspect}".to_json
     rescue KerberosAuthenticator::Error => e
-      out[:result] = "Failed to authenticate! #{e.inspect}".to_json
+      out[:kerberos_result] = "Failed to authenticate! #{e.inspect}".to_json
     end
 
     ldap = Net::LDAP.new
     ldap.host = 'ldap.engines.internal'
     ldap.port = 389
     # ldap.auth "joe_user", "opensesame"
-    if ldap.bind
-      out[:ldap] = "bind ok"
-    else
-      out[:ldap] = "bind failed"
+    begin
+      if ldap.bind
+        out[:ldap_result] = "bind ok"
+      else
+        out[:ldap_result] = "bind rejected"
+      end
+    rescue Net::LDAP::Error => e
+      out[:ldap_result] = "bind error #{e.inspect}"
     end
 
     out.to_json
