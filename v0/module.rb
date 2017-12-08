@@ -145,10 +145,11 @@ class V0 < Sinatra::Base
     treebase = "ou=People,dc=engines,dc=internal"
 
     ldap.search( :base => treebase, :filter => filter ) do |entry|
-      entity = { dn: entry.dn, attributes: [] }
+      entry = { dn: entry.dn, attributes: [] }
       entry.each do |attribute, values|
-        entity[:attributes] << { name: attribute, values: values }
+        entry[:attributes] << { name: attribute, values: values }
       end
+      out[:ldap_search] = entry
     end
 
     out.to_json
