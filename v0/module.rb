@@ -120,8 +120,9 @@ class V0 < Sinatra::Base
     end
 
     begin
-      user = KerberosAuthenticator.authenticate!(username, password)
-      out[:kerberos_result] = "Successful authentication! #{user.inspect}".to_json
+      KerberosAuthenticator.authenticate!(username, password)
+      out[:kerberos_result] = "Successful authentication!".to_json
+      out[:kerberos_ticket] = "Successful authentication!".to_json
     rescue KerberosAuthenticator::Error => e
       out[:kerberos_result] = "Failed to authenticate! #{e.inspect}".to_json
     end
@@ -138,6 +139,16 @@ class V0 < Sinatra::Base
       end
     rescue Net::LDAP::Error => e
       out[:ldap_result] = "bind error #{e.inspect}"
+    end
+
+    filter = Net::LDAP::Filter.eq( "cn", "*" )
+    treebase = "ou=People,dc=engines,dc=internal"
+
+    ldap.search( :base => treebase, :filter => filter ) do |entry|
+      entity = { dn: entry.dn, attributes: [] }
+      entry.each do |attribute, values|
+        entity[:attributes] << { name: attribute, values: values }
+      end
     end
 
     out.to_json

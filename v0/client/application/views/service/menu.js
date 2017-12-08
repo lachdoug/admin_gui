@@ -304,9 +304,9 @@ var $serviceMenu = {
 		if (state == "running" ) {
 			return {
 				$components: [
-					( serviceName == 'mgmt' && !remoteManagement ) ? {} : button({ onclick: function () { serviceMenu._instruct('stop'); }, icon: "fa fa-stop", text: "Stop", wrapperStyle: "display: inline-block"}),
+					( serviceName == 'control' && !remoteManagement ) ? {} : button({ onclick: function () { serviceMenu._instruct('stop'); }, icon: "fa fa-stop", text: "Stop", wrapperStyle: "display: inline-block"}),
 					button({ onclick: function () { serviceMenu._instruct('restart'); }, icon: "fa fa-play-circle", text: "Restart", wrapperStyle: "display: inline-block"}),
-					( serviceName == 'mgmt' && !remoteManagement ) ? {} : button({ onclick: function () { serviceMenu._instruct('pause'); }, icon: "fa fa-pause", text: "Pause", wrapperStyle: "display: inline-block"})
+					( serviceName == 'control' && !remoteManagement ) ? {} : button({ onclick: function () { serviceMenu._instruct('pause'); }, icon: "fa fa-pause", text: "Pause", wrapperStyle: "display: inline-block"})
 				]
 			};
 		} else if ( state == "stopped" ) {
