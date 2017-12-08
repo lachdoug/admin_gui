@@ -40,7 +40,7 @@ class V0
         ######################################################################
 
         def uninstall(opts)
-          return { message: "OK" } if app_api.uninstall
+          return { message: "OK" } if app_api.uninstall( { delete_app_data: opts[:delete_app_data] == '1' } )
           raise NonFatalError.new "Failed to uninstall #{name}.", 405
         end
 
@@ -319,7 +319,8 @@ class V0
             publisher_namespace: publisher_namespace,
             type_path: type_path,
             service_handle: service_handle,
-            delete_data: data && data[:delete_data] == 'true' )
+            delete_data: ( ( data || {} )[:delete_data] == '1' )
+          )
         end
 
         def share_existing_persistent_service( publisher_namespace, type_path, service_handle, parent, data )

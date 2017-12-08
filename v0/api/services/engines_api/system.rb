@@ -139,7 +139,7 @@ class V0
             @system_api.get "system/domain/#{domain_name}"
           end
 
-          def update_domain(domain_name, args) # TODO: put domain into args
+          def update_domain(domain_name, args)
             @system_api.post "system/domain/#{domain_name}", args
           end
 

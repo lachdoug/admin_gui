@@ -69,7 +69,7 @@ var $signIn = {
 						// 		enginesField( { name: "data[something2]", value: "2,3", mandatory: true, input: { collection: { include_blank: true, items: [ ["1", "One"],["2", "Two"],["3", "Three"],["4", "Four"] ] } , type: "select_multiple", label: ":select_multiple with preselected values" } } ),
 						// 		enginesField( { name: "data[something3]", value: "c", mandatory: true, input: { hint: "Enter correct value", comment: "This field is important.", collection: { include_blank: true, items: [ ["a", "A"],["b", "B"],["c", "C"],["d", "D"] ] } , type: "checkboxes", label: "This is :checkboxes", placeholder: "This is a placeholder" } } ),
 						// 		enginesField( { name: "data[something4]", mandatory: true, input: { collection: { include_blank: true, items: [ ["1", "One"],["2", "Two"],["3", "Three"],["4", "Four"] ] } , type: "select_with_input", label: "This is :select_with_input", validation: { pattern: 'a', message: "Must be 'a'" } } } ),
-						// 		// enginesField( { name: "data[something4]", value: "2", mandatory: true, input: { collection: { include_blank: true, items: [ ["1", "One"],["2", "Two"],["3", "Three"],["4", "Four"] ] } , type: "checkbox", label: "hi", placeholder: "do it" } } ),
+						// 		enginesField( { name: "data[something5]", value: "1", mandatory: true, input: { collection: { include_blank: true, items: [ ["1", "One"],["2", "Two"] ] } , type: "checkbox", label: "this is checkbox", placeholder: "do it" } } ),
 						//
 						// 		formSubmit(),
 						//

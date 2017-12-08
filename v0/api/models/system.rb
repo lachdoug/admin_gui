@@ -261,7 +261,10 @@ class V0
         end
 
         def update_domain( domain_name, data )
-          engines_api_system.update_domain( domain_name, data )
+          engines_api_system.update_domain( domain_name, {
+            self_hosted: ( data || {} )[:self_hosted] == '1',
+            internal_only: ( data || {} )[:internal_only] == '1',
+          } )
         end
 
         def delete_domain( domain_name)

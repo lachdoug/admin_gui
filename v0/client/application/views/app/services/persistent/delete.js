@@ -40,7 +40,7 @@ var $appServicesPersistentDelete = {
 						form( {
 							components: [
 								formField( {
-									type: "checkbox_boolean",
+									type: "checkbox",
 									name: "data[delete_data]",
 									label: "Delete data",
 									class: "text-center"

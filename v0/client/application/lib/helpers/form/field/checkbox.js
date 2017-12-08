@@ -1,19 +1,15 @@
 var formFieldCheckbox = function( args ) {
 
-	var collection = formFieldCollectionFormat( args );
-	var checkboxValue = ( collection[0] || [] )[0] || '1'
-	var checkboxText = ( collection[0] || [] )[1] || 'Select'
+	var checked = [ 'true', 'on', 'yes', '1' ].some( function(option) { return option == ( args.value || "" ).toString().toLowerCase(); } );
 
 	return formFieldWrapper(
-		$.extend ( {}, args, { label: args.label, title: ( args.title || args.label ) } ),
+		$.extend ( {}, args, { label: false, title: ( args.title || args.label ) } ),
 		{
 			class: "checkbox",
 			style: "margin-left: 10px;",
 			$components: [
 				{
 					$type: "label",
-					// style: "font-weight: normal;",
-					// title: ( args.title || args.label ),
 					$components: [
 						$.extend(
 							{
@@ -23,15 +19,15 @@ var formFieldCheckbox = function( args ) {
 								id: ( args.id || "" ),
 								required: ( args.required || null ),
 								// title: ( args.title || args.label ),
-								value: checkboxValue,
+								value: '1',
 								type: "checkbox",
 							},
-							checkboxValue == args.value ? { checked: "checked" } : {},
+							checked ? { checked: "checked" } : {},
 						),
 						args.label == false ? {} : {
-							// $type: "strong",
+							$type: "strong",
 							style: "margin-left: 5px;",
-							$text: ( checkboxText )
+							$text: ( args.label )
 						}
 					],
 				}
