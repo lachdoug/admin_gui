@@ -1,7 +1,7 @@
 function formFieldCollectionFormat ( args ) {
   // debugger;
   var ary = [];
-	var collection_ary_or_obj = args.collection;
+	var collection_ary_or_obj = args.collection || [];
 	if ( collection_ary_or_obj.constructor.name == "Object" ) {
 		for ( var prop in collection_ary_or_obj ) {
 			ary.push( [ prop, collection_ary_or_obj[prop] ] );

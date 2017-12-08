@@ -337,7 +337,7 @@ var $installNewApp = {
 				formField({ type: "hidden", name: "data[services][][type_path]", value: consumableService.service_definition.type_path }),
 				formField( {
 					type: "select",
-					label: consumableService.service_definition.title,
+					label: consumableService.service_definition.title || ( consumableService.service_definition.publisher_namespace + '/' + consumableService.service_definition.type_path ),
 					collection: selectOptions,
 					id: "installNewAppFormFieldServiceConfiguration_" + i + "_create_type",
 					name: "data[services][][create_type]"

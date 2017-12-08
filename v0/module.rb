@@ -127,14 +127,14 @@ class V0 < Sinatra::Base
     end
 
     ldap = Net::LDAP.new
-ldap.host = 'ENGINES.INTERNAL'
-ldap.port = 389
-# ldap.auth "joe_user", "opensesame"
-if ldap.bind
-  out[:ldap] = "bind ok"
-else
-  out[:ldap] = "bind failed"
-end
+    ldap.host = 'ldap.engines.internal'
+    ldap.port = 389
+    # ldap.auth "joe_user", "opensesame"
+    if ldap.bind
+      out[:ldap] = "bind ok"
+    else
+      out[:ldap] = "bind failed"
+    end
 
     out.to_json
 
