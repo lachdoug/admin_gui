@@ -132,7 +132,7 @@ class V0 < Sinatra::Base
     ldap.port = 389
     # ldap.auth "joe_user", "opensesame"
     begin
-      out[:ldap_bind_result] = ldap.bind
+      out[:ldap_bind_result] = ldap.bind ? "OK" : "Failed"
     rescue Net::LDAP::Error => e
       out[:ldap_bind_result] = "Error: #{e.inspect}"
     end
