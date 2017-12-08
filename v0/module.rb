@@ -114,18 +114,18 @@ class V0 < Sinatra::Base
       password: password
     }
 
-    # KerberosAuthenticator.setup do |config|
-    #   config.server = settings.kerberos_server
-    #   config.keytab_path = settings.kerberos_keytab_path
-    # end
-    #
-    # begin
-    #   KerberosAuthenticator.authenticate!(username, password)
-    #   out[:kerberos_auth_result] = "OK"
-    #   # out[:kerberos_ticket] = "Successful authentication!".to_json
-    # rescue KerberosAuthenticator::Error => e
-    #   out[:kerberos_auth_result] = "Error: #{e.inspect}"
-    # end
+    KerberosAuthenticator.setup do |config|
+      config.server = settings.kerberos_server
+      config.keytab_path = settings.kerberos_keytab_path
+    end
+
+    begin
+      KerberosAuthenticator.authenticate!(username, password)
+      out[:kerberos_auth_result] = "OK"
+      # out[:kerberos_ticket] = "Successful authentication!".to_json
+    rescue KerberosAuthenticator::Error => e
+      out[:kerberos_auth_result] = "Error: #{e.inspect}"
+    end
 
     ldap = Net::LDAP.new
     ldap.host = 'ldap.engines.internal'
