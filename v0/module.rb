@@ -122,7 +122,7 @@ class V0 < Sinatra::Base
     begin
       KerberosAuthenticator.authenticate!(username, password)
       out[:kerberos_auth_result] = "OK"
-      out[:kerberos_ticket] = KerberosAuthenticator.krb5.class
+      out[:kerberos_ticket] = KerberosAuthenticator.krb5.new
     rescue KerberosAuthenticator::Error => e
       out[:kerberos_auth_result] = "Error: #{e.inspect}"
     end
