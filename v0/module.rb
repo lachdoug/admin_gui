@@ -144,7 +144,7 @@ class V0 < Sinatra::Base
     filter = Net::LDAP::Filter.eq( "cn", "*" )
     treebase = "dc=engines,dc=internal"
 
-    out[:ldap_search] = ldap.search( :base => treebase ) #, :filter => filter )
+    out[:ldap_search] = ldap.search( :base => treebase ).inspect #, :filter => filter )
 
     #  do |entry|
     #   entry = { dn: entry.dn, attributes: [] }
