@@ -121,10 +121,10 @@ class V0 < Sinatra::Base
 
     begin
       KerberosAuthenticator.authenticate!(username, password)
-      out[:kerberos_result] = "Successful authentication!".to_json
+      out[:kerberos_auth_result] = "OK"
       # out[:kerberos_ticket] = "Successful authentication!".to_json
     rescue KerberosAuthenticator::Error => e
-      out[:kerberos_result] = "Failed to authenticate! #{e.inspect}".to_json
+      out[:kerberos_auth_result] = "Error: #{e.inspect}"
     end
 
     ldap = Net::LDAP.new
@@ -132,30 +132,21 @@ class V0 < Sinatra::Base
     ldap.port = 389
     # ldap.auth "joe_user", "opensesame"
     begin
-      if ldap.bind
-        out[:ldap_result] = "bind ok"
-      else
-        out[:ldap_result] = "bind rejected"
-      end
+      out[:ldap_bind_result] = ldap.bind
     rescue Net::LDAP::Error => e
-      out[:ldap_result] = "bind error #{e.inspect}"
+      out[:ldap_bind_result] = "Error: #{e.inspect}"
     end
 
-    filter = Net::LDAP::Filter.eq( "cn", "*" )
-    treebase = ""
-
-    out[:ldap_search] = []
+    treebase = "dc=engines,dc=internal"
+    out[:ldap_search_treebase] = treebase
+    out[:ldap_search_result] = []
     ldap.search( :base => treebase ) do |entry|
       entry_out = { dn: entry.dn, attributes: [] }
       entry.each do |attribute, values|
         entry_out[:attributes] << { name: attribute, values: values }
       end
-      out[:ldap_search] << entry_out
+      out[:ldap_search_result] << entry_out
     end
-
-
-     #, :filter => filter )
-
 
     out.to_json
 
