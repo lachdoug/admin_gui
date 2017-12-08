@@ -146,11 +146,11 @@ class V0 < Sinatra::Base
 
     out[:ldap_search] = []
     ldap.search( :base => treebase ) do |entry|
-      entry = { dn: entry.dn, attributes: [] }
+      entry_out = { dn: entry.dn, attributes: [] }
       entry.each do |attribute, values|
-        entry[:attributes] << { name: attribute, values: values }
+        entry_out[:attributes] << { name: attribute, values: values }
       end
-      out[:ldap_search] << entry
+      out[:ldap_search] << entry_out
     end
 
 
