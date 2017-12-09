@@ -184,6 +184,59 @@ class V0
         end
 
         ########################################################################
+        # Users
+        ########################################################################
+
+        def users
+          [
+            {
+              name: "Lachlan",
+              id: "lachdoug"
+            },
+            {
+              name: "James",
+              id: 'jvodan'
+            }
+          ]
+        end
+
+        def user(user_id)
+          {
+            name: "Lachlan",
+            id: "lachdoug",
+            groups: [
+              "Cool",
+              "Smooth"
+            ],
+            email_addresses: [
+              "lachlan@engines.dev",
+              "support@engines.dev"
+            ],
+            email_groups: [
+              "Alerts",
+              "Newsletter"
+            ]
+          }
+        end
+
+        def user_groups
+          [
+            "Fast",
+            "Cool",
+            "Smooth",
+            "Yoyos"
+          ]
+        end
+
+        def add_user_to_group( user_id, group_name )
+          return { message: "OK" } if true
+        end
+
+        def remove_user_from_group( user_id, group_name )
+          return { message: "OK" } if true
+        end
+
+        ########################################################################
         # Registry
         ########################################################################
 

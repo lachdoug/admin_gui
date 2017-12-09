@@ -28,12 +28,8 @@ var $systemControlPanel = {
 								$components: [
 									button( { onclick: systemUsers._live,
 														icon: "fa fa-user", text: "Users" } ),
-									button( { onclick: systemUsers._live,
-														icon: "fa fa-users", text: "User groups" } ),
-									button( { onclick: systemUsers._live,
+									button( { onclick: systemEmails._live,
 														icon: "fa fa-envelope", text: "Emails" } ),
-									button( { onclick: systemUsers._live,
-														icon: "fa fa-envelope-square", text: "Email groups" } ),
 									{ $type: "hr" },
 									button( { onclick: systemAdminUserPassword._live,
 														icon: "fa fa-lock", text: "Admin password" } ),
