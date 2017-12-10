@@ -99,35 +99,35 @@ class V0 < Sinatra::Base
 
   post '/test_kerberos' do
 
-    # require 'kerberos_authenticator'
+    require 'kerberos_authenticator'
     require 'net/ldap'
 
-    out = {};
+    # out = {};
 
-    # server = settings.kerberos_server
-    # keytab_path = settings.kerberos_keytab_path
-    # username = params[:data][:username]
-    # password = params[:data][:password]
-    #
-    # out = {
-    #   server: server,
-    #   keytab_path: keytab_path,
-    #   username: username,
-    #   password: password
-    # }
-    #
-    # KerberosAuthenticator.setup do |config|
-    #   config.server = settings.kerberos_server
-    #   config.keytab_path = settings.kerberos_keytab_path
-    # end
-    #
-    # begin
-    #   KerberosAuthenticator.authenticate!(username, password)
-    #   out[:kerberos_auth_result] = "OK"
-    #   # out[:kerberos_ticket] = KerberosAuthenticator.krb5::Creds.new
-    # rescue KerberosAuthenticator::Error => e
-    #   out[:kerberos_auth_result] = "Error: #{e.inspect}"
-    # end
+    server = settings.kerberos_server
+    keytab_path = settings.kerberos_keytab_path
+    username = params[:data][:username]
+    password = params[:data][:password]
+
+    out = {
+      server: server,
+      keytab_path: keytab_path,
+      username: username,
+      password: password
+    }
+
+    KerberosAuthenticator.setup do |config|
+      config.server = settings.kerberos_server
+      config.keytab_path = settings.kerberos_keytab_path
+    end
+
+    begin
+      KerberosAuthenticator.authenticate!(username, password)
+      out[:kerberos_auth_result] = "OK"
+      # out[:kerberos_ticket] = KerberosAuthenticator.krb5::Creds.new
+    rescue KerberosAuthenticator::Error => e
+      out[:kerberos_auth_result] = "Error: #{e.inspect}"
+    end
 
 
 
