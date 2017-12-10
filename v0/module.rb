@@ -137,8 +137,11 @@ class V0 < Sinatra::Base
     # require 'net/ldap'
     auth = {      :method => :simple,
                 :username => "cn=administrator,ou=people,dc=engines,dc=internal",
-                :password => "test"
+                :password => "password"
            }
+
+
+           out[:ldap1] = []
 
      Net::LDAP.open(:host => "ldap", :port => 389, :base => "DC=engines,DC=internal", :auth => auth) do |ldap |
 
@@ -153,7 +156,6 @@ class V0 < Sinatra::Base
 
     #r = ldap.add( :dn => dn, :attributes => attr )
 
-    out[:ldap1] = []
 
     ldap.search( :return_result => false) { |item|
            out[:ldap1] << item.inspect
