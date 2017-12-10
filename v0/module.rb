@@ -99,35 +99,35 @@ class V0 < Sinatra::Base
 
   post '/test_kerberos' do
 
-    require 'kerberos_authenticator'
+    # require 'kerberos_authenticator'
     require 'net/ldap'
 
-    # out = {};
+    out = {};
 
-    server = settings.kerberos_server
-    keytab_path = settings.kerberos_keytab_path
-    username = params[:data][:username]
-    password = params[:data][:password]
-
-    out = {
-      server: server,
-      keytab_path: keytab_path,
-      username: username,
-      password: password
-    }
-
-    KerberosAuthenticator.setup do |config|
-      config.server = settings.kerberos_server
-      config.keytab_path = settings.kerberos_keytab_path
-    end
-
-    begin
-      KerberosAuthenticator.authenticate!(username, password)
-      out[:kerberos_auth_result] = "OK"
-      # out[:kerberos_ticket] = KerberosAuthenticator.krb5::Creds.new
-    rescue KerberosAuthenticator::Error => e
-      out[:kerberos_auth_result] = "Error: #{e.inspect}"
-    end
+    # server = settings.kerberos_server
+    # keytab_path = settings.kerberos_keytab_path
+    # username = params[:data][:username]
+    # password = params[:data][:password]
+    #
+    # out = {
+    #   server: server,
+    #   keytab_path: keytab_path,
+    #   username: username,
+    #   password: password
+    # }
+    #
+    # KerberosAuthenticator.setup do |config|
+    #   config.server = settings.kerberos_server
+    #   config.keytab_path = settings.kerberos_keytab_path
+    # end
+    #
+    # begin
+    #   KerberosAuthenticator.authenticate!(username, password)
+    #   out[:kerberos_auth_result] = "OK"
+    #   # out[:kerberos_ticket] = KerberosAuthenticator.krb5::Creds.new
+    # rescue KerberosAuthenticator::Error => e
+    #   out[:kerberos_auth_result] = "Error: #{e.inspect}"
+    # end
 
 
 
@@ -137,11 +137,11 @@ class V0 < Sinatra::Base
     # require 'net/ldap'
     auth = {      :method => :simple,
                 :username => "cn=administrator,ou=people,dc=engines,dc=internal",
-                :password => "password"
+                :password => params[:data][:password]
            }
 
 
-           out[:ldap1] = []
+           out[:ldap_search] = []
 
      Net::LDAP.open(:host => "ldap", :port => 389, :base => "DC=engines,DC=internal", :auth => auth) do |ldap |
 
@@ -158,7 +158,7 @@ class V0 < Sinatra::Base
 
 
     ldap.search( :return_result => false) { |item|
-           out[:ldap1] << item.inspect
+           out[:ldap_search] << item.inspect
     }
     end
     #
