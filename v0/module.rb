@@ -99,54 +99,94 @@ class V0 < Sinatra::Base
 
   post '/test_kerberos' do
 
-    require 'kerberos_authenticator'
+    # require 'kerberos_authenticator'
     require 'net/ldap'
 
-    server = settings.kerberos_server
-    keytab_path = settings.kerberos_keytab_path
-    username = params[:data][:username]
-    password = params[:data][:password]
+    out = {};
 
-    out = {
-      server: server,
-      keytab_path: keytab_path,
-      username: username,
-      password: password
+    # server = settings.kerberos_server
+    # keytab_path = settings.kerberos_keytab_path
+    # username = params[:data][:username]
+    # password = params[:data][:password]
+    #
+    # out = {
+    #   server: server,
+    #   keytab_path: keytab_path,
+    #   username: username,
+    #   password: password
+    # }
+    #
+    # KerberosAuthenticator.setup do |config|
+    #   config.server = settings.kerberos_server
+    #   config.keytab_path = settings.kerberos_keytab_path
+    # end
+    #
+    # begin
+    #   KerberosAuthenticator.authenticate!(username, password)
+    #   out[:kerberos_auth_result] = "OK"
+    #   # out[:kerberos_ticket] = KerberosAuthenticator.krb5::Creds.new
+    # rescue KerberosAuthenticator::Error => e
+    #   out[:kerberos_auth_result] = "Error: #{e.inspect}"
+    # end
+
+
+
+
+    #
+    # require 'rubygems'
+    # require 'net/ldap'
+    auth = {      :method => :simple,
+                :username => "cn=administrator,ou=people,dc=engines,dc=internal",
+                :password => "test"
+           }
+
+     Net::LDAP.open(:host => "ldap", :port => 389, :base => "DC=engines,DC=internal", :auth => auth) do |ldap |
+
+
+    #dn = "cn=George Smith,ou=people,dc=engines,dc=internal"
+    #attr = {
+      #:cn => "George Smith",
+      #:objectclass => ["top", "inetorgperson"],
+      #:sn => "Smith",
+      #:mail => "gsmith@example.com"
+    #}
+
+    #r = ldap.add( :dn => dn, :attributes => attr )
+
+    out[:ldap1] = []
+
+    ldap.search( :return_result => false) { |item|
+           out[:ldap1] << item.inspect
     }
-
-    KerberosAuthenticator.setup do |config|
-      config.server = settings.kerberos_server
-      config.keytab_path = settings.kerberos_keytab_path
     end
+    #
+    # though you will probably use the Net::LDAP.new  and .bind  flow
 
-    begin
-      KerberosAuthenticator.authenticate!(username, password)
-      out[:kerberos_auth_result] = "OK"
-      # out[:kerberos_ticket] = KerberosAuthenticator.krb5::Creds.new
-    rescue KerberosAuthenticator::Error => e
-      out[:kerberos_auth_result] = "Error: #{e.inspect}"
-    end
-
-    ldap = Net::LDAP.new
-    ldap.host = 'ldap.engines.internal'
-    ldap.port = 389
-    # ldap.auth "joe_user", "opensesame"
-    begin
-      out[:ldap_bind_result] = ldap.bind ? "OK" : "Failed"
-    rescue Net::LDAP::Error => e
-      out[:ldap_bind_result] = "Error: #{e.inspect}"
-    end
-
-    treebase = "dc=engines,dc=internal"
-    out[:ldap_search_treebase] = treebase
-    out[:ldap_search_result] = []
-    ldap.search( :base => treebase ) do |entry|
-      entry_out = { dn: entry.dn, attributes: [] }
-      entry.each do |attribute, values|
-        entry_out[:attributes] << { name: attribute, values: values }
-      end
-      out[:ldap_search_result] << entry_out
-    end
+    # ldap = Net::LDAP.new
+    # ldap.host = 'ldap'
+    # ldap.port = 389
+    # ldap.base = "DC=engines,DC=internal"
+    # username = "cn=administrator,ou=people,dc=engines,dc=internal"
+    # password = "password"
+    # ldap.auth username, password
+    #
+    # # ldap.auth "joe_user", "opensesame"
+    # begin
+    #   out[:ldap_bind_result] = ldap.bind ? "OK" : "Failed"
+    # rescue Net::LDAP::Error => e
+    #   out[:ldap_bind_result] = "Error: #{e.inspect}"
+    # end
+    #
+    # treebase = "dc=engines,dc=internal"
+    # out[:ldap_search_treebase] = treebase
+    # out[:ldap_search_result] = []
+    # ldap.search( :base => treebase ) do |entry|
+    #   entry_out = { dn: entry.dn, attributes: [] }
+    #   entry.each do |attribute, values|
+    #     entry_out[:attributes] << { name: attribute, values: values }
+    #   end
+    #   out[:ldap_search_result] << entry_out
+    # end
 
     out.to_json
 

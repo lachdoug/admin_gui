@@ -7,7 +7,7 @@ var $systemUsersUserGroupAdd = {
 	_live: function (user) {
 
 		modal._live ( {
-			header: icon( { icon: "fa fa-user", text: "System user add to group" } ),
+			header: icon( { icon: "fa fa-user", text: "System add user to group" } ),
 			body: {
 				$components: [
 					modalNav({
@@ -23,7 +23,7 @@ var $systemUsersUserGroupAdd = {
 								components: [
 									formField( {
 										type: "select",
-										name: "data[group]",
+										name: "data[group_name]",
 										label: "Add user to group",
 										collection: data,
 									} ),
@@ -31,7 +31,7 @@ var $systemUsersUserGroupAdd = {
 									formSubmit(),
 							//				pp( data )
 								],
-								action: "/system/users/user",
+								action: "/system/users/user/" + user.id + "/groups",
 								method: "PUT",
 								callbacks: {
 									200: function(response) {
