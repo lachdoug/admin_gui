@@ -3,12 +3,12 @@
 // 	id: "system",
 //
 // 	_$data: {},
-// 	_data: function() { return this._$data; }, // this needs to go
+// 	// _data: function() { return this._$data; }, // this needs to go
 //
 //
-// 	_live: function( afterUpdateCallback ) {
+// 	_live: function( onloadFunc ) {
 // 		if ( systemApiUrl ) {
-// 			this._loadSystem( afterUpdateCallback );
+// 			this._load( onloadFunc );
 // 		} else {
 // 			if ( remoteManagement ) {
 // 				selectSystem._live();
@@ -25,12 +25,12 @@
 // 		this.$components = [];
 // 	},
 //
-// 	_loadSystem: function ( afterUpdateCallback ) {
+// 	_load: function ( onloadFunc ) {
 // 		apiRequest({
 // 			action: '/system',
 // 			callbacks: {
 // 				200: function(response) {
-// 					system._refresh(response, afterUpdateCallback);
+// 					system._refresh(response, onloadFunc);
 // 					$("#navbarSignOutButton").show();
 // 					$("#pageLoadingSpinner").fadeOut();
 // 				},

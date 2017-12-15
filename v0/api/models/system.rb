@@ -678,7 +678,8 @@ class V0
                 service_handle: service_handle
               }
             end,
-            repository_url: data[:blueprint_url]
+            repository_url: data[:blueprint_url],
+            icon_url: data[:icon_url],
           }
         end
 
