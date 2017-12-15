@@ -6,9 +6,9 @@
 // 	// _data: function() { return this._$data; }, // this needs to go
 //
 //
-// 	_live: function( onloadFunc ) {
+// 	_live: function( onupdateCallback ) {
 // 		if ( systemApiUrl ) {
-// 			this._load( onloadFunc );
+// 			this._load( onupdateCallback );
 // 		} else {
 // 			if ( remoteManagement ) {
 // 				selectSystem._live();
@@ -25,12 +25,12 @@
 // 		this.$components = [];
 // 	},
 //
-// 	_load: function ( onloadFunc ) {
+// 	_load: function ( onupdateCallback ) {
 // 		apiRequest({
 // 			action: '/system',
 // 			callbacks: {
 // 				200: function(response) {
-// 					system._refresh(response, onloadFunc);
+// 					system._refresh(response, onupdateCallback);
 // 					$("#navbarSignOutButton").show();
 // 					$("#pageLoadingSpinner").fadeOut();
 // 				},
@@ -42,6 +42,95 @@
 // 		});
 //
 // 	},
+//
+// 	_refresh: function(data, onupdateCallback ) {
+// 		if ( enableEventStreaming ) { this._streamContainerEvents(); };
+// 		if ( showContainerMemoryUsage ) {	this._pollContainerMemory(); };
+// 		this._$data = data;
+// 		this._onupdateCallback = onupdateCallback;
+// 		if ( data.builder.current.engine_name ) { installBuild._live(); };
+// 	},
+//
+// 		$update: function(){
+// 			if ( this._data ) {
+//
+// 				var needsAttention = 	this._data.status.needs_reboot ||
+// 															this._data.status.needs_engines_update ||
+// 															this._data.status.needs_base_update;
+//
+// 				this.$components = [
+// 					( this._data.properties.label.text ? {
+// 						$text: this._data.properties.label.text,
+// 						style: ( "color: " + this._data.properties.label.color +
+// 										 "; background-color: " + this._data.properties.label.background_color +
+// 										"; text-align: center; padding: 10px; font-size: 24px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;" )
+// 					} : {} ),
+// 					{
+// 						class: "container",
+// 						$components: [
+// 							{
+// 								class: "modal-content",
+// 								style: "margin-top: 20px; margin-bottom: 100px; padding: 10px;",
+// 								$components: [
+// 									{
+// 										$components: [
+// 											{
+// 												$type: "button",
+// 												class: "btn btn-lg btn-custom",
+// 												title: "System menu",
+// 												$components: [
+// 													icon( { icon: "fa fa-hdd-o", text: "System" } ),
+// 													( needsAttention ?
+// 														{
+// 															$type: "span",
+// 															$components: [
+// 																{ $type: "span", $html: "&nbsp;" },
+// 																icon( { icon: "fa fa-warning", style: "font-size: 14px; color: red;" } )
+// 															]
+// 														}
+// 														: {}
+// 													),
+// 												],
+// 												onclick: systemMenu._live
+// 											},
+// 	 									]
+// 									},
+// 									this._data.apps.length ?
+// 									{
+// 										class: "system-containers",
+// 										$components: this._data.apps.map( function(app) {
+// 											return system._systemApp(app);
+// 										} )
+// 									} :
+// 									{
+// 										class: 'text-center',
+// 										$components: [
+// 											{ $type: 'p', $html: 'To install an app click on <span style="color: #48D"><i class="fa fa-hdd-o"></i> System</span> then <span style="color: #48D"><i class="fa fa-plus"></i> Install app</span>.' },
+// 										]
+// 									},
+// 									{
+// 										id: "services",
+// 										style: showServices ? "" : "display: none;",
+// 										$components: [
+// 											{ $type: "hr" },
+// 											{ class: "system-containers",
+// 												$components: this._data.services.map( function(service) {
+// 													return system._systemService(service);
+// 												} )
+// 											}
+// 										]
+// 									},
+// 								]
+// 							}
+// 						]
+// 					},
+// 				];
+// 				if ( this._onupdateCallback ) { this._onupdateCallback(); };
+// 			} else {
+// 				this.$components = [];
+// 			};
+//
+// 		},
 //
 //
 //
