@@ -1,8 +1,6 @@
-var $fatalError = {
+cell({
 
-	$cell: true,
 	id: "fatalError",
-
 
 	_live: function (error) {
 
@@ -52,28 +50,9 @@ var $fatalError = {
 									}
 								]
 							},
-
-												// <%= form_for :bug_report, url: bug_reports_path(), id: 'submit_bug_report_form' do |f| %>
-												//     <%= f.hidden_field :data, value: bug_report_data.to_json %>
-												//     <div class="clearfix">
-												//       <div class="btn-group pull-right">
-												//         <% if request.format == 'js' %>
-												//           <%= button_tag type: 'button', 'data-dismiss': :modal, class: 'btn btn-warning' do %>
-												//             <%= icon_text('fa-times', 'No thanks') %>
-												//           <% end %>
-												//         <% else %>
-												//           <%= link_to icon_text('fa-times', 'No thanks'),:back,
-												//             class: "btn btn-warning show_waiting_spinner" %>
-												//         <% end %>
-												//     		<%= button_tag type: 'submit', id: "submit_bug_report_button", class: "btn btn-primary show_waiting_spinner" do %>
-												//     	    <%= icon_text('fa-send', 'Send bug report') %>
-												//     	  <% end %>
-												//       </div>
-												//     </div>
-
 						]
 					},
-					prettyPrint( {
+					pp( {
 						id: "fatalErrorDetail",
 						style: "display: none;",
 						object: error } ),
@@ -83,4 +62,4 @@ var $fatalError = {
 
 	}
 
-};
+});

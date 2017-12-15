@@ -1,8 +1,6 @@
-var $systemUsersUserGroupAdd = {
+cell({
 
-	$cell: true,
-	id: "systemUsersUserGroupAdd",
-
+	id: 'systemUsersUserGroupAdd',
 
 	_live: function (user) {
 
@@ -12,7 +10,6 @@ var $systemUsersUserGroupAdd = {
 				$components: [
 					modalNav({
 						content: { $type: "h4", $text: user.name },
-						// up: function() { systemUsersUser._live(user) },
 					}),
 					hr(),
 					dataLoader({
@@ -47,58 +44,4 @@ var $systemUsersUserGroupAdd = {
 		} );
 	},
 
-};
-
-
-
-function hr() {
-	return { $type: "hr" };
-};
-
-function modalNav( args ) {
-	return {
-		class: "clearfix",
-		$components: [
-			args.up ? button( {
-				onclick: args.up,
-				icon: "fa fa-arrow-up",
-				wrapperClass: "pull-right"
-			} ) : {},
-			args.content,
-		]
-	};
-};
-
-
-function dataLoader( args ) {
-
-	return {
-		$components: [
-			icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
-		],
-		$init: function() {
-			this._load()
-		},
-		_refresh: function ( data ) {
-			this.$components = [
-				args.render ? args.render(data) : pp(data)
-			];
-		},
-
-		_load: function () {
-			var target = this;
-			apiRequest({
-				action: args.action,
-				callbacks: {
-					200: function(response) {
-						target._refresh(response);
-					},
-				}
-			});
-
-		},
-
-
-	};
-
-};
+});

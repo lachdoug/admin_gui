@@ -1,21 +1,8 @@
-$( document ).ready(function(){
-	main._live();
-});
+cell({
 
-var $main = {
-
-	$cell: true,
 	id: "main",
 
 	$init: function () {
-		$(window).on('unload', function(){
-    	alert('Are you sure you want to leave?');
-   	});
-	},
-
-
-	_live: function () {
-		$( this ).show();
 		navbar._live();
 		system._live();
 	},
@@ -42,14 +29,6 @@ var $main = {
 	},
 
 
-	// _reloadSystem: function () {
-	// 	// $(".modal").modal("hide");
-	// 	// $("#pageLoadingSpinner").fadeIn();
-	// 	// system._kill();
-	// 	system._live();
-	// },
-
-
 	_renderDisconnectedSystem: function () {
 		// $(".modal").modal("hide");
 		$("#navbarSignOutButton").hide();
@@ -67,4 +46,4 @@ var $main = {
 	},
 
 
-};
+});

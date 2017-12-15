@@ -1,6 +1,54 @@
-var $system = {
+// cell({
+//
+// 	id: "system",
+//
+// 	_$data: {},
+// 	_data: function() { return this._$data; }, // this needs to go
+//
+//
+// 	_live: function( afterUpdateCallback ) {
+// 		if ( systemApiUrl ) {
+// 			this._loadSystem( afterUpdateCallback );
+// 		} else {
+// 			if ( remoteManagement ) {
+// 				selectSystem._live();
+// 			} else {
+// 				alert('No system API URL.');
+// 			};
+// 		}
+// 	},
+//
+//
+// 	_kill: function() {
+// 		this._closeContainerEvents();
+// 		this._$data = null;
+// 		this.$components = [];
+// 	},
+//
+// 	_loadSystem: function ( afterUpdateCallback ) {
+// 		apiRequest({
+// 			action: '/system',
+// 			callbacks: {
+// 				200: function(response) {
+// 					system._refresh(response, afterUpdateCallback);
+// 					$("#navbarSignOutButton").show();
+// 					$("#pageLoadingSpinner").fadeOut();
+// 				},
+// 				401: function() {
+// 					// override default behaviour to skip alert message.
+// 					main._renderSignedOut();
+// 				}
+// 			}
+// 		});
+//
+// 	},
+//
+//
+//
+// });
 
-	$cell: true,
+cell({
+
 	id: "system",
 
 	_data: null,
@@ -18,8 +66,6 @@ var $system = {
 			showSoftwareTitles: showSoftwareTitles,
 		  showContainerMemoryUsage: showContainerMemoryUsage
 		};
-
-		// console.log(this._showOptions);
 
 		if ( enableEventStreaming ) {
 			this._streamContainerEvents();
@@ -46,11 +92,11 @@ var $system = {
 		// } else
 		if ( this._data ) {
 
-			console.log({
-				showServices :showServices,
-				showSoftwareTitles: showSoftwareTitles,
-			  showContainerMemoryUsage: showContainerMemoryUsage
-			});
+			// console.log({
+			// 	showServices :showServices,
+			// 	showSoftwareTitles: showSoftwareTitles,
+			//   showContainerMemoryUsage: showContainerMemoryUsage
+			// });
 
 
 			var needsAttention = 	this._data.status.needs_reboot ||
@@ -527,4 +573,4 @@ var $system = {
 	},
 
 
-};
+});

@@ -1,6 +1,5 @@
-var api = {
+cell({
 
-	$cell: true,
 	id: "api",
 
 
@@ -14,7 +13,6 @@ var api = {
 
 			formButons.each(
 				function( index ) {
-					// debugger;
 					formButons[index]._disableButton();
 				}
 			);
@@ -57,7 +55,7 @@ var api = {
 
 
 	_handleResponse: function( response, args ) {
-//				alert("api call: " + args.action + " complete");
+
 		$("#pageLoadingSpinner").fadeOut();
 
 		responseContentType = response.getResponseHeader("Content-Type")
@@ -86,6 +84,7 @@ var api = {
 		};
 	},
 
+
 	_handleNoResponse: function ( response, args ) {
 		var callbacks = args.callbacks || {};
 		var callback = callbacks[response.status];
@@ -96,9 +95,11 @@ var api = {
 		};
 	},
 
+
 	_defaultNoResponseHandler: function ( response, args ) {
 		main._renderUnavailableSystem();
 	},
+
 
 	_handleHtmlResponse: function( response, args ) {
 		document.open('text/html');
@@ -114,6 +115,7 @@ var api = {
 		var fileName = match[1].replace(/^"(.*)"$/, '$1') || "engines_file.txt";
 		download(new Blob([response.responseText]), fileName, "text/plain");
 	},
+
 
 	_handleJsonResponse: function( response, args ) {
 
@@ -135,10 +137,6 @@ var api = {
 				alert('OK.\n\n' +
 							JSON.stringify(JSON.parse(response.responseText), null, 2));
 				break;
-// 			case 400:
-
-// //				alert("Client error.\n\n" + JSON.parse(response.responseText).error.message );
-// 				break;
 			case 401:
 			 	alert("Authentication error.\n\n" + JSON.parse(response.responseText).error.message );
 				main._renderSignedOut();
@@ -169,4 +167,4 @@ var api = {
 
 	}
 
-};
+});

@@ -1,32 +1,35 @@
-var $systemUsersGroups = {
+cell({
 
-	$cell: true,
 	id: "systemUsersGroups",
 
+	_live: function () {
 
-	// _live: function () {
-  //
-	// 	modal._live ( {
-	// 		header: icon( { icon: "fa fa-users", text: "System users" } ),
-	// 		body: {
-	// 			$components: [
-	// 				{
-	// 					class: "clearfix",
-	// 					$components: [
-	// 						button( {
-	// 							onclick: systemControlPanel._live,
-	// 							icon: "fa fa-arrow-up",
-	// 							wrapperClass: "pull-right"
-	// 						} ),
-	// 					]
-	// 				},
-	// 				button( { onclick: systemUsersGroups._live,
-	// 									icon: "fa fa-th-list", text: "Groups" } ),
-	// 				{ $type: "hr" },
-	// 			]
-	// 		}
-	// 	} );
-  //
-	// }
+		modal._live ( {
+			header: icon( { icon: "fa fa-th-list", text: "System user groups" } ),
+			body: {
+				$components: [
+					modalNav({
+						up: systemUsers._live,
+					}),
+					// hr(),
+					dataLoader({
+						action: "/system/users/groups",
+						render: function(data) {
+							return {
+								$components: data.map( function( group ) {
+									return button({
+										text: group.name,
+										onclick: function() { systemUsersGroup._live(group) },
+									});
+								}),
+							};
+						}
+					}),
+				]
+			}
+		} );
 
-};
+	},
+
+
+});

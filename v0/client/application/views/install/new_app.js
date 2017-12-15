@@ -233,8 +233,8 @@ var $installNewApp = {
 			],
 			action: "/system/install",
 			callbacks: {
-				200: function(response) {
-					system._loadSystem();
+				200: function() {
+					system._live();
 				},
 			}
 		});
