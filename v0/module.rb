@@ -299,7 +299,7 @@ class V0 < Sinatra::Base
 
   def no_auth
     request.path_info == '/' ||
-    # request.path_info == '/test_kerberos' ||
+    request.path_info == '/test_kerberos' ||
     request.path_info == '/system/signin' ||
     request.path_info == '/system/container_events' ||
     request.path_info == '/system/statistics/container_memory' ||
