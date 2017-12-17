@@ -1,4 +1,4 @@
-var $cssSystems = css( `
+css( `
 
 .system { box-shadow: 0 3px 9px rgba(0,0,0,.5); border: 1px solid #eee; padding: 15px; }
 .system .services { border-top: 1px solid #eee; }

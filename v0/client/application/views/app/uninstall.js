@@ -43,7 +43,7 @@ var $appUninstall = {
 							action: "/apps/" + appName + "/uninstall",
 							callbacks: {
 								200: function(response) {
-									system._live();
+									systemApps._load();
 									modal._kill();
 								},
 							}

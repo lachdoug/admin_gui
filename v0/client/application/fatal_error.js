@@ -52,10 +52,10 @@ cell({
 							},
 						]
 					},
-					pp( {
+					{
 						id: "fatalErrorDetail",
 						style: "display: none;",
-						object: error } ),
+						$components: [ pp(error) ] },
 				]
 			}
 		} );

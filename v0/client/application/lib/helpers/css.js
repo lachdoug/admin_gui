@@ -1,9 +1,8 @@
 function css(styleText) {
 
-  return {
-    $cell: true,
+  cell({
     $type: "style",
     $html: styleText
-  };
+  });
 
 };

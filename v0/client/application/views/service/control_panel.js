@@ -47,7 +47,7 @@ var $serviceControlPanel = {
 											icon: "fa fa-crosshairs",
 											text: "Actions",
 											onclick: function () {
-												if ( system._serviceDataFor(serviceName).state == "running" ) {
+												if ( systemServices._dataFor(serviceName).state == "running" ) {
 													serviceActions._live(serviceName);
 												} else {
 													alert("Service must be running to perform actions.")

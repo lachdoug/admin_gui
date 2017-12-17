@@ -1,4 +1,4 @@
-var $cssBorderRadii = css( `
+css( `
   * {
   border-radius: 0 !important;
 }` );

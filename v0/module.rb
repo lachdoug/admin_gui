@@ -5,28 +5,21 @@ require "sinatra/streaming"
 
 require 'tempfile'
 require 'rest-client'
-# require 'pry'
 require 'byebug' if Sinatra::Base.development?
 require 'yaml'
 
-# Asset management for client app
-# require 'sprockets'
-# require 'sinatra/sprockets-helpers'
-
 class V0 < Sinatra::Base
 
-  ## For debugging
+  ## For debugging in development
   ##----------------------------------------------------------------------------
 
   before do
-
     if Sinatra::Base.development?
       puts 'Request'
       puts request.path_info
       puts params.inspect
     end
   end
-
 
 
   ##############################################################################
@@ -52,16 +45,12 @@ class V0 < Sinatra::Base
   set banner_background_color: ENV['ENGINES_ADMIN_GUI_BANNER_BACKGROUND_COLOR'] || '#48d'
   set enable_client_event_streaming: true || !Sinatra::Base.development?
 
-  # before do
-  #   session[:system_api_url] = session[:system_api_url] || settings.system_api_url
-  #   session[:remote_management] = settings.remote_management
-  # end
 
   ##############################################################################
   ## CLIENT
   ##############################################################################
 
-  # Here are the erb files
+  # Locate erb files
   set :views, Proc.new { File.join(root, "client") }
 
   get '/' do
@@ -70,7 +59,6 @@ class V0 < Sinatra::Base
   end
 
   get '/client' do
-    # byebug
     content_type :'application/javascript'
     erb :'client.js'
   end
@@ -78,12 +66,10 @@ class V0 < Sinatra::Base
   put '/client/select_system' do
     halt 404 unless settings.remote_management
     session[:system_api_url] = params[:data][:system_api_url]
-    # :system_selection is an index (of which system to select from settings)
     { system_api_url: session[:system_api_url] }.to_json
   end
 
   patch '/client/display_settings' do
-    # byebug
     unless params[:show_services].nil?
       session[:show_services] = ( params[:show_services] == 'true' )
     end
@@ -93,7 +79,6 @@ class V0 < Sinatra::Base
     unless params[:show_container_memory_usage].nil?
       session[:show_container_memory_usage] = ( params[:show_container_memory_usage] == 'true' )
     end
-    # :system_selection is an index (of which system to select from settings)
     {}.to_json
   end
 
@@ -211,15 +196,13 @@ class V0 < Sinatra::Base
   ## API
   ##############################################################################
 
-  ## Load-up the controllers, models & services
+  ## Register controllers
   ##----------------------------------------------------------------------------
 
   require_relative 'api/api'
-  # include Api
-  # include Models
   register Api::Controllers
 
-  ## Helpers
+  ## Register helpers
   ##----------------------------------------------------------------------------
 
   helpers Api::Helpers
@@ -316,14 +299,12 @@ class V0 < Sinatra::Base
 
   def no_auth
     request.path_info == '/' ||
-    request.path_info == '/test_kerberos' ||
+    # request.path_info == '/test_kerberos' ||
     request.path_info == '/system/signin' ||
     request.path_info == '/system/container_events' ||
     request.path_info == '/system/statistics/container_memory' ||
     request.path_info == '/client' ||
     request.path_info == '/client/select_system'
-    #  ||
-    # request.path_info == '/client/display_settings'
   end
 
   def system_api_token
@@ -369,15 +350,6 @@ class V0 < Sinatra::Base
         opts[:without_token] ? nil : system_api_token,
         settings )
   end
-
-  # def selected_system_api_url
-  #   session[:system_api_url] || settings.system_api_url
-  # end
-
-  # def libraries
-  #   @libraries ||=
-  #     ApiV0::Libraries.all
-  # end
 
   def set_app(app_name)
     @app = system.app app_name

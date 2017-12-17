@@ -1,4 +1,4 @@
-var $cssInputs = css( `
+css( `
 
 select:invalid, textarea:invalid, input:invalid {
 	border-color: #48D;

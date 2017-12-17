@@ -28,13 +28,13 @@ var $systemExceptionReporting = {
 									$components: [
 										{ $type: "label", $text: "Bug reports" },
 										{ $components: [
-											system._data.report_exceptions ?
+											system._$data.report_exceptions ?
 												icon( { icon:"fa fa-check", text:"Send bug reports" } ) :
 												icon( { icon:"fa fa-times", text:"Do not send bug reports" } ),
 										] },
 									]
 								},
-								button( system._data.report_exceptions ?
+								button( system._$data.report_exceptions ?
 									{ icon: "fa fa-toggle-on", text: "Disable", wrapperClass: "pull-right", onclick: systemExceptionReporting._disable } :
 									{ icon: "fa fa-toggle-off", text: "Enable", wrapperClass: "pull-right", onclick: systemExceptionReporting._enable } ),
 							]
@@ -52,9 +52,9 @@ var $systemExceptionReporting = {
 			method: "delete",
 			callbacks: {
 				200: function() {
-					var system_data = system._data;
+					var system_data = system._$data;
 					system_data.report_exceptions = false;
-					system._data = system_data;
+					system._$data = system_data;
 					systemExceptionReporting._live();
 				}
 			}
@@ -67,9 +67,9 @@ var $systemExceptionReporting = {
 			method: "put",
 			callbacks: {
 				200: function() {
-					var system_data = system._data;
+					var system_data = system._$data;
 					system_data.report_exceptions = true;
-					system._data = system_data;
+					system._$data = system_data;
 					systemExceptionReporting._live();
 				}
 			}

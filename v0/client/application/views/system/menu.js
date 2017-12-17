@@ -6,7 +6,7 @@ var $systemMenu = {
 
 	_live: function () {
 
-		var baseOsName = system._data.properties.version.base_os.name;
+		var baseOsName = system._$data.properties.version.base_os.name;
 		modal._live ( {
 			header: icon( { icon: "fa fa-hdd-o", text: "System menu" } ),
 			body: {
@@ -23,7 +23,7 @@ var $systemMenu = {
 						]
 					},
 					{ $type: "hr" },
-					system._data.status.needs_engines_update == true ? {
+					system._$data.status.needs_engines_update == true ? {
 						$type: "p",
 						$components: [
 							icon( {icon: "fa fa-warning", text: "Needs update", style: "color: red;" } )
@@ -37,7 +37,7 @@ var $systemMenu = {
 								items: [
 									{
 										label: "Engines",
-										data: system._data.properties.version.engines
+										data: system._$data.properties.version.engines
 									},
 								]
 							} ),
@@ -53,13 +53,13 @@ var $systemMenu = {
 						]
 					},
 					{ $type: "hr" },
-					system._data.status.needs_reboot == true ? {
+					system._$data.status.needs_reboot == true ? {
 						$type: "p",
 						$components: [
 							icon( { icon: "fa fa-warning", text: "Needs reboot", style: "color: red;" } )
 						],
 					} : {},
-					system._data.status.needs_base_update == true ? {
+					system._$data.status.needs_base_update == true ? {
 						$type: "p",
 						$components: [
 							icon( { icon: "fa fa-warning", text: "Needs update", style: "color: red;" } )
@@ -72,8 +72,8 @@ var $systemMenu = {
 								class: "pull-left-md",
 								items: [
 									{
-										label: system._data.properties.version.base_os.name,
-										data:  system._data.properties.version.base_os.version
+										label: system._$data.properties.version.base_os.name,
+										data:  system._$data.properties.version.base_os.version
 									},
 								]
 							} ),
@@ -102,7 +102,7 @@ var $systemMenu = {
 
 						_showOptions: function () {
 							this.$components = [
-								showContainerMemoryUsage ?
+								system._$showContainerMemoryUsage ?
 								button({
 									id: "hideContainerMemoryUsageButton",
 									icon: "fa fa-microchip",
@@ -117,7 +117,7 @@ var $systemMenu = {
 									title: "Show container memory usage",
 									onclick: systemMenu._showContainerMemoryUsage,
 								}),
-								showServices ?
+								system._$showServices ?
 								button({
 									icon: "fa fa-compass",
 									id: "hideServicesButton",
@@ -132,7 +132,7 @@ var $systemMenu = {
 									title: "Show services",
 									onclick: systemMenu._showServices,
 								}),
-								showSoftwareTitles ?
+								system._$showSoftwareTitles ?
 								button({
 									id: "hideSoftwareTitlesButton",
 									icon: "fa fa-info",
@@ -166,7 +166,7 @@ var $systemMenu = {
 				200: function(response) {
 					$("#pageLoadingSpinner").fadeIn();
 					$(".modal").modal("hide");
-					showSoftwareTitles = true;
+					system._$showSoftwareTitles = true;
 					system._live();
 				},
 			}
@@ -182,7 +182,7 @@ var $systemMenu = {
 				200: function(response) {
 					$("#pageLoadingSpinner").fadeIn();
 					$(".modal").modal("hide");
-					showSoftwareTitles = false;
+					system._$showSoftwareTitles = false;
 					system._live();
 				},
 			}
@@ -198,7 +198,7 @@ var $systemMenu = {
 				200: function(response) {
 					$("#pageLoadingSpinner").fadeIn();
 					$(".modal").modal("hide");
-					showContainerMemoryUsage = true;
+					system._$showContainerMemoryUsage = true;
 					system._live();
 				},
 			}
@@ -214,7 +214,7 @@ var $systemMenu = {
 				200: function(response) {
 					$("#pageLoadingSpinner").fadeIn();
 					$(".modal").modal("hide");
-					showContainerMemoryUsage = false;
+					system._$showContainerMemoryUsage = false;
 					system._live();
 				},
 			}
@@ -230,7 +230,7 @@ var $systemMenu = {
 				200: function(response) {
 					$("#pageLoadingSpinner").fadeIn();
 					$(".modal").modal("hide");
-					showServices = true;
+					system._$showServices = true;
 					system._live();
 				},
 			}
@@ -247,7 +247,7 @@ var $systemMenu = {
 					$("#pageLoadingSpinner").fadeIn();
 					$(".modal").modal("hide");
 					$('#services').slideUp('fast');
-					showServices = false;
+					system._$showServices = false;
 					system._live();
 				},
 			}

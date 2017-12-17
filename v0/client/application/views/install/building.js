@@ -8,7 +8,7 @@ var $installBuild = {
 
 	_live: function () {
 
-		this._appName = system._data.builder.current.engine_name;
+		this._appName = system._$data.builder.current.engine_name;
 
 		modal._live ( {
 			dialogClass: "modal-lg",

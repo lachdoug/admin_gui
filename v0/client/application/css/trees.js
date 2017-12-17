@@ -1,4 +1,4 @@
-var $cssTrees = css( `
+css( `
 
 .tree {
   min-height:20px;

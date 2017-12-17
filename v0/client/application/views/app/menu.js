@@ -10,7 +10,7 @@ var $appMenu = {
 	_live: function( appName ) {
 
 		this._appName = appName;
-		this._appData = system._appDataFor( appName );
+		this._appData = systemApps._dataFor( appName );
 		this._show();
 
 	},
@@ -84,7 +84,7 @@ var $appMenu = {
 	},
 
 
-	_websites: function ( websites ) {
+	_websites: function () {
 
 		var appName = this._appName;
 

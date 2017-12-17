@@ -1,4 +1,4 @@
-var $cssPulls = css( `
+css( `
 
 .pull-right-md {
   text-align: right;

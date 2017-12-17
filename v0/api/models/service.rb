@@ -80,6 +80,7 @@ class V0
         ######################################################################
 
         def about
+          # return { title: '?' } if name == "ivpn"
           service_definition
         end
 

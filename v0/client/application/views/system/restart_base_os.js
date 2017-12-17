@@ -4,7 +4,7 @@ var $systemRestartBaseOS = {
 	id: "systemRestartBaseOS",
 
 	_live: function() {
-		var baseOSName = system._data.properties.version.base_os.name;
+		var baseOSName = system._$data.properties.version.base_os.name;
 		modal._live(
 			{
 				header: icon( { icon: "fa fa-power-off", text: "System restart " + baseOSName } ),

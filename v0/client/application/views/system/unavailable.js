@@ -25,7 +25,6 @@ var $systemUnavailable = {
 			}
 		);
 		this._pollServer();
-		system._kill();
 	},
 
 

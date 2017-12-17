@@ -77,8 +77,8 @@ class V0
               status: engines_api_system.builder_status,
               current: current_build
             },
-            apps: app_statuses( include_software_titles: include_software_titles ),
-            services: include_services ? service_statuses( include_software_titles: include_software_titles ) : []
+            # apps: app_statuses( include_software_titles: include_software_titles ),
+            # services: include_services ? service_statuses( include_software_titles: include_software_titles ) : []
           }
 
         # rescue => e

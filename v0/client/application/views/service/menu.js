@@ -10,7 +10,7 @@ var $serviceMenu = {
 	_live: function( serviceName ) {
 
 		this._serviceName = serviceName;
-		this._serviceData = system._serviceDataFor( serviceName );
+		this._serviceData = systemServices._dataFor( serviceName );
 		this._show();
 
 	},

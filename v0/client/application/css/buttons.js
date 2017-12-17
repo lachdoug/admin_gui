@@ -1,4 +1,4 @@
-var $cssButtons = css( `
+css( `
 .btn.btn-xlg {font-size: 24px;}
 .btn.btn-md {
   padding: 6px 12px;

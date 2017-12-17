@@ -2,6 +2,30 @@ cell({
 
 	id: "api",
 
+	$init: function() {
+		this._buildPool();
+	},
+
+	_buildPool: function() {
+		this._xhrPool = [];
+		$.ajaxSetup({
+	    beforeSend: function(jqXHR) {
+        api._xhrPool.push(jqXHR);
+	    },
+	    complete: function(jqXHR) {
+        var index = this._xhrPool.indexOf(jqXHR);
+        if (index > -1) {
+          api._xhrPool.splice(index, 1);
+        };
+	    }
+		});
+	},
+
+	_abortAll: function() {
+		$.each(this._xhrPool, function(idx, jqXHR) { jqXHR.abort(); });
+		this._xhrPool = [];
+	},
+
 
 	_bindForm: function( form ) {
 		$(form).submit(function( e ) {
@@ -72,7 +96,7 @@ cell({
 
 			var backtrace = ( new Error() ).stack.split("\n");
 			var message = response.responseText;
-			fatalError._live( {
+			main._renderFatalError( {
 				message: message,
 				detail: {
 					source: "Admin GUI ApiV0 v0.5",
@@ -145,7 +169,7 @@ cell({
 				alert( JSON.parse(response.responseText).error.message );
 				break;
 			case 500:
-				fatalError._live( JSON.parse(response.responseText).error );
+				main._renderFatalError( JSON.parse(response.responseText).error );
 				break;
 			case 503:
 				main._renderUnavailableSystem( { message: JSON.parse(response.responseText).error.message } );
@@ -154,7 +178,7 @@ cell({
 				var backtrace = ( new Error() ).stack.split("\n");
 
 				var message = response.status ? JSON.parse(response.responseText).error.message : "No response.";
-				fatalError._live( {
+				main._renderFatalError( {
 					message: message,
 					detail: {
 						source: "Admin GUI ApiV0 v0.5",

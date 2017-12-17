@@ -26,6 +26,7 @@ cell({
 		$("#navbarSignOutButton").hide();
 		system._kill();
 		signIn._live();
+		systemDisconnected._kill();
 	},
 
 
@@ -41,8 +42,15 @@ cell({
 
 	_renderUnavailableSystem: function( opts={} ) {
 		// opts: { behavior: :engines_update or :base_os_update }
+		api._abortAll();
 		system._kill();
 		systemUnavailable._live( opts );
+	},
+
+	_renderFatalError: function ( error ) {
+		api._abortAll();
+		fatalError._live( error );
+		this._renderDisconnectedSystem();
 	},
 
 

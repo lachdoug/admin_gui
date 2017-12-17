@@ -1,4 +1,4 @@
-var $cssSelect = css( `
+css( `
 
 .chosen-container.chosen-container-multi ul.chosen-choices {
     min-height: 34px;
