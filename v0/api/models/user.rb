@@ -21,9 +21,13 @@ class V0
         end
 
         def authenticated?(opts={})
-    result =      ( session_id == stored_session_id ) &&
-          ( opts[:skip_timeout] || check_timeout )
-          puts "auth result: " + result.to_s
+    result1 =      ( session_id == stored_session_id )
+    result2 =  opts[:skip_timeout]
+    result3 =  check_timeout
+
+    result1 && ( result2 || result3 )
+
+          puts "auth result: " + result1.to_s + result2.to_s + result3.to_s
           result
         end
 
