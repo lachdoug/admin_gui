@@ -98,7 +98,7 @@ class V0
         # rescue => e
         #   byebug
         rescue RestClient::Forbidden
-          raise NonFatalError.new 'Not signed in.', 401
+          raise NonFatalError.new 'Not signed in1.', 401
         rescue RestClient::MethodNotAllowed => e
           system_error_message = JSON.parse(e.response.body, symbolize_names: true)[:error_object][:error_mesg]
           raise NonFatalError.new "Not allowed.\n\nReason: #{system_error_message}", 405
