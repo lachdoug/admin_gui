@@ -143,7 +143,19 @@ class V0 < Sinatra::Base
 
 
     ldap.search( :return_result => false) { |item|
-           out[:ldap_search] << item.inspect
+
+      attributes = []
+      item.each do |attribute, value|
+        attributes << [ attribute, value ]
+      end
+
+      out[:ldap_search] << {
+        inspect: item.inspect,
+        dn: item.dn,
+        attribute_names: item.attribute_names,
+        write: item.write,
+        attributes: attributes
+      }
     }
     end
     #

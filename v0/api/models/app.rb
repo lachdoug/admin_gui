@@ -57,6 +57,7 @@ class V0
           #   app_api.instruct_container(instruction)
           # end
           # { message: "OK" }
+          # byebug
           return { message: "OK" } if app_api.instruct_container(instruction)
           raise NonFatalError.new "Failed to instruct #{name} to #{instruction}.", 405
         end

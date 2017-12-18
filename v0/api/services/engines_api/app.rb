@@ -55,6 +55,7 @@ class V0
             else
               @system_api.get "containers/engine/#{@name}/#{instruction}"
             end
+            return true
           end
 
           ######################################################################
