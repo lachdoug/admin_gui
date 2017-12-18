@@ -187,17 +187,94 @@ class V0
         # Users
         ########################################################################
 
+        require 'net/ldap'
+
         def users
-          [
-            {
-              name: "Lachlan",
-              id: "lachdoug"
-            },
-            {
-              name: "James",
-              id: 'jvodan'
-            }
-          ]
+
+          out = {};
+
+          # server = settings.kerberos_server
+          # keytab_path = settings.kerberos_keytab_path
+          # username = params[:data][:username]
+          # password = params[:data][:password]
+          #
+          # out = {
+          #   server: server,
+          #   keytab_path: keytab_path,
+          #   username: username,
+          #   password: password
+          # }
+          #
+          # KerberosAuthenticator.setup do |config|
+          #   config.server = settings.kerberos_server
+          #   config.keytab_path = settings.kerberos_keytab_path
+          # end
+          #
+          # begin
+          #   KerberosAuthenticator.authenticate!(username, password)
+          #   out[:kerberos_auth_result] = "OK"
+          #   # out[:kerberos_ticket] = KerberosAuthenticator.krb5::Creds.new
+          # rescue KerberosAuthenticator::Error => e
+          #   out[:kerberos_auth_result] = "Error: #{e.inspect}"
+          # end
+
+
+
+
+
+              #dn = "cn=George Smith,ou=people,dc=engines,dc=internal"
+              #attr = {
+                #:cn => "George Smith",
+                #:objectclass => ["top", "inetorgperson"],
+                #:sn => "Smith",
+                #:mail => "gsmith@example.com"
+              #}
+
+              #r = ldap.add( :dn => dn, :attributes => attr )
+
+
+          auth = {
+            :method => :simple,
+            :username => "cn=administrator,ou=people,dc=engines,dc=internal",
+            :password => params[:data][:password]
+          }
+
+          out = []
+
+          Net::LDAP.open(:host => "ldap", :port => 389, :base => "DC=engines,DC=internal", :auth => auth) do |ldap|
+
+            filter = Net::LDAP::Filter.eq( "objectclass", "posixAccount" )
+            treebase = "dc=engines,dc=internal"
+
+            ldap.search( :return_result => false, :base => treebase, :filter => filter ) do |entry|
+
+              attributes = {}
+              entry.each do |attribute, value|
+                attributes[ attribute ] = value
+              end
+
+              out << {
+                id: entry.dn,
+                name: entry.cn.join(' '),
+              }
+            end
+          end
+
+          out
+
+
+          #
+          #
+          # [
+          #   {
+          #     name: "Lachlan",
+          #     id: "lachdoug"
+          #   },
+          #   {
+          #     name: "James",
+          #     id: 'jvodan'
+          #   }
+          # ]
         end
 
         def user(user_id)
