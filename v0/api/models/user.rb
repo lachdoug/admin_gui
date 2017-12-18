@@ -21,8 +21,10 @@ class V0
         end
 
         def authenticated?(opts={})
-          ( session_id == stored_session_id ) &&
+    result =      ( session_id == stored_session_id ) &&
           ( opts[:skip_timeout] || check_timeout )
+          puts "auth result: " + result.to_s
+          result
         end
 
         def system_api_token
