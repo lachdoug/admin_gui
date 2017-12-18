@@ -27,7 +27,7 @@ class V0
 
    result =  result1 && ( result2 || result3 )
 
-          puts "auth result: " + result.to_s + ' ' + result1.to_s + ' ' + result2.to_s + ' ' + result3.to_s
+          puts "auth result: " + result.to_s + ' --- ' + result1.to_s + ' - ' + result2.to_s + ' - ' + result3.to_s
           result
         end
 
