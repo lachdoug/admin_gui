@@ -21,16 +21,8 @@ class V0
         end
 
         def authenticated?(opts={})
-          sid = session_id
-          ssid = stored_session_id
-    result1 =      ( sid == ssid )
-    result2 =  opts[:skip_timeout]
-    result3 =  check_timeout
-
-   result =  result1 && ( result2 || result3 )
-
-          puts "auth " + sid.to_s + "/" + ssid.to_s + " result: " + result.to_s + ' --- ' + result1.to_s + ' - ' + result2.to_s + ' - ' + result3.to_s
-          result
+          ( session_id == stored_session_id ) &&
+          ( opts[:skip_timeout] || check_timeout )
         end
 
         def system_api_token
@@ -57,11 +49,9 @@ class V0
         end
 
         def current_user_tokens
-          current_user_tokens_file = File.read "#{@settings.data_directory_path}/current_user.json"
-          puts "File: " + current_user_tokens_file.to_s
           @current_user_tokens ||=
           begin
-            JSON.parse ( current_user_tokens_file ), symbolize_names: true
+            JSON.parse ( File.read "#{@settings.data_directory_path}/current_user.json" ), symbolize_names: true
           rescue
             {}
           end

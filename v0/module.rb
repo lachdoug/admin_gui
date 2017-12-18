@@ -14,7 +14,7 @@ class V0 < Sinatra::Base
   ##----------------------------------------------------------------------------
 
   before do
-    if true|| Sinatra::Base.development?
+    if Sinatra::Base.development?
       puts 'Request'
       puts request.path_info
       puts params.inspect
@@ -276,8 +276,8 @@ class V0 < Sinatra::Base
   enable :sessions
 
   before do
-    authed = no_auth || current_user
-    raise NonFatalError.new('Not signed in11.', 401) unless authed
+    raise NonFatalError.new('Not signed in.', 401) unless
+      true || no_auth || current_user
   end
 
   def no_auth
@@ -318,12 +318,9 @@ class V0 < Sinatra::Base
 
 
   def current_user(opts={})
-    puts 'Request1 - ' + request.path_info + ' - ' + params.inspect + ' - current_user: ' + ( @current_user ).to_s
     return @current_user if @current_user
     user = Api::Models::User.new session, settings
     @current_user = user if user.authenticated?(opts)
-    puts 'Request2 - ' + request.path_info + ' - ' + params.inspect + ' - user: ' + ( user ).to_s + ' - current_user: ' + ( @current_user ).to_s
-    @current_user
   end
 
   ## Set core resources
