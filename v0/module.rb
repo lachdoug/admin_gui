@@ -14,7 +14,7 @@ class V0 < Sinatra::Base
   ##----------------------------------------------------------------------------
 
   before do
-    if Sinatra::Base.development?
+    if true || Sinatra::Base.development?
       puts 'Request'
       puts request.path_info
       puts params.inspect
@@ -276,8 +276,10 @@ class V0 < Sinatra::Base
   enable :sessions
 
   before do
+    authed = no_auth || current_user
+    puts "authed: " + ( authed ).to_s
     raise NonFatalError.new('Not signed in11.', 401) unless
-      no_auth || current_user
+      authed
   end
 
   def no_auth
