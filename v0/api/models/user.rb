@@ -58,6 +58,7 @@ class V0
 
         def current_user_tokens
           current_user_tokens_file = File.read "#{@settings.data_directory_path}/current_user.json"
+          puts "File: " + current_user_tokens_file.to_s
           @current_user_tokens ||=
           begin
             JSON.parse ( current_user_tokens_file ), symbolize_names: true
