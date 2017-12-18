@@ -62,10 +62,11 @@ function renderSystemServices() {
     },
 
     _titleFor: function (serviceName) {
-
+console.log("get title for: " + serviceName);
   		var cachedTitle = systemServices.$titleData[serviceName];
 
   		if ( typeof cachedTitle == 'undefined' ) {
+        // systemServices.$titleData[serviceName] = ""
         apiRequest({
   				action: "/services/" + serviceName + "/about",
   				callbacks: {
