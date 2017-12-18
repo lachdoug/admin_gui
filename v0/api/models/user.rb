@@ -57,9 +57,10 @@ class V0
         end
 
         def current_user_tokens
+          current_user_tokens_file = File.read "#{@settings.data_directory_path}/current_user.json"
           @current_user_tokens ||=
           begin
-            JSON.parse ( File.read "#{@settings.data_directory_path}/current_user.json" ), symbolize_names: true
+            JSON.parse ( current_user_tokens_file ), symbolize_names: true
           rescue
             {}
           end
