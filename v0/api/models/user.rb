@@ -40,6 +40,7 @@ class V0
         end
 
         def save_current_user(new_system_api_token)
+          puts "save user $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
           File.write "#{@settings.data_directory_path}/current_user.json",
            {
              system_api_token: new_system_api_token,
@@ -49,9 +50,10 @@ class V0
         end
 
         def current_user_tokens
+          current_user_tokens_file = File.read "#{@settings.data_directory_path}/current_user.json"
           @current_user_tokens ||=
           begin
-            JSON.parse ( File.read "#{@settings.data_directory_path}/current_user.json" ), symbolize_names: true
+            JSON.parse ( current_user_tokens_file ), symbolize_names: true
           rescue
             {}
           end

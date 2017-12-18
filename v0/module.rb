@@ -277,7 +277,7 @@ class V0 < Sinatra::Base
 
   before do
     raise NonFatalError.new('Not signed in.', 401) unless
-      true || no_auth || current_user
+      no_auth || current_user
   end
 
   def no_auth
