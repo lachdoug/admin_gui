@@ -318,10 +318,12 @@ class V0 < Sinatra::Base
 
 
   def current_user(opts={})
-    puts 'Request - ' + request.path_info + ' - ' + params.inspect + ' - current_user: ' + ( @current_user ).to_s
+    puts 'Request1 - ' + request.path_info + ' - ' + params.inspect + ' - current_user: ' + ( @current_user ).to_s
     return @current_user if @current_user
     user = Api::Models::User.new session, settings
     @current_user = user if user.authenticated?(opts)
+    puts 'Request2 - ' + request.path_info + ' - ' + params.inspect + ' - current_user: ' + ( @current_user ).to_s
+    @current_user
   end
 
   ## Set core resources
