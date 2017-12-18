@@ -236,7 +236,7 @@ class V0
           auth = {
             :method => :simple,
             :username => "cn=administrator,ou=people,dc=engines,dc=internal",
-            :password => params[:data][:password]
+            :password => "password"
           }
 
           out = []
