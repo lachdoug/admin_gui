@@ -277,7 +277,6 @@ class V0 < Sinatra::Base
 
   before do
     authed = no_auth || current_user
-    puts 'Request - ' + request.path_info + ' - ' + params.inspect + ' - authed: ' + ( authed ).to_s
     raise NonFatalError.new('Not signed in11.', 401) unless authed
   end
 
@@ -319,6 +318,7 @@ class V0 < Sinatra::Base
 
 
   def current_user(opts={})
+    puts 'Request - ' + request.path_info + ' - ' + params.inspect + ' - current_user: ' + ( @current_user ).to_s
     return @current_user if @current_user
     user = Api::Models::User.new session, settings
     @current_user = user if user.authenticated?(opts)
