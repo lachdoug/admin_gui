@@ -276,7 +276,7 @@ class V0 < Sinatra::Base
   enable :sessions
 
   before do
-    puts "authed: " + ( no_auth || current_user )
+    puts "authed: " + ( no_auth || current_user ).to_s
     raise NonFatalError.new('Not signed in.', 401) unless
       no_auth || current_user
   end
