@@ -153,7 +153,7 @@ class V0 < Sinatra::Base
         inspect: item.inspect,
         dn: item.dn,
         attribute_names: item.attribute_names,
-        write: item.write,
+        # write: item.write,
         attributes: attributes
       }
     }
