@@ -117,79 +117,46 @@ class V0 < Sinatra::Base
 
 
 
-    #
-    # require 'rubygems'
-    # require 'net/ldap'
-    auth = {      :method => :simple,
-                :username => "cn=administrator,ou=people,dc=engines,dc=internal",
-                :password => params[:data][:password]
-           }
+
+        #dn = "cn=George Smith,ou=people,dc=engines,dc=internal"
+        #attr = {
+          #:cn => "George Smith",
+          #:objectclass => ["top", "inetorgperson"],
+          #:sn => "Smith",
+          #:mail => "gsmith@example.com"
+        #}
+
+        #r = ldap.add( :dn => dn, :attributes => attr )
 
 
-           out[:ldap_search] = []
-
-     Net::LDAP.open(:host => "ldap", :port => 389, :base => "DC=engines,DC=internal", :auth => auth) do |ldap |
-
-
-    #dn = "cn=George Smith,ou=people,dc=engines,dc=internal"
-    #attr = {
-      #:cn => "George Smith",
-      #:objectclass => ["top", "inetorgperson"],
-      #:sn => "Smith",
-      #:mail => "gsmith@example.com"
-    #}
-
-    #r = ldap.add( :dn => dn, :attributes => attr )
-
-    filter = Net::LDAP::Filter.eq( "ou", "People" )
-    # treebase = "dc=example,dc=com"
-
-    # ldap.search( :base => treebase ) do |entry|
-
-    ldap.search( :return_result => false ) { |entry|
-
-      attributes = {}
-      entry.each do |attribute, value|
-        attributes[ attribute ] = value
-      end
-
-      out[:ldap_search] << {
-        inspect: entry.inspect,
-        dn: entry.dn,
-        attribute_names: entry.attribute_names,
-        # write: item.write,
-        attributes: attributes
-      }
+    auth = {
+      :method => :simple,
+      :username => "cn=administrator,ou=people,dc=engines,dc=internal",
+      :password => params[:data][:password]
     }
-    end
-    #
-    # though you will probably use the Net::LDAP.new  and .bind  flow
 
-    # ldap = Net::LDAP.new
-    # ldap.host = 'ldap'
-    # ldap.port = 389
-    # ldap.base = "DC=engines,DC=internal"
-    # username = "cn=administrator,ou=people,dc=engines,dc=internal"
-    # password = "password"
-    # ldap.auth username, password
-    #
-    # # ldap.auth "joe_user", "opensesame"
-    # begin
-    #   out[:ldap_bind_result] = ldap.bind ? "OK" : "Failed"
-    # rescue Net::LDAP::Error => e
-    #   out[:ldap_bind_result] = "Error: #{e.inspect}"
-    # end
-    #
-    # treebase = "dc=engines,dc=internal"
-    # out[:ldap_search_treebase] = treebase
-    # out[:ldap_search_result] = []
-    # ldap.search( :base => treebase ) do |entry|
-    #   entry_out = { dn: entry.dn, attributes: [] }
-    #   entry.each do |attribute, values|
-    #     entry_out[:attributes] << { name: attribute, values: values }
-    #   end
-    #   out[:ldap_search_result] << entry_out
-    # end
+    out[:ldap_search] = []
+
+    Net::LDAP.open(:host => "ldap", :port => 389, :base => "DC=engines,DC=internal", :auth => auth) do |ldap |
+
+      filter = Net::LDAP::Filter.eq( "cn", "ou=People" )
+      treebase = "dc=engines,dc=internal"
+
+      ldap.search( :return_result => false, :base => treebase, :filter => filter ) do |entry|
+
+        attributes = {}
+        entry.each do |attribute, value|
+          attributes[ attribute ] = value
+        end
+
+        out[:ldap_search] << {
+          inspect: entry.inspect,
+          dn: entry.dn,
+          attribute_names: entry.attribute_names,
+          attributes: attributes
+        }
+      end
+    end
 
     out.to_json
 
