@@ -95,10 +95,13 @@ class V0
           else
             raise StandardError.new 'An unhandled content type was returned by the system API.'
           end
-        # rescue => e
-        #   byebug
+        rescue => e
+          puts '---------------'
+          puts e
+          puts '---------------'
+          raise e
         rescue RestClient::Forbidden
-          raise NonFatalError.new 'Not signed in1.', 401
+          raise NonFatalError.new 'Not signed in.', 401
         rescue RestClient::MethodNotAllowed => e
           system_error_message = JSON.parse(e.response.body, symbolize_names: true)[:error_object][:error_mesg]
           raise NonFatalError.new "Not allowed.\n\nReason: #{system_error_message}", 405
