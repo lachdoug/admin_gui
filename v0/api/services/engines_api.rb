@@ -84,9 +84,9 @@ class V0
 
         def handle_response
           response = yield
-          puts '1================='
-          puts response
-          puts '2================='
+          # puts '1================='
+          # puts response
+          # puts '2================='
           return nil unless response.headers[:content_type]
           case response.headers[:content_type].split(';').first
           when 'application/json'
@@ -98,11 +98,11 @@ class V0
           else
             raise StandardError.new 'An unhandled content type was returned by the system API.'
           end
-        rescue => e
-          puts '---------------'
-          puts e
-          puts '---------------'
-          raise e
+        # rescue => e
+        #   puts '---------------'
+        #   puts e
+        #   puts '---------------'
+        #   raise e
         rescue RestClient::Forbidden
           raise NonFatalError.new 'Not signed in99.', 401
         rescue RestClient::MethodNotAllowed => e
