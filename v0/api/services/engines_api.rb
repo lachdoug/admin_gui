@@ -83,6 +83,7 @@ class V0
         end
 
         def handle_response
+          puts '================='
           response = yield
           return nil unless response.headers[:content_type]
           case response.headers[:content_type].split(';').first
