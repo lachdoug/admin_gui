@@ -277,7 +277,7 @@ class V0 < Sinatra::Base
 
   before do
     authed = no_auth || current_user
-    puts "authed: " + ( authed ).to_s
+    puts "authed: " + ( authed ).to_s unless authed
     raise NonFatalError.new('Not signed in11.', 401) unless
       authed
   end
