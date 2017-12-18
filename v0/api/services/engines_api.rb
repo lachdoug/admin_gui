@@ -84,9 +84,9 @@ class V0
 
         def handle_response
           response = yield
-          puts '================='
-          puts yield
-          puts '================='
+          puts '1================='
+          puts response
+          puts '2================='
           return nil unless response.headers[:content_type]
           case response.headers[:content_type].split(';').first
           when 'application/json'
