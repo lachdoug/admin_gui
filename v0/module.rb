@@ -144,9 +144,9 @@ class V0 < Sinatra::Base
 
     ldap.search( :return_result => false) { |item|
 
-      attributes = []
+      attributes = {}
       item.each do |attribute, value|
-        attributes << [ attribute, value ]
+        attributes[ attribute ] = value
       end
 
       out[:ldap_search] << {
