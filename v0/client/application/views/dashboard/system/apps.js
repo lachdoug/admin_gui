@@ -86,7 +86,7 @@ function renderSystemApps() {
               window["systemAppTitle" + appName]._refresh( appTitle );
   						systemApps.$titleData[appName] = appTitle || "";
   					},
-            401: function() {},
+            401: function() {}, // remove this once api token not in file
   				}
   			});
   			return null;

@@ -74,6 +74,7 @@ function renderSystemServices() {
               window["systemServiceTitle" + serviceName]._refresh( data.title );
   						systemServices.$titleData[serviceName] = data.title || "";
   					},
+            401: function() {}, // remove this once api token not in file
   				}
   			});
   			return null;
