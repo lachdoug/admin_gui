@@ -14,7 +14,7 @@ class V0 < Sinatra::Base
   ##----------------------------------------------------------------------------
 
   before do
-    if Sinatra::Base.development?
+    if true|| Sinatra::Base.development?
       puts 'Request'
       puts request.path_info
       puts params.inspect
