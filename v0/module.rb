@@ -141,18 +141,22 @@ class V0 < Sinatra::Base
 
     #r = ldap.add( :dn => dn, :attributes => attr )
 
+    filter = Net::LDAP::Filter.eq( "ou", "People" )
+    # treebase = "dc=example,dc=com"
 
-    ldap.search( :return_result => false) { |item|
+    # ldap.search( :base => treebase ) do |entry|
+
+    ldap.search( :return_result => false, :filter => filter ) { |entry|
 
       attributes = {}
-      item.each do |attribute, value|
+      entry.each do |attribute, value|
         attributes[ attribute ] = value
       end
 
       out[:ldap_search] << {
-        inspect: item.inspect,
-        dn: item.dn,
-        attribute_names: item.attribute_names,
+        inspect: entry.inspect,
+        dn: entry.dn,
+        attribute_names: entry.attribute_names,
         # write: item.write,
         attributes: attributes
       }
