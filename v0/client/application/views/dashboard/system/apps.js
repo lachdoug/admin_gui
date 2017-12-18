@@ -77,6 +77,7 @@ function renderSystemApps() {
   		var cachedTitle = systemApps.$titleData[appName];
 
       if ( typeof cachedTitle == 'undefined' ) {
+        systemApps.$titleData[appName] = ""
         apiRequest({
   				action: "/apps/" + appName + "/about",
   				callbacks: {
