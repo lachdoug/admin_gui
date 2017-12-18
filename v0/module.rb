@@ -139,7 +139,7 @@ class V0 < Sinatra::Base
 
     Net::LDAP.open(:host => "ldap", :port => 389, :base => "DC=engines,DC=internal", :auth => auth) do |ldap |
 
-      filter = Net::LDAP::Filter.eq( "cn", "ou=People" )
+      filter = Net::LDAP::Filter.eq( "objectclass", "inetOrgPerson" )
       treebase = "dc=engines,dc=internal"
 
       ldap.search( :return_result => false, :base => treebase, :filter => filter ) do |entry|
