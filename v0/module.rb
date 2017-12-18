@@ -146,7 +146,7 @@ class V0 < Sinatra::Base
 
     # ldap.search( :base => treebase ) do |entry|
 
-    ldap.search( :return_result => false, :filter => filter ) { |entry|
+    ldap.search( :return_result => false ) { |entry|
 
       attributes = {}
       entry.each do |attribute, value|
