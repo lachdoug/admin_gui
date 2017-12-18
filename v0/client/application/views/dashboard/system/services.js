@@ -62,7 +62,7 @@ function renderSystemServices() {
     },
 
     _titleFor: function (serviceName) {
-console.log("get title for: " + serviceName);
+// console.log("get title for: " + serviceName);
   		var cachedTitle = systemServices.$titleData[serviceName];
 
   		if ( typeof cachedTitle == 'undefined' ) {
