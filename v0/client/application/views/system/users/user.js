@@ -28,12 +28,13 @@ var $systemUsersUser = {
 							icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
 						],
 						$init: function() {
-							systemUsersUser._load(user.id)
+							// debugger
+							systemUsersUser._load(user.uid)
 						},
 						_refresh: function ( data ) {
 							this.$components = [
 								dataList({ items: [
-									{ label: "User ID", data: data.id }
+									{ label: "UID", data: data.uid }
 								]}),
 								{ $type: "br" },
 								legend ( { text: "Groups" } ),
@@ -50,13 +51,13 @@ var $systemUsersUser = {
 											icon: "fa fa-plus-square-o",
 											text: "Add",
 											class: "btn pull-left",
-											onclick: function() { systemUsersUserGroupAdd._live(user) },
+											onclick: function() { systemUsersUserGroupsAdd._live(user) },
 										}),
 										button({
 											icon: "fa fa-minus-square-o",
 											text: "Remove",
 											class: "btn pull-right",
-											onclick: function() { systemUsersUserGroupRemove._live(user) },
+											onclick: function() { systemUsersUserGroupsRemove._live(user) },
 										}),
 									]
 								},
@@ -75,22 +76,22 @@ var $systemUsersUser = {
 											icon: "fa fa-plus-square-o",
 											text: "Add",
 											class: "btn pull-left",
-											onclick: function() { systemUsersUserEmailAddressAdd._live(user) },
+											onclick: function() { systemUsersEmailAddressesAdd._live(user) },
 										}),
 										button({
 											icon: "fa fa-minus-square-o",
 											text: "Remove",
 											class: "btn pull-right",
-											onclick: function() { systemUsersUserEmailAddressRemove._live(user) },
+											onclick: function() { systemUserEmailAddressRemove._live(user) },
 										}),
 									]
 								},
 								{ $type: "br" },
-								legend ( { text: "Email groups" } ),
+								legend ( { text: "Distribution lists" } ),
 								{
 									$type: "ul",
-									$components: data.email_groups.map( function( emailGroup ) {
-										return { $type: "li", $text: emailGroup };
+									$components: data.distribution_lists.map( function( list ) {
+										return { $type: "li", $text: list };
 									})
 								},
 								{
@@ -100,13 +101,13 @@ var $systemUsersUser = {
 											icon: "fa fa-plus-square-o",
 											text: "Add",
 											class: "btn pull-left",
-											onclick: function() { systemUsersUserEmailGroupAdd._live(user) },
+											onclick: function() { systemUsersEmailGroupAdd._live(user) },
 										}),
 										button({
 											icon: "fa fa-minus-square-o",
 											text: "Remove",
 											class: "btn pull-right",
-											onclick: function() { systemUsersUserEmailGroupRemove._live(user) },
+											onclick: function() { systemUsersEmailGroupRemove._live(user) },
 										}),
 									]
 								}
@@ -119,10 +120,10 @@ var $systemUsersUser = {
 		} );
 	},
 
-	_load: function (userId) {
+	_load: function (userUid) {
 
 		apiRequest({
-			action: "/system/users/user/" + userId,
+			action: "/system/users/user/" + userUid,
 			callbacks: {
 				200: function(response) {
 					systemUsersUserContent._refresh(response);

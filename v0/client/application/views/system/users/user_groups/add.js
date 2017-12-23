@@ -1,6 +1,6 @@
 cell({
 
-	id: 'systemUsersUserGroupAdd',
+	id: 'systemUsersUserGroupsAdd',
 
 	_live: function (user) {
 
@@ -13,7 +13,7 @@ cell({
 					}),
 					hr(),
 					dataLoader({
-						action: "/system/users/groups",
+						action: "/system/users/user/" + user.uid + "/new_group",
 						render: function(data) {
 
 							return form({
@@ -21,14 +21,14 @@ cell({
 									formField( {
 										type: "select",
 										name: "data[group_name]",
-										label: "Add user to group",
-										collection: data,
+										label: "Group",
+										collection: data.available_groups,
 									} ),
 									formCancel ( { onclick: function() { systemUsersUser._live(user) } } ),
 									formSubmit(),
 							//				pp( data )
 								],
-								action: "/system/users/user/" + user.id + "/groups",
+								action: "/system/users/user/" + user.uid + "/groups",
 								method: "PUT",
 								callbacks: {
 									200: function(response) {

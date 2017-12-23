@@ -1,5 +1,5 @@
-var formFieldWrapper = function( args, input) {
-	// debugger;
+function formFieldWrapper( args, input) {
+
 	return {
 		class: "form-group " + ( args.wrapperClass || "" ),
 	  title: ( args.title || args.label || args.name || null ),

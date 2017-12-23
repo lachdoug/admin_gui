@@ -52,7 +52,7 @@ var $systemDomainsNamesForm = {
 					systemDomains._live();
 				},
 			}
-		} )
+		} );
 
 	},
 

@@ -1,15 +1,15 @@
 cell({
 
-	id: "systemUsersGroups",
+	id: "systemUserGroups",
 
 	_live: function () {
 
 		modal._live ( {
-			header: icon( { icon: "fa fa-th-list", text: "System user groups" } ),
+			header: icon( { icon: "fa fa-users", text: "System user groups" } ),
 			body: {
 				$components: [
 					modalNav({
-						up: systemUsers._live,
+						up: systemUserManagement._live,
 					}),
 					// hr(),
 					dataLoader({

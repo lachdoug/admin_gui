@@ -1,27 +1,25 @@
-var $systemEmails = {
+var $systemEmailAddresses = {
 
 	$cell: true,
-	id: "systemEmails",
+	id: "systemEmailAddresses",
 
 
 	_live: function () {
 
 		modal._live ( {
-			header: icon( { icon: "fa fa-envelope", text: "System emails" } ),
+			header: icon( { icon: "fa fa-envelope", text: "System email addresses" } ),
 			body: {
 				$components: [
 					{
 						class: "clearfix",
 						$components: [
 							button( {
-								onclick: systemControlPanel._live,
+								onclick: systemUserManagement._live,
 								icon: "fa fa-arrow-up",
 								wrapperClass: "pull-right"
 							} ),
 						]
 					},
-					button( { onclick: systemEmailsGroups._live,
-										icon: "fa fa-th-list", text: "Groups" } ),
 					{ $type: "hr" },
 				]
 			}

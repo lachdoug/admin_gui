@@ -7,6 +7,7 @@ cell({
 	_close: function () {
 
 		if (this._eventSource) {
+      // alert('close events');
 			this._eventSource.close();
 			this._eventSource = null
 		};

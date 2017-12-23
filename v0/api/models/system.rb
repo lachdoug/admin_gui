@@ -187,131 +187,62 @@ class V0
         # Users
         ########################################################################
 
-        require 'net/ldap'
-
-        def users
-
-          out = {};
-
-          # server = settings.kerberos_server
-          # keytab_path = settings.kerberos_keytab_path
-          # username = params[:data][:username]
-          # password = params[:data][:password]
-          #
-          # out = {
-          #   server: server,
-          #   keytab_path: keytab_path,
-          #   username: username,
-          #   password: password
-          # }
-          #
-          # KerberosAuthenticator.setup do |config|
-          #   config.server = settings.kerberos_server
-          #   config.keytab_path = settings.kerberos_keytab_path
-          # end
-          #
-          # begin
-          #   KerberosAuthenticator.authenticate!(username, password)
-          #   out[:kerberos_auth_result] = "OK"
-          #   # out[:kerberos_ticket] = KerberosAuthenticator.krb5::Creds.new
-          # rescue KerberosAuthenticator::Error => e
-          #   out[:kerberos_auth_result] = "Error: #{e.inspect}"
-          # end
-
-
-
-
-
-              #dn = "cn=George Smith,ou=people,dc=engines,dc=internal"
-              #attr = {
-                #:cn => "George Smith",
-                #:objectclass => ["top", "inetorgperson"],
-                #:sn => "Smith",
-                #:mail => "gsmith@example.com"
-              #}
-
-              #r = ldap.add( :dn => dn, :attributes => attr )
-
-
-          auth = {
-            :method => :simple,
-            :username => "cn=administrator,ou=people,dc=engines,dc=internal",
-            :password => "password"
-          }
-
-          out = []
-
-          Net::LDAP.open(:host => "ldap", :port => 389, :base => "DC=engines,DC=internal", :auth => auth) do |ldap|
-
-            filter = Net::LDAP::Filter.eq( "objectclass", "posixAccount" )
-            treebase = "dc=engines,dc=internal"
-
-            ldap.search( :return_result => false, :base => treebase, :filter => filter ) do |entry|
-
-              attributes = {}
-              entry.each do |attribute, value|
-                attributes[ attribute ] = value
-              end
-
-              out << {
-                id: entry.dn,
-                name: entry.cn.join(' '),
-              }
-            end
-          end
-
-          out
-
-
-          #
-          #
-          # [
-          #   {
-          #     name: "Lachlan",
-          #     id: "lachdoug"
-          #   },
-          #   {
-          #     name: "James",
-          #     id: 'jvodan'
-          #   }
-          # ]
+        def kerberos
+          @kerberos ||= Services::Kerberos.new(@settings)
         end
 
-        def user(user_id)
-          {
-            name: "Lachlan",
-            id: "lachdoug",
-            groups: [
-              "Cool",
-              "Smooth"
-            ],
-            email_addresses: [
-              "lachlan@engines.dev",
-              "support@engines.dev"
-            ],
-            email_groups: [
-              "Alerts",
-              "Newsletter"
-            ]
-          }
+        def kerberos_auth(username, password)
+          kerberos.auth(username, password)
+        end
+
+
+
+        def ldap
+          @ldap ||= Services::Ldap.new()
+        end
+
+        def users
+          ldap.users
+        end
+
+        def create_user( data )
+          ldap.create_user( data )
+        end
+
+        def user(user_uid)
+          ldap.user(user_uid)
+        end
+
+        def user_available_groups(user_uid)
+          ldap.user_available_groups(user_uid)
+        end
+
+        def user_current_groups(user_uid)
+          ldap.user_current_groups(user_uid)
+        end
+
+        def user_new_add_to_group( user_uid )
+          ldap.user_new_add_to_group( user_uid )
+        end
+
+        def user_add_to_group( user_uid, group_name )
+          ldap.user_add_to_group( user_uid, group_name )
+        end
+
+        def user_new_remove_from_group( user_uid )
+          ldap.user_new_remove_from_group( user_uid )
+        end
+
+        def user_remove_from_group( user_uid, group_name )
+          ldap.user_remove_from_group( user_uid, group_name )
         end
 
         def user_groups
-          [
-            "Fast",
-            "Cool",
-            "Smooth",
-            "Yoyos"
-          ]
+          ldap.user_groups
         end
 
-        def add_user_to_group( user_id, group_name )
-          return { message: "OK" } if true
-        end
 
-        def remove_user_from_group( user_id, group_name )
-          return { message: "OK" } if true
-        end
+
 
         ########################################################################
         # Registry

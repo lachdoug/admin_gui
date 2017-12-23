@@ -84,9 +84,6 @@ class V0
 
         def handle_response
           response = yield
-          # puts '1================='
-          # puts response
-          # puts '2================='
           return nil unless response.headers[:content_type]
           case response.headers[:content_type].split(';').first
           when 'application/json'
@@ -98,13 +95,8 @@ class V0
           else
             raise StandardError.new 'An unhandled content type was returned by the system API.'
           end
-        # rescue => e
-        #   puts '---------------'
-        #   puts e
-        #   puts '---------------'
-        #   raise e
         rescue RestClient::Forbidden
-          raise NonFatalError.new 'Not signed in99.', 401
+          raise NonFatalError.new 'Not signed in.', 401
         rescue RestClient::MethodNotAllowed => e
           system_error_message = JSON.parse(e.response.body, symbolize_names: true)[:error_object][:error_mesg]
           raise NonFatalError.new "Not allowed.\n\nReason: #{system_error_message}", 405
@@ -116,7 +108,6 @@ class V0
                 RestClient::ServerBrokeConnection,
                 OpenSSL::SSL::SSLError,
                 RestClient::Exceptions::OpenTimeout => e
-                # byebug
           raise NonFatalError.new "The system is unavailable.\n\nReason: #{e.message}\n\nThis usually temporary and happens when the system is busy or restarting.\n\nPlease wait a moment.", 503
         end
 

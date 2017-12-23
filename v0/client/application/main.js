@@ -44,6 +44,7 @@ cell({
 		// opts: { behavior: :engines_update or :base_os_update }
 		api._abortAll();
 		system._kill();
+		signIn._kill();
 		systemUnavailable._live( opts );
 	},
 

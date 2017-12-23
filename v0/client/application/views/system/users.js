@@ -1,27 +1,29 @@
-var $systemUsers = {
+cell({
 
-	$cell: true,
 	id: "systemUsers",
 
 
 	_live: function () {
 
 		modal._live ( {
-			header: icon( { icon: "fa fa-users", text: "System users" } ),
+			header: icon( { icon: "fa fa-user", text: "System users" } ),
 			body: {
 				$components: [
 					{
 						class: "clearfix",
 						$components: [
 							button( {
-								onclick: systemControlPanel._live,
+								onclick: systemUserManagement._live,
 								icon: "fa fa-arrow-up",
 								wrapperClass: "pull-right"
 							} ),
 						]
 					},
-					button( { onclick: systemUsersGroups._live,
-										icon: "fa fa-th-list", text: "Groups" } ),
+					button( {
+						onclick: systemUsersNew._live,
+						icon: "fa fa-plus",
+						text: "Add"
+					} ),
 					{ $type: "hr" },
 					{
 						id: "systemUsersContent",
@@ -44,6 +46,7 @@ var $systemUsers = {
 		this._load();
 	},
 
+
 	_load: function () {
 
 		apiRequest({
@@ -58,4 +61,4 @@ var $systemUsers = {
 	},
 
 
-};
+});

@@ -11,7 +11,6 @@ class V0
         # attr_reader :url
 
         def to_h
-
           @to_h ||= app_data
         end
 
