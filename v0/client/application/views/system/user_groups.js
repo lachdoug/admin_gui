@@ -13,12 +13,12 @@ cell({
 					}),
 					// hr(),
 					dataLoader({
-						action: "/system/users/groups",
+						action: "/system/users_groups",
 						render: function(data) {
 							return {
 								$components: data.map( function( group ) {
 									return button({
-										text: group.name,
+										text: group,
 										onclick: function() { systemUsersGroup._live(group) },
 									});
 								}),

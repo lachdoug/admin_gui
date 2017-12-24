@@ -21,7 +21,7 @@ cell({
 									formField( {
 										type: "select",
 										name: "data[group_name]",
-										label: "Group",
+										label: "Add to group",
 										collection: data.available_groups,
 									} ),
 									formCancel ( { onclick: function() { systemUsersUser._live(user) } } ),

@@ -20,7 +20,7 @@ var $systemEmailAddresses = {
 							} ),
 						]
 					},
-					{ $type: "hr" },
+					// { $type: "hr" },
 				]
 			}
 		} );

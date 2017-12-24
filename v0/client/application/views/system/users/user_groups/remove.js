@@ -21,7 +21,7 @@ cell({
 									formField( {
 										type: "select",
 										name: "data[group_name]",
-										label: "Add user to group",
+										label: "Remove from group",
 										collection: data.current_groups,
 									} ),
 									formCancel ( { onclick: function() { systemUsersUser._live(user) } } ),
