@@ -5,7 +5,9 @@ var formFieldPasswordWithConfirmation = function( args ) {
 			$components: [
 				formFieldPasswordUnwrapped(
 					$.extend( {}, args, {
-						oninput: "formFieldPasswordWithConfirmationCheckMatch('" + args.id + "');",
+						oninput: function(e) {
+							formFieldPasswordWithConfirmationCheckMatch(e);
+						},
 					} )
 				),
 				formFieldPasswordUnwrapped(
@@ -13,7 +15,9 @@ var formFieldPasswordWithConfirmation = function( args ) {
 						id: args.id + "_confirmation",
 						placeholder: "Confirm password",
 						style: "margin-top: 5px;",
-						oninput: "formFieldPasswordWithConfirmationCheckMatch('" + args.id + "');",
+						oninput: function(e) {
+							formFieldPasswordWithConfirmationCheckMatch(e);
+						},
 					} )
 				),
 			]
@@ -21,10 +25,11 @@ var formFieldPasswordWithConfirmation = function( args ) {
 	);
 };
 
-var formFieldPasswordWithConfirmationCheckMatch = function (inputId) {
-	if ( $( "#" + inputId ).val() != $( "#" + inputId + "_confirmation" ).val() ) {
-			$( "#" + inputId + "_confirmation" )[0].setCustomValidity("Passwords must match.");
+var formFieldPasswordWithConfirmationCheckMatch = function (event) {
+	var inputs = event.target.parentElement.children;
+	if ( inputs[0].value != inputs[1].value ) {
+			inputs[0].setCustomValidity("Passwords must match.");
 	} else {
-			$( "#" + inputId + "_confirmation" )[0].setCustomValidity("");
+			inputs[0].setCustomValidity("");
 	}
 };

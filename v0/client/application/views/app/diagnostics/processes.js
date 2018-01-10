@@ -1,9 +1,6 @@
-var $appProcesses = {
+cell({
 
-	$cell: true,
 	id: "appProcesses",
-
-	_appName: null,
 
 
 	_live: function (appName) {
@@ -129,4 +126,4 @@ var $appProcesses = {
 
 	},
 
-};
+});

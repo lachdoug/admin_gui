@@ -47,10 +47,34 @@ var $appIcon = {
 									{
 										$components: [
 											iconUrl ? {
-												$type: "img",
-												src: iconUrl,
-												height: "64",
-												width: "64"
+												$components: [
+													dataList({
+														class: 'dl-horizontal',
+														items: [
+															{
+																label: "Icon URL",
+																data: {
+																	$components: [
+																		{ $type: "p",
+																			$text: iconUrl,
+																		},
+																		{
+																			$type: "img",
+																			src: iconUrl,
+																			height: "64",
+																			width: "64"
+																		}
+																	]
+																},
+															}
+														]
+													}),
+													// button({
+													// 	icon: "fa fa-external-link",
+													// 	text: "Open",
+													// 	onclick: function() { openUrl(iconUrl) },
+													// }),
+												],
 											} : {
 												$type: 'i',
 												$text: "None"

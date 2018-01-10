@@ -184,7 +184,7 @@ class V0
         end
 
         ########################################################################
-        # Users
+        # User management
         ########################################################################
 
         def kerberos
@@ -195,11 +195,13 @@ class V0
           kerberos.auth(username, password)
         end
 
-
-
         def ldap
           @ldap ||= Services::Ldap.new()
         end
+
+        ########################################################################
+        # Users
+        ########################################################################
 
         def users
           ldap.users
@@ -237,9 +239,58 @@ class V0
           ldap.user_remove_from_group( user_uid, group_name )
         end
 
+        def user_new_add_email_address( user_uid )
+          ldap.user_new_add_email_address( user_uid )
+        end
+
+        def user_add_email_address( user_uid, email_address )
+          ldap.user_add_email_address( user_uid, email_address )
+        end
+
+        def user_new_remove_email_address( user_uid )
+          ldap.user_new_remove_email_address( user_uid )
+        end
+
+        def user_remove_email_address( user_uid, email_address )
+          ldap.user_remove_email_address( user_uid, email_address )
+        end
+
+        ########################################################################
+        # User groups
+        ########################################################################
+
         def user_groups
           ldap.user_groups
         end
+
+        ########################################################################
+        # Email domains
+        ########################################################################
+
+        def email_domains
+          ldap.email_domains
+        end
+
+        def email_domain(email_domain)
+          { email_domain: email_domain }
+        end
+
+        def create_email_domain(email_domain)
+          ldap.create_email_domain email_domain
+        end
+
+        ########################################################################
+        # Email addresses
+        ########################################################################
+
+        def email_addresses
+          ldap.email_addresses
+        end
+
+        def email_address(email_address)
+          ldap.email_address(email_address)
+        end
+
 
 
 

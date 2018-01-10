@@ -48,7 +48,7 @@ cell({
 						method: 'POST',
 						callbacks: {
 							200: function(response) {
-								systemUsers._live();
+								systemUsersUser._live(response);
 							},
 						}
 					}),

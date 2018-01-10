@@ -1,9 +1,6 @@
-var $appDiagnosticsServices = {
+cell({
 
-	$cell: true,
 	id: "appDiagnosticsServices",
-
-	_appName: null,
 
 
 	_live: function (appName) {
@@ -77,4 +74,4 @@ var $appDiagnosticsServices = {
 
 	},
 
-};
+});

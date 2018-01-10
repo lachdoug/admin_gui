@@ -14,90 +14,52 @@ class V0
               }
         end
 
-
+        ########################################################################
+        ## Users
+        ########################################################################
 
         def users
-
-
-
           net_ldap do |ldap|
-            net_ldap_users(ldap).map do |entry|
-              {
-                uid: entry.uid,
-                name: entry.cn.join(' '),
-              }
-            end
+            net_ldap_users(ldap)
           end
         end
 
-
         def create_user( data )
-
           net_ldap do |ldap|
-
-            cn = "#{data[:first_name]} #{data[:last_name]}"
-            dn = "cn=#{cn},ou=People,dc=engines,dc=internal"
-            uidnumber = net_ldap_next_available_uidnumber ldap
-            uid = data[:uid]
-            email = "#{uid}@#{data[:domain]}"
-            sasl = "????????????????"
-
-            attr = {
-              uidnumber: uidnumber,
-              cn: cn,
-              gidnumber: "5000",
-              givenname: data[:first_name],
-              homedirectory: "/home/users/#{uid}",
-              loginshell: "/bin/sh",
-              mailacceptinggeneralid: email,
-              maildrop: email,
-              objectclass: [
-                "postfixUser",
-                "posixAccount",
-                "inetOrgPerson",
-                "top" ],
-              sn: data[:last_name],
-              uid: uid,
-              userpassword: "#{sasl}#{uid}@ENGINES.INTERNAL",
-            }
-
-            if ldap.add dn: dn, attributes: attr
-              user_add_to_group( uid, "Users" )
-              return {}
-            else
-              raise NonFatalError.new "Failed to create user.\n\n#{ldap.get_operation_result.message}", 405
-            end
-
+            net_ldap_create_user ldap, data
           end
-
         end
 
         def user(user_uid)
           ldap_user = nil
+          user_cn = nil
+          uidnumber = nil
+          email_addresses = nil
+          distribution_lists = nil
           groups = nil
           net_ldap do |ldap|
             ldap_user = net_ldap_find_user_by_uid ldap, user_uid
-            ldap_user = ldap_user.to_enum.to_h
-            # uid = ldap_user[:uid][0]
+            user_cn = ldap_user.cn.join(' ')
+            uidnumber = ldap_user.uidnumber[0]
             groups = net_ldap_groups_for_user ldap, user_uid
+            email_addresses = ldap_user.respond_to?('mailacceptinggeneralid') ? ldap_user.mailacceptinggeneralid : []
+            distribution_lists = net_ldap_distribution_lists_for_user ldap, user_uid
           end
           puts ldap_user.inspect
           {
-            name: ldap_user[:cn],
+            name: user_cn,
             # id: user_id,
             uid: user_uid,
-            uidnumber: ldap_user[:uidnumber],
+            uidnumber: uidnumber,
             groups: groups,
-            email_addresses: [
-              # "lachlan@engines.dev",
-              # "support@engines.dev"
-            ],
-            distribution_lists: [
-              # "Alerts",
-              # "Newsletter"
-            ]
+            email_addresses: email_addresses,
+            distribution_lists: distribution_lists
           }
         end
+
+        ########################################################################
+        ## User - User groups
+        ########################################################################
 
         def user_available_groups(user_uid)
           user_groups - user_current_groups(user_uid)
@@ -125,15 +87,52 @@ class V0
 
         def user_add_to_group( user_uid, group_name )
           net_ldap do |ldap|
-            ldap.modify(dn: "cn=#{group_name},ou=Groups,dc=engines,dc=internal", operations: [ [:add, :memberUid, user_uid ] ] )
+            net_ldap_user_add_to_group ldap, user_uid, group_name
           end
         end
 
         def user_remove_from_group( user_uid, group_name )
           net_ldap do |ldap|
-            ldap.modify(dn: "cn=#{group_name},ou=Groups,dc=engines,dc=internal", operations: [ [:delete, :memberUid, user_uid ] ] )
+            net_ldap_user_remove_from_group ldap, user_uid, group_name
           end
         end
+
+        ########################################################################
+        ## User - Email addresses
+        ########################################################################
+
+        def user_new_add_email_address( user_uid )
+          result = {}
+          net_ldap do |ldap|
+            result[:available_domains] = net_ldap_email_domains ldap
+            # byebug
+          end
+          result
+        end
+
+        def user_new_remove_email_address( user_uid )
+          result = {}
+          net_ldap do |ldap|
+            result[:email_addresses] = net_ldap_user_email_addresses ldap, user_uid
+          end
+          result
+        end
+
+        def user_add_email_address( user_uid, email_address )
+          net_ldap do |ldap|
+            net_ldap_user_add_email_address ldap, user_uid, email_address
+          end
+        end
+
+        def user_remove_email_address( user_uid, email_address )
+          net_ldap do |ldap|
+            net_ldap_user_remove_email_address ldap, user_uid, email_address
+          end
+        end
+
+        ########################################################################
+        ## User groups
+        ########################################################################
 
         def user_groups
           net_ldap do |ldap|
@@ -141,9 +140,56 @@ class V0
           end
         end
 
+        ########################################################################
+        ## Email domains
+        ########################################################################
+
+        def email_domains
+          net_ldap do |ldap|
+            net_ldap_email_domains ldap
+          end
+        end
+
+        def create_email_domain( email_domain )
+          net_ldap do |ldap|
+            net_ldap_create_email_domain ldap, email_domain
+          end
+          { email_domain: email_domain }
+        end
+
+        ########################################################################
+        ## Email addresses
+        ########################################################################
+
+        def email_addresses
+          net_ldap do |ldap|
+            net_ldap_email_addresses ldap
+          end
+        end
+
+        def email_address(email_address)
+          net_ldap do |ldap|
+            net_ldap_email_address ldap, email_address
+          end
+        end
+
+        ########################################################################
+        ## Distribution lists
+        ########################################################################
+
+        def distribution_lists
+          net_ldap do |ldap|
+            net_ldap_distribution_lists ldap
+          end
+        end
+
+        def distribution_list(distribution_list)
+          net_ldap do |ldap|
+            net_ldap_distribution_list ldap, distribution_list
+          end
+        end
+
 private
-
-
 
         def net_ldap
 
@@ -159,90 +205,6 @@ private
 
         end
 
-        def net_ldap_users(ldap)
-          filter = Net::LDAP::Filter.eq( "objectclass", "posixAccount" )
-          base = "ou=People,dc=engines,dc=internal"
-          ldap.search(:base => base, :filter => filter )
-        end
-
-
-        def net_ldap_next_available_uidnumber(ldap)
-          uidnumber = nil
-          loop do
-            uidnumber = net_ldap_uidnumber ldap
-            # byebug
-            break unless net_ldap_uidnumber_in_use(ldap, uidnumber)
-            net_ldap_increment_uidnumber(ldap)
-          end
-          uidnumber
-        end
-
-        def net_ldap_increment_uidnumber(ldap)
-          ldap.modify(
-            dn: "cn=uidNext,ou=System,ou=Engines,dc=engines,dc=internal",
-            operations: [ [:increment, :uidNumber, '1' ] ] )
-        end
-
-        def net_ldap_uidnumber_in_use(ldap, uidnumber)
-          ldap.search(
-            filter: Net::LDAP::Filter.eq( "uidnumber", uidnumber ),
-            base: "ou=People,dc=engines,dc=internal").any?
-        end
-
-        def net_ldap_uidnumber(ldap)
-          result = nil
-          ldap.search(
-            base: "cn=uidNext,ou=System,ou=Engines,dc=engines,dc=internal",
-            attributes: [ 'uidnumber' ] ) do |entry|
-            entry.each do |k,v|
-              result = v[0] if k == :uidnumber
-            end
-          end
-          result
-        end
-
-        def net_ldap_email_domains(ldap)
-          result = []
-          ldap.search(
-            base: "ou=domains,ou=email,ou=Services,ou=Containers,ou=Engines,dc=engines,dc=internal" ) do |entry|
-            entry.each do |k,v|
-              result << v[0] if k == :dc
-            end
-          end
-          result
-        end
-
-        def net_ldap_find_entry_by_dn(ldap, dn)
-          ldap.search( base: dn )[0]
-        end
-
-        def net_ldap_find_user_by_uid(ldap, uid)
-          filter =
-            Net::LDAP::Filter.eq( "objectclass", "posixAccount" ) &
-            Net::LDAP::Filter.eq( "objectclass", "posixAccount" )
-          base = "ou=People,dc=engines,dc=internal"
-          ldap.search(:base => base, :filter => filter )[0]
-        end
-
-        def net_ldap_groups(ldap)
-          result = []
-          ldap.search(
-            filter: Net::LDAP::Filter.eq( "objectClass", "posixGroup" ),
-            base: "ou=Groups,dc=engines,dc=internal" ) do |entry|
-            result << entry.cn[0]
-          end
-          result
-        end
-
-        def net_ldap_groups_for_user(ldap, uid)
-          result = []
-          ldap.search(
-            filter: Net::LDAP::Filter.eq( "memberUid", uid ),
-            base: "ou=Groups,dc=engines,dc=internal" ) do |entry|
-            result << entry.cn[0]
-          end
-          result
-        end
 
 
         # def new_user
@@ -255,6 +217,27 @@ private
         # end
 
         # ldap.modify(dn: "cn=Users,ou=Groups,dc=engines,dc=internal", operations: [ [:replace, :cn, ['Users'] ] ] )
+
+
+
+
+
+
+        #<Net::LDAP::Entry:0x00000002d1acc0
+       #  @myhash={
+       #    :dn=>["cn=a a,ou=People,dc=engines,dc=internal"],
+       #    :cn=>["a a"],
+       #    :givenname=>["a"],
+       #    :homedirectory=>["/home/users/25019"],
+       #    :loginshell=>["/bin/sh"],
+       #    :mailacceptinggeneralid=>["25019@"],
+       #    :maildrop=>["25019@"],
+       #    :objectclass=>["postfixUser", "posixAccount", "inetOrgPerson", "top"],
+       #    :sn=>["a"],
+       #    :uid=>["25019"],
+       #    :userpassword=>["password"],
+       #    :uidnumber=>["25000"],
+       #    :gidnumber=>["5000"]}>
 
 
       end

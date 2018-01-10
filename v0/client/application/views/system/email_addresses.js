@@ -1,30 +1,38 @@
-var $systemEmailAddresses = {
-
-	$cell: true,
+cell({
 	id: "systemEmailAddresses",
-
 
 	_live: function () {
 
 		modal._live ( {
-			header: icon( { icon: "fa fa-envelope", text: "System email addresses" } ),
+			header: icon( { icon: "fa fa-envelope-square", text: "System email addresses" } ),
 			body: {
 				$components: [
-					{
-						class: "clearfix",
-						$components: [
-							button( {
-								onclick: systemUserManagement._live,
-								icon: "fa fa-arrow-up",
-								wrapperClass: "pull-right"
-							} ),
-						]
-					},
-					// { $type: "hr" },
+					modalNav({
+						up: systemUserManagement._live,
+					}),
+					// button( {
+					// 	onclick: systemUsersNew._live,
+					// 	icon: "fa fa-plus",
+					// 	text: "Add"
+					// } ),
+					hr(),
+					dataLoader({
+						action: "/system/email_addresses",
+						render: function(data) {
+							return {
+								$components: data.map( function( email_address ) {
+									return button({
+										text: email_address,
+										onclick: function() { systemEmailAddressesEmailAddress._live(email_address) },
+									});
+								}),
+							};
+						}
+					}),
 				]
 			}
 		} );
 
 	}
 
-};
+});

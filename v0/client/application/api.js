@@ -54,7 +54,7 @@ cell({
 							formButons[index]._enableButton();
 						}
 					);
-					api._handleResponse( response , { action: form.action, data: data, callbacks: form._callbacks } );
+					api._handleResponse( response , { action: form.action, method: form.method, data: data, callbacks: form._callbacks } );
 				}
 			});
 

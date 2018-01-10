@@ -1,10 +1,6 @@
-var $appContainer = {
+cell({
 
-	$cell: true,
 	id: "appContainer",
-
-	_appName: null,
-
 
 	_live: function (appName) {
 
@@ -82,4 +78,4 @@ var $appContainer = {
 
 	},
 
-};
+});

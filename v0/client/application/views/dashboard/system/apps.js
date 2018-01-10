@@ -51,7 +51,7 @@ function renderSystemApps() {
         {
         	class: "system-containers",
         	$components: this._$data.map( function(app) {
-            appMemory = memoryData[app.name] || null;
+            var appMemory = memoryData[app.name] || null;
         		return renderSystemApp(app, appMemory);
         	} )
         } :

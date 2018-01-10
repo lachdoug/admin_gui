@@ -29,6 +29,11 @@ cell({
 						text: "User groups"
 					} ),
 					button( {
+						onclick: systemEmailDomains._live,
+						icon: "fa fa-globe",
+						text: "Email domains"
+					} ),
+					button( {
 						onclick: systemEmailAddresses._live,
 						icon: "fa fa-envelope-square",
 						text: "Email addresses"

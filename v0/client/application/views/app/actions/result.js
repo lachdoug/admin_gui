@@ -1,6 +1,5 @@
-var $appActionsResult = {
+cell({
 
-	$cell: true,
 	id: "appActionsResult",
 
 	_appName: null,
@@ -79,4 +78,4 @@ var $appActionsResult = {
 		}
 	},
 
-};
+});

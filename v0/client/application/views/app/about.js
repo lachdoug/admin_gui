@@ -48,6 +48,13 @@ var $appAbout = {
 
 								this.$components = [
 									{
+										class: "clearfix",
+										$components: [
+											button( { icon: "fa fa-external-link", text: "Website", class: "pull-left-md", onclick: () => { websiteUrl ? openUrl( websiteUrl ) : alert("Not available."); } } ),
+											button( { icon: "fa fa-external-link", text: "License", class: "pull-right-md", onclick: () => { licenseUrl ? openUrl( licenseUrl ) : alert("Not available."); } } )
+										]
+									},
+									{
 										class: "panel panel-default",
 										style: "margin: 15px; box-shadow: 0 2px 5px rgba(0,0,0,.5);",
 										$components: [
@@ -73,14 +80,6 @@ var $appAbout = {
 											}
 										]
 									},
-									{
-										class: "clearfix",
-										$components: [
-											button( { icon: "fa fa-external-link", text: "Website", class: "pull-left-md", onclick: () => { websiteUrl ? openUrl( websiteUrl ) : alert("Not available."); } } ),
-											button( { icon: "fa fa-external-link", text: "License", class: "pull-right-md", onclick: () => { licenseUrl ? openUrl( licenseUrl ) : alert("Not available."); } } )
-										]
-									},
-									{ $type: 'hr' },
 									button( { icon: "fa fa-camera-retro", class: "pull-right-md", text: "Icon", onclick: () => { appIcon._live( appName ); } } ),
 								];
 							},

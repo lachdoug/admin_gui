@@ -30,6 +30,12 @@ cell({
 	},
 
 
+	_renderSelectSystem: function () {
+		$("#pageLoadingSpinner").fadeOut();
+		selectSystem._live();
+	},
+
+
 	_renderDisconnectedSystem: function () {
 		// $(".modal").modal("hide");
 		$("#navbarSignOutButton").hide();
@@ -47,6 +53,7 @@ cell({
 		signIn._kill();
 		systemUnavailable._live( opts );
 	},
+
 
 	_renderFatalError: function ( error ) {
 		api._abortAll();

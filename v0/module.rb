@@ -34,13 +34,13 @@ class V0 < Sinatra::Base
   set public_folder: 'public'
   set data_directory_path: 'data/v0'
   set system_api_url: ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL']
-  set kerberos_server: ENV['ENGINES_ADMIN_GUI_KERBEROS_SERVER']
-  set kerberos_keytab_path: ENV['ENGINES_ADMIN_GUI_KERBEROS_KEYTAB_PATH']
+  set session_secret: ENV['ENGINES_ADMIN_GUI_SESSION_SECRET'] || '0'
+  set kerberos_server: ENV['ENGINES_ADMIN_GUI_KERBEROS_SERVER'] || "auth.engines.internal"
+  set kerberos_keytab_path: ENV['ENGINES_ADMIN_GUI_KERBEROS_KEYTAB_PATH'] || "/etc/krb5kdc/keys/kdc.keytab"
   set remote_management: Sinatra::Base.development? || ENV['ENGINES_ADMIN_GUI_REMOTE_MANAGEMENT'] || false
   set show_services: ENV['ENGINES_ADMIN_GUI_SHOW_SERVICES_BY_DEFAULT'] || false
   set show_software_titles: ENV['ENGINES_ADMIN_GUI_SHOW_SOFTWARE_TITLES_BY_DEFAULT'] || false
   set show_container_memory_usage: ENV['ENGINES_ADMIN_GUI_SHOW_CONTAINER_MEMORY_USAGE_BY_DEFAULT'] || false
-  set session_secret: ENV['ENGINES_ADMIN_GUI_SESSION_SECRET'] || '0'
   set user_inactivity_timeout: ( ENV['ENGINES_ADMIN_GUI_USER_INACTIVITY_TIMEOUT'] || 30 ).to_i * 60
   set library_url: ENV['ENGINES_ADMIN_GUI_LIBRARY_URL'] || "https://library.engines.org/api/v0/apps"
   set bug_reports_url: ENV['ENGINES_ADMIN_GUI_BUG_REPORTS_URL'] || 'http://127.0.0.1:3666/v0/bugs'

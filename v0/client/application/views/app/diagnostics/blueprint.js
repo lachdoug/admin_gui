@@ -1,10 +1,6 @@
-var $appBlueprint = {
+cell({
 
-	$cell: true,
 	id: "appBlueprint",
-
-	_appName: null,
-
 
 	_live: function (appName) {
 
@@ -77,4 +73,4 @@ var $appBlueprint = {
 
 	},
 
-};
+});

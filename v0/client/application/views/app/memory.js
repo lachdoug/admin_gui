@@ -1,10 +1,8 @@
-var $appMemory = {
+cell({
 
-	$cell: true,
 	id: "appMemory",
 
-	_appName: null,
-
+	// _appName: null,
 
 	_live: function (appName) {
 
@@ -97,14 +95,14 @@ var $appMemory = {
 
 			_refresh: function( data ) {
 
-				var appMemory = data.containers.applications[appName];
+				var appMemoryUsageData = data.containers.applications[appName];
 
 				this.$components = [
-					appMemory && appMemory.current ? dataList( {
+					appMemoryUsageData && appMemoryUsageData.current ? dataList( {
 						class: "dl-horizontal",
 						items: [
-							{ label: "Current", data: (appMemory.current/1024/1024).toFixed(1) + " MB" },
-							{ label: "Peak", data: (appMemory.maximum/1024/1024).toFixed(1) + " MB" },
+							{ label: "Current", data: (appMemoryUsageData.current/1024/1024).toFixed(1) + " MB" },
+							{ label: "Peak", data: (appMemoryUsageData.maximum/1024/1024).toFixed(1) + " MB" },
 						]
 					} ) :
 					{ $type: "i", $text: "No memory usage."},
@@ -178,4 +176,4 @@ var $appMemory = {
 	},
 
 
-};
+});

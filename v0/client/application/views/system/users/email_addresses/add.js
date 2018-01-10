@@ -1,11 +1,11 @@
 cell({
 
-	id: 'systemUsersUserGroupsAdd',
+	id: 'systemUsersEmailAddressesAdd',
 
 	_live: function (user) {
 
 		modal._live ( {
-			header: icon( { icon: "fa fa-user", text: "System add user to group" } ),
+			header: icon( { icon: "fa fa-envelope-square", text: "System user add email address" } ),
 			body: {
 				$components: [
 					modalNav({
@@ -13,22 +13,26 @@ cell({
 					}),
 					hr(),
 					dataLoader({
-						action: "/system/users/user/" + user.uid + "/new_group",
+						action: "/system/users/user/" + user.uid + "/new_email_address",
 						render: function(data) {
 
 							return form({
 								components: [
 									formField( {
+										name: "data[email_address][local_part]",
+										label: "Local part (before the @)",
+									} ),
+									formField( {
 										type: "select",
-										name: "data[group_name]",
-										label: "Group",
-										collection: data.available_groups,
+										name: "data[email_address][domain]",
+										label: "Domain",
+										collection: data.available_domains,
 									} ),
 									formCancel ( { onclick: function() { systemUsersUser._live(user) } } ),
 									formSubmit(),
 							//				pp( data )
 								],
-								action: "/system/users/user/" + user.uid + "/groups",
+								action: "/system/users/user/" + user.uid + "/email_addresses",
 								method: "PUT",
 								callbacks: {
 									200: function(response) {

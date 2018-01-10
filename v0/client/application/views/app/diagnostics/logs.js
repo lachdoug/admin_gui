@@ -1,9 +1,6 @@
-var $appLogs = {
+cell({
 
-	$cell: true,
 	id: "appLogs",
-
-	_appName: null,
 
 
 	_live: function (appName) {
@@ -95,4 +92,4 @@ var $appLogs = {
 
 	},
 
-};
+});

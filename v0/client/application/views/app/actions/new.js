@@ -1,11 +1,6 @@
-var $appActionsNew = {
+cell({
 
-	$cell: true,
 	id: "appActionsNew",
-
-	// _appName: null,
-	// _data: null,
-
 
 	_live: function (appName, actionName) {
 
@@ -117,5 +112,4 @@ var $appActionsNew = {
 	}
 
 
-
-};
+});
