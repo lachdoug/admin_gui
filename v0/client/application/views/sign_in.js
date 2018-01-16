@@ -49,18 +49,18 @@ var $signIn = {
 								}
 							}
 						}),
-						{ $type: "hr" },
-						{ $text: "Kerberos" },
-						{
-							$type: "form",
-							$components: [
-								// formField( { name: "data[username]", value: "admin", label: false, required: true, placeholder: "User name", label: "Username" } ),
-								formField( { id:"signInPassword", label: false, name: "data[password]", type: "site_password", required: true, placeholder: "Password", title: "System admin password" } ),
-								formSubmit( { title: "Sign in", text: "Sign in", icon: "fa fa-sign-in", disabledText: "Signing in" } ),
-							],
-							action: "/test_kerberos",
-							method: "POST"
-						},
+						// { $type: "hr" },
+						// { $text: "Kerberos" },
+						// {
+						// 	$type: "form",
+						// 	$components: [
+						// 		// formField( { name: "data[username]", value: "admin", label: false, required: true, placeholder: "User name", label: "Username" } ),
+						// 		formField( { id:"signInPassword", label: false, name: "data[password]", type: "site_password", required: true, placeholder: "Password", title: "System admin password" } ),
+						// 		formSubmit( { title: "Sign in", text: "Sign in", icon: "fa fa-sign-in", disabledText: "Signing in" } ),
+						// 	],
+						// 	action: "/test_kerberos",
+						// 	method: "POST"
+						// },
 						// form( {
 						// 	components: [
 						// 		{ $type: "hr" },
