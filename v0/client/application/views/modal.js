@@ -14,7 +14,7 @@ var $modal = {
 	_live: function (obj) {
 
 		$(".modal").attr("class","modal " + ( obj.class || "" ) );
-		$(".modal").modal('show');
+		$(".modal").modal({backdrop: 'static'});
 		modalContent.$components = [
 			{ class: "modal-dialog " + ( obj.dialogClass || "" ),
 				$components: [
@@ -28,7 +28,7 @@ var $modal = {
 										wrapperClass: "pull-right",
 										wrapperStyle: "margin: -13px;",
 										icon: "fa fa-times",
-										onclick: "$('.modal').modal('hide');"
+										onclick: function() { $('.modal').modal('hide'); },
 									} )
 								]
 							},

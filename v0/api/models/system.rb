@@ -239,6 +239,10 @@ class V0
           ldap.user_remove_from_group( user_uid, group_name )
         end
 
+        def user_enable_email( user_uid, email_domain )
+          ldap.user_enable_email( user_uid, email_domain )
+        end
+
         def user_new_add_email_address( user_uid )
           ldap.user_new_add_email_address( user_uid )
         end
@@ -272,12 +276,57 @@ class V0
         end
 
         def email_domain(email_domain)
-          { email_domain: email_domain }
+          ldap.email_domain(email_domain)
         end
 
-        def create_email_domain(email_domain)
-          ldap.create_email_domain email_domain
+        def new_email_domain
+          system_domains = domains
+          system_domain_names = system_domains[:names].map{ |domain| domain[:domain_name] }
+          existing_domain_names = email_domains[:domains]
+          {
+            domains: system_domain_names - existing_domain_names
+          }
         end
+
+        def create_email_domain(data)
+          ldap.create_email_domain data
+        end
+
+        def deletable_email_domains
+          existing_domains = email_domains
+          if existing_domains[:domains].length < 2
+            existing_domains[:domains]
+          else
+            existing_domains[:domains] - [ existing_domains[:default] ]
+          end
+        end
+
+        def delete_email_domain(email_domain)
+          ldap.delete_email_domain email_domain
+        end
+
+        def set_default_email_domain(data)
+          ldap.set_default_email_domain data[:email_domain]
+        end
+
+        def email_domains_create_setup(data)
+          # service(:smtp).perform_configuration( :default_domain, domain_name: data[:email_domain] )
+          # service(:email).perform_configuration( :default_domain, domain_name: data[:email_domain] )
+          ldap.create_email_domain data
+          ldap.set_default_email_domain data[:email_domain]
+          # service(:imap).instruct(:start)
+        end
+
+        def email_domains_new_setup
+          system_domains = domains
+          {
+            select: system_domains[:default],
+            domains: system_domains[:names].map{ |domain| domain[:domain_name] }
+          }
+        end
+
+
+
 
         ########################################################################
         # Email addresses
@@ -290,6 +339,7 @@ class V0
         def email_address(email_address)
           ldap.email_address(email_address)
         end
+
 
 
 
@@ -421,6 +471,7 @@ class V0
 
         def restart_base_os
           engines_api_system.restart_base_os
+        # rescue
           # return { message: "OK" } if engines_api_system.restart_base_os == 'true'
           # raise NonFatalError.new "Failed to reboot system.", 405
         end

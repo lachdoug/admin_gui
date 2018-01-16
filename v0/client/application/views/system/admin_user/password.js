@@ -1,21 +1,14 @@
-var $systemAdminUserPassword = {
+cell({
 
-	$cell: true,
-	id: "systemAdminUserPassword",
-
+	id: "systemPassword",
 
 	_live: function() {
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-lock", text: "Admin user password" } ),
+				header: icon( { icon: "fa fa-lock", text: "System password" } ),
 				body: {
 					$components: [
-						{
-							id: "systemAdminUserPasswordForm",
-							$components: [
-								systemAdminUserPassword._form()
-							],
-						}
+						systemPassword._form()
 					]
 				}
 			}
@@ -26,21 +19,21 @@ var $systemAdminUserPassword = {
 		return form ( {
 			components: [
 				formField( {
-					type: "site_password",
+					type: "password",
 					name: "data[current_password]",
-					id: "systemAdminUserPasswordField_current_password",
+					// id: "systemPasswordField_current_password",
 					label: "Current password",
 					required: true,
 				} ),
+				// formField( {
+				// 	type: "hidden",
+				// 	name: "data[username]",
+				// 	value: "admin",
+				// } ),
 				formField( {
-					type: "hidden",
-					name: "data[username]",
-					value: "admin",
-				} ),
-				formField( {
-					type: "site_password_with_confirmation",
+					type: "password_with_confirmation",
 					name: "data[new_password]",
-					id: "systemAdminUserPasswordField_new_password",
+					// id: "systemPasswordField_new_password",
 					label: "New password",
 					required: true,
 				} ),
@@ -64,4 +57,4 @@ var $systemAdminUserPassword = {
 
 	},
 
-};
+});

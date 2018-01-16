@@ -14,6 +14,15 @@ class V0
               }
         end
 
+        def ldap_error(ldap, prepend_message)
+          message = [
+            prepend_message,
+            ldap.get_operation_result.message,
+            ldap.get_operation_result.error_message
+          ].join("\n\n")
+          raise NonFatalError.new message, 405
+        end
+
         ########################################################################
         ## Users
         ########################################################################
@@ -34,25 +43,35 @@ class V0
           ldap_user = nil
           user_cn = nil
           uidnumber = nil
-          email_addresses = nil
+          email_user = nil
+          maildrop = nil
+          email_aliases = nil
           distribution_lists = nil
           groups = nil
+          email_not_setup = nil
           net_ldap do |ldap|
             ldap_user = net_ldap_find_user_by_uid ldap, user_uid
             user_cn = ldap_user.cn.join(' ')
             uidnumber = ldap_user.uidnumber[0]
             groups = net_ldap_groups_for_user ldap, user_uid
-            email_addresses = ldap_user.respond_to?('mailacceptinggeneralid') ? ldap_user.mailacceptinggeneralid : []
+            # byebug
+            email_not_setup = net_ldap_default_email_domain(ldap).nil?
+            email_user = ldap_user.objectClass.include? "postfixUser"
+            maildrop = email_user ? ldap_user.maildrop[0] : ""
+            email_aliases = email_user ? ldap_user.mailacceptinggeneralid : []
             distribution_lists = net_ldap_distribution_lists_for_user ldap, user_uid
           end
-          puts ldap_user.inspect
+          # puts ldap_user.inspect
           {
             name: user_cn,
             # id: user_id,
             uid: user_uid,
             uidnumber: uidnumber,
             groups: groups,
-            email_addresses: email_addresses,
+            email_not_setup: email_not_setup,
+            email_user: email_user,
+            maildrop: maildrop,
+            email_aliases: email_addresses,
             distribution_lists: distribution_lists
           }
         end
@@ -101,6 +120,12 @@ class V0
         ## User - Email addresses
         ########################################################################
 
+        def user_enable_email( user_uid, email_domain )
+          net_ldap do |ldap|
+            net_ldap_user_enable_email ldap, user_uid, email_domain
+          end
+        end
+
         def user_new_add_email_address( user_uid )
           result = {}
           net_ldap do |ldap|
@@ -145,14 +170,42 @@ class V0
         ########################################################################
 
         def email_domains
+          result = {}
           net_ldap do |ldap|
-            net_ldap_email_domains ldap
+            result[:domains] = net_ldap_email_domains ldap
+            result[:default] = net_ldap_default_email_domain ldap
           end
+          result
         end
 
-        def create_email_domain( email_domain )
+        def create_email_domain( data )
           net_ldap do |ldap|
-            net_ldap_create_email_domain ldap, email_domain
+            net_ldap_create_email_domain ldap, data
+          end
+          { email_domain: data[:email_domain] }
+        end
+
+        def delete_email_domain( email_domain )
+          net_ldap do |ldap|
+            net_ldap_delete_email_domain ldap, email_domain
+            net_ldap_clear_default_email_domain( ldap ) if net_ldap_default_email_domain(ldap) == email_domain
+          end
+          {}
+        end
+
+        def email_domain( email_domain )
+          result = {
+            email_domain: email_domain
+          }
+          net_ldap do |ldap|
+            result[:default] = ( net_ldap_default_email_domain(ldap) == email_domain )
+          end
+          result
+        end
+
+        def set_default_email_domain(email_domain)
+          net_ldap do |ldap|
+            net_ldap_set_default_email_domain ldap, email_domain
           end
           { email_domain: email_domain }
         end

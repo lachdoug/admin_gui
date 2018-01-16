@@ -316,6 +316,7 @@ class V0
         end
 
         def delete_persistent_service( publisher_namespace, type_path, service_handle, data )
+          # byebug
           app_api.delete_existing_persistent_service(
             publisher_namespace: publisher_namespace,
             type_path: type_path,

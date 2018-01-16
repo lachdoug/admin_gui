@@ -42,6 +42,7 @@ class V0
           end
 
           def uninstall(args={})
+            # byebug
             @system_api.delete "containers/engine/#{@name}/delete/#{args[:delete_app_data] ? 'all' : 'none'}"
           end
 

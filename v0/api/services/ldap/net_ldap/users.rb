@@ -36,7 +36,7 @@ class V0
               name: cn,
             }
           else
-            raise NonFatalError.new "Failed to create user.\n\n#{ldap.get_operation_result.message}", 405
+            ldap_error ldap, "Failed to create user."
           end
 
         end
@@ -47,7 +47,7 @@ class V0
           base = "ou=People,dc=engines,dc=internal"
           ldap.search(:base => base, :filter => filter ) do |entry|
             result << {
-              uid: entry.uid,
+              uid: entry.uid[0],
               name: entry.cn.join(' '),
             }
           end

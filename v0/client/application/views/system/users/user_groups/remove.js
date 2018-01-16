@@ -13,7 +13,7 @@ cell({
 					}),
 					hr(),
 					dataLoader({
-						action: "/system/users/user/" + user.uid + "/remove_group",
+						action: "/system/users/user/" + user.uid + "/groups/delete",
 						render: function(data) {
 
 							return form({

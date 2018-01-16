@@ -9,7 +9,7 @@ cell({
 			body: {
 				$components: [
 					modalNav({
-						up: systemUserManagement._live,
+						up: systemEmail._live,
 					}),
 					// hr(),
 					// dataLoader({

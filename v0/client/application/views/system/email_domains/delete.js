@@ -1,23 +1,22 @@
 cell({
 
-	id: "systemEmailDomainsNew",
+	id: "systemEmailDomainsDelete",
 
 	_live: function () {
 		modal._live ( {
-			header: icon( { icon: "fa fa-user", text: "System new email domain" } ),
+			header: icon( { icon: "fa fa-user", text: "System delete email domain" } ),
 			body: {
 				$components: [
 					dataLoader({
-						action: "/system/email_domains/new",
+						action: "/system/email_domains/delete",
 						render: function(response) {
 							return form({
 								components: [
 									formField( {
-										type: response.domains.length ? "select_with_input" : "string",
+										type: "select",
 										name: "data[email_domain]",
 										label: "Email domain",
-										value: response.domains.length ? response.domains[0] : null,
-										collection: response.domains,
+										collection: response,
 										required: true,
 									} ),
 									formCancel ( {
@@ -25,14 +24,14 @@ cell({
 									} ),
 									formSubmit(),
 								],
-								action: '/system/email_domains',
-								method: 'POST',
+								action: '/system/email_domains/email_domain/',
+								method: 'DELETE',
 								callbacks: {
 									200: systemEmail._live,
 								}
 							})
 						}
-					}),
+					})
 				],
 			},
 		});

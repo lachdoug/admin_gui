@@ -12,6 +12,7 @@ function formFieldPasswordUnwrapped( args ) {
 			{
 				type: "text",
 				autocomplete: "off",
+				input: formFieldPasswordUnwrappedDoSecurityFont,
 				onkeydown: formFieldPasswordUnwrappedDoSecurityFont,
 				onkeyup: formFieldPasswordUnwrappedDoSecurityFont,
 				init: formFieldPasswordUnwrappedDoSecurityFont

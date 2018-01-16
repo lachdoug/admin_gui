@@ -62,7 +62,7 @@ var $systemAdminUser = {
 				button( {
 					icon: "fa fa-lock",
 					text: "Password",
-					onclick: "systemAdminUserPassword._live();"
+					onclick: "systemPassword._live();"
 				} ),
 				button( {
 					icon: "fa fa-envelope",

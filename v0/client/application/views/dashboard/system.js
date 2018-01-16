@@ -71,8 +71,13 @@ cell({
 				{
 					class: "container",
 					$components: [
-						button( { onclick: systemUserManagement._live,
-											icon: "fa fa-user-plus", text: "User management" } ),
+
+
+						// button( { onclick: systemUsers._live,
+						// 					icon: "fa fa-user", text: "Users" } ),
+						// button( { onclick: systemEmail._live,
+						// 					icon: "fa fa-envelope", text: "Email" } ),
+
 
 						{
 							class: "modal-content",

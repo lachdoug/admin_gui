@@ -33,7 +33,7 @@ cell({
 							//				pp( data )
 								],
 								action: "/system/users/user/" + user.uid + "/email_addresses",
-								method: "PUT",
+								method: "POST",
 								callbacks: {
 									200: function(response) {
 										systemUsersUser._live(user);

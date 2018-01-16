@@ -1,11 +1,11 @@
 cell({
 
-	id: 'systemUserEmailAddressRemove',
+	id: 'systemUsersUserEmailEdit',
 
 	_live: function (user) {
 
 		modal._live ( {
-			header: icon( { icon: "fa fa-user", text: "System user remove email address" } ),
+			header: icon( { icon: "fa fa-envelope", text: "System user edit mailbox" } ),
 			body: {
 				$components: [
 					modalNav({
@@ -13,23 +13,22 @@ cell({
 					}),
 					hr(),
 					dataLoader({
-						action: "/system/users/user/" + user.uid + "/email_addresses/delete",
+						action: "/system/users/user/" + user.uid + "/new_email_address",
 						render: function(data) {
 
 							return form({
 								components: [
 									formField( {
 										type: "select",
-										name: "data[email_address]",
-										label: "Email address",
-										collection: data.email_addresses,
+										name: "data[email_address][domain]",
+										label: "Domain",
+										collection: data.available_domains,
 									} ),
 									formCancel ( { onclick: function() { systemUsersUser._live(user) } } ),
 									formSubmit(),
-							//				pp( data )
 								],
-								action: "/system/users/user/" + user.uid + "/email_addresses/",
-								method: "DELETE",
+								action: "/system/users/user/" + user.uid + "/enable_email",
+								method: "PUT",
 								callbacks: {
 									200: function(response) {
 										systemUsersUser._live(user);

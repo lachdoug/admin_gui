@@ -63,6 +63,8 @@ class V0
           ##########################################################################
 
           def update_admin_user( args )
+            args.merge!( { user_name: :admin } )
+            # byebug
             @system_api.post "system/user/admin", args
           end
 

@@ -13,16 +13,22 @@ cell({
 						class: "clearfix",
 						$components: [
 							button( {
-								onclick: systemUserManagement._live,
+								onclick: systemControlPanel._live,
 								icon: "fa fa-arrow-up",
 								wrapperClass: "pull-right"
 							} ),
 						]
 					},
 					button( {
+						wrapperClass: "pull-right",
+						onclick: systemUserGroups._live,
+						icon: "fa fa-users",
+						text: "User groups"
+					} ),
+					button( {
 						onclick: systemUsersNew._live,
 						icon: "fa fa-plus",
-						text: "Add"
+						text: "New"
 					} ),
 					{ $type: "hr" },
 					{

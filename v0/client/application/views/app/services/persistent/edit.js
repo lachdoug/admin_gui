@@ -29,7 +29,7 @@ var $appServicesPersistentEdit = {
 			{
 				header: icon ( {
 					icon: "fa fa-compass",
-					text: "App persistent service",
+					text: "App edit persistent service",
 				} ),
 				body: {
 					$components: [

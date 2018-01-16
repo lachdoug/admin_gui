@@ -31,8 +31,8 @@ var $appServicesPersistentDelete = {
 		modal._live(
 			{
 				header: icon ( {
-					icon: "fa fa-minus-square",
-					text: "App uninstall"
+					icon: "fa fa-compass",
+					text: "App delete persistent service"
 				} ),
 				body: {
 					$components: [

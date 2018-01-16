@@ -8,7 +8,7 @@ cell({
 			body: {
 				$components: [
 					modalNav({
-						up: systemUserManagement._live,
+						up: systemEmail._live,
 					}),
 					// button( {
 					// 	onclick: systemUsersNew._live,

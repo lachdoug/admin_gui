@@ -110,6 +110,7 @@ var $appServicesPersistentCreateNew = {
 						return enginesField( field );
 					} )
 				},
+				pp(appServicesPersistentCreateNewContent._data),
 				formCancel ( { onclick: () => { appServicesNew._live( appServicesPersistentCreateNew._appName ); } } ),
 				formSubmit(),
 			],

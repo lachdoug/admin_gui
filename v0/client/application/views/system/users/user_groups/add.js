@@ -29,7 +29,7 @@ cell({
 							//				pp( data )
 								],
 								action: "/system/users/user/" + user.uid + "/groups",
-								method: "PUT",
+								method: "POST",
 								callbacks: {
 									200: function(response) {
 										systemUsersUser._live(user);
