@@ -2,9 +2,17 @@ class V0
   module Api
     module Controllers
 
-      put '/system/users/user/:user_uid/enable_email' do
-        system.user_enable_email( params[:user_uid],
+      put '/system/users/user/:user_uid/setup_email' do
+        system.user_setup_email( params[:user_uid],
             params[:data][:email_address][:domain] ).to_json
+      end
+
+      put '/system/users/user/:user_uid/disable_email' do
+        system.user_disable_email( params[:user_uid] ).to_json
+      end
+
+      put '/system/users/user/:user_uid/mailbox' do
+        system.user_update_mailbox_domain( params[:user_uid], params[:data][:email_address][:domain] ).to_json
       end
 
       post '/system/users/user/:user_uid/email_addresses' do

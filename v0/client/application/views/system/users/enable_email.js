@@ -22,12 +22,12 @@ cell({
 										type: "select",
 										name: "data[email_address][domain]",
 										label: "Domain",
-										collection: data.available_domains,
+										collection: data.domains,
 									} ),
 									formCancel ( { onclick: function() { systemUsersUser._live(user) } } ),
 									formSubmit(),
 								],
-								action: "/system/users/user/" + user.uid + "/enable_email",
+								action: "/system/users/user/" + user.uid + "/setup_email",
 								method: "PUT",
 								callbacks: {
 									200: function(response) {

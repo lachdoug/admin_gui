@@ -70,9 +70,42 @@ var $systemUsersUser = {
 												dataList( {
 													class: "dl-horizontal",
 													items: [
-														{ label: "Mailbox", data: data.maildrop }
+														{ label: "Mailbox", data: data.mailbox }
 													]
 												}),
+												{
+													class: "clearfix",
+													$components: [
+														button({
+															wrapperClass: "pull-right",
+															icon: "fa fa-edit",
+															text: "Edit",
+															onclick: function() {
+																systemUsersUserMailboxEdit._live(user);
+															}
+														}),
+														(
+															data.email_aliases.length ||
+															data.distribution_lists.length
+														) ? {} : button({
+															wrapperClass: "pull-left",
+															icon: "fa fa-times",
+															text: "Disable",
+															onclick: function() {
+																apiRequest({
+																	action: "/system/users/user/" + user.uid + "/disable_email",
+																	method: "PUT",
+																	callbacks: {
+																		200: function() {
+																			systemUsersUser._live(user);
+																		}
+																	}
+																})
+															}
+														}),
+													]
+												},
+												hr(),
 												{ $type: "label", $text: "Aliases" },
 												{
 													$type: "ul",
@@ -124,9 +157,8 @@ var $systemUsersUser = {
 												},
 											]
 										} : button({
-											icon: "fa fa-envelope",
-											wrapperClass: "pull-right",
-											text: "Enable email",
+											icon: "fa fa-check",
+											text: "Enable mailbox",
 											onclick: function() {
 												systemUsersUserEnableEmail._live(user);
 											},

@@ -11,20 +11,30 @@ cell({
 					modalNav({
 						up: systemEmail._live,
 					}),
-					// hr(),
-					// dataLoader({
-					// 	action: "/system/user_management/distribution_lists",
-					// 	render: function(data) {
-					// 		return {
-					// 			$components: data.map( function( distribution_list ) {
-					// 				return button({
-					// 					text: distribution_list.name,
-					// 					onclick: function() { systemUsersGroup._live(distribution_list) },
-					// 				});
-					// 			}),
-					// 		};
-					// 	}
-					// }),
+					hr(),
+					dataLoader({
+						action: "/system/email/distribution_lists",
+						render: function(data) {
+							return {
+								$components: [
+									button( {
+										onclick: systemEmailDistributionListNew._live,
+										icon: "fa fa-plus",
+										text: "New"
+									} ),
+									{ $type: "hr" },
+									{
+										$components: data.distribution_lists.map( function( distribution_list ) {
+											return button({
+												text: distribution_list.name,
+												onclick: function() { systemEmailDistributionList._live(distribution_list) },
+											});
+										})
+									}
+								],
+							};
+						}
+					}),
 				]
 			}
 		} );

@@ -44,7 +44,7 @@ class V0
           user_cn = nil
           uidnumber = nil
           email_user = nil
-          maildrop = nil
+          mailbox = nil
           email_aliases = nil
           distribution_lists = nil
           groups = nil
@@ -57,8 +57,8 @@ class V0
             # byebug
             email_not_setup = net_ldap_default_email_domain(ldap).nil?
             email_user = ldap_user.objectClass.include? "postfixUser"
-            maildrop = email_user ? ldap_user.maildrop[0] : ""
-            email_aliases = email_user ? ldap_user.mailacceptinggeneralid : []
+            mailbox = email_user ? net_ldap_user_mailbox( ldap, user_uid ) : ""
+            email_aliases = email_user ? net_ldap_user_email_addresses( ldap, user_uid ) : []
             distribution_lists = net_ldap_distribution_lists_for_user ldap, user_uid
           end
           # puts ldap_user.inspect
@@ -70,8 +70,8 @@ class V0
             groups: groups,
             email_not_setup: email_not_setup,
             email_user: email_user,
-            maildrop: maildrop,
-            email_aliases: email_addresses,
+            mailbox: mailbox,
+            email_aliases: email_aliases,
             distribution_lists: distribution_lists
           }
         end
@@ -120,22 +120,34 @@ class V0
         ## User - Email addresses
         ########################################################################
 
-        def user_enable_email( user_uid, email_domain )
+        def user_setup_email( user_uid, email_domain )
           net_ldap do |ldap|
-            net_ldap_user_enable_email ldap, user_uid, email_domain
+            net_ldap_user_setup_email ldap, user_uid, email_domain
+          end
+        end
+
+        def user_disable_email( user_uid )
+          net_ldap do |ldap|
+            net_ldap_user_disable_email ldap, user_uid
+          end
+        end
+
+        def user_update_mailbox_domain( user_uid, email_domain )
+          net_ldap do |ldap|
+            net_ldap_user_update_mailbox_domain ldap, user_uid, email_domain
           end
         end
 
         def user_new_add_email_address( user_uid )
           result = {}
           net_ldap do |ldap|
-            result[:available_domains] = net_ldap_email_domains ldap
-            # byebug
+            result[:domains] = net_ldap_email_domains ldap
+            result[:default] = net_ldap_default_email_domain ldap
           end
           result
         end
 
-        def user_new_remove_email_address( user_uid )
+        def user_email_addresses( user_uid )
           result = {}
           net_ldap do |ldap|
             result[:email_addresses] = net_ldap_user_email_addresses ldap, user_uid
@@ -231,14 +243,31 @@ class V0
         ########################################################################
 
         def distribution_lists
+          result = {}
           net_ldap do |ldap|
-            net_ldap_distribution_lists ldap
+            result[:distribution_lists] = net_ldap_distribution_lists ldap
           end
+          result
         end
 
         def distribution_list(distribution_list)
           net_ldap do |ldap|
             net_ldap_distribution_list ldap, distribution_list
+          end
+        end
+
+        def distribution_lists_new
+          result = {}
+          net_ldap do |ldap|
+            result[:domains] = net_ldap_email_domains ldap
+            result[:default] = net_ldap_default_email_domain ldap
+          end
+          result
+        end
+
+        def distribution_lists_create(distribution_list_name)
+          net_ldap do |ldap|
+            net_ldap_create_email_distribution_list ldap, distribution_list_name
           end
         end
 

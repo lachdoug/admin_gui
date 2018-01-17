@@ -73,10 +73,10 @@ cell({
 					$components: [
 
 
-						// button( { onclick: systemUsers._live,
-						// 					icon: "fa fa-user", text: "Users" } ),
-						// button( { onclick: systemEmail._live,
-						// 					icon: "fa fa-envelope", text: "Email" } ),
+						button( { onclick: systemUsers._live,
+											icon: "fa fa-user", text: "Users" } ),
+						button( { onclick: systemEmail._live,
+											icon: "fa fa-envelope", text: "Email" } ),
 
 
 						{

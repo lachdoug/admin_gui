@@ -1,6 +1,6 @@
 cell({
 
-	id: 'systemUsersUserEmailEdit',
+	id: 'systemUsersUserMailboxEdit',
 
 	_live: function (user) {
 
@@ -22,12 +22,13 @@ cell({
 										type: "select",
 										name: "data[email_address][domain]",
 										label: "Domain",
-										collection: data.available_domains,
+										value: data.default,
+										collection: data.domains,
 									} ),
-									formCancel ( { onclick: function() { systemUsersUser._live(user) } } ),
+									formCancel ( { onclick: function() { systemUsersUser._live(user); } } ),
 									formSubmit(),
 								],
-								action: "/system/users/user/" + user.uid + "/enable_email",
+								action: "/system/users/user/" + user.uid + "/mailbox",
 								method: "PUT",
 								callbacks: {
 									200: function(response) {

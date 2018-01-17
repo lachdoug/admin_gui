@@ -18,7 +18,7 @@ class V0
           ##########################################################################
 
           def status
-            @system_api.get 'system/status'
+            @system_api.get 'system/status', { timeout: 5 }
           end
 
           def builder_status
@@ -33,9 +33,9 @@ class V0
             @system_api.get 'containers/services/status'
           end
 
-          def builder_status
-            @system_api.get 'engine_builder/status'
-          end
+          # def builder_status
+          #   @system_api.get 'engine_builder/status'
+          # end
 
           def update_status
             @system_api.get 'system/status/update'

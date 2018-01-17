@@ -239,8 +239,16 @@ class V0
           ldap.user_remove_from_group( user_uid, group_name )
         end
 
-        def user_enable_email( user_uid, email_domain )
-          ldap.user_enable_email( user_uid, email_domain )
+        def user_setup_email( user_uid, email_domain )
+          ldap.user_setup_email( user_uid, email_domain )
+        end
+
+        def user_disable_email( user_uid )
+          ldap.user_disable_email( user_uid )
+        end
+
+        def user_update_mailbox_domain( user_uid, email_domain )
+          ldap.user_update_mailbox_domain( user_uid, email_domain )
         end
 
         def user_new_add_email_address( user_uid )
@@ -252,7 +260,7 @@ class V0
         end
 
         def user_new_remove_email_address( user_uid )
-          ldap.user_new_remove_email_address( user_uid )
+          ldap.user_email_addresses( user_uid )
         end
 
         def user_remove_email_address( user_uid, email_address )
@@ -265,6 +273,26 @@ class V0
 
         def user_groups
           ldap.user_groups
+        end
+
+        ########################################################################
+        # Distribution groups
+        ########################################################################
+
+        def distribution_lists
+          ldap.distribution_lists
+        end
+
+        def distribution_lists_new
+          ldap.distribution_lists_new
+        end
+
+        def distribution_lists_create( distribution_list )
+          ldap.distribution_lists_create( "#{distribution_list[:local_part]}@#{distribution_list[:domain]}" )
+        end
+
+        def distribution_lists_delete
+
         end
 
         ########################################################################

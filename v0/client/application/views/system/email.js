@@ -4,7 +4,7 @@ cell({
 	_live: function () {
 
 		modal._live ( {
-			header: icon( { icon: "fa fa-globe", text: "System email" } ),
+			header: icon( { icon: "fa fa-envelope", text: "System email" } ),
 			body: {
 				$components: [
 					modalNav({
