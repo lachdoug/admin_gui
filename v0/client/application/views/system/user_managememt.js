@@ -39,7 +39,7 @@
 // 						text: "Email addresses"
 // 					} ),
 // 					button( {
-// 						onclick: systemDistributionLists._live,
+// 						onclick: systemEmailDistributionLists._live,
 // 						icon: "fa fa-share-square-o",
 // 						text: "Distribution lists"
 // 					} ),

@@ -10,24 +10,54 @@ cell({
 					modalNav({
 						up: systemEmail._live,
 					}),
-					// button( {
-					// 	onclick: systemUsersNew._live,
-					// 	icon: "fa fa-plus",
-					// 	text: "Add"
-					// } ),
 					hr(),
 					dataLoader({
 						action: "/system/email_addresses",
 						render: function(data) {
 							return {
-								$components: data.map( function( email_address ) {
-									return button({
-										text: email_address,
-										onclick: function() { systemEmailAddressesEmailAddress._live(email_address) },
-									});
-								}),
+								id: "systemEmailAddressesSearchList",
+								$components: [
+									{
+										class: "text-center",
+										$components: [
+											{
+												$type: "input",
+												class: "search form-control",
+												$init: function() {
+													new List('systemEmailAddressesSearchList', { valueNames: ['searchListItem'] });
+												},
+												placeholder: "Search",
+												style: "width: 200px; margin-bottom: 10px; display: inline-block;",
+											},
+										]
+									},
+									{
+										$type: "ul",
+										class: "list",
+										style: "list-style: none; margin-left: -30px;",
+										$components: data.map( function( email_address ) {
+											switch(email_address.source_type) {
+												case 'mailbox': return button({
+													class: "searchListItem",
+													text: email_address.email_address + " (mailbox)",
+													onclick: function() { systemUsersUser._live(email_address.user_uid) },
+												});
+												case 'alias': return button({
+													class: "searchListItem",
+													text: email_address.email_address + " (alias)",
+													onclick: function() { systemUsersUser._live(email_address.user_uid) },
+												});
+												case 'list': return button({
+													class: "searchListItem",
+													text: email_address.email_address + " (distribution list)",
+													onclick: function() { systemEmailDistributionList._live(email_address.distribution_list_name) },
+												});
+											}
+										}),
+									}
+								]
 							};
-						}
+						},
 					}),
 				]
 			}

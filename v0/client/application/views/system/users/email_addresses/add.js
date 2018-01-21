@@ -2,18 +2,18 @@ cell({
 
 	id: 'systemUsersEmailAddressesAdd',
 
-	_live: function (user) {
+	_live: function (user_uid) {
 
 		modal._live ( {
-			header: icon( { icon: "fa fa-envelope-square", text: "System user add email address" } ),
+			header: icon( { icon: "fa fa-envelope-square", text: "System user add email alias" } ),
 			body: {
 				$components: [
 					modalNav({
-						content: { $type: "h4", $text: user.name },
+						content: { $type: "h4", $text: user_uid },
 					}),
 					hr(),
 					dataLoader({
-						action: "/system/users/user/" + user.uid + "/new_email_address",
+						action: "/system/users/user/" + user_uid + "/new_email_address",
 						render: function(data) {
 
 							return form({
@@ -29,15 +29,15 @@ cell({
 										value: data.default,
 										collection: data.domains,
 									} ),
-									formCancel ( { onclick: function() { systemUsersUser._live(user) } } ),
+									formCancel ( { onclick: function() { systemUsersUser._live(user_uid) } } ),
 									formSubmit(),
 							//				pp( data )
 								],
-								action: "/system/users/user/" + user.uid + "/email_addresses",
+								action: "/system/users/user/" + user_uid + "/email_addresses",
 								method: "POST",
 								callbacks: {
 									200: function(response) {
-										systemUsersUser._live(user);
+										systemUsersUser._live(user_uid);
 									},
 								}
 							});

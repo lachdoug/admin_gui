@@ -1,11 +1,11 @@
 cell({
 
-	id: "systemDistributionLists",
+	id: "systemEmailDistributionLists",
 
 	_live: function () {
 
 		modal._live ( {
-			header: icon( { icon: "fa fa-th-list", text: "System distribution lists" } ),
+			header: icon( { icon: "fa fa-share-square-o", text: "System distribution lists" } ),
 			body: {
 				$components: [
 					modalNav({
@@ -27,7 +27,7 @@ cell({
 										$components: data.distribution_lists.map( function( distribution_list ) {
 											return button({
 												text: distribution_list.name,
-												onclick: function() { systemEmailDistributionList._live(distribution_list) },
+												onclick: function() { systemEmailDistributionList._live(distribution_list.name) },
 											});
 										})
 									}

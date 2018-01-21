@@ -39,8 +39,8 @@ cell({
 						_refresh: function ( data ) {
 							this.$components = data.map( function( user ) {
 								return button({
-									text: user.name,
-									onclick: function() { systemUsersUser._live(user) },
+									text: user.uid + " (" + user.name + ")",
+									onclick: function() { systemUsersUser._live(user.uid) },
 								});
 							});
 						},

@@ -17,7 +17,7 @@ cell({
 								$components: [
 									button( {
 										wrapperClass: "pull-right",
-										onclick: systemDistributionLists._live,
+										onclick: systemEmailDistributionLists._live,
 										icon: "fa fa-share-square-o",
 										text: "Distribution lists"
 									} ),
@@ -26,11 +26,17 @@ cell({
 										icon: "fa fa-envelope-square",
 										text: "Addresses"
 									} ),
-									legend({text: "Domains"}),
+									hr(),
+									{ $type: "label", $text: "Domains"},
 									{
 										class: "clearfix",
 										$components: [
-											labelText("Default", data.default),
+											{
+												class: "pull-left",
+												$components: [
+													labelText("Default", data.default),
+												]
+											},
 											button( {
 												wrapperClass: "pull-right",
 												onclick: systemEmailDomainsDefault._live,
@@ -39,25 +45,29 @@ cell({
 											} ),
 										]
 									},
-									hr(),
+									{
+										class: "clearfix",
+										$components: [
+											button( {
+												wrapperClass: "pull-left",
+												onclick: systemEmailDomainsNew._live,
+												icon: "fa fa-plus-square-o",
+												text: "Add"
+											} ),
+											button( {
+												wrapperClass: "pull-right",
+												onclick: systemEmailDomainsDelete._live,
+												icon: "fa fa-minus-square-o",
+												text: "Remove"
+											} ),
+										]
+									},
 									{
 										$type: "ul",
 										$components: data.domains.map( function( domain ) {
 											return { $type: "li", $text: domain };
 										})
 									},
-									button( {
-										wrapperClass: "pull-left",
-										onclick: systemEmailDomainsNew._live,
-										icon: "fa fa-plus-square-o",
-										text: "Add"
-									} ),
-									button( {
-										wrapperClass: "pull-right",
-										onclick: systemEmailDomainsDelete._live,
-										icon: "fa fa-minus-square-o",
-										text: "Remove"
-									} ),
 
 								],
 							} : {

@@ -14,6 +14,14 @@ class V0
         system.user( params[:user_uid] ).to_json
       end
 
+      delete '/system/users/user/:user_uid' do
+        system.delete_user( params[:user_uid] ).to_json
+      end
+
+      put '/system/users/user/:user_uid' do
+        system.update_user( params[:user_uid], params[:data] ).to_json
+      end
+
       post '/system/users/user' do
         system.create_user( params[:data] ).to_json
       end

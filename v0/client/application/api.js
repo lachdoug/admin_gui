@@ -30,11 +30,10 @@ cell({
 	_bindForm: function( form ) {
 		$(form).submit(function( e ) {
 
-			var data = new FormData($(this)[0]);
+			var data = new FormData(this);
 			var method = ( form.method || "POST" );
 
 			var formButons = $(form).find("button.disable_button_on_form_submit");
-
 			formButons.each(
 				function( index ) {
 					formButons[index]._disableButton();

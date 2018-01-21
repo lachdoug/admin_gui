@@ -247,6 +247,10 @@ class V0
           ldap.user_disable_email( user_uid )
         end
 
+        def user_edit_mailbox_domain( user_uid )
+          ldap.user_edit_mailbox_domain( user_uid )
+        end
+
         def user_update_mailbox_domain( user_uid, email_domain )
           ldap.user_update_mailbox_domain( user_uid, email_domain )
         end
@@ -267,12 +271,24 @@ class V0
           ldap.user_remove_email_address( user_uid, email_address )
         end
 
+        def delete_user(user_uid)
+          ldap.delete_user(user_uid)
+        end
+
+        def update_user(user_uid, data)
+          ldap.update_user(user_uid, data)
+        end
+
         ########################################################################
         # User groups
         ########################################################################
 
         def user_groups
           ldap.user_groups
+        end
+
+        def user_group(user_group_name)
+          ldap.user_group user_group_name
         end
 
         ########################################################################
@@ -283,16 +299,40 @@ class V0
           ldap.distribution_lists
         end
 
+        def distribution_list( distribution_list_name )
+          ldap.distribution_list( distribution_list_name )
+        end
+
         def distribution_lists_new
           ldap.distribution_lists_new
         end
 
-        def distribution_lists_create( distribution_list )
-          ldap.distribution_lists_create( "#{distribution_list[:local_part]}@#{distribution_list[:domain]}" )
+        def distribution_lists_create( data )
+          ldap.distribution_lists_create( data )
         end
 
-        def distribution_lists_delete
+        def distribution_list_edit( distribution_list_name )
+          ldap.distribution_list_edit distribution_list_name
+        end
 
+        def distribution_list_update( distribution_list_name, data )
+          ldap.distribution_list_update distribution_list_name, data
+        end
+
+        def distribution_list_delete( distribution_list_name )
+          ldap.distribution_list_delete distribution_list_name
+        end
+
+        def distribution_list_new_email_address( distribution_list_name )
+          ldap.distribution_list_new_email_address( distribution_list_name )
+        end
+
+        def distribution_list_create_email_address( distribution_list_name, email_addresses )
+          ldap.distribution_list_create_email_address( distribution_list_name, email_addresses )
+        end
+
+        def distribution_list_delete_email_address( distribution_list_name, email_addresses )
+          ldap.distribution_list_delete_email_address( distribution_list_name, email_addresses )
         end
 
         ########################################################################

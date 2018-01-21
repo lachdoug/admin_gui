@@ -2,18 +2,18 @@ cell({
 
 	id: 'systemUsersUserGroupsRemove',
 
-	_live: function (user) {
+	_live: function (user_uid) {
 
 		modal._live ( {
 			header: icon( { icon: "fa fa-user", text: "System remove user from group" } ),
 			body: {
 				$components: [
 					modalNav({
-						content: { $type: "h4", $text: user.name },
+						content: { $type: "h4", $text: user_uid },
 					}),
 					hr(),
 					dataLoader({
-						action: "/system/users/user/" + user.uid + "/groups/delete",
+						action: "/system/users/user/" + user_uid + "/groups/delete",
 						render: function(data) {
 
 							return form({
@@ -24,15 +24,15 @@ cell({
 										label: "Group",
 										collection: data.current_groups,
 									} ),
-									formCancel ( { onclick: function() { systemUsersUser._live(user) } } ),
+									formCancel ( { onclick: function() { systemUsersUser._live(user_uid) } } ),
 									formSubmit(),
 							//				pp( data )
 								],
-								action: "/system/users/user/" + user.uid + "/groups/",
+								action: "/system/users/user/" + user_uid + "/groups/",
 								method: "DELETE",
 								callbacks: {
 									200: function(response) {
-										systemUsersUser._live(user);
+										systemUsersUser._live(user_uid);
 									},
 								}
 							});

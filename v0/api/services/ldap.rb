@@ -40,40 +40,26 @@ class V0
         end
 
         def user(user_uid)
-          ldap_user = nil
-          user_cn = nil
-          uidnumber = nil
-          email_user = nil
-          mailbox = nil
-          email_aliases = nil
-          distribution_lists = nil
-          groups = nil
-          email_not_setup = nil
           net_ldap do |ldap|
-            ldap_user = net_ldap_find_user_by_uid ldap, user_uid
-            user_cn = ldap_user.cn.join(' ')
-            uidnumber = ldap_user.uidnumber[0]
-            groups = net_ldap_groups_for_user ldap, user_uid
-            # byebug
-            email_not_setup = net_ldap_default_email_domain(ldap).nil?
-            email_user = ldap_user.objectClass.include? "postfixUser"
-            mailbox = email_user ? net_ldap_user_mailbox( ldap, user_uid ) : ""
-            email_aliases = email_user ? net_ldap_user_email_addresses( ldap, user_uid ) : []
-            distribution_lists = net_ldap_distribution_lists_for_user ldap, user_uid
+            net_ldap_user ldap, user_uid
           end
-          # puts ldap_user.inspect
-          {
-            name: user_cn,
-            # id: user_id,
-            uid: user_uid,
-            uidnumber: uidnumber,
-            groups: groups,
-            email_not_setup: email_not_setup,
-            email_user: email_user,
-            mailbox: mailbox,
-            email_aliases: email_aliases,
-            distribution_lists: distribution_lists
-          }
+        end
+
+        def delete_user(user_uid)
+          net_ldap do |ldap|
+            user = net_ldap_find_user_by_uid ldap, user_uid
+            net_ldap_delete_entry_by_dn ldap, user.dn
+          end
+        end
+
+        def update_user(user_uid, data)
+          net_ldap do |ldap|
+            entry = net_ldap_find_user_by_uid ldap, user_uid
+            newrdn = "cn=#{data[:first_name]} #{data[:last_name]}"
+            net_ldap_replace_attribute_value_on_entry ldap, entry, "givenname", data[:first_name]
+            net_ldap_replace_attribute_value_on_entry ldap, entry, "sn", data[:last_name]
+            net_ldap_rename_entry_by_dn ldap, entry.dn, newrdn
+          end
         end
 
         ########################################################################
@@ -117,7 +103,7 @@ class V0
         end
 
         ########################################################################
-        ## User - Email addresses
+        ## User - Email mailbox
         ########################################################################
 
         def user_setup_email( user_uid, email_domain )
@@ -132,11 +118,30 @@ class V0
           end
         end
 
+        def user_edit_mailbox_domain( user_uid )
+          result = {}
+          net_ldap do |ldap|
+            result[:domains] = net_ldap_email_domains ldap
+            result[:mailbox_domain] = net_ldap_user_mailbox( ldap, user_uid ).split("@")[1]
+          end
+          result
+        end
+
         def user_update_mailbox_domain( user_uid, email_domain )
           net_ldap do |ldap|
             net_ldap_user_update_mailbox_domain ldap, user_uid, email_domain
           end
         end
+
+        # def user_edit_mailbox_domain( user_uid )
+        #   net_ldap do |ldap|
+        #     net_ldap_user_edit_mailbox_domain ldap, user_uid
+        #   end
+        # end
+
+        ########################################################################
+        ## User - Email aliases
+        ########################################################################
 
         def user_new_add_email_address( user_uid )
           result = {}
@@ -173,7 +178,13 @@ class V0
 
         def user_groups
           net_ldap do |ldap|
-            net_ldap_groups ldap
+            net_ldap_user_groups ldap
+          end
+        end
+
+        def user_group( user_group_name )
+          net_ldap do |ldap|
+            net_ldap_user_group ldap, user_group_name
           end
         end
 
@@ -250,9 +261,9 @@ class V0
           result
         end
 
-        def distribution_list(distribution_list)
+        def distribution_list(distribution_list_name)
           net_ldap do |ldap|
-            net_ldap_distribution_list ldap, distribution_list
+            net_ldap_distribution_list ldap, distribution_list_name
           end
         end
 
@@ -265,11 +276,58 @@ class V0
           result
         end
 
-        def distribution_lists_create(distribution_list_name)
+        def distribution_lists_create(data)
           net_ldap do |ldap|
-            net_ldap_create_email_distribution_list ldap, distribution_list_name
+            net_ldap_create_email_distribution_list ldap, data
           end
         end
+
+        def distribution_list_edit( distribution_list_name )
+          net_ldap do |ldap|
+            net_ldap_distribution_list_edit ldap, distribution_list_name
+          end
+        end
+
+        def distribution_list_update( distribution_list_name, data )
+          net_ldap do |ldap|
+            net_ldap_distribution_list_update ldap, distribution_list_name, data
+          end
+        end
+
+        def distribution_list_delete( distribution_list_name )
+          net_ldap do |ldap|
+            dn = "cn=#{distribution_list_name},ou=Distribution Groups,dc=engines,dc=internal"
+            net_ldap_delete_entry_by_dn ldap, dn
+          end
+        end
+
+        def distribution_list_new_email_address( distribution_list_name )
+          net_ldap do |ldap|
+            mailbox_and_alias_email_addresses =
+              net_ldap_email_mailboxes_email_addresses(ldap).map{ |email_address| email_address[:email_address] } +
+              net_ldap_email_aliases_email_addresses(ldap).map{ |email_address| email_address[:email_address] }
+            existing_email_addresses =
+              net_ldap_distribution_list(ldap, distribution_list_name)[:email_addresses]
+            { email_addresses: mailbox_and_alias_email_addresses - existing_email_addresses }
+          end
+        end
+
+        def distribution_list_create_email_address( distribution_list_name, email_address )
+          net_ldap do |ldap|
+            dn = "cn=#{distribution_list_name},ou=Distribution Groups,dc=engines,dc=internal"
+            entry = net_ldap_find_entry_by_dn(ldap, dn)
+            net_ldap_add_attribute_value_to_entry( ldap, entry, "memberuid", email_address )
+          end
+        end
+
+        def distribution_list_delete_email_address( distribution_list_name, email_address )
+          net_ldap do |ldap|
+            dn = "cn=#{distribution_list_name},ou=Distribution Groups,dc=engines,dc=internal"
+            entry = net_ldap_find_entry_by_dn(ldap, dn)
+            net_ldap_delete_attribute_value_from_entry( ldap, entry, "memberuid", email_address )
+          end
+        end
+
 
 private
 

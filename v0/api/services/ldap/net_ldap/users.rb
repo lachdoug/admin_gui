@@ -3,6 +3,31 @@ class V0
     module Services
       class Ldap
 
+        def net_ldap_user(ldap, user_uid)
+          ldap_user = net_ldap_find_user_by_uid ldap, user_uid
+          user_cn = ldap_user.cn[0]
+          first_name = ldap_user.givenname[0]
+          last_name = ldap_user.sn[0]
+          uidnumber = ldap_user.uidnumber[0]
+          groups = net_ldap_groups_for_user ldap, user_uid
+          email_user = ldap_user.objectClass.include? "postfixUser"
+          mailbox = email_user ? net_ldap_user_mailbox( ldap, user_uid ) : ""
+          email_aliases = email_user ? net_ldap_user_email_addresses( ldap, user_uid ) : []
+          distribution_lists = email_user ? net_ldap_distribution_lists_for_user(ldap, user_uid) : []
+          {
+            name: user_cn,
+            first_name: first_name,
+            last_name: last_name,
+            uid: user_uid,
+            uidnumber: uidnumber,
+            groups: groups,
+            email_user: email_user,
+            mailbox: mailbox,
+            email_aliases: email_aliases,
+            distribution_lists: distribution_lists
+          }
+        end
+
         def net_ldap_create_user(ldap, data)
 
           cn = "#{data[:first_name]} #{data[:last_name]}"

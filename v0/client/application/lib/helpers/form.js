@@ -10,7 +10,7 @@ function form(obj) {
 		_callbacks: obj.callbacks,
 		$init: function() {
 			if ( obj.init ) {
-				obj.init( this )
+				obj.init( this );
 			} else {
 				api._bindForm( this );
 			};
