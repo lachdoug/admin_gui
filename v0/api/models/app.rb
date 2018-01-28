@@ -261,12 +261,13 @@ class V0
           } )
         end
 
-        def import_persistent_service( publisher_namespace, type_path, service_handle, file )
+        def import_persistent_service( publisher_namespace, type_path, service_handle, data )
           app_api.import_persistent_service( {
             publisher_namespace: publisher_namespace,
             type_path: type_path,
             service_handle: service_handle,
-            file: file
+            file: data[:file][:tempfile].read,
+            write: data[:write]
           } )
         end
 
@@ -288,7 +289,7 @@ class V0
         def available_persistent_services_for( publisher_namespace, type_path )
           service_definition = @system.service_definition_for( publisher_namespace, type_path )
           # byebug
-          params = service_definition[:consumer_params].values.select do |param|
+          params = ( service_definition[:consumer_params] || {} ).values.select do |param|
             param[:ask_at_build_time] == true || param[:immutable] != true
           end.map do |param|
             if param[:input]

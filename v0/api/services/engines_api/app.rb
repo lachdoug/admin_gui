@@ -161,11 +161,11 @@ class V0
           end
 
           def import_persistent_service( args )
-            @system_api.put_stream "containers/engine/#{@name}/service/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/#{args[:write]}", { file: args[:file] }
+    # byebug
+            @system_api.put_stream "containers/engine/#{@name}/service/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/#{args[:write]}", args[:file]
           end
 
           def create_nonpersistent_service( args )
-            # byebug
             @system_api.post "containers/engine/#{@name}/services/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}", { variables: args[:variables] }
           end
 

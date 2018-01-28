@@ -43,7 +43,7 @@ class V0
             RestClient::Request.execute(
               method: :put,
               url: "#{@url}/v0/#{route}",
-              payload: { api_vars: ( params || {} ) }.to_json,
+              payload: params, #{ api_vars: ( params || {} ) }.to_json,
               contentType: 'application/octet-stream',
               timeout: opts[:timeout] || 120,
               verify_ssl: false,

@@ -69,7 +69,18 @@ var $appServicesPersistentImport = {
 					name: "data[file]",
           label: false,
 					type: "file",
+					required: true,
 				} ),
+				formField({
+					name: "data[write]",
+					label: false,
+					type: "radio_buttons",
+					required: true,
+					collection: {
+						overwrite: "Overwrite",
+						replace: "Replace"
+					}
+				}),
 				// formField( {
 				// 	name: "data[service_handle]",
 				// 	type: "hidden",

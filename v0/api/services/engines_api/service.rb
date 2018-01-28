@@ -13,6 +13,8 @@ class V0
             # p "get container for #{@name}"
              @system_api.get "containers/service/#{@name}"
           end
+
+
 #
 #           ######################################################################
 #           # Blueprint
@@ -182,6 +184,20 @@ class V0
             # byebug
             @system_api.post "containers/service/#{@name}/configuration/#{args[:configurator_name]}", { variables: args[:variables] }
           end
+
+          ######################################################################
+          # Data export/import
+          ######################################################################
+
+          def export
+            @system_api.get "containers/service/#{@name}/export"
+          end
+
+          def import(file)
+            # byebug
+            @system_api.put_stream "containers/service/#{@name}/import", file
+          end
+
 
           ######################################################################
           # Resolve string
