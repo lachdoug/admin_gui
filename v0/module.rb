@@ -91,13 +91,13 @@ class V0 < Sinatra::Base
   ##############################################################################
 
   class NonFatalError < StandardError;
-    def initialize(message, status_code=500)
+    def initialize(message, status_code=500, opts={})
       @message = message
       @status_code = status_code
+      @behavior = opts[:behavior]
     end
-    attr_reader :status_code, :message
+    attr_reader :status_code, :message, :behavior
   end
-
 
   ##############################################################################
   ## API
@@ -133,9 +133,7 @@ class V0 < Sinatra::Base
   set show_exceptions: false
   error do |error|
     if error.is_a?(NonFatalError)
-      [ error.status_code, { error: { message: error.message } }.to_json ]
-    elsif error.is_a?(RestClient::Exceptions::ReadTimeout)
-      [ 405, { error: { message: "The connection to the Engines system has timed-out." } }.to_json ]
+      [ error.status_code, { error: { message: error.message, behavior: error.behavior } }.to_json ]
     else
       error_text = error.class.to_s + " (" + error.message + ")"
       begin

@@ -39,7 +39,8 @@ cell({
 					$("#pageLoadingSpinner").fadeOut();
 				},
 				401: function() {
-					// override default behaviour to skip alert message.
+					// override default behaviour to: close events; and skip alert message.
+					systemEvents._close();
 					main._renderSignedOut();
 				}
 			}

@@ -22,12 +22,12 @@ class V0
           Service.new self, name
         end
 
-        def post(route, params={}, opts={})
+        def post(route, data={}, opts={})
           handle_response do
             RestClient::Request.execute(
               method: :post,
               url: "#{@url}/v0/#{route}",
-              payload: { api_vars: ( params || {} ) }.to_json,
+              payload: { api_vars: ( data || {} ) }.to_json,
               contentType: 'application/json',
               timeout: opts[:timeout] || 120,
               verify_ssl: false,
@@ -38,12 +38,12 @@ class V0
           end
         end
 
-        def put_stream(route, params={}, opts={})
+        def put_stream(route, data={}, opts={})
           handle_response do
             RestClient::Request.execute(
               method: :put,
               url: "#{@url}/v0/#{route}",
-              payload: params, #{ api_vars: ( params || {} ) }.to_json,
+              payload: data,
               contentType: 'application/octet-stream',
               timeout: opts[:timeout] || 120,
               verify_ssl: false,
@@ -105,9 +105,10 @@ class V0
         rescue  Errno::EHOSTUNREACH,
                 Errno::ECONNREFUSED,
                 Errno::ECONNRESET,
-                RestClient::ServerBrokeConnection,
                 OpenSSL::SSL::SSLError,
-                RestClient::Exceptions::OpenTimeout => e
+                RestClient::ServerBrokeConnection,
+                RestClient::Exceptions::OpenTimeout,
+                RestClient::Exceptions::ReadTimeout => e
           raise NonFatalError.new "The system is unavailable.\n\nReason: #{e.message}\n\nThis usually temporary and happens when the system is busy or restarting.\n\nPlease wait a moment.", 503
         end
 
@@ -132,7 +133,7 @@ class V0
             end
           end
         rescue => e
-          puts "Event stream closed with error #{e}"
+          puts "Stream closed with error #{e}"
         end
 
       end

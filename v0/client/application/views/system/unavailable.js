@@ -44,7 +44,8 @@ var $systemUnavailable = {
 								systemUnavailable._handlePollingResponseFailure();
 							},
 							503: function(response) {
-								systemUnavailable._handlePollingResponseFailure(response.error.message);
+								systemUnavailable._opts.behavior = response.error.behavior;
+								systemUnavailable._handlePollingResponseFailure();
 							},
 							200: function(response) {
 								modal._kill();
@@ -60,13 +61,14 @@ var $systemUnavailable = {
 		}, 9000 );
 	},
 
-	_handlePollingResponseFailure: function( message ) {
+	_handlePollingResponseFailure: function () {
 		// check if modal still open, if not then don't poll
 		if (typeof systemUnavailableMessage !== 'undefined') {
+			var message;
 			if ( systemUnavailable._opts.behavior == "engines_update" ) {
 				message = "Engines update in progress.\n\nThe update process normally takes a minute or two, but can take longer in some cases."
-			// } else if ( opts.behaviour == "base_os_update" ) {
-			// 	message = "Base OS update in progress. The update process normally takes a minute or two, but can take longer in some cases."
+			} else if ( systemUnavailable._opts.behaviour == "base_os_restart" ) {
+				message = "Base OS is restarting."
 			};
 			systemUnavailableMessage._updateMessage( message );
 			systemUnavailable._pollServer();

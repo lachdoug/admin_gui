@@ -16,6 +16,9 @@ function form(obj) {
 			};
 			// debugger;
 			$(this).find("input:invalid").first().focus();
+		},
+		_field: function(args) {
+			return formField(args);
 		}
 	}
 };

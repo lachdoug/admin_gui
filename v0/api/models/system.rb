@@ -48,11 +48,11 @@ class V0
 
         def to_h(opts={})
 
-          raise ( NonFatalError.new "Engines update in progress.\n\nThe update process normally takes a minute or two, but can take longer in some cases.", 503 ) \
+          raise ( NonFatalError.new nil, 503, { behavior: :engines_update } ) \
             if status[:is_engines_system_updating]
-          raise ( NonFatalError.new "Base OS update in progress.\n\nThe update process normally takes a minute or two, but can take longer in some cases.", 503 ) \
+          raise ( NonFatalError.new nil, 503, { behavior: :base_os_update } ) \
             if status[:is_base_system_updating]
-          raise ( NonFatalError.new "Reboot in progress.", 503 ) \
+          raise ( NonFatalError.new nil, 503, { behavior: :base_os_restart } ) \
             if status[:is_rebooting]
 
           include_software_titles = opts[:include_software_titles] || false;
@@ -538,7 +538,12 @@ class V0
         ########################################################################
 
         def restart_base_os
-          engines_api_system.restart_base_os
+          ## Give a response before shutting down.
+          Thread.new do
+            sleep 3
+            engines_api_system.restart_base_os
+          end
+          return {}
         # rescue
           # return { message: "OK" } if engines_api_system.restart_base_os == 'true'
           # raise NonFatalError.new "Failed to reboot system.", 405
