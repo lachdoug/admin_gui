@@ -24,7 +24,7 @@ var $systemUpdateBaseOS = {
 			action: "/system/update_base_os",
 			callbacks: {
 				200: function() {
-					main._renderUnavailableSystem( { message: "Base OS update in progress.\n\nThe update process normally takes a minute or two, but can take longer in some cases.", behavior: "base_os_update" } );
+					main._renderBusySystem( { behavior: "base_os_update" } );
 				},
 				405: function() {
 					systemUpdateBaseOS._alreadyUpToDate();

@@ -170,8 +170,11 @@ cell({
 			case 500:
 				main._renderFatalError( JSON.parse(response.responseText).error );
 				break;
+			case 502:
+				main._renderUnavailableSystem( JSON.parse(response.responseText).error );
+				break;
 			case 503:
-				main._renderUnavailableSystem( { message: JSON.parse(response.responseText).error.message } );
+				main._renderBusySystem( JSON.parse(response.responseText).error );
 				break;
 			default:
 				var backtrace = ( new Error() ).stack.split("\n");

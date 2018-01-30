@@ -101,7 +101,7 @@ class V0
           system_error_message = JSON.parse(e.response.body, symbolize_names: true)[:error_object][:error_mesg]
           raise NonFatalError.new "Not allowed.\n\nReason: #{system_error_message}", 405
         rescue Errno::ENETUNREACH => e
-          raise NonFatalError.new "Admin GUI server is not connected to the network.\n\nReason: #{e.message}\n\nThe connection will be tried again in a moment.", 503
+          raise NonFatalError.new "Admin GUI server is not connected to the network.\n\nReason: #{e.message}\n\nThe connection will be tried again in a moment.", 502
         rescue  Errno::EHOSTUNREACH,
                 Errno::ECONNREFUSED,
                 Errno::ECONNRESET,
@@ -109,7 +109,7 @@ class V0
                 RestClient::ServerBrokeConnection,
                 RestClient::Exceptions::OpenTimeout,
                 RestClient::Exceptions::ReadTimeout => e
-          raise NonFatalError.new "The system is unavailable.\n\nReason: #{e.message}\n\nThis usually temporary and happens when the system is busy or restarting.\n\nPlease wait a moment.", 503
+          raise NonFatalError.new "The system is unavailable.\n\nReason: #{e.message}\n\nThis usually temporary and happens when the system is busy or restarting.\n\nPlease wait a moment.", 502
         end
 
         # read stream

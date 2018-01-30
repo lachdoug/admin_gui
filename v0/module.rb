@@ -128,7 +128,8 @@ class V0 < Sinatra::Base
   ## 405 Non-fatal: Action not allowed (route is recognised, but action cannot be performed)
   ## 406 Fatal: Params not acceptable (route is recognised, but params incomplete or invalid)
   ## 500 Fatal: General server error
-  ## 503 Non-fatal: System busy or unavailable
+  ## 502 Non-fatal: System unavailable
+  ## 503 Non-fatal: System busy
 
   set show_exceptions: false
   error do |error|

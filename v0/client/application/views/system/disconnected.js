@@ -1,6 +1,5 @@
-var $systemDisconnected = {
+cell({
 
-	$cell: true,
 	id: "systemDisconnected",
 
   _live: function () {
@@ -24,4 +23,4 @@ var $systemDisconnected = {
     this.$components = [];
   },
 
-};
+});

@@ -30,7 +30,7 @@ function renderSystemApps() {
     },
 
     _handleEvent: function( event ) {
-      this._$data.map(
+      ( this._$data || [] ).map(
         function( app ) {
           if ( app.name == event.container_name ) {
             return $.extend( app, event.status );

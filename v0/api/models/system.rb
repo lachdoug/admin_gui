@@ -97,8 +97,8 @@ class V0
           # cusotmize error messages for signin
           if e.status_code == 401
             raise NonFatalError.new "Invalid password.", 401
-          elsif e.status_code == 503
-            raise NonFatalError.new "Failed to connect to system.\n\nPlease check that the system is running and accessable on the network at the URL provided.", 503
+          elsif e.status_code == 502
+            raise NonFatalError.new "Failed to connect to system.\n\nPlease check that the system is running and accessable on the network at the URL provided.", 502
           else
             raise e
           end

@@ -18,6 +18,7 @@ cell({
 										type: "select",
 										name: "data[email_domain]",
 										label: "Domain",
+										value: data.default,
 										collection: data.domains,
 									} ),
 									formCancel ( { onclick: systemEmail._live } ),

@@ -1,11 +1,9 @@
-var $systemUnavailable = {
+cell({
 
-	$cell: true,
 	id: "systemUnavailable",
 
-
 	_live: function ( opts={} ) {
-		systemUnavailable._opts = opts
+		// systemUnavailable._opts = opts
 		modal._live(
 			{
 				header: icon({icon: "fa fa-window-close", text: "System unavailable"}),
@@ -14,7 +12,7 @@ var $systemUnavailable = {
 						{
 							id: "systemUnavailableMessage",
 							$init: function () {
-								this._updateMessage ( opts.message || "Failed to connect.\n\nPlease wait." )
+								this._updateMessage ( opts.message );
 							},
 							_updateMessage: function ( message ) {
 								this.$components = [ { $type: "p", style: "white-space: pre-wrap;", $text: message || "Failed to connect.\n\nPlease wait." } ];
@@ -40,18 +38,20 @@ var $systemUnavailable = {
 							0: function() {
 								systemUnavailable._handlePollingResponseFailure();
 							},
-							500: function() {
-								systemUnavailable._handlePollingResponseFailure();
-							},
-							503: function(response) {
-								systemUnavailable._opts.behavior = response.error.behavior;
-								systemUnavailable._handlePollingResponseFailure();
-							},
 							200: function(response) {
 								modal._kill();
 								alert("System ready.");
 								location.reload();
-							}
+							},
+							// 500: function() {
+							// 	systemUnavailable._handlePollingResponseFailure();
+							// },
+							502: function(response) {
+								systemUnavailable._handlePollingResponseFailure(response.error.message);
+							},
+							503: function(response) {
+								systemBusy._live(response.error);
+							},
 						}
 					});
 				}, 1000 );
@@ -61,15 +61,9 @@ var $systemUnavailable = {
 		}, 9000 );
 	},
 
-	_handlePollingResponseFailure: function () {
+	_handlePollingResponseFailure: function( message ) {
 		// check if modal still open, if not then don't poll
 		if (typeof systemUnavailableMessage !== 'undefined') {
-			var message;
-			if ( systemUnavailable._opts.behavior == "engines_update" ) {
-				message = "Engines update in progress.\n\nThe update process normally takes a minute or two, but can take longer in some cases."
-			} else if ( systemUnavailable._opts.behaviour == "base_os_restart" ) {
-				message = "Base OS is restarting."
-			};
 			systemUnavailableMessage._updateMessage( message );
 			systemUnavailable._pollServer();
 		} else {
@@ -78,4 +72,4 @@ var $systemUnavailable = {
 	},
 
 
-};
+});

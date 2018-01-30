@@ -35,7 +35,7 @@ var $systemRestartEngines = {
 			method: 'GET',
 			callbacks: {
 				200: function(response) {
-					main._renderUnavailableSystem( { message: "Engines restart has been initiated.", behavior: "engines_restart" } );
+					main._renderBusySystem( { behavior: "engines_restart" } );
 				},
 			}
 		});

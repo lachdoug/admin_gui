@@ -47,11 +47,19 @@ cell({
 
 
 	_renderUnavailableSystem: function( opts={} ) {
-		// opts: { behavior: :engines_update or :base_os_update }
+		// opts: { message: "????" }
 		api._abortAll();
 		system._kill();
 		signIn._kill();
 		systemUnavailable._live( opts );
+	},
+
+	_renderBusySystem: function( opts={} ) {
+		// opts: { behavior: :engines_update, :engines_restart, :base_os_update, :base_os_restart }
+		api._abortAll();
+		system._kill();
+		signIn._kill();
+		systemBusy._live( opts );
 	},
 
 

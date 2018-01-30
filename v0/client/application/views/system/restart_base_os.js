@@ -37,7 +37,7 @@ var $systemRestartBaseOS = {
 			method: 'GET',
 			callbacks: {
 				200: function(response) {
-					main._renderUnavailableSystem( { message: "Base OS restart has been initiated.", behavior: "base_os_restart" } );
+					main._renderBusySystem( { behavior: "base_os_restart" } );
 				},
 			}
 		});

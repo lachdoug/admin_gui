@@ -44,7 +44,7 @@ function renderSystemServices() {
     },
 
     _handleEvent: function( event ) {
-      this._$data.map(
+      ( this._$data || [] ).map(
         function( service ) {
           if ( service.name == event.container_name ) {
             return $.extend( service, event.status );
