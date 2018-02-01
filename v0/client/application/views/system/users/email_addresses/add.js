@@ -21,6 +21,7 @@ cell({
 									formField( {
 										name: "data[email_address][local_part]",
 										label: "Local part (before the @)",
+										required: true,
 									} ),
 									formField( {
 										type: "select",
@@ -29,7 +30,7 @@ cell({
 										value: data.default,
 										collection: data.domains,
 									} ),
-									formCancel ( { onclick: function() { systemUsersUser._live(user_uid) } } ),
+									formCancel ( { onclick: function() { systemUsersUser._live(user_uid, { scrollTo: "systemUserEmailAliasesArea" }) } } ),
 									formSubmit(),
 							//				pp( data )
 								],
@@ -37,7 +38,7 @@ cell({
 								method: "POST",
 								callbacks: {
 									200: function(response) {
-										systemUsersUser._live(user_uid);
+										systemUsersUser._live(user_uid, { scrollTo: "systemUserEmailAliasesArea" });
 									},
 								}
 							});

@@ -4,7 +4,7 @@ var $systemUsersUser = {
 	id: "systemUsersUser",
 
 
-	_live: function (user_uid) {
+	_live: function (user_uid, opts={}) {
 
 		modal._live ( {
 			header: icon( { icon: "fa fa-user", text: "System user" } ),
@@ -26,6 +26,11 @@ var $systemUsersUser = {
 						action: "/system/users/user/" + user_uid,
 						render: function (data) {
 							return {
+								$init: function() {
+									if ( opts.scrollTo ) {
+										document.getElementById(opts.scrollTo).scrollIntoView();
+									}
+								},
 								$components: [
 									dataList({ items: [
 										{ label: "Name", data: data.name }
@@ -67,7 +72,7 @@ var $systemUsersUser = {
 											}),
 										]
 									},
-									legend ( { text: "Groups" } ),
+									legend ( { text: "Groups", id: "systemUserGroupsArea" } ),
 									{
 										class: "clearfix",
 										$components: [
@@ -101,7 +106,7 @@ var $systemUsersUser = {
 									// pp(data),
 									// data.email_not_setup ? {} : {
 										// $components: [
-											{ $type: "label", $text: "Email" },
+											{ $type: "label", $text: "Email", id: "systemUserEmailArea" },
 											data.email_user ? {
 												$components: [
 													dataList( {
@@ -136,7 +141,7 @@ var $systemUsersUser = {
 																		method: "PUT",
 																		callbacks: {
 																			200: function() {
-																				systemUsersUser._live(user_uid);
+																				systemUsersUser._live(user_uid, { scrollTo: "systemUserEmailArea" });
 																			}
 																		}
 																	})
@@ -144,7 +149,7 @@ var $systemUsersUser = {
 															}),
 														]
 													},
-													legend ( { text: "Aliases" } ),
+													legend ( { text: "Aliases", id: "systemUserEmailAliasesArea" } ),
 													{
 														class: "clearfix",
 														$components: [
@@ -169,7 +174,7 @@ var $systemUsersUser = {
 														})
 													},
 													{ $type: "br" },
-													legend ( { text: "Distribution lists" } ),
+													legend ( { text: "Distribution groups", id: "systemUserEmailDistributionGroupsArea" } ),
 													{
 														class: "clearfix",
 														$components: [
@@ -177,20 +182,22 @@ var $systemUsersUser = {
 																icon: "fa fa-plus-square-o",
 																text: "Add",
 																wrapperClass: "pull-left",
-																onclick: function() { systemUsersEmailGroupAdd._live(user_uid) },
+																onclick: function() { systemUserDistributionGroupAdd._live(user_uid) },
 															}),
 															button({
 																icon: "fa fa-minus-square-o",
 																text: "Remove",
 																wrapperClass: "pull-right",
-																onclick: function() { systemUsersEmailGroupRemove._live(user_uid) },
+																onclick: function() { systemUserDistributionGroupRemove._live(user_uid) },
 															}),
 														]
 													},
 													{
 														$type: "ul",
-														$components: data.distribution_lists.map( function( list ) {
-															return { $type: "li", $text: list };
+														$components: data.distribution_lists.map( function( distribution_list ) {
+															return distribution_list.email_address == data.mailbox ?
+																{ $type: "li", $text: distribution_list.distribution_group } :
+																{ $type: "li", $text: distribution_list.distribution_group + " (alias " + distribution_list.email_address + ")" };
 														})
 													},
 													{ $type: "br" },

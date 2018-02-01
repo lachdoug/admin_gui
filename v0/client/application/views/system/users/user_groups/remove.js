@@ -24,7 +24,7 @@ cell({
 										label: "Group",
 										collection: data.current_groups,
 									} ),
-									formCancel ( { onclick: function() { systemUsersUser._live(user_uid) } } ),
+									formCancel ( { onclick: function() { systemUsersUser._live(user_uid, { scrollTo: "systemUserGroupsArea" }) } } ),
 									formSubmit(),
 							//				pp( data )
 								],
@@ -32,7 +32,7 @@ cell({
 								method: "DELETE",
 								callbacks: {
 									200: function(response) {
-										systemUsersUser._live(user_uid);
+										systemUsersUser._live(user_uid, { scrollTo: "systemUserGroupsArea" });
 									},
 								}
 							});

@@ -22,9 +22,11 @@ cell({
 										type: "select",
 										name: "data[email_address]",
 										label: "Email address",
+										value: "",
+										collectionIncludeBlank: true,
 										collection: data.email_addresses,
 									} ),
-									formCancel ( { onclick: function() { systemUsersUser._live(user_uid) } } ),
+									formCancel ( { onclick: function() { systemUsersUser._live(user_uid, { scrollTo: "systemUserEmailAliasesArea" }) } } ),
 									formSubmit(),
 							//				pp( data )
 								],
@@ -32,7 +34,7 @@ cell({
 								method: "DELETE",
 								callbacks: {
 									200: function(response) {
-										systemUsersUser._live(user_uid);
+										systemUsersUser._live(user_uid, { scrollTo: "systemUserEmailAliasesArea" });
 									},
 								}
 							});

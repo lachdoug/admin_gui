@@ -25,14 +25,14 @@ cell({
 										value: data.mailbox_domain,
 										collection: data.domains,
 									} ),
-									formCancel ( { onclick: function() { systemUsersUser._live(user_uid); } } ),
+									formCancel ( { onclick: function() { systemUsersUser._live(user_uid, { scrollTo: "systemUserEmailArea" }); } } ),
 									formSubmit(),
 								],
 								action: "/system/users/user/" + user_uid + "/mailbox",
 								method: "PUT",
 								callbacks: {
 									200: function(response) {
-										systemUsersUser._live(user_uid);
+										systemUsersUser._live(user_uid, { scrollTo: "systemUserEmailArea" });
 									},
 								}
 							});

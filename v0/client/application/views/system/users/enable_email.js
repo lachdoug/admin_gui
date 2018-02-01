@@ -22,16 +22,17 @@ cell({
 										type: "select",
 										name: "data[domain]",
 										label: "Domain",
+										value: data.default,
 										collection: data.domains,
 									} ),
-									formCancel ( { onclick: function() { systemUsersUser._live(user) } } ),
+									formCancel ( { onclick: function() { systemUsersUser._live(user_uid, { scrollTo: "systemUserEmailArea" }) } } ),
 									formSubmit(),
 								],
 								action: "/system/users/user/" + user_uid + "/setup_email",
 								method: "PUT",
 								callbacks: {
 									200: function(response) {
-										systemUsersUser._live(user_uid);
+										systemUsersUser._live(user_uid, { scrollTo: "systemUserEmailArea" });
 									},
 								}
 							});

@@ -173,6 +173,48 @@ class V0
         end
 
         ########################################################################
+        ## User - Distribution groups
+        ########################################################################
+
+        def user_distribution_groups_remove( user_uid )
+          net_ldap do |ldap|
+            net_ldap_user_distribution_groups_remove(ldap, user_uid)
+          end
+        end
+
+        def user_new_distribution_group( user_uid )
+          net_ldap do |ldap|
+            all_distribution_groups =
+              net_ldap_distribution_lists(ldap).
+              map{ |dl| dl[:name] }
+            user_distribution_groups =
+              net_ldap_distribution_lists_for_user(ldap, user_uid).
+              map{ |dl| dl[:distribution_group] }
+            { distribution_groups: all_distribution_groups - user_distribution_groups }
+          end
+        end
+
+        def user_create_distribution_group( user_uid, distribution_group )
+          net_ldap do |ldap|
+            net_ldap_user_create_distribution_group ldap, user_uid, distribution_group
+          end
+        end
+
+        # def user_email_addresses( user_uid )
+        #   result = {}
+        #   net_ldap do |ldap|
+        #     result[:email_addresses] = net_ldap_user_email_addresses ldap, user_uid
+        #   end
+        #   result
+        # end
+        #
+        # def user_remove_email_address( user_uid, email_address )
+        #   net_ldap do |ldap|
+        #     net_ldap_user_remove_email_address ldap, user_uid, email_address
+        #   end
+        # end
+
+        ########################################################################
         ## User groups
         ########################################################################
 

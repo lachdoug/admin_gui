@@ -16,7 +16,7 @@ cell({
 						action: "/system/users/user/" + user_uid + "/new_group",
 						render: function(data) {
 
-							return form({
+							return data.available_groups.length ? form({
 								components: [
 									formField( {
 										type: "select",
@@ -24,7 +24,7 @@ cell({
 										label: "Group",
 										collection: data.available_groups,
 									} ),
-									formCancel ( { onclick: function() { systemUsersUser._live(user_uid) } } ),
+									formCancel ( { onclick: function() { systemUsersUser._live(user_uid, { scrollTo: "systemUserGroupsArea" }) } } ),
 									formSubmit(),
 							//				pp( data )
 								],
@@ -32,10 +32,18 @@ cell({
 								method: "POST",
 								callbacks: {
 									200: function(response) {
-										systemUsersUser._live(user_uid);
+										systemUsersUser._live(user_uid, { scrollTo: "systemUserGroupsArea" });
 									},
 								}
-							});
+							}) : { $components: [
+								{ $type: "i", $text: "No groups to add." },
+								button({
+									wrapperClass: "pull-right",
+									text: "OK",
+									icon: "fa fa-check",
+									onclick: function() { systemUsersUser._live(user_uid, { scrollTo: "systemUserGroupsArea" }) }
+								})
+							] };
 
 						}
 					}),

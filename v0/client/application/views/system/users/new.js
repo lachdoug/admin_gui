@@ -28,15 +28,15 @@ cell({
 							},
 							formField( {
 								name: "data[uid]",
-								label: "UID",
+								label: "UID (username)",
 								required: true,
 							} ),
-							formField( {
-								type: "password_with_confirmation",
-								name: "data[password]",
-								label: "Password",
-								required: true,
-							} ),
+							// formField( {
+							// 	type: "password_with_confirmation",
+							// 	name: "data[password]",
+							// 	label: "Password",
+							// 	required: true,
+							// } ),
 							formCancel ( {
 								onclick: function () {
 									systemUsers._live();

@@ -271,6 +271,18 @@ class V0
           ldap.user_remove_email_address( user_uid, email_address )
         end
 
+        def user_new_distribution_group( user_uid )
+          ldap.user_new_distribution_group user_uid
+        end
+
+        def user_create_distribution_group( user_uid, distribution_group )
+          ldap.user_create_distribution_group( user_uid, distribution_group )
+        end
+
+        def user_distribution_groups_remove(user_uid)
+          ldap.user_distribution_groups_remove user_uid
+        end
+
         def delete_user(user_uid)
           ldap.delete_user(user_uid)
         end
