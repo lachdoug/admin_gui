@@ -3,7 +3,7 @@ class V0
     module Services
       class KerberosAdmin
 
-        require 'rkerberos'
+        # require 'rkerberos'
 
         def initialize(settings)
           @kadm5 = Kerberos::Kadm5.new(settings.kerberos_keytab_path)
