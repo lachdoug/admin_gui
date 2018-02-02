@@ -57,16 +57,12 @@ cell({
 							},
 
 							_logs: function () {
-								return {
-									$type: "table",
-									class: "table",
-									$components: [
-										tabs({ items: [
-											{ label: "Output", body: { $type: "pre", style: "white-space: pre-wrap;", $text: appLogsContent._data.stdout } },
-											{ label: "Error", body: { $type: "pre", style: "white-space: pre-wrap;", $text: appLogsContent._data.stderr } }
-										] })
+								return tabs({
+									items: [
+										{ label: "Output", body: { $type: "pre", style: "white-space: pre-wrap;", $text: appLogsContent._data.stdout } },
+										{ label: "Error", body: { $type: "pre", style: "white-space: pre-wrap;", $text: appLogsContent._data.stderr } }
 									]
-								};
+								});
 							}
 
 						}

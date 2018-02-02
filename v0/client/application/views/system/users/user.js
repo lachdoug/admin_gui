@@ -1,6 +1,5 @@
-var $systemUsersUser = {
+cell({
 
-	$cell: true,
 	id: "systemUsersUser",
 
 
@@ -43,7 +42,7 @@ var $systemUsersUser = {
 												icon: "fa fa-trash-o",
 												wrapperClass: "pull-right",
 												onclick: function () {
-													if ( data.email_user ) {
+													if ( data.email_enabled ) {
 														alert("Disable email first.");
 													}	else if ( data.groups.length > 0 ) {
 														alert("Remove all groups first.");
@@ -72,181 +71,59 @@ var $systemUsersUser = {
 											}),
 										]
 									},
-									legend ( { text: "Groups", id: "systemUserGroupsArea" } ),
-									{
+									hr(),
+									button({
+										icon: "fa fa-users",
+										text: "Groups",
+										onclick: function() { systemUserUserGroups._live(user_uid); },
+									}),
+									hr(),
+									data.email_enabled ? button({
+										icon: "fa fa-envelope",
+										text: "Email",
+										onclick: function() { systemUserEmail._live(user_uid); },
+									}) : {
 										class: "clearfix",
 										$components: [
-											{
-												class: "clearfix",
-												$components: [
-													button({
-														icon: "fa fa-plus-square-o",
-														text: "Add",
-														wrapperClass: "pull-left",
-														onclick: function() { systemUsersUserGroupsAdd._live(user_uid) },
-													}),
-													button({
-														icon: "fa fa-minus-square-o",
-														text: "Remove",
-														wrapperClass: "pull-right",
-														onclick: function() { systemUsersUserGroupsRemove._live(user_uid) },
-													}),
-												]
-											},
-											{
-												$type: "ul",
-												$components: data.groups.map( function( group ) {
-													return { $type: "li", $text: group };
-												})
-											},
-										]
-									},
-									{ $type: "br" },
-									hr(),
-									// pp(data),
-									// data.email_not_setup ? {} : {
-										// $components: [
-											{ $type: "label", $text: "Email", id: "systemUserEmailArea" },
-											data.email_user ? {
-												$components: [
-													dataList( {
-														class: "dl-horizontal",
-														items: [
-															{ label: "Mailbox", data: data.mailbox }
-														]
-													}),
-													{
-														class: "clearfix",
-														$components: [
-															button({
-																wrapperClass: "pull-right",
-																icon: "fa fa-edit",
-																text: "Edit",
-																onclick: function() {
-																	systemUsersUserMailboxEdit._live(user_uid);
-																}
-															}),
-															button({
-																wrapperClass: "pull-left",
-																icon: "fa fa-times",
-																text: "Disable",
-																onclick: function() {
-																	(
-																		data.email_aliases.length ||
-																		data.distribution_lists.length
-																	) ?
-																	alert("All email aliases and distribution lists must be removed before mailbox can be disabled.") :
-																	apiRequest({
-																		action: "/system/users/user/" + user_uid + "/disable_email",
-																		method: "PUT",
-																		callbacks: {
-																			200: function() {
-																				systemUsersUser._live(user_uid, { scrollTo: "systemUserEmailArea" });
-																			}
-																		}
-																	})
-																}
-															}),
-														]
-													},
-													legend ( { text: "Aliases", id: "systemUserEmailAliasesArea" } ),
-													{
-														class: "clearfix",
-														$components: [
-															button({
-																icon: "fa fa-plus-square-o",
-																text: "Add",
-																wrapperClass: "pull-left",
-																onclick: function() { systemUsersEmailAddressesAdd._live(user_uid) },
-															}),
-															button({
-																icon: "fa fa-minus-square-o",
-																text: "Remove",
-																wrapperClass: "pull-right",
-																onclick: function() { systemUserEmailAddressRemove._live(user_uid) },
-															}),
-														]
-													},
-													{
-														$type: "ul",
-														$components: data.email_aliases.map( function( emailAlias ) {
-															return { $type: "li", $text: emailAlias };
-														})
-													},
-													{ $type: "br" },
-													legend ( { text: "Distribution groups", id: "systemUserEmailDistributionGroupsArea" } ),
-													{
-														class: "clearfix",
-														$components: [
-															button({
-																icon: "fa fa-plus-square-o",
-																text: "Add",
-																wrapperClass: "pull-left",
-																onclick: function() { systemUserDistributionGroupAdd._live(user_uid) },
-															}),
-															button({
-																icon: "fa fa-minus-square-o",
-																text: "Remove",
-																wrapperClass: "pull-right",
-																onclick: function() { systemUserDistributionGroupRemove._live(user_uid) },
-															}),
-														]
-													},
-													{
-														$type: "ul",
-														$components: data.distribution_lists.map( function( distribution_list ) {
-															return distribution_list.email_address == data.mailbox ?
-																{ $type: "li", $text: distribution_list.distribution_group } :
-																{ $type: "li", $text: distribution_list.distribution_group + " (alias " + distribution_list.email_address + ")" };
-														})
-													},
-													{ $type: "br" },
-												]
-											} : button({
-												icon: "fa fa-check",
-												text: "Enable mailbox",
+											button({
+												wrapperClass: "pull-right",
+												icon: "fa fa-envelope",
+												text: "Enable email",
 												onclick: function() {
-													systemUsersUserEnableEmail._live(user_uid);
+													systemUserEnableEmail._live(user_uid);
 												},
 											}),
-									// 	]
-									// }
+											{ $type: "i", $text: "Email not enabled." }
+										]
+									},
+									hr(),
+									data.signin_enabled ? button({
+										icon: "fa fa-sign-in",
+										text: "Sign-in",
+										onclick: function() { systemUserEmail._live(user_uid); },
+									}) : {
+										class: "clearfix",
+										$components: [
+											button({
+												wrapperClass: "pull-right",
+												icon: "fa fa-sign-in",
+												text: "Enable sign-in",
+												onclick: function() {
+													systemUserEnableSignin._live(user_uid);
+												},
+											}),
+											{ $type: "i", $text: "Sign-in not enabled." }
+										]
+									},
 								]
 							};
 
 						},
 					})
 
-					// {
-					// 	id: "systemUsersUserContent",
-					// 	$components: [
-					// 		icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
-					// 	],
-					// 	$init: function() {
-					// 		// debugger
-					// 		systemUsersUser._load(user.uid)
-					// 	},
-					// 	_refresh: function ( data ) {
-					// 		this.$components = [
-					// 		];
-					// 	},
-					// },
 				]
 			}
 		} );
 	},
 
-	// _load: function (userUid) {
-	//
-	// 	apiRequest({
-	// 		action: "/system/users/user/" + userUid,
-	// 		callbacks: {
-	// 			200: function(response) {
-	// 				systemUsersUserContent._refresh(response);
-	// 			},
-	// 		}
-	// 	});
-	//
-	// },
-
-};
+});

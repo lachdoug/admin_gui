@@ -25,6 +25,10 @@ class V0 < Sinatra::Base
     system.kerberos_auth( "admin", params[:data][:password]).to_json
   end
 
+  get '/kerberos_principal' do
+    system.kerberos_principal("admin")
+  end
+
 
   ##############################################################################
   ## Settings
@@ -36,7 +40,8 @@ class V0 < Sinatra::Base
   set system_api_url: ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL']
   set session_secret: ENV['ENGINES_ADMIN_GUI_SESSION_SECRET'] || '0'
   set kerberos_server: ENV['ENGINES_ADMIN_GUI_KERBEROS_SERVER'] || "auth.engines.internal"
-  set kerberos_keytab_path: ENV['ENGINES_ADMIN_GUI_KERBEROS_KEYTAB_PATH'] || "/etc/krb5kdc/keys/kdc.keytab"
+  set kerberos_ldap_keytab_path: ENV['ENGINES_ADMIN_GUI_KERBEROS_LDAP_KEYTAB_PATH'] || "/etc/krb5kdc/keys/kdc.keytab"
+  set kerberos_kadmin_keytab_path: ENV['ENGINES_ADMIN_GUI_KERBEROS_ADMIN_KEYTAB_PATH'] || "/etc/krb5kdc/keys/control_kadmin.keytab"
   set remote_management: Sinatra::Base.development? || ENV['ENGINES_ADMIN_GUI_REMOTE_MANAGEMENT'] || false
   set show_services: ENV['ENGINES_ADMIN_GUI_SHOW_SERVICES_BY_DEFAULT'] || false
   set show_software_titles: ENV['ENGINES_ADMIN_GUI_SHOW_SOFTWARE_TITLES_BY_DEFAULT'] || false

@@ -1,6 +1,6 @@
 cell({
 
-	id: 'systemUserDistributionGroupAdd',
+	id: 'systemUserEmailDistributionGroupAdd',
 
 	_live: function (user_uid) {
 
@@ -26,7 +26,7 @@ cell({
 										collectionIncludeBlank: true,
 										collection: data.distribution_groups,
 									} ),
-									formCancel ( { onclick: function() { systemUsersUser._live(user_uid, { scrollTo: "systemUserEmailDistributionGroupsArea" }) } } ),
+									formCancel ( { onclick: function() { systemUserEmail._live(user_uid, { scrollTo: "systemUserEmailDistributionGroupsArea" }) } } ),
 									formSubmit(),
 							//				pp( data )
 								],
@@ -34,7 +34,7 @@ cell({
 								method: "POST",
 								callbacks: {
 									200: function(response) {
-										systemUsersUser._live(user_uid, { scrollTo: "systemUserEmailDistributionGroupsArea" });
+										systemUserEmail._live(user_uid, { scrollTo: "systemUserEmailDistributionGroupsArea" });
 									},
 								}
 							}) : { $components: [
@@ -43,7 +43,7 @@ cell({
 									wrapperClass: "pull-right",
 									text: "OK",
 									icon: "fa fa-check",
-									onclick: function() { systemUsersUser._live(user_uid, { scrollTo: "systemUserEmailDistributionGroupsArea" }) }
+									onclick: function() { systemUserEmail._live(user_uid, { scrollTo: "systemUserEmailDistributionGroupsArea" }) }
 								})
 							] };
 

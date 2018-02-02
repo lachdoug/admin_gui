@@ -22,10 +22,10 @@ cell({
 								$type: "ul",
 								class: "list",
 								style: "list-style: none; margin-left: -30px;",
-								$components: data.users.map( function( user_name ) {
+								$components: data.users.map( function( user_uid ) {
 									return button({
-										text: user_name,
-										onclick: function() { systemUsersUser._live(user_name) },
+										text: user_uid,
+										onclick: function() { systemUserUserGroups._live(user_uid) },
 									});
 								}),
 							} : { $type: "i", $text: "This group has no members." };

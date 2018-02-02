@@ -1,6 +1,6 @@
 cell({
 
-	id: 'systemUserDistributionGroupRemove',
+	id: 'systemUserEmailDistributionGroupRemove',
 
 	_live: function (user_uid) {
 
@@ -36,7 +36,7 @@ cell({
 											];
 										}),
 									} ),
-									formCancel ( { onclick: function() { systemUsersUser._live(user_uid, { scrollTo: "systemUserEmailDistributionGroupsArea" }) } } ),
+									formCancel ( { onclick: function() { systemUserEmail._live(user_uid, { scrollTo: "systemUserEmailDistributionGroupsArea" }) } } ),
 									formSubmit(),
 							//				pp( data )
 								],
@@ -44,7 +44,7 @@ cell({
 								method: "DELETE",
 								callbacks: {
 									200: function(response) {
-										systemUsersUser._live(user_uid, { scrollTo: "systemUserEmailDistributionGroupsArea" });
+										systemUserEmail._live(user_uid, { scrollTo: "systemUserEmailDistributionGroupsArea" });
 									},
 								}
 							});

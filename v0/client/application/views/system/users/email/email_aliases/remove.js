@@ -1,6 +1,6 @@
 cell({
 
-	id: 'systemUserEmailAddressRemove',
+	id: 'systemUserEmailAliasesRemove',
 
 	_live: function (user_uid) {
 
@@ -26,7 +26,7 @@ cell({
 										collectionIncludeBlank: true,
 										collection: data.email_addresses,
 									} ),
-									formCancel ( { onclick: function() { systemUsersUser._live(user_uid, { scrollTo: "systemUserEmailAliasesArea" }) } } ),
+									formCancel ( { onclick: function() { systemUserEmail._live(user_uid, { scrollTo: "systemUserEmailAliasesArea" }) } } ),
 									formSubmit(),
 							//				pp( data )
 								],
@@ -34,7 +34,7 @@ cell({
 								method: "DELETE",
 								callbacks: {
 									200: function(response) {
-										systemUsersUser._live(user_uid, { scrollTo: "systemUserEmailAliasesArea" });
+										systemUserEmail._live(user_uid, { scrollTo: "systemUserEmailAliasesArea" });
 									},
 								}
 							});

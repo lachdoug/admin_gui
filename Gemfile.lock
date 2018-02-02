@@ -21,10 +21,15 @@ GEM
     rack (2.0.3)
     rack-protection (2.0.0)
       rack
+    rake (12.3.0)
+    rake-compiler (1.0.4)
+      rake
     rest-client (2.0.2)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
+    rkerberos (0.1.5)
+      rake-compiler
     sinatra (2.0.0)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -53,6 +58,7 @@ DEPENDENCIES
   kerberos_authenticator
   net-ldap
   rest-client
+  rkerberos
   sinatra
   sinatra-contrib
   thin

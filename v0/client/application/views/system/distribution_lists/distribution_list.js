@@ -5,7 +5,7 @@ cell({
 
 		// debugger;
 		modal._live ( {
-			header: icon( { icon: "fa fa-share-square-o", text: "System distribution list" } ),
+			header: icon( { icon: "fa fa-share-square-o", text: "System distribution group" } ),
 			body: {
 				$components: [
 					modalNav({

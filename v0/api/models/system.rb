@@ -187,16 +187,24 @@ class V0
         # User management
         ########################################################################
 
-        def kerberos
-          @kerberos ||= Services::Kerberos.new(@settings)
-        end
-
-        def kerberos_auth(username, password)
-          kerberos.auth(username, password)
-        end
-
         def ldap
           @ldap ||= Services::Ldap.new()
+        end
+
+        def kerberos_auth_service
+          @kerberos_auth_service ||= Services::KerberosAuth.new(@settings)
+        end
+
+        def kerberos_admin_service
+          @kerberos_admin_service ||= Services::KerberosAdmin.new(@settings)
+        end
+
+        def kerberos_auth(user_uid, password)
+          kerberos_auth_service.auth(user_uid, password)
+        end
+
+        def kerberos_principal(user_uid)
+          kerberos_admin_service.get_principal(user_uid)
         end
 
         ########################################################################
@@ -237,6 +245,10 @@ class V0
 
         def user_remove_from_group( user_uid, group_name )
           ldap.user_remove_from_group( user_uid, group_name )
+        end
+
+        def user_email(user_uid)
+          ldap.user_email(user_uid)
         end
 
         def user_setup_email( user_uid, email_domain )

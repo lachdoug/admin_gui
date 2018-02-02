@@ -1,6 +1,6 @@
 cell({
 
-	id: 'systemUsersUserEnableEmail',
+	id: 'systemUserEnableEmail',
 
 	_live: function (user_uid) {
 
@@ -25,14 +25,14 @@ cell({
 										value: data.default,
 										collection: data.domains,
 									} ),
-									formCancel ( { onclick: function() { systemUsersUser._live(user_uid, { scrollTo: "systemUserEmailArea" }) } } ),
+									formCancel ( { onclick: function() { systemUsersUser._live(user_uid) } } ),
 									formSubmit(),
 								],
 								action: "/system/users/user/" + user_uid + "/setup_email",
 								method: "PUT",
 								callbacks: {
 									200: function(response) {
-										systemUsersUser._live(user_uid, { scrollTo: "systemUserEmailArea" });
+										systemUserEmail._live(user_uid);
 									},
 								}
 							});

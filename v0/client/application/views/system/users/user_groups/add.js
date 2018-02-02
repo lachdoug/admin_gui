@@ -1,6 +1,6 @@
 cell({
 
-	id: 'systemUsersUserGroupsAdd',
+	id: 'systemUserUserGroupsAdd',
 
 	_live: function (user_uid) {
 
@@ -13,7 +13,7 @@ cell({
 					}),
 					hr(),
 					dataLoader({
-						action: "/system/users/user/" + user_uid + "/new_group",
+						action: "/system/users/user/" + user_uid + "/groups/new",
 						render: function(data) {
 
 							return data.available_groups.length ? form({
@@ -24,7 +24,7 @@ cell({
 										label: "Group",
 										collection: data.available_groups,
 									} ),
-									formCancel ( { onclick: function() { systemUsersUser._live(user_uid, { scrollTo: "systemUserGroupsArea" }) } } ),
+									formCancel ( { onclick: function() { systemUserUserGroups._live(user_uid) } } ),
 									formSubmit(),
 							//				pp( data )
 								],
@@ -32,7 +32,7 @@ cell({
 								method: "POST",
 								callbacks: {
 									200: function(response) {
-										systemUsersUser._live(user_uid, { scrollTo: "systemUserGroupsArea" });
+										systemUserUserGroups._live(user_uid);
 									},
 								}
 							}) : { $components: [
@@ -41,7 +41,7 @@ cell({
 									wrapperClass: "pull-right",
 									text: "OK",
 									icon: "fa fa-check",
-									onclick: function() { systemUsersUser._live(user_uid, { scrollTo: "systemUserGroupsArea" }) }
+									onclick: function() { systemUserUserGroups._live(user_uid) }
 								})
 							] };
 

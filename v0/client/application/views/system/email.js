@@ -19,7 +19,7 @@ cell({
 										wrapperClass: "pull-right",
 										onclick: systemEmailDistributionLists._live,
 										icon: "fa fa-share-square-o",
-										text: "Distribution lists"
+										text: "Distribution groups"
 									} ),
 									button( {
 										onclick: systemEmailAddresses._live,

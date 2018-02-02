@@ -10,10 +10,10 @@ class V0
           last_name = ldap_user.sn[0]
           uidnumber = ldap_user.uidnumber[0]
           groups = net_ldap_groups_for_user ldap, user_uid
-          email_user = ldap_user.objectClass.include? "postfixUser"
-          mailbox = email_user ? net_ldap_user_mailbox( ldap, user_uid ) : ""
-          email_aliases = email_user ? net_ldap_user_email_addresses( ldap, user_uid ) : []
-          distribution_lists = email_user ? net_ldap_distribution_lists_for_user(ldap, user_uid) : []
+          email_enabled = ldap_user.objectClass.include? "postfixUser"
+          mailbox = email_enabled ? net_ldap_user_mailbox( ldap, user_uid ) : ""
+          email_aliases = email_enabled ? net_ldap_user_email_addresses( ldap, user_uid ) : []
+          distribution_lists = email_enabled ? net_ldap_distribution_lists_for_user(ldap, user_uid) : []
           {
             name: user_cn,
             first_name: first_name,
@@ -21,7 +21,20 @@ class V0
             uid: user_uid,
             uidnumber: uidnumber,
             groups: groups,
-            email_user: email_user,
+            email_enabled: email_enabled,
+            mailbox: mailbox,
+            email_aliases: email_aliases,
+            distribution_lists: distribution_lists
+          }
+        end
+
+        def net_ldap_user_email(ldap, user_uid)
+          ldap_user = net_ldap_find_user_by_uid ldap, user_uid
+          email_enabled = ldap_user.objectClass.include? "postfixUser"
+          mailbox = email_enabled ? net_ldap_user_mailbox( ldap, user_uid ) : ""
+          email_aliases = email_enabled ? net_ldap_user_email_addresses( ldap, user_uid ) : []
+          distribution_lists = email_enabled ? net_ldap_distribution_lists_for_user(ldap, user_uid) : []
+          {
             mailbox: mailbox,
             email_aliases: email_aliases,
             distribution_lists: distribution_lists

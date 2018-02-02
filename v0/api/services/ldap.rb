@@ -14,6 +14,7 @@ class V0
               }
         end
 
+
         def ldap_error(ldap, prepend_message)
           message = [
             prepend_message,
@@ -42,6 +43,12 @@ class V0
         def user(user_uid)
           net_ldap do |ldap|
             net_ldap_user ldap, user_uid
+          end
+        end
+
+        def user_email(user_uid)
+          net_ldap do |ldap|
+            net_ldap_user_email ldap, user_uid
           end
         end
 
@@ -375,10 +382,24 @@ private
 
         def net_ldap
 
+          challenge_response = Proc.new do |cred|
+            pref = SASL::Preferences.new(
+              digest_uri: "ldap/ldap",
+              has_password?: true,
+              username: "cn=admin,dc=engines,dc=internal",
+              password: "password"
+            )
+            sasl = SASL.new("DIGEST-MD5", pref)
+            response = sasl.receive("challenge", cred)
+            byebug
+            response[1]
+          end
+
           auth = {
-            :method => :simple,
-            :username => "cn=admin,dc=engines,dc=internal",
-            :password => "password"
+            method: :sasl,
+            mechanism: "plain",
+            initial_credential: "",
+            challenge_response: challenge_response
           }
 
           Net::LDAP.open(:host => "ldap", :port => 389, :auth => auth) do |ldap|
