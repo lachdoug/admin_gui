@@ -18,9 +18,9 @@ class V0
         system.user_new_add_to_group( params[:user_uid] ).to_json
       end
 
-      # get '/system/users/user/:user_uid/groups/delete' do
-      #   system.user_new_remove_from_group( params[:user_uid] ).to_json
-      # end
+      get '/system/users/user/:user_uid/groups/delete' do
+        system.user_new_remove_from_group( params[:user_uid] ).to_json
+      end
 
 
 

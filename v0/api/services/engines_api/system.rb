@@ -54,8 +54,7 @@ class V0
           end
 
           def shutdown( args )
-            # return 'true'
-            @system_api.post 'system/control/base_os/shutdown', args
+            puts @system_api.post 'system/control/base_os/shutdown', args
           end
 
           ##########################################################################

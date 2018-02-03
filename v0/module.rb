@@ -15,9 +15,7 @@ class V0 < Sinatra::Base
 
   before do
     if Sinatra::Base.development?
-      puts 'Request'
-      puts request.path_info
-      puts params.inspect
+      puts "Request #{request.request_method} #{request.path_info} #{params.inspect}"
     end
   end
 

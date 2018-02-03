@@ -99,13 +99,25 @@ class V0
 
         def user_add_to_group( user_uid, group_name )
           net_ldap do |ldap|
-            net_ldap_user_add_to_group ldap, user_uid, group_name
+            if group_name.is_a? Array
+              group_name.each do |gn|
+                net_ldap_user_add_to_group ldap, user_uid, gn
+              end
+            else
+              net_ldap_user_add_to_group ldap, user_uid, group_name
+            end
           end
         end
 
         def user_remove_from_group( user_uid, group_name )
           net_ldap do |ldap|
-            net_ldap_user_remove_from_group ldap, user_uid, group_name
+            if group_name.is_a? Array
+              group_name.each do |gn|
+                net_ldap_user_remove_from_group ldap, user_uid, gn
+              end
+            else
+              net_ldap_user_remove_from_group ldap, user_uid, group_name
+            end
           end
         end
 
@@ -397,9 +409,15 @@ private
 
           auth = {
             method: :sasl,
-            mechanism: "plain",
+            mechanism: "DIGEST-MD5",
             initial_credential: "",
             challenge_response: challenge_response
+          }
+
+          auth = {
+            :method => :simple,
+            :username => "cn=admin,dc=engines,dc=internal",
+            :password => "password"
           }
 
           Net::LDAP.open(:host => "ldap", :port => 389, :auth => auth) do |ldap|

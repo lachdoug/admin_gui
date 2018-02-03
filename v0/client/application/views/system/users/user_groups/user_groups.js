@@ -24,7 +24,43 @@ cell({
 					dataLoader({
 						action: "/system/users/user/" + user_uid + "/groups",
 						render: function (data) {
-							return {
+							return true ? {
+								// $init: function() {
+								// 	if ( opts.scrollTo ) {
+								// 		document.getElementById(opts.scrollTo).scrollIntoView();
+								// 	}
+								// },
+								$components: [
+									{
+										class: "clearfix",
+										$components: [
+											{
+												class: "clearfix",
+												$components: [
+													button({
+														icon: "fa fa-plus-square-o",
+														text: "Add",
+														wrapperClass: "pull-left",
+														onclick: function() { systemUserUserGroupsAdd._live(user_uid) },
+													}),
+													button({
+														icon: "fa fa-minus-square-o",
+														text: "Remove",
+														wrapperClass: "pull-right",
+														onclick: function() { systemUserUserGroupsRemove._live(user_uid) },
+													}),
+												]
+											},
+											{
+												$type: "ul",
+												$components: data.map( function( group ) {
+													return { $type: "li", $text: group };
+												})
+											},
+										]
+									},
+								]
+							} : {
 								// $init: function() {
 								// 	if ( opts.scrollTo ) {
 								// 		document.getElementById(opts.scrollTo).scrollIntoView();

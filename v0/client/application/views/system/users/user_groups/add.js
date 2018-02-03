@@ -19,7 +19,7 @@ cell({
 							return data.available_groups.length ? form({
 								components: [
 									formField( {
-										type: "select",
+										type: "checkboxes",
 										name: "data[group_name]",
 										label: "Group",
 										collection: data.available_groups,
