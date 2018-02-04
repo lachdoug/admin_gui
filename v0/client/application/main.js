@@ -37,7 +37,7 @@ cell({
 
 
 	_renderDisconnectedSystem: function () {
-		// $(".modal").modal("hide");
+		$(".modal").modal("hide");
 		$("#navbarSignOutButton").hide();
 		$("#pageLoadingSpinner").fadeOut();
 		system._kill();
@@ -64,9 +64,9 @@ cell({
 
 
 	_renderFatalError: function ( error ) {
+		this._renderDisconnectedSystem();
 		api._abortAll();
 		fatalError._live( error );
-		this._renderDisconnectedSystem();
 	},
 
 

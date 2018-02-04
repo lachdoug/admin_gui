@@ -47,7 +47,7 @@ var $systemShutdown = {
 			action: "/system/shutdown",
 			callbacks: {
 				200: function(response) {
-					system._live();
+					main._renderDisconnectedSystem();
 				},
 			}
 		});

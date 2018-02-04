@@ -563,11 +563,11 @@ class V0
 
         def restart_base_os
           ## Give a response before shutting down.
-          Thread.new do
-            sleep 3
+          # Thread.new do
+            # sleep 3
             engines_api_system.restart_base_os
-          end
-          return {}
+          # end
+          # return {}
         # rescue
           # return { message: "OK" } if engines_api_system.restart_base_os == 'true'
           # raise NonFatalError.new "Failed to reboot system.", 405
@@ -931,6 +931,7 @@ class V0
         ########################################################################
 
         def shutdown(data)
+          # return {}
           engines_api_system.shutdown( { reason: data[:reason] } )
           # byebug
           # return { message: "OK" } if engines_api_system.shutdown( { reason: data[:reason] } ) == 'true'

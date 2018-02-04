@@ -25,10 +25,15 @@ cell({
 									{ $type: "hr" },
 									{
 										$components: data.distribution_lists.map( function( distribution_list ) {
-											return button({
-												text: distribution_list.name,
-												onclick: function() { systemEmailDistributionList._live(distribution_list.name) },
-											});
+											return {
+												$components: [
+													button({
+														text: distribution_list.name,
+														onclick: function() { systemEmailDistributionList._live(distribution_list.name) },
+													}),
+													{ $type: "p", $text: distribution_list.description }
+												]
+											};
 										})
 									}
 								],

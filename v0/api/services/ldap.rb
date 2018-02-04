@@ -409,58 +409,22 @@ private
 
           auth = {
             method: :sasl,
-            mechanism: "DIGEST-MD5",
+            mechanism: "kerberos5",
             initial_credential: "",
             challenge_response: challenge_response
           }
 
-          auth = {
-            :method => :simple,
-            :username => "cn=admin,dc=engines,dc=internal",
-            :password => "password"
-          }
+          # auth = {
+          #   :method => :simple,
+          #   :username => "cn=admin,dc=engines,dc=internal",
+          #   :password => "password"
+          # }
 
           Net::LDAP.open(:host => "ldap", :port => 389, :auth => auth) do |ldap|
             yield ldap
           end
 
         end
-
-
-
-        # def new_user
-        #   net_ldap do |ldap|
-        #     domains = net_ldap_email_domains ldap
-        #     {
-        #       domains: domains
-        #     }
-        #   end
-        # end
-
-        # ldap.modify(dn: "cn=Users,ou=Groups,dc=engines,dc=internal", operations: [ [:replace, :cn, ['Users'] ] ] )
-
-
-
-
-
-
-        #<Net::LDAP::Entry:0x00000002d1acc0
-       #  @myhash={
-       #    :dn=>["cn=a a,ou=People,dc=engines,dc=internal"],
-       #    :cn=>["a a"],
-       #    :givenname=>["a"],
-       #    :homedirectory=>["/home/users/25019"],
-       #    :loginshell=>["/bin/sh"],
-       #    :mailacceptinggeneralid=>["25019@"],
-       #    :maildrop=>["25019@"],
-       #    :objectclass=>["postfixUser", "posixAccount", "inetOrgPerson", "top"],
-       #    :sn=>["a"],
-       #    :uid=>["25019"],
-       #    :userpassword=>["password"],
-       #    :uidnumber=>["25000"],
-       #    :gidnumber=>["5000"]}>
-
-
       end
     end
   end
