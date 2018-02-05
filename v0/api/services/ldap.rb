@@ -406,8 +406,9 @@ private
           keytab = @settings.kerberos_ldap_keytab_path
 
           gssapi_ctx = GSSAPI::Simple.new(host, principal, keytab)
+    qwerqwerqwreqr
           gssapi_token = gssapi_ctx.init_context(nil) # .force_encoding('binary')
-
+dsfafsdfasdfasf
           raise NonFatalError.new "SASL gssapi_token: #{gssapi_token}", 405
 
           challenge_response = Proc.new do |cred|
