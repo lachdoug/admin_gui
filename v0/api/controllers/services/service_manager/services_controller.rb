@@ -15,12 +15,6 @@ class V0
         @service.service_detail_for( params[:publisher_namespace], params[:type_path], params[:service_handle] ).to_json
       end
 
-      # ## List available service
-      # get '/services/:service_name/service_manager/available' do
-      #   set_service(params[:service_name])
-      #   @service.available_services.to_json
-      # end
-      #
       ## Services full detail
       get '/services/:service_name/service_manager/report' do
         set_service(params[:service_name])

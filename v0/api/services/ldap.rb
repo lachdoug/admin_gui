@@ -4,6 +4,10 @@ class V0
       class Ldap
 
         require 'net/ldap'
+        # require 'net/ntlm'
+        # require 'sasl'
+        # require 'kconv'
+        require 'gssapi'
 
         class Net::LDAP::Connection
           MODIFY_OPERATIONS =
@@ -14,6 +18,10 @@ class V0
               }
         end
 
+
+        def initialize(settings)
+          @settings = settings
+        end
 
         def ldap_error(ldap, prepend_message)
           message = [
@@ -389,28 +397,38 @@ class V0
           end
         end
 
-
 private
 
         def net_ldap
 
+          host = "ldap"
+          principal = "cn=admin,dc=engines,dc=internal"
+          keytab = @settings.kerberos_ldap_keytab_path
+
+          gssapi_ctx = GSSAPI::Simple.new(host, principal, keytab)
+          gssapi_token = gssapi_ctx.init_context(nil)
+
+          puts "SASL gssapi_token: #{gssapi_token}"
+
           challenge_response = Proc.new do |cred|
-            pref = SASL::Preferences.new(
-              digest_uri: "ldap/ldap",
-              has_password?: true,
-              username: "cn=admin,dc=engines,dc=internal",
-              password: "password"
-            )
-            sasl = SASL.new("DIGEST-MD5", pref)
-            response = sasl.receive("challenge", cred)
-            byebug
-            response[1]
+            # pref = SASL::Preferences.new(
+            #   digest_uri: "ldap/ldap",
+            #   has_password?: true,
+            #   username: "cn=admin,dc=engines,dc=internal",
+            #   password: "password"
+            # )
+            # sasl = SASL.new("DIGEST-MD5", pref)
+            # response = sasl.receive("challenge", cred)
+            # byebug
+            # response[1]
+            puts "SASL cred: #{cred}"
+            true
           end
 
           auth = {
             method: :sasl,
-            mechanism: "kerberos5",
-            initial_credential: "",
+            mechanism: "GSSAPI",
+            initial_credential: gssapi_token,
             challenge_response: challenge_response
           }
 
@@ -420,7 +438,7 @@ private
           #   :password => "password"
           # }
 
-          Net::LDAP.open(:host => "ldap", :port => 389, :auth => auth) do |ldap|
+          Net::LDAP.open(:host => "ldap", :auth => auth) do |ldap|
             yield ldap
           end
 

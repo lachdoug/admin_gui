@@ -18,7 +18,6 @@ class V0
       end
 
       patch '/services/:service_name/configuration' do
-        # byebug
         set_service( params[:service_name] )
         @service.perform_configuration( params[:configurator_name], params[:variables] ).to_json
       end

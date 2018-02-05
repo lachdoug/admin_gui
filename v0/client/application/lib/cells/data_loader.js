@@ -16,7 +16,7 @@ function dataLoader( args ) {
 		_load: function () {
 			var target = this;
 			var data = $.extend({}, ( args.params || {} ), ( args.data || {} ) );
-			apiRequest({
+			api._request({
 				action: args.action,
 				method: args.method,
 				data: data,

@@ -4,7 +4,6 @@ class V0
 
       get '/apps/:app_name/resolve_strings' do
         set_app(params[:app_name])
-        
         @app.resolve_strings(params[:strings]).to_json
       end
 

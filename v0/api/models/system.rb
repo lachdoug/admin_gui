@@ -188,7 +188,7 @@ class V0
         ########################################################################
 
         def ldap
-          @ldap ||= Services::Ldap.new()
+          @ldap ||= Services::Ldap.new( @settings )
         end
 
         def kerberos_auth_service
