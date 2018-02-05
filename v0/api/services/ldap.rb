@@ -402,7 +402,7 @@ private
         def net_ldap
 
           host = "ldap"
-          principal = "cn=admin,dc=engines,dc=internal"
+          principal = "krbtgt/ENGINES.INTERNAL@ENGINES.INTERNAL"
           keytab = @settings.kerberos_ldap_keytab_path
 
           gssapi_ctx = GSSAPI::Simple.new(host, principal, keytab)
