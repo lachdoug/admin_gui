@@ -401,7 +401,7 @@ private
 
         def net_ldap
 
-          host = "ldap"
+          host = "control"
           principal = "krbtgt/ENGINES.INTERNAL@ENGINES.INTERNAL"
           keytab = @settings.kerberos_ldap_keytab_path
 
