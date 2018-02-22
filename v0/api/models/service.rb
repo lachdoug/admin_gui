@@ -377,6 +377,10 @@ class V0
             service_handle: service_handle )
         end
 
+        def consumers
+          service_api.consumers
+        end
+
         ######################################################################
         # Actions
         ######################################################################

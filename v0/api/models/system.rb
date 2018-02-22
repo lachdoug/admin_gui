@@ -308,6 +308,7 @@ class V0
         ########################################################################
 
         def user_groups
+          # engines_api_system.user_groups
           ldap.user_groups
         end
 
@@ -404,7 +405,9 @@ class V0
         def email_domains_create_setup(data)
           # service(:smtp).perform_configuration( :default_domain, domain_name: data[:email_domain] )
           # service(:email).perform_configuration( :default_domain, domain_name: data[:email_domain] )
+
           ldap.create_email_domain data
+        rescue
           ldap.set_default_email_domain data[:email_domain]
           # service(:imap).instruct(:start)
         end

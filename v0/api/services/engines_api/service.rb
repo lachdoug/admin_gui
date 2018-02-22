@@ -163,6 +163,10 @@ class V0
             @system_api.get "containers/service/#{@name}/service/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/reregister"
           end
 
+          def consumers
+            @system_api.get "containers/service/#{@name}/consumers/"
+          end
+
           ######################################################################
           # Actions
           ######################################################################

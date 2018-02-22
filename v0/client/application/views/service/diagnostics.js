@@ -69,6 +69,11 @@ var $serviceDiagnostics = {
 							text: "Services",
 							onclick: function () { serviceDiagnosticsServices._live(serviceName); },
 						} ),
+						button( {
+							icon: "fa fa-map-signs",
+							text: "Consumers",
+							onclick: function () { serviceConsumers._live(serviceName); },
+						} ),
 
 						// button( {
 						// 	icon: "fa fa-plus",

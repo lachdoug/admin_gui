@@ -4,7 +4,8 @@ class V0
       class Ldap
 
         def net_ldap_find_entry_by_dn(ldap, dn)
-          ldap.search( base: dn )[0]
+          search_result = ldap.search( base: dn )
+          search_result[0] if search_result
         end
 
         def net_ldap_delete_entry_by_dn(ldap, dn)
