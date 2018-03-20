@@ -16,11 +16,9 @@ var $serviceConfigurationsEdit = {
 
 
 	_load: function () {
-		var queryString =
-			"configurator_name=" + encodeURIComponent( this._configuratorName );
 		apiRequest({
-			action: "/services/" + this._serviceName + "/configuration/edit?" + queryString,
-			// method: "POST",
+			action: "/services/" + this._serviceName + "/configuration/edit",
+			params: { configurator_name: this._configuratorName },
 			callbacks: {
 				200: function( response ) {
 					serviceConfigurationsEdit._show( response )

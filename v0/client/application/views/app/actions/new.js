@@ -44,14 +44,10 @@ cell({
 
 
 	_postWithoutParams: function ( data ) {
-
 		var appName = this._appName;
-		// var data = this._data;
-
-		var queryString =
-			"actionator_name=" + encodeURIComponent( data.name );
 		apiRequest({
-			action: "/apps/" + appName + "/action?" + queryString,
+			action: "/apps/" + appName + "/action",
+			params: { actionator_name: data.name },
 			method: "POST",
 			callbacks: {
 				200: function( response ) {
@@ -62,10 +58,9 @@ cell({
 	},
 
 	_load: function () {
-		var queryString =
-			"actionator_name=" + encodeURIComponent( this._actionName );
 		apiRequest({
-			action: "/apps/" + this._appName + "/action?" + queryString,
+			action: "/apps/" + this._appName + "/action",
+			params: { actionator_name: this._actionName },
 			callbacks: {
 				200: function(response) {
 					appActionsNew._show( response );
@@ -77,7 +72,6 @@ cell({
 	_form: function ( data ) {
 
 		var appName = this._appName;
-		// var data = this._data;
 
 		return form( {
 			components: [

@@ -2,23 +2,14 @@ cell({
 
 	id: "systemUsers",
 
-
 	_live: function () {
-
 		modal._live ( {
 			header: icon( { icon: "fa fa-user", text: "System users" } ),
 			body: {
 				$components: [
-					{
-						class: "clearfix",
-						$components: [
-							button( {
-								onclick: systemControlPanel._live,
-								icon: "fa fa-arrow-up",
-								wrapperClass: "pull-right"
-							} ),
-						]
-					},
+					modalNav({
+						up: systemControlPanel._live
+					}),
 					button( {
 						wrapperClass: "pull-right",
 						onclick: systemUserGroups._live,
@@ -31,40 +22,23 @@ cell({
 						text: "New"
 					} ),
 					{ $type: "hr" },
-					{
-						id: "systemUsersContent",
-						$components: [
-							icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
-						],
-						_refresh: function ( data ) {
-							this.$components = data.map( function( user ) {
-								return button({
-									text: user.uid + " (" + user.name + ")",
-									onclick: function() { systemUsersUser._live(user.uid) },
-								});
-							});
+					dataLoader({
+						action: "/system/users/accounts",
+						render: function(response) {
+							return {
+								$components: response.map( function(account) {
+									return button({
+										text: account.uid + " (" + account.name + ")",
+										onclick: function() { systemUsersUser._live(account.uid) },
+									});
+								}),
+							};
 						},
-					},
+					})
 
 				]
 			}
 		} );
-		this._load();
 	},
-
-
-	_load: function () {
-
-		apiRequest({
-			action: "/system/users",
-			callbacks: {
-				200: function(response) {
-					systemUsersContent._refresh(response);
-				},
-			}
-		});
-
-	},
-
 
 });

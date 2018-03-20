@@ -31,8 +31,8 @@ function renderSystemServices() {
         {
         	class: "system-containers",
         	$components: this._$data.map( function(service) {
-            serviceMemory = memoryData[service.name] || null;
-        		return renderSystemService(service, serviceMemory);
+            var serviceMemoryData = memoryData[service.name] || null;
+        		return renderSystemService(service, serviceMemoryData);
         	} )
         },
       ];

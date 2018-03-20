@@ -280,7 +280,8 @@ var $appMenu = {
 		appMenuInstructionMessage._showMessage("Sending " + instruction + " instruction");
 		var appName = this._appName;
 		apiRequest( {
-			action: "/apps/" + appName + "/instruct?instruction=" + instruction,
+			action: "/apps/" + appName + "/instruct",
+			params: { instruction:  instruction },
 			callbacks: {
 				200: function(e) {
 					if ( instruction == "reinstall" ) {

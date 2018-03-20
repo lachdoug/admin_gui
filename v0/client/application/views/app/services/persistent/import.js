@@ -58,10 +58,9 @@ var $appServicesPersistentImport = {
 
 	_form: function () {
 
-    var queryString =
-			"publisher_namespace=" + encodeURIComponent( this._publisherNamespace ) +
-			"&type_path=" + encodeURIComponent( this._typePath ) +
-			"&service_handle=" + encodeURIComponent( this._serviceHandle );
+		var publisherNamespace = this._publisherNamespace;
+		var typePath = this._typePath;
+		var serviceHandle = this._serviceHandle;
 
 		return form ( {
 			components: [
@@ -100,7 +99,12 @@ var $appServicesPersistentImport = {
 				} } ),
 				formSubmit(),
 			],
-			action: "/apps/" + this._appName + "/service_manager/persistent/import/?" + queryString,
+			action: "/apps/" + this._appName + "/service_manager/persistent/import/",
+			params: {
+				publisher_namespace: publisherNamespace,
+				type_path: typePath,
+				service_handle: serviceHandle
+			},
       enctype: "multipart/form-data",
 			method: 'POST',
 			callbacks: {

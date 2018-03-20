@@ -142,13 +142,18 @@ var $appServicesPersistent = {
 
 	_load: function () {
 
-		var queryString =
-			"publisher_namespace=" + encodeURIComponent( this._publisherNamespace ) +
-			"&type_path=" + encodeURIComponent( this._typePath ) +
-			"&service_handle=" + encodeURIComponent( this._serviceHandle );
+		var appName = this._appName;
+		var publisherNamespace = this._publisherNamespace;
+		var typePath = this._typePath;
+		var serviceHandle = this._serviceHandle;
 
 		apiRequest({
-			action: "/apps/" + this._appName + "/service_manager/services/?" + queryString,
+			action: "/apps/" + this._appName + "/service_manager/services/",
+			params: {
+				publisher_namespace: publisherNamespace,
+				type_path: typePath,
+				service_handle: serviceHandle
+			},
 			callbacks: {
 				200: function(response) {
 					appServicesPersistentContent._refresh( response );

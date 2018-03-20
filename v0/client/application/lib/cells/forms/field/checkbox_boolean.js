@@ -17,16 +17,12 @@ var formFieldCheckboxBoolean = function( args ) {
 				},
 				{
 					$type: "label",
-					// title: ( args.title || args.label ),
 					$components: [
 						$.extend(
 							{
 								$type: "input",
-								// name: ( args.name +  || "" ),
 								title: ( args.title || args.label ),
-								// id: ( args.id || "" ),
 								required: ( args.required || null ),
-								// value: '1',
 								type: "checkbox",
 								onchange: function () {
 									$(this).parent().prev().val( $(this).prop('checked') );

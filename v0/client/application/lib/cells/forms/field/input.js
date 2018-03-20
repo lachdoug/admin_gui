@@ -10,7 +10,7 @@ var formFieldInputUnwrapped = function( args ) {
 	return $.extend(
 		{
 			$type: "input",
-			class: args.class + " form-control",
+			class: ( args.class || "" ) + " form-control",
 			id: args.id || null,
 			style: args.style || null,
 			placeholder: args.placeholder || null,

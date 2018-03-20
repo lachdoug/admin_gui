@@ -7,39 +7,21 @@ var formFieldSelectMultiple = function( args ) {
 				{
 					$type: "select",
 					class: args.class + " form-control",
-					// name: ( args.name || "" ),
-					// id: args.id + '_select',
-					// multiple: "multiple",
-					// placeholder: ( args.placeholder || null ),
-					// required: ( args.required || false ),
-					$init: function () {
-						// $(this).selectpicker();
-						// $(this).chosen();
-						// this.setCustomValidity("Please select at least one item from the list.");
-					},
 					onchange: function () {
-						// alert( $(this).val() + $(this).find(':selected').text() );
 						this.nextSibling._addSelectedItem( {
 							value: $(this).val(),
 							label: $(this).find(':selected').not("option[value='']").text(),
 						} );
-						// $(this).val('');
 					},
 					_disableListItem: function( value ) {
-						// debugger;
 						$(this).find("option[value='" + value + "']").prop('disabled', true);
 						this._unselect();
 					},
 					_enableListItem: function( value ) {
-						// debugger;
 						$(this).find("option[value='" + value + "']")[0].removeAttribute('disabled');
 						this._unselect();
 					},
 					_unselect: function () {
-						// $(this).find("option[value='']").prop('disabled', false);
-						// $(this).find("option[value='']").focus();
-						// $(this).find("option[value='']").prop('disabled', true);  __FORM_FIELD_SELECT_MULTIPLE__NO_ITEM_SELECTED__
-						// debugger
 						$(this).find("option")[0].removeAttribute('disabled');
 						$(this).val(null);
 						$(this).find("option").first().prop('disabled', true);

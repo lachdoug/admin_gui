@@ -71,12 +71,13 @@ var $appServicesPersistentCreateNew = {
 	_load: function () {
 
 		var params = appServicesPersistentCreateNew._data.params;
-		var queryString = params.map( function( param ) {
-			return "strings[]=" + ( param.value || '' );
-		} ).join("&");
+		var strings = params.map( function( param ) {
+			return ( param.value || '' );
+		});
 
 		apiRequest({
-			action: "/apps/" + this._appName + "/resolve_strings?" + queryString,
+			action: "/apps/" + this._appName + "/resolve_strings",
+			params: { strings: strings },
 			callbacks: {
 				200: function(response) {
 					resolvedData = params.map( function( param, i ) {

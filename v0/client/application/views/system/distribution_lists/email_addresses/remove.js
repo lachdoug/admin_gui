@@ -17,9 +17,6 @@ cell({
 						params: {
 							distribution_list_name: distribution_list_name
 						},
-						params: {
-							distribution_list_name: distribution_list_name
-						},
 						render: function(data) {
 
 							return form({

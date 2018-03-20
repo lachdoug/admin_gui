@@ -22,7 +22,8 @@ cell({
 					},
 					{ $type: "hr" },
 					dataLoader({
-						action: "/system/users/user/" + user_uid + "/email",
+						action: "/system/users/accounts/",
+						params: { uid: user_uid },
 						render: function (data) {
 							return {
 								$init: function() {
@@ -36,7 +37,7 @@ cell({
 											dataList( {
 												class: "dl-horizontal",
 												items: [
-													{ label: "Mailbox", data: data.mailbox }
+													{ label: "Mailbox", data: data.email.mailbox }
 												]
 											}),
 											{
@@ -56,8 +57,8 @@ cell({
 														text: "Disable",
 														onclick: function() {
 															(
-																data.email_aliases.length ||
-																data.distribution_lists.length
+																data.email.aliases.length ||
+																data.email.distribution_groups.length
 															) ?
 															alert("All email aliases and distribution lists must be removed before mailbox can be disabled.") :
 															apiRequest({
@@ -93,7 +94,7 @@ cell({
 											},
 											{
 												$type: "ul",
-												$components: data.email_aliases.map( function( emailAlias ) {
+												$components: data.email.aliases.map( function( emailAlias ) {
 													return { $type: "li", $text: emailAlias };
 												})
 											},
@@ -118,10 +119,10 @@ cell({
 											},
 											{
 												$type: "ul",
-												$components: data.distribution_lists.map( function( distribution_list ) {
-													return distribution_list.email_address == data.mailbox ?
-														{ $type: "li", $text: distribution_list.distribution_group } :
-														{ $type: "li", $text: distribution_list.distribution_group + " (alias " + distribution_list.email_address + ")" };
+												$components: data.email.distribution_groups.map( function( distribution_group ) {
+													return distribution_group.email_address == data.email.mailbox ?
+														{ $type: "li", $text: distribution_group.distribution_group } :
+														{ $type: "li", $text: distribution_group.distribution_group + " (alias " + distribution_group.email_address + ")" };
 												})
 											},
 											{ $type: "br" },

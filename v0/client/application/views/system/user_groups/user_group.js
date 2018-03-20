@@ -13,19 +13,19 @@ cell({
 					}),
 					hr(),
 					dataLoader({
-						action: "/system/user_group",
+						action: "/system/users/groups/",
 						params: {
-							user_group_name: user_group_name
+							name: user_group_name
 						},
 						render: function(data) {
-							return ( data.users.length > 0 ) ? {
+							return ( data.members.length > 0 ) ? {
 								$type: "ul",
 								class: "list",
 								style: "list-style: none; margin-left: -30px;",
-								$components: data.users.map( function( user_uid ) {
+								$components: data.members.map( function( user_uid ) {
 									return button({
 										text: user_uid,
-										onclick: function() { systemUserUserGroups._live(user_uid) },
+										onclick: function() { systemUsersUser._live(user_uid) },
 									});
 								}),
 							} : { $type: "i", $text: "This group has no members." };

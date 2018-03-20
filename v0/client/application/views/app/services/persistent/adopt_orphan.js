@@ -52,11 +52,10 @@ var $appServicesPersistentAdoptOrphan = {
 
 		var serviceConsumer = this._data.adoptable[ this._index ];
 
-		var queryString =
-			"publisher_namespace=" + this._data.publisher_namespace +
-			"&type_path=" + this._data.type_path +
-			"&parent=" + serviceConsumer.parent +
-			"&service_handle=" + serviceConsumer.service_handle;
+		var publisherNamespace = this._data.publisher_namespace;
+		var typePath = this._data.type_path;
+		var parent = serviceConsumer.parent;
+		var serviceHandle = serviceConsumer.service_handle;
 
 		var params = this._data.params.filter( function( param ) {
 			return param.immutable != true;
@@ -78,7 +77,13 @@ var $appServicesPersistentAdoptOrphan = {
 				formCancel ( { onclick: () => { appServicesNew._live( appServicesPersistentAdoptOrphan._appName ); } } ),
 				formSubmit(),
 			],
-			action: "/apps/" + this._appName + "/service_manager/persistent/adopt_orphan?" + queryString,
+			action: "/apps/" + this._appName + "/service_manager/persistent/adopt_orphan",
+			params: {
+				publisher_namespace: publisherNamespace,
+				type_path: typePath,
+				parent: parent,
+				service_handle: serviceHandle
+			},
 			method: 'POST',
 			callbacks: {
 				200: function() {

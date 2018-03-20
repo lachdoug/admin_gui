@@ -54,11 +54,12 @@ class V0
           end
         end
 
-        def get(route, opts={})
+        def get(route, query_params={}, opts={})
           handle_response do
+            
             RestClient::Request.execute(
               method: :get,
-              url: "#{@url}/v0/#{route}",
+              url: "#{ @url }/v0/#{ route }?#{ URI.encode_www_form query_params }",
               timeout: opts[:timeout] || 120,
               verify_ssl: false,
               headers: {

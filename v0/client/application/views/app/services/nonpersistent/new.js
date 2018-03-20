@@ -69,12 +69,15 @@ var $appServicesNonpersistentNew = {
 
 	_load: function () {
 
-		var queryString =
-			"publisher_namespace=" + encodeURIComponent( appServicesNonpersistentNew._publisherNamespace ) +
-			"&type_path=" + encodeURIComponent( appServicesNonpersistentNew._typePath );
+		var publisherNamespace = this._publisherNamespace;
+		var typePath = this._typePath;
 
 		apiRequest({
-			action: "/apps/" + this._appName + "/service_manager/nonpersistent/new?" + queryString,
+			action: "/apps/" + this._appName + "/service_manager/nonpersistent/new",
+			params: {
+				publisher_namespace: publisherNamespace,
+				type_path: typePath
+			},
 			callbacks: {
 				200: function(response) {
 					appServicesNonpersistentNewContent._refresh( response );

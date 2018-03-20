@@ -130,7 +130,12 @@ var $appServicesNonpersistent = {
 			"&service_handle=" + encodeURIComponent( this._serviceHandle );
 
 		apiRequest({
-			action: "/apps/" + this._appName + "/service_manager/services/?" + queryString,
+			action: "/apps/" + this._appName + "/service_manager/services/",
+			params: {
+				publisher_namespace: this._publisherNamespace,
+				type_path: this._typePath,
+				service_handle: this._serviceHandle
+ 			},
 			callbacks: {
 				200: function(response) {
 					appServicesNonpersistentContent._refresh( response );

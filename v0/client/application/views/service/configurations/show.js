@@ -16,11 +16,9 @@ var $serviceConfigurationsShow = {
 
 
 	_load: function () {
-		var queryString =
-			"configurator_name=" + encodeURIComponent( this._configuratorName );
 		apiRequest({
 			action: "/services/" + this._serviceName + "/configuration?" + queryString,
-			// method: "POST",
+			params: { configurator_name: this._configuratorName },
 			callbacks: {
 				200: function( response ) {
 					serviceConfigurationsShow._show( response )

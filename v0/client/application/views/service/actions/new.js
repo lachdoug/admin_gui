@@ -52,12 +52,10 @@ var $serviceActionsNew = {
 	_postWithoutParams: function ( data ) {
 
 		var serviceName = this._serviceName;
-		// var data = this._data;
 
-		var queryString =
-			"actionator_name=" + encodeURIComponent( data.name );
 		apiRequest({
-			action: "/services/" + serviceName + "/action?" + queryString,
+			action: "/services/" + serviceName + "/action",
+			params: { actionator_name: data.name },
 			method: "POST",
 			callbacks: {
 				200: function( response ) {
@@ -68,10 +66,9 @@ var $serviceActionsNew = {
 	},
 
 	_load: function () {
-		var queryString =
-			"actionator_name=" + encodeURIComponent( this._actionName );
 		apiRequest({
-			action: "/services/" + this._serviceName + "/action?" + queryString,
+			action: "/services/" + this._serviceName + "/action",
+			params: { actionator_name: this._actionName },
 			callbacks: {
 				200: function(response) {
 					serviceActionsNew._show( response );

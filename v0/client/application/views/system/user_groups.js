@@ -13,7 +13,7 @@ cell({
 					}),
 					// hr(),
 					dataLoader({
-						action: "/system/user_groups",
+						action: "/system/users/groups",
 						render: function(data) {
 							return {
 								$components: data.map( function( group ) {

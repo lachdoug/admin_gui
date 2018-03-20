@@ -280,7 +280,8 @@ var $serviceMenu = {
 		serviceMenuInstructionMessage._showMessage("Sending " + instruction + " instruction");
 		var serviceName = this._serviceName;
 		apiRequest( {
-			action: "/services/" + serviceName + "/instruct?instruction=" + instruction,
+			action: "/services/" + serviceName + "/instruct",
+			params: { instruction: instruction },
 			callbacks: {
 				200: function(e) {
 					if ( instruction == "reinstall" ) {

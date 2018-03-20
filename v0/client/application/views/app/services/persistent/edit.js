@@ -58,12 +58,11 @@ var $appServicesPersistentEdit = {
 
 	_form: function () {
 
-		var appName = appServicesPersistentEdit._appName;
-		var publisherNamespace = appServicesPersistentEdit._publisherNamespace;
-		var typePath = appServicesPersistentEdit._typePath;
-		var serviceHandle = appServicesPersistentEdit._serviceHandle;
+		var appName = this._appName;
+		var publisherNamespace = this._publisherNamespace;
+		var typePath = this._typePath;
+		var serviceHandle = this._serviceHandle;
 		var mutableParams = this._data.params.filter( function(param) { return param.immutable != true } );
-		var queryString = "publisher_namespace=" + encodeURIComponent( this._publisherNamespace ) + "&type_path=" + encodeURIComponent( this._typePath ) + "&service_handle=" + encodeURIComponent( this._serviceHandle );
 
 		return form ( {
 			components: [
@@ -81,7 +80,12 @@ var $appServicesPersistentEdit = {
 				formSubmit(),
 			],
 
-			action: "/apps/" + this._appName + "/service_manager/persistent/?" + queryString,
+			action: "/apps/" + this._appName + "/service_manager/persistent/",
+			params: {
+				publisher_namespace: publisherNamespace,
+				type_path: typePath,
+				service_handle: serviceHandle
+			},
 			method: 'PUT',
 			callbacks: {
 				200: function(response) {

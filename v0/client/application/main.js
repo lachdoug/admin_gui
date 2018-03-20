@@ -24,6 +24,7 @@ cell({
 	_renderSignedOut: function () {
 		$(".modal").modal("hide");
 		$("#navbarSignOutButton").hide();
+		api._abortAll();
 		system._kill();
 		signIn._live();
 		systemDisconnected._kill();

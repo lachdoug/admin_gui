@@ -4,7 +4,6 @@ function formFieldWrapper( args, input) {
 		class: "form-group " + ( args.wrapperClass || "" ),
 	  title: ( args.title || args.label || args.name || null ),
 		style: ( ( args.dependOn || {} ).input ? "display: none;" : "" ) + ( args.wrapperStyle || "" ),
-		id: ( args.id ? args.id + "Wrapper" : "" ),
 		$components: [
 			args.label == false ? {} : {
 				$type: "label",
@@ -13,7 +12,6 @@ function formFieldWrapper( args, input) {
 			},
 			{ $text: ( args.comment == false ) ? null : ( args.comment || null ) },
 			input,
-			// secondary_inputs,
 			{ $type: "small", $text: ( args.hint == false ) ? null : ( args.hint || null ) },
 		],
 		_dependOn: ( args.dependOn || {} ),
@@ -34,6 +32,7 @@ function formFieldWrapper( args, input) {
 		_doDependOn: function () {
 
 			if ( this._dependOn.input ) {
+				debugger;
 				if (
 					(
 						this._dependOn.value &&

@@ -9,20 +9,14 @@ cell({
 			header: icon( { icon: "fa fa-user", text: "System user" } ),
 			body: {
 				$components: [
-					{
-						class: "clearfix",
-						$components: [
-							button( {
-								onclick: systemUsers._live,
-								icon: "fa fa-arrow-up",
-								wrapperClass: "pull-right"
-							} ),
-							{ $type: "h4", $text: user_uid },
-						]
-					},
+					modalNav({
+						content: { $type: "h4", $text: user_uid },
+						up: systemUsers._live
+					}),
 					{ $type: "hr" },
 					dataLoader({
-						action: "/system/users/user/" + user_uid,
+						action: "/system/users/accounts/",
+						params: { uid: user_uid },
 						render: function (data) {
 							return {
 								$init: function() {
@@ -42,7 +36,7 @@ cell({
 												icon: "fa fa-trash-o",
 												wrapperClass: "pull-right",
 												onclick: function () {
-													if ( data.email_enabled ) {
+													if ( data.email.mailbox ) {
 														alert("Disable email first.");
 													}	else if ( data.groups.length > 0 ) {
 														alert("Remove all groups first.");
@@ -78,7 +72,7 @@ cell({
 										onclick: function() { systemUserUserGroups._live(user_uid); },
 									}),
 									hr(),
-									data.email_enabled ? button({
+									data.email.mailbox ? button({
 										icon: "fa fa-envelope",
 										text: "Email",
 										onclick: function() { systemUserEmail._live(user_uid); },
@@ -97,7 +91,7 @@ cell({
 										]
 									},
 									hr(),
-									data.signin_enabled ? button({
+									data.signin ? button({
 										icon: "fa fa-sign-in",
 										text: "Sign-in",
 										onclick: function() { systemUserEmail._live(user_uid); },

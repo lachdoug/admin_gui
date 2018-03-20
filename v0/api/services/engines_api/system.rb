@@ -18,7 +18,7 @@ class V0
           ##########################################################################
 
           def status
-            @system_api.get 'system/status', { timeout: 5 }
+            @system_api.get 'system/status', {}, { timeout: 5 }
           end
 
           def builder_status
@@ -281,6 +281,27 @@ class V0
 
           def network_statistics
             @system_api.get 'system/metrics/network'
+          end
+
+
+          ##########################################################################
+          # User admin
+          ##########################################################################
+
+          def index_users_accounts
+            @system_api.get 'system/uadmin/users/accounts'
+          end
+
+          def show_users_account( uid )
+            @system_api.get 'system/uadmin/users/accounts/', uid: uid
+          end
+
+          def index_users_groups
+            @system_api.get 'system/uadmin/users/groups'
+          end
+
+          def show_users_group( name )
+            @system_api.get 'system/uadmin/users/groups/', name: name
           end
 
           ##########################################################################

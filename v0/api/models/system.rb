@@ -211,17 +211,25 @@ class V0
         # Users
         ########################################################################
 
-        def users
-          ldap.users
+        def index_users_accounts
+          engines_api_system.index_users_accounts
         end
+
+        def show_users_account( uid )
+          engines_api_system.show_users_account( uid )
+        end
+
+        # def users
+        #   ldap.users
+        # end
 
         def create_user( data )
           ldap.create_user( data )
         end
 
-        def user(user_uid)
-          ldap.user(user_uid)
-        end
+        # def user(user_uid)
+        #   ldap.user(user_uid)
+        # end
 
         def user_available_groups(user_uid)
           ldap.user_available_groups(user_uid)
@@ -307,14 +315,23 @@ class V0
         # User groups
         ########################################################################
 
-        def user_groups
-          # engines_api_system.user_groups
-          ldap.user_groups
+        def index_users_groups
+          engines_api_system.index_users_groups
         end
 
-        def user_group(user_group_name)
-          ldap.user_group user_group_name
+        def show_users_group( name )
+          engines_api_system.show_users_group( name )
         end
+
+        #
+        # def user_groups
+        #   # engines_api_system.user_groups
+        #   ldap.user_groups
+        # end
+        #
+        # def user_group(user_group_name)
+        #   ldap.user_group user_group_name
+        # end
 
         ########################################################################
         # Distribution groups

@@ -33,7 +33,7 @@ class V0
             objectclass: [ "dNSDomain" ],
           }
           entry = ldap.search( base: base, filter: filter )[0]
-byebug
+
           if ( !entry || ( entry && ldap.delete(dn: entry.dn) ) ) &&
           ldap.add(dn: "dc=#{email_domain},#{base}", attributes: attributes)
             { email_domain: email_domain }

@@ -23,14 +23,14 @@ class V0
           @settings = settings
         end
 
-        def ldap_error(ldap, prepend_message)
-          message = [
-            prepend_message,
-            ldap.get_operation_result.message,
-            ldap.get_operation_result.error_message
-          ].join("\n\n")
-          raise NonFatalError.new message, 405
-        end
+        # def ldap_error(ldap, prepend_message)
+        #   message = [
+        #     prepend_message,
+        #     ldap.get_operation_result.message,
+        #     ldap.get_operation_result.error_message
+        #   ].join("\n\n")
+        #   raise NonFatalError.new message, 405
+        # end
 
         ########################################################################
         ## Users
@@ -399,49 +399,49 @@ class V0
 
 private
 
-        def net_ldap
-
-          # host = "control.engines.internal"
-          # principal = "host" # "krbtgt/ENGINES.INTERNAL@ENGINES.INTERNAL"
-          # keytab = @settings.kerberos_ldap_keytab_path
-          # gssapi_ctx = GSSAPI::Simple.new(host, principal, keytab)
-          # gssapi_token = gssapi_ctx.init_context(nil) # .force_encoding('binary')
-          #
-          # raise NonFatalError.new "SASL gssapi_token: #{gssapi_token}", 405
-          #
-          # challenge_response = Proc.new do |cred|
-          #   # pref = SASL::Preferences.new(
-          #   #   digest_uri: "ldap/ldap",
-          #   #   has_password?: true,
-          #   #   username: "cn=admin,dc=engines,dc=internal",
-          #   #   password: "password"
-          #   # )
-          #   # sasl = SASL.new("DIGEST-MD5", pref)
-          #   # response = sasl.receive("challenge", cred)
-          #   # byebug
-          #   # response[1]
-          #   puts "SASL cred: #{cred}"
-          #   true
-          # end
-          #
-          # auth = {
-          #   method: :sasl,
-          #   mechanism: "GSSAPI",
-          #   initial_credential: gssapi_token,
-          #   challenge_response: challenge_response
-          # }
-
-          auth = {
-            :method => :simple,
-            :username => "cn=admin,dc=engines,dc=internal",
-            :password => "password"
-          }
-
-          Net::LDAP.open(:host => "ldap", :auth => auth) do |ldap|
-            yield ldap
-          end
-
-        end
+        # def net_ldap
+        #
+        #   # host = "control.engines.internal"
+        #   # principal = "host" # "krbtgt/ENGINES.INTERNAL@ENGINES.INTERNAL"
+        #   # keytab = @settings.kerberos_ldap_keytab_path
+        #   # gssapi_ctx = GSSAPI::Simple.new(host, principal, keytab)
+        #   # gssapi_token = gssapi_ctx.init_context(nil) # .force_encoding('binary')
+        #   #
+        #   # raise NonFatalError.new "SASL gssapi_token: #{gssapi_token}", 405
+        #   #
+        #   # challenge_response = Proc.new do |cred|
+        #   #   # pref = SASL::Preferences.new(
+        #   #   #   digest_uri: "ldap/ldap",
+        #   #   #   has_password?: true,
+        #   #   #   username: "cn=admin,dc=engines,dc=internal",
+        #   #   #   password: "password"
+        #   #   # )
+        #   #   # sasl = SASL.new("DIGEST-MD5", pref)
+        #   #   # response = sasl.receive("challenge", cred)
+        #   #   # byebug
+        #   #   # response[1]
+        #   #   puts "SASL cred: #{cred}"
+        #   #   true
+        #   # end
+        #   #
+        #   # auth = {
+        #   #   method: :sasl,
+        #   #   mechanism: "GSSAPI",
+        #   #   initial_credential: gssapi_token,
+        #   #   challenge_response: challenge_response
+        #   # }
+        #
+        #   auth = {
+        #     :method => :simple,
+        #     :username => "cn=admin,dc=engines,dc=internal",
+        #     :password => "password"
+        #   }
+        #
+        #   Net::LDAP.open(:host => "ldap", :auth => auth) do |ldap|
+        #     yield ldap
+        #   end
+        #
+        # end
       end
     end
   end

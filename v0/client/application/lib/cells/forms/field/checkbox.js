@@ -18,7 +18,6 @@ var formFieldCheckbox = function( args ) {
 								title: ( args.title || args.label ),
 								id: ( args.id || "" ),
 								required: ( args.required || null ),
-								// title: ( args.title || args.label ),
 								value: '1',
 								type: "checkbox",
 							},

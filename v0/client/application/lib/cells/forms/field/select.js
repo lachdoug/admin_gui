@@ -12,7 +12,7 @@ var formFieldSelectUnwrapped = function( args ) {
 	// debugger;
 	return {
 		$type: "select",
-		class: args.class + " form-control",
+		class: ( args.class || "" ) + " form-control",
 		name: ( args.name || "" ),
 		id: ( args.id || "" ),
 		placeholder: ( args.placeholder || null ),

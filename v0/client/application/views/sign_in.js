@@ -27,11 +27,24 @@ var $signIn = {
 				{ style: "display: inline-block; text-align: left; width: 80%; max-width: 300px; margin-top: 50px;",
 					$components: [
 						form( {
-							components: [
-								formField( { name: "data[username]", value: "admin", label: false, required: true, placeholder: "User name", type: "hidden" } ),
-								formField( { id:"signInPassword", label: false, name: "data[password]", type: "site_password", required: true, placeholder: "Password", title: "System admin password" } ),
-								formSubmit( { title: "Sign in", text: "Sign in", icon: "fa fa-sign-in", disabledText: "Signing in" } ),
-							],
+							id: "signInForm",
+							components: function(f) {
+								// debugger;
+								return [
+									f._field( { name: "data[username]", value: "admin", label: false, required: true, placeholder: "User name", type: "hidden" } ),
+									f._field( { id:"signInPassword", label: false, name: "data[password]", type: "site_password", required: true, placeholder: "Password", title: "System admin password" } ),
+									// f._field( { id:"xsomefield", name: "data[xosmefield]", dependOn: { input: "somefield", value: "hi" } } ),
+									// f._field( { id:"somefield", name: "data[somefield]" } ),
+									// f._field( { id:"zsomefield", name: "data[zsomefield]", type: "checkbox", collection: { "hi": "ho", "fe": "fi" } } ),
+									// f._field( { id:"ysomefield", name: "data[ysomefield]", dependOn: { input: "zsomefield", value: "hi" } } ),
+									f._submit( { title: "Sign in", text: "Sign in", icon: "fa fa-sign-in", disabledText: "Signing in" } ),
+								];
+							},
+							// components: [
+							// 	formField( { name: "data[username]", value: "admin", label: false, required: true, placeholder: "User name", type: "hidden" } ),
+							// 	formField( { id:"signInPassword", label: false, name: "data[password]", type: "site_password", required: true, placeholder: "Password", title: "System admin password" } ),
+							// 	formSubmit( { title: "Sign in", text: "Sign in", icon: "fa fa-sign-in", disabledText: "Signing in" } ),
+							// ],
 							action: "/system/signin",
 							callbacks: {
 								200: function () {
@@ -49,18 +62,18 @@ var $signIn = {
 								}
 							}
 						}),
-						{ $type: "hr" },
-						{ $text: "Kerberos" },
-						{
-							$type: "form",
-							$components: [
-								// formField( { name: "data[username]", value: "admin", label: false, required: true, placeholder: "User name", label: "Username" } ),
-								formField( { id:"signInPassword", label: false, name: "data[password]", type: "site_password", required: true, placeholder: "Password", title: "System admin password" } ),
-								formSubmit( { title: "Sign in", text: "Sign in", icon: "fa fa-sign-in", disabledText: "Signing in" } ),
-							],
-							action: "/test_kerberos",
-							method: "POST"
-						},
+						// { $type: "hr" },
+						// { $text: "Kerberos" },
+						// {
+						// 	$type: "form",
+						// 	$components: [
+						// 		// formField( { name: "data[username]", value: "admin", label: false, required: true, placeholder: "User name", label: "Username" } ),
+						// 		formField( { id:"signInPassword", label: false, name: "data[password]", type: "site_password", required: true, placeholder: "Password", title: "System admin password" } ),
+						// 		formSubmit( { title: "Sign in", text: "Sign in", icon: "fa fa-sign-in", disabledText: "Signing in" } ),
+						// 	],
+						// 	action: "/test_kerberos",
+						// 	method: "POST"
+						// },
 						// form( {
 						// 	components: [
 						// 		{ $type: "hr" },
