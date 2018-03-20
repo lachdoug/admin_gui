@@ -75,7 +75,7 @@ var $appServicesPersistentAdoptOrphan = {
 					} )
 				},
 				formCancel ( { onclick: () => { appServicesNew._live( appServicesPersistentAdoptOrphan._appName ); } } ),
-				formSubmit(),
+				formSubmit( params.length > 0 ? {} : { init: function(button) { button.click(); } } ),
 			],
 			action: "/apps/" + this._appName + "/service_manager/persistent/adopt_orphan",
 			params: {

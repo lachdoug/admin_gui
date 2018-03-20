@@ -31,6 +31,7 @@ function formSubmit( args={} ) {
 
 				$init: function () {
 					this._enableButton();
+					args.init && args.init(this);
 				},
 
 				_disableButton: function () {

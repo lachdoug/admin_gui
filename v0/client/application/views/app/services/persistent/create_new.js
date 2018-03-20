@@ -93,6 +93,9 @@ var $appServicesPersistentCreateNew = {
 
 
 	_form: function () {
+
+		var params = appServicesPersistentCreateNewContent._data;
+		
 		return form ( {
 			components: [
 				formField( {
@@ -106,14 +109,13 @@ var $appServicesPersistentCreateNew = {
 					value: appServicesPersistentCreateNew._data.type_path
 				} ),
 				{
-					$components: appServicesPersistentCreateNewContent._data.map( function( field ) {
+					$components: params.map( function( field ) {
 						field.name_prefix = "data[variables]";
 						return enginesField( field );
 					} )
 				},
-				pp(appServicesPersistentCreateNewContent._data),
 				formCancel ( { onclick: () => { appServicesNew._live( appServicesPersistentCreateNew._appName ); } } ),
-				formSubmit(),
+				formSubmit( params.length > 0 ? {} : { init: function(button) { button.click(); } } ),
 			],
 			action: "/apps/" + this._appName + "/service_manager/persistent/create_new",
 			method: 'POST',
