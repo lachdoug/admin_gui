@@ -4,6 +4,8 @@ class V0
 
       ## Update an existing persistent service consumer
       put '/apps/:app_name/service_manager/persistent/' do
+
+        byebug
         ## Query params: :publisher_namespace, :type_path, :service_handle
         set_app(params[:app_name])
         @app.update_persistent_service( params[:publisher_namespace], params[:type_path], params[:service_handle], params[:data] ).to_json

@@ -1,20 +1,22 @@
-function form(obj) {
+function form(args) {
+
+	var query_params = jQuery.param( args.params || {} );
 
 	return {
 		$type: "form",
 		class: "clearfix",
-		id: obj.id,
+		id: args.id,
 		// $components: ,
-		action: obj.action,
-		method: obj.method,
-		enctype: obj.enctype || "application/x-www-form-urlencoded",
-		_callbacks: obj.callbacks,
+		action: args.action + "?" + query_params,
+		method: args.method,
+		enctype: args.enctype || "application/x-www-form-urlencoded",
+		_callbacks: args.callbacks,
 		$init: function() {
 // debugger;
-			this.$components = (typeof obj.components === "function") ? obj.components(this) : ( obj.components || [] );
+			this.$components = (typeof args.components === "function") ? args.components(this) : ( args.components || [] );
 
-			if ( obj.init ) {
-				obj.init( this );
+			if ( args.init ) {
+				args.init( this );
 			} else {
 				api._bindForm( this );
 			};
@@ -22,15 +24,15 @@ function form(obj) {
 			$(this).find("input:invalid").first().focus();
 		},
 		_field: function( args ) {
-			args._formId = obj.id;
+			args._formId = args.id;
 			return formField( args );
 		},
 		_submit: function( args ) {
-			args._formId = obj.id;
+			args._formId = args.id;
 			return formSubmit( args );
 		},
 		_cencel: function( args ) {
-			args._formId = obj.id;
+			args._formId = args.id;
 			return formCancel( args );
 		},
 
