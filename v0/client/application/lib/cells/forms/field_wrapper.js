@@ -32,7 +32,6 @@ function formFieldWrapper( args, input) {
 		_doDependOn: function () {
 
 			if ( this._dependOn.input ) {
-				debugger;
 				if (
 					(
 						this._dependOn.value &&

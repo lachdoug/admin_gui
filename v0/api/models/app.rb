@@ -313,7 +313,7 @@ class V0
           app_api.create_new_persistent_service(
             publisher_namespace: publisher_namespace,
             type_path: type_path,
-            variables: data[:variables] )
+            variables: ( ( data || {} )[:variables] || {} ) )
         end
 
         def delete_persistent_service( publisher_namespace, type_path, service_handle, data )
@@ -332,7 +332,7 @@ class V0
             type_path: type_path,
             service_handle: service_handle,
             parent: parent,
-            variables: data[:variables] )
+            variables: ( ( data || {} )[:variables] || {} ) )
         end
 
         def adopt_orphan_persistent_service( publisher_namespace, type_path, service_handle, parent, data )
@@ -341,7 +341,7 @@ class V0
             type_path: type_path,
             service_handle: service_handle,
             parent: parent,
-            variables: data[:variables] )
+            variables: ( ( data || {} )[:variables] || {} ) )
         end
 
         def new_nonpersistent_service( publisher_namespace, type_path )
@@ -371,7 +371,7 @@ class V0
           app_api.create_nonpersistent_service(
             publisher_namespace: publisher_namespace,
             type_path: type_path,
-            variables: data[:variables] )
+            variables: ( ( data || {} )[:variables] || {} ) )
         end
 
         def register_nonpersistent_service( publisher_namespace, type_path, service_handle )
@@ -407,7 +407,7 @@ class V0
             publisher_namespace: publisher_namespace,
             type_path: type_path,
             service_handle: service_handle,
-            variables: data[:variables] )
+            variables: ( ( data || {} )[:variables] || {} ) )
         end
 
         def delete_nonpersistent_service( publisher_namespace, type_path, service_handle )
