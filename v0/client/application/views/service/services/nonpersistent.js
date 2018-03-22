@@ -92,13 +92,17 @@ var $serviceServicesNonpersistent = {
 
 	_load: function () {
 
-		var queryString =
-			"publisher_namespace=" + encodeURIComponent( this._publisherNamespace ) +
-			"&type_path=" + encodeURIComponent( this._typePath ) +
-			"&service_handle=" + encodeURIComponent( this._serviceHandle );
+		var publisherNamespace = this._publisherNamespace;
+		var typePath = this._typePath;
+		var serviceHandle = this._serviceHandle;
 
 		apiRequest({
-			action: "/services/" + this._serviceName + "/service_manager/services/?" + queryString,
+			action: "/services/" + this._serviceName + "/service_manager/services/",
+			params: {
+				publisher_namespace: publisherNamespace,
+				type_path: typePath,
+				service_handle: serviceHandle
+			},
 			callbacks: {
 				200: function(response) {
 					serviceServicesNonpersistentContent._refresh( response );
@@ -107,25 +111,5 @@ var $serviceServicesNonpersistent = {
 		});
 
 	},
-
-	// _registration: function( method ) {
-	//
-	// 	var queryString =
-	// 		"publisher_namespace=" + encodeURIComponent( this._publisherNamespace ) +
-	// 		"&type_path=" + encodeURIComponent( this._typePath ) +
-	// 		"&service_handle=" + encodeURIComponent( this._serviceHandle );
-	//
-	// 	apiRequest({
-	// 		action: "/services/" + this._serviceName +
-	// 		"/service_manager/nonpersistent/registration/?" + queryString,
-	// 		method: method,
-	// 		callbacks: {
-	// 			200: function() {
-	// 				serviceServicesNonpersistent._show();
-	// 			}
-	// 		},
-	// 	});
-	//
-	// },
 
 };

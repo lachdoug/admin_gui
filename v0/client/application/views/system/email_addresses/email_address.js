@@ -14,20 +14,9 @@ cell({
 					hr(),
 					dataLoader({
 						action: "/system/email_addresses/email_address/",
-						// ?email_address=" + encodeURIComponent( email_address )
 						params: {
 							email_address: email_address,
 						},
-						// render: function(data) {
-						// 	return {
-						// 		$components: data.map( function( email_address ) {
-						// 			return button({
-						// 				text: email_address,
-						// 				onclick: function() { systemUsersGroup._live(email_address) },
-						// 			});
-						// 		}),
-						// 	};
-						// }
 					}),
 				]
 			}

@@ -34,21 +34,18 @@ var $installNewApp = {
 
 
 	_load: function() {
-		// "https://raw.githubusercontent.com/EnginesBlueprints/test_engine/master/blueprint.json"|| "https://raw.githubusercontent.com/EnginesBlueprints/PHPNavigator/master/blueprint.json" ||
 
-		// https://github.com/EnginesBlueprints/apache_php_web
-		// https://raw.githubusercontent.com/EnginesBlueprints/prosody/master/blueprint.json
-		// var raw_blueprint_url = this._blueprintUrl.replace('github.com', 'raw.githubusercontent.com') + '/master/blueprint.json';
-		var blueprintUrl = this._blueprintUrl // .replace('github.com', 'raw.githubusercontent.com') + '/master/blueprint.json';
+		var blueprintUrl = this._blueprintUrl
+
 		apiRequest({
-			action: '/system/install?blueprint_url=' + encodeURIComponent( blueprintUrl ),
+			action: '/system/install',
+			params: { blueprint_url: blueprintUrl },
 			callbacks: {
 				200: function(response) {
 					installNewApp._data = response
 					installNewApp._renderForm();
 				},
 				405: function (response) {
-					// debugger;
 					alert( response.error.message );
 					installNewApp._cancelFunc();
 				}
@@ -65,16 +62,6 @@ var $installNewApp = {
 		];
 
 	},
-
-
-	// _failedToLoad: function (message) {
-	//
-	// 	installNewAppForm.$components = [
-	// 		{ $text: message }
-	// 	];
-	//
-	// },
-
 
 	_form: function () {
 

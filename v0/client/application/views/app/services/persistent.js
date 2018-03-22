@@ -25,7 +25,6 @@ var $appServicesPersistent = {
 		var appName = this._appName;
 		modal._live (
 			{
-				// dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-compass",
 					text: "App persistent service",
@@ -165,14 +164,17 @@ var $appServicesPersistent = {
 
 	_export: function () {
 
-		var queryString =
-			"publisher_namespace=" + encodeURIComponent( this._publisherNamespace ) +
-			"&type_path=" + encodeURIComponent( this._typePath ) +
-			"&service_handle=" + encodeURIComponent( this._serviceHandle );
+		var publisherNamespace = this._publisherNamespace;
+		var typePath = this._typePath;
+		var serviceHandle = this._serviceHandle;
 
 		apiRequest({
-			action: "/apps/" + this._appName +
-			"/service_manager/persistent/export?" + queryString,
+			action: "/apps/" + this._appName + "/service_manager/persistent/export",
+			params: {
+				publisher_namespace: publisherNamespace,
+				type_path: typePath,
+				service_handle: serviceHandle
+			},
 		});
 
 	},

@@ -58,7 +58,7 @@ var $serviceServicesPersistent = {
 							},
 
 							$update: function () {
-								
+
 								this.$components = [
 									{ $type: "h4", $text: this._data.label },
 									{ $type: "p", $text: this._data.description },
@@ -81,13 +81,17 @@ var $serviceServicesPersistent = {
 
 	_load: function () {
 
-		var queryString =
-			"publisher_namespace=" + encodeURIComponent( this._publisherNamespace ) +
-			"&type_path=" + encodeURIComponent( this._typePath ) +
-			"&service_handle=" + encodeURIComponent( this._serviceHandle );
+		var publisherNamespace = this._publisherNamespace;
+		var typePath = this._typePath;
+		var serviceHandle = this._serviceHandle;
 
 		apiRequest({
-			action: "/services/" + this._serviceName + "/service_manager/services/?" + queryString,
+			action: "/services/" + this._serviceName + "/service_manager/services/",
+			params: {
+				publisher_namespace: publisherNamespace,
+				type_path: typePath,
+				service_handle: serviceHandle
+			},
 			callbacks: {
 				200: function(response) {
 					serviceServicesPersistentContent._refresh( response );
@@ -96,6 +100,5 @@ var $serviceServicesPersistent = {
 		});
 
 	},
-
 
 };

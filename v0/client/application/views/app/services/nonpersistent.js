@@ -124,18 +124,17 @@ var $appServicesNonpersistent = {
 
 	_load: function () {
 
-		var queryString =
-			"publisher_namespace=" + encodeURIComponent( this._publisherNamespace ) +
-			"&type_path=" + encodeURIComponent( this._typePath ) +
-			"&service_handle=" + encodeURIComponent( this._serviceHandle );
+		var publisherNamespace = this._publisherNamespace;
+		var typePath = this._typePath;
+		var serviceHandle = this._serviceHandle;
 
 		apiRequest({
 			action: "/apps/" + this._appName + "/service_manager/services/",
 			params: {
-				publisher_namespace: this._publisherNamespace,
-				type_path: this._typePath,
-				service_handle: this._serviceHandle
- 			},
+				publisher_namespace: publisherNamespace,
+				type_path: typePath,
+				service_handle: serviceHandle
+			},
 			callbacks: {
 				200: function(response) {
 					appServicesNonpersistentContent._refresh( response );
@@ -149,16 +148,18 @@ var $appServicesNonpersistent = {
 	_delete: function( method ) {
 
 		var appName = this._appName;
-
-		var queryString =
-			"publisher_namespace=" + encodeURIComponent( this._publisherNamespace ) +
-			"&type_path=" + encodeURIComponent( this._typePath ) +
-			"&service_handle=" + encodeURIComponent( this._serviceHandle );
+		var publisher_namespace = this._publisherNamespace;
+		var type_path = this._typePath;
+		var service_handle = this._serviceHandle;
 
 		apiRequest({
 			method: "DELETE",
-			action: "/apps/" + appName +
-					"/service_manager/nonpersistent/?" + queryString,
+			action: "/apps/" + appName + "/service_manager/nonpersistent/",
+			params: {
+				publisher_namespace: publisherNamespace,
+				type_path: typePath,
+				service_handle: serviceHandle
+			},
 			callbacks: {
 				200: function(response) {
 					appServices._live( appName );

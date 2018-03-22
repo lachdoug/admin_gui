@@ -14,12 +14,10 @@ cell({
 					hr(),
 					dataLoader({
 						action: "/system/email_domains/email_domain/",
-						// ?email_domain=" + encodeURIComponent( email_domain )
 						params: {
 							email_domain: email_domain,
 						},
 						render: function(data) {
-							// debugger;
 							return {
 								$components: [
 									data.default ? {} : button({

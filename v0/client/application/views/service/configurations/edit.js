@@ -27,37 +27,12 @@ var $serviceConfigurationsEdit = {
 		});
 	},
 
-
-	// _precheck: function( data ) {
-	//
-	// 	var variables = Object.values( data.params );
-	// 	if ( variables && variables.length ) {
-	// 		this._data = data;
-	// 		this._show();
-	// 	} else {
-	// 		var queryString =
-	// 			"configurator_name=" + encodeURIComponent( data.name );
-	// 		apiRequest({
-	// 			action: "/services/" + this._serviceName + "/configuration?" + queryString,
-	// 			method: "PATCH",
-	// 			callbacks: {
-	// 				200: function( response ) {
-	// 					serviceConfiguration._live( serviceName, data, response )
-	// 				},
-	// 			}
-	// 		});
-	// 	};
-	// },
-
-
 	_show: function ( data ) {
 
 		var serviceName = this._serviceName;
-		// var data = this._data;
 
 		modal._live (
 			{
-				// dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-crosshairs",
 					text: "Service configuration",
@@ -88,11 +63,6 @@ var $serviceConfigurationsEdit = {
 										serviceConfigurationsShow._live( serviceName, data.name );
 									}
 								} ),
-								// {
-								// 	$type: 'button',
-								// 	type: 'submit',
-								// 	$text: "SUBMIT"
-								// },
 								formSubmit(),
 							],
 							action: "/services/" + serviceName + "/configuration",
@@ -108,8 +78,6 @@ var $serviceConfigurationsEdit = {
 								},
 							}
 						} ),
-						// pp(data),
-
 
 					]
 				}

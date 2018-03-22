@@ -122,14 +122,16 @@ var $systemCertificates = {
 
 	_downloadCertificate: function( certificatePath  ) {
 		apiRequest({
-			action: "/system/certificates/?certificate_path=" + encodeURIComponent( certificatePath ),
+			action: "/system/certificates/",
+			params: { certificate_path: certificatePath }
 		});
 	},
 
 
 	_deleteCertificate: function( certificatePath , i ) {
 		apiRequest({
-			action: "/system/certificates/?certificate_path=" + encodeURIComponent( certificatePath ),
+			action: "/system/certificates/",
+			params: { certificate_path: certificatePath },
 			method: "DELETE",
 			callbacks: {
 				200: function () { systemCertificatesContent._remove( i ) }

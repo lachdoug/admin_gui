@@ -78,14 +78,13 @@ var $appServicesNonpersistentRegistration = {
 		var typePath = this._typePath;
 		var serviceHandle = this._serviceHandle;
 
-		var queryString =
-			"publisher_namespace=" + encodeURIComponent( publisherNamespace ) +
-			"&type_path=" + encodeURIComponent( typePath ) +
-			"&service_handle=" + encodeURIComponent( serviceHandle );
-
 		apiRequest({
-			action: "/apps/" + appName +
-			"/service_manager/nonpersistent/registration/?" + queryString,
+			action: "/apps/" + appName + "/service_manager/nonpersistent/registration/",
+			params: {
+				publisher_namespace: publisherNamespace,
+				type_path: typePath,
+				service_handle: serviceHandle
+			},
 			method: method,
 			callbacks: {
 				200: function() {

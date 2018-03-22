@@ -23,11 +23,6 @@ var $appServicesPersistentDelete = {
 		var typePath = this._typePath;
 		var serviceHandle = this._serviceHandle;
 
-		var queryString =
-			"publisher_namespace=" + encodeURIComponent( publisherNamespace ) +
-			"&type_path=" + encodeURIComponent( typePath ) +
-			"&service_handle=" + encodeURIComponent( serviceHandle );
-
 		modal._live(
 			{
 				header: icon ( {
@@ -54,11 +49,13 @@ var $appServicesPersistentDelete = {
 								} ),
 								formSubmit(),
 							],
-
-
 							method: "DELETE",
-							action: "/apps/" + this._appName +
-									"/service_manager/persistent/?" + queryString,
+							action: "/apps/" + this._appName + "/service_manager/persistent/",
+							params: {
+								publisher_namespace: publisherNamespace,
+								type_path: typePath,
+								service_handle: serviceHandle
+							},
 							callbacks: {
 								200: function(response) {
 									appServices._live( appName );
@@ -71,7 +68,5 @@ var $appServicesPersistentDelete = {
 			}
 		);
 	},
-
-
 
 };
