@@ -32,7 +32,9 @@ class V0 < Sinatra::Base
   ## Settings
   ##############################################################################
 
-ENV['ENGINES_ADMIN_GUI_SYSTEM_IP'] = "172.16.162.128"
+  if Sinatra::Base.development?
+    ENV['ENGINES_ADMIN_GUI_SYSTEM_IP'] = "172.16.162.128"
+  end
 
   set dump_errors: Sinatra::Base.development?
   set public_folder: 'public'
