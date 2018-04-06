@@ -24,6 +24,10 @@ function dataLoader( args ) {
 					200: function(response) {
 						target._refresh(response);
 					},
+					405: function(response) {
+						alert( response.error.message )
+						target.$components = [ { $text: "Failed to load." } ];
+					},
 				}
 			});
 

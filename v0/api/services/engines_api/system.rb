@@ -285,7 +285,7 @@ class V0
 
 
           ##########################################################################
-          # User admin
+          # Users
           ##########################################################################
 
           def index_users_accounts
@@ -296,6 +296,10 @@ class V0
             @system_api.get 'system/uadmin/users/accounts/', uid: uid
           end
 
+          def create_users_account( account )
+            @system_api.post 'system/uadmin/users/accounts/', account: account
+          end
+
           def index_users_groups
             @system_api.get 'system/uadmin/users/groups'
           end
@@ -303,6 +307,8 @@ class V0
           def show_users_group( name )
             @system_api.get 'system/uadmin/users/groups/', name: name
           end
+
+
 
           ##########################################################################
           # Registry

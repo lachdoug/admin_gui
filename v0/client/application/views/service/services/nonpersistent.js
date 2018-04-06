@@ -1,13 +1,6 @@
-var $serviceServicesNonpersistent = {
+cell({
 
-	$cell: true,
 	id: "serviceServicesNonpersistent",
-
-	_serviceName: null,
-	_publisherNamespace: null,
-	_typePath: null,
-	_serviceHandle: null,
-
 
 	_live: function( serviceName, publisherNamespace, typePath, serviceHandle ) {
 
@@ -25,7 +18,6 @@ var $serviceServicesNonpersistent = {
 		var serviceName = this._serviceName;
 		modal._live (
 			{
-				// dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-compass",
 					text: "Service non-persistent service",
@@ -112,4 +104,4 @@ var $serviceServicesNonpersistent = {
 
 	},
 
-};
+});

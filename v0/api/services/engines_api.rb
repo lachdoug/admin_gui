@@ -23,15 +23,16 @@ class V0
         end
 
         def post(route, data={}, opts={})
+          # byebug
           handle_response do
             RestClient::Request.execute(
               method: :post,
               url: "#{@url}/v0/#{route}",
               payload: { api_vars: ( data || {} ) }.to_json,
-              contentType: 'application/json',
               timeout: opts[:timeout] || 120,
               verify_ssl: false,
               headers: {
+                content_type: :json,
                 access_token: @token
               }
             )
@@ -56,7 +57,6 @@ class V0
 
         def get(route, query_params={}, opts={})
           handle_response do
-            
             RestClient::Request.execute(
               method: :get,
               url: "#{ @url }/v0/#{ route }?#{ URI.encode_www_form query_params }",
@@ -86,7 +86,7 @@ class V0
         def handle_response
           response = yield
           return nil unless response.headers[:content_type]
-          case response.headers[:content_type].split(';').first
+          case response.headers[:content_type].split(";").first
           when 'application/json'
             JSON.parse response.body, symbolize_names: true
           when 'text/plain'
@@ -94,11 +94,12 @@ class V0
           when 'application/octet-stream'
             response.body
           else
-            raise StandardError.new 'An unhandled content type was returned by the system API.'
+            raise StandardError.new "An unhandled content type was returned by the system API. (#{response.headers[:content_type]})"
           end
         rescue RestClient::Forbidden
           raise NonFatalError.new 'Not signed in.', 401
         rescue RestClient::MethodNotAllowed => e
+          # byebug
           system_error_message = JSON.parse(e.response.body, symbolize_names: true)[:error_object][:error_mesg]
           raise NonFatalError.new "Not allowed.\n\nReason: #{system_error_message}", 405
         rescue Errno::ENETUNREACH => e

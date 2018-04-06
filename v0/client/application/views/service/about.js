@@ -1,10 +1,6 @@
-var $serviceAbout = {
+cell({
 
-	$cell: true,
 	id: "serviceAbout",
-
-	_serviceName: null,
-
 
 	_live: function (serviceName) {
 
@@ -12,7 +8,6 @@ var $serviceAbout = {
 		this._show();
 
 	},
-
 
 	_show: function () {
 
@@ -45,7 +40,7 @@ var $serviceAbout = {
 								var version = dig( data, "software", "display", "version" );
 								var websiteUrl = dig( data, "software", "display", "url" );
 								var licenseUrl = dig(data, "software", "license", "url" );
-								
+
 								this.$components = [
 									{
 										class: "panel panel-default",
@@ -73,13 +68,6 @@ var $serviceAbout = {
 											}
 										]
 									},
-									// {
-									// 	class: "clearfix",
-									// 	$components: [
-									// 		button( { icon: "fa fa-external-link", text: "Website", class: "pull-left-md", onclick: () => { websiteUrl ? openUrl( websiteUrl ) : alert("Not available."); } } ),
-									// 		button( { icon: "fa fa-external-link", text: "License", class: "pull-right-md", onclick: () => { licenseUrl ? openUrl( licenseUrl ) : alert("Not available."); } } )
-									// 	]
-									// },
 								];
 							},
 						},
@@ -102,4 +90,4 @@ var $serviceAbout = {
 		});
 	},
 
-};
+});

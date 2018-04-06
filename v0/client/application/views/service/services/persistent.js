@@ -1,13 +1,6 @@
-var $serviceServicesPersistent = {
+cell({
 
-	$cell: true,
 	id: "serviceServicesPersistent",
-
-	_serviceName: null,
-	_publisherNamespace: null,
-	_typePath: null,
-	_serviceHandle: null,
-
 
 	_live: function( serviceName, publisherNamespace, typePath, serviceHandle ) {
 
@@ -101,4 +94,4 @@ var $serviceServicesPersistent = {
 
 	},
 
-};
+});

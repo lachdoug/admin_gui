@@ -1,10 +1,10 @@
-var $systemControlPanel = {
+cell({
 
-	$cell: true,
 	id: "systemControlPanel",
 
-
 	_live: function () {
+
+		authCheck(); // this modal does not call api for data, so do fake call to check if auth'd
 
 		modal._live ( {
 			header: icon( { icon: "fa fa-cogs", text: "System control panel" } ),
@@ -81,4 +81,4 @@ var $systemControlPanel = {
 
 	}
 
-};
+});

@@ -31,7 +31,10 @@ var $signIn = {
 							components: function(f) {
 								// debugger;
 								return [
-									f._field( { name: "data[username]", value: "admin", label: false, required: true, placeholder: "User name", type: "hidden" } ),
+									remoteManagement ?
+									f._field( { name: "data[system_ip]", title: "System IP address", label: false, required: true, placeholder: "IP address" } ) :
+									f._field( { type: "hidden", name: "data[system_ip]", value: systemIp } ),
+
 									f._field( { id:"signInPassword", label: false, name: "data[password]", type: "site_password", required: true, placeholder: "Password", title: "System admin password" } ),
 									// f._field( { id:"xsomefield", name: "data[xosmefield]", dependOn: { input: "somefield", value: "hi" } } ),
 									// f._field( { id:"somefield", name: "data[somefield]" } ),
@@ -47,10 +50,8 @@ var $signIn = {
 							// ],
 							action: "/system/signin",
 							callbacks: {
-								200: function () {
-									$("#pageLoadingSpinner").fadeIn();
-									signIn._kill();
-									system._live();
+								200: function (response) {
+									main._renderSignedIn(response.system_ip);
 								},
 								// 503: function (responseJSON) {
 								// 	alert( responseJSON.error.message );

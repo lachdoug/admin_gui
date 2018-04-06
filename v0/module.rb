@@ -32,10 +32,12 @@ class V0 < Sinatra::Base
   ## Settings
   ##############################################################################
 
+ENV['ENGINES_ADMIN_GUI_SYSTEM_IP'] = "172.16.162.128"
+
   set dump_errors: Sinatra::Base.development?
   set public_folder: 'public'
   set data_directory_path: 'data/v0'
-  set system_api_url: ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL']
+  set system_ip: ENV['ENGINES_ADMIN_GUI_SYSTEM_IP'] || ( ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] ? ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'][8..-6] : nil )
   set session_secret: ENV['ENGINES_ADMIN_GUI_SESSION_SECRET'] || '0'
   set kerberos_server: ENV['ENGINES_ADMIN_GUI_KERBEROS_SERVER'] || "auth.engines.internal"
   set kerberos_ldap_keytab_path: ENV['ENGINES_ADMIN_GUI_KERBEROS_LDAP_KEYTAB_PATH'] || "/etc/krb5kdc/keys/control.keytab"
@@ -51,7 +53,6 @@ class V0 < Sinatra::Base
   set banner_text_color: ENV['ENGINES_ADMIN_GUI_BANNER_TEXT_COLOR'] || '#fff'
   set banner_background_color: ENV['ENGINES_ADMIN_GUI_BANNER_BACKGROUND_COLOR'] || '#48d'
   set enable_client_event_streaming: true || !Sinatra::Base.development?
-
 
   ##############################################################################
   ## CLIENT
@@ -70,11 +71,11 @@ class V0 < Sinatra::Base
     erb :'client.js'
   end
 
-  put '/client/select_system' do
-    halt 404 unless settings.remote_management
-    session[:system_api_url] = params[:data][:system_api_url]
-    { system_api_url: session[:system_api_url] }.to_json
-  end
+  # put '/client/select_system' do
+  #   halt 404 unless settings.remote_management
+  #   session[:system_api_url] = params[:data][:system_api_url]
+  #   { system_api_url: session[:system_api_url] }.to_json
+  # end
 
   patch '/client/display_settings' do
     unless params[:show_services].nil?
@@ -221,8 +222,12 @@ class V0 < Sinatra::Base
     current_user.system_api_token if current_user
   end
 
+  def system_ip
+    settings.remote_management ? session[:system_ip] : settings.system_ip
+  end
+
   def system_api_url
-    session[:system_api_url] || settings.system_api_url
+    "https://#{system_ip}:2380"
   end
 
   def show_software_titles

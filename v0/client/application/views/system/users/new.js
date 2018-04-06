@@ -44,7 +44,7 @@ cell({
 							} ),
 							formSubmit(),
 						],
-						action: '/system/users/user',
+						action: '/system/users/accounts/',
 						method: 'POST',
 						callbacks: {
 							200: function(response) {

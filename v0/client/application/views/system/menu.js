@@ -6,6 +6,8 @@ var $systemMenu = {
 
 	_live: function () {
 
+		authCheck(); // this modal does not call api for data, so do fake call to check if auth'd
+
 		var baseOsName = system._$data.properties.version.base_os.name;
 		modal._live ( {
 			header: icon( { icon: "fa fa-hdd-o", text: "System menu" } ),

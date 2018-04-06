@@ -20,10 +20,17 @@ cell({
 		});
 	},
 
+	_renderSignedIn: function (system_ip) {
+		navbarSystemIp.$text = system_ip;
+		$("#pageLoadingSpinner").fadeIn();
+		signIn._kill();
+		system._live();
+	},
 
 	_renderSignedOut: function () {
 		$(".modal").modal("hide");
 		$("#navbarSignOutButton").hide();
+		if ( remoteManagement ) { navbarSystemIp.$text = ""; };
 		api._abortAll();
 		system._kill();
 		signIn._live();

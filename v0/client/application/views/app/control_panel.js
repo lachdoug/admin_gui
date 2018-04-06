@@ -8,6 +8,8 @@ var $appControlPanel = {
 
 	_live: function (appName) {
 
+		authCheck(); // this modal does not call api for data, so do fake call to check if auth'd
+
 		this._appName = appName;
 		this._show();
 

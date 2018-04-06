@@ -1,10 +1,6 @@
-var $serviceActions = {
+cell({
 
-	$cell: true,
 	id: "serviceActions",
-
-	_serviceName: null,
-
 
 	_live: function (serviceName) {
 
@@ -19,7 +15,6 @@ var $serviceActions = {
 		var serviceName = this._serviceName;
 		modal._live (
 			{
-				// dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-crosshairs",
 					text: "Service actions",
@@ -77,9 +72,6 @@ var $serviceActions = {
 			action: "/services/" + this._serviceName + "/actions",
 			callbacks: {
 				200: function(response) {
-					// debugger
-					// var actionators = Object.values( response );
-					// console.log( actionators );
 					serviceActionsContent._refresh( response );
 				}
 			}
@@ -87,4 +79,4 @@ var $serviceActions = {
 
 	},
 
-};
+});

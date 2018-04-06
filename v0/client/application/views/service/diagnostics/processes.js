@@ -56,19 +56,13 @@ var $serviceProcesses = {
 							},
 
 							$update: function () {
-								// var report = "";
-								// if ( this._processes == "" ) {
-								// 	report = { $type: "i", $text: "This service does not have a build report." };
-								// } else {
-								// 	report = markdown( this._processes );
-								// }
 								this.$components = [ this._processes() ];
 							},
 
 							_processes: function () {
 								return {
 									class: "well",
-									style: "font-family: monospace; box-shadow: none; background-image: none;",
+									style: "font-family: monospace; box-shadow: none; background-image: none; overflow-x: scroll;",
 									$components: [
 										{
 											$type: "table",

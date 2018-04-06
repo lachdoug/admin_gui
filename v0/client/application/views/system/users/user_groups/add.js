@@ -26,7 +26,6 @@ cell({
 									} ),
 									formCancel ( { onclick: function() { systemUserUserGroups._live(user_uid) } } ),
 									formSubmit(),
-							//				pp( data )
 								],
 								action: "/system/users/user/" + user_uid + "/groups",
 								method: "POST",

@@ -31,9 +31,9 @@ class V0
       #   system.update_user( params[:user_uid], params[:data] ).to_json
       # end
       #
-      # post '/system/users/user' do
-      #   system.create_user( params[:data] ).to_json
-      # end
+      post '/system/users/accounts/' do
+        system.create_users_account( params[:data] ).to_json
+      end
 
     end
   end

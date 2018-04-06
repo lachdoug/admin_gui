@@ -8,17 +8,17 @@ cell({
 	_$showContainerMemoryUsage: showContainerMemoryUsage,
 
 
-	_live: function( onupdateCallback ) {
-		if ( systemApiUrl ) {
+	_live: function( onloadCallback ) {
+		// if ( systemApiUrl ) {
 			if ( enableEventStreaming ) { systemEvents._live() };
-			this._load( onupdateCallback );
-		} else {
-			if ( remoteManagement ) {
-				main._renderSelectSystem();
-			} else {
-				alert('No system API URL.');
-			};
-		}
+			this._load( onloadCallback );
+		// } else {
+			// if ( remoteManagement ) {
+				// main._renderSelectSystem();
+			// } else {
+				// alert('No system API URL.');
+			// };
+		// }
 	},
 
 

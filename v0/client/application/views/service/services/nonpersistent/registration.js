@@ -1,14 +1,6 @@
-var $serviceServicesNonpersistentRegistration = {
+cell({
 
-	$cell: true,
 	id: "serviceServicesNonpersistentRegistration",
-
-	// _serviceName: null,
-	// _publisherNamespace: null,
-	// _typePath: null,
-	// _serviceHandle: null,
-	// _data: null,
-
 
 	_live: function( serviceName, publisherNamespace, typePath, serviceHandle, data ) {
 
@@ -95,4 +87,4 @@ var $serviceServicesNonpersistentRegistration = {
 
 	},
 
-};
+});
