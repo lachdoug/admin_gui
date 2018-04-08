@@ -43,7 +43,8 @@ cell({
 													} else {
 														if ( confirm("Are you sure that you want to delete user '" + user_uid + "'?") ) {
 															apiRequest({
-																action: "/system/users/user/" + user_uid,
+																action: "/system/users/accounts/",
+																params: { user_uid: user_uid},
 																method: "DELETE",
 																callbacks: {
 																	200: function () {

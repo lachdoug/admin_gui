@@ -13,22 +13,24 @@ cell({
 					}),
 					hr(),
 					dataLoader({
-						action: "/system/users/user/" + user_uid + "/groups/delete",
+						action: "/system/users/accounts/",
+						params: { uid: user_uid },
 						render: function(data) {
 
 							return form({
 								components: [
 									formField( {
 										type: "select_multiple",
-										name: "group_name",
+										name: "names",
 										label: "Group",
-										collection: data.current_groups,
+										collection: data.groups,
 									} ),
 									formCancel ( { onclick: function() { systemUserUserGroups._live(user_uid) } } ),
 									formSubmit(),
 							//				pp( data )
 								],
-								action: "/system/users/user/" + user_uid + "/groups/",
+								action: "/system/users/accounts/groups",
+								params: { user_uid: user_uid },
 								method: "DELETE",
 								callbacks: {
 									200: function(response) {

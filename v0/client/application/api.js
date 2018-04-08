@@ -83,7 +83,21 @@ cell({
 
 		responseContentType = response.getResponseHeader("Content-Type")
 
-		if ( response.status == 0 ) {
+		if ( response.status == 500 ) {
+			main._renderFatalError( JSON.parse(response.responseText).error );
+			//
+			// var backtrace = ( new Error() ).stack.split("\n");
+			// var message = response.responseText;
+			// main._renderFatalError( {
+			// 	message: message,
+			// 	detail: {
+			// 		source: "Admin GUI ApiV0 v0.5",
+			// 		type: "Client" + response.status,
+			// 		text: response.statusText,
+			// 		args: args,
+			// 		backtrace: backtrace[0] }
+			// } );
+		} else if ( response.status == 0 ) {
 			api._handleNoResponse( response, args );
 		} else if ( responseContentType == "application/json" ) {
 			api._handleJsonResponse(response, args);
@@ -92,7 +106,6 @@ cell({
 		} else if ( responseContentType == "text/html;charset=utf-8" ) {
 			api._handleHtmlResponse(response, args);
 		} else {
-
 			var backtrace = ( new Error() ).stack.split("\n");
 			var message = response.responseText;
 			main._renderFatalError( {
@@ -100,7 +113,7 @@ cell({
 				detail: {
 					source: "Admin GUI ApiV0 v0.5",
 					type: "Client" + response.status,
-					text: response.statusText,
+					text: "Unexpected content_type.\n" + response.statusText,
 					args: args,
 					backtrace: backtrace[0] }
 			} );
@@ -167,9 +180,9 @@ cell({
 			case 405:
 				alert( JSON.parse(response.responseText).error.message );
 				break;
-			case 500:
-				main._renderFatalError( JSON.parse(response.responseText).error );
-				break;
+			// case 500:
+			// 	main._renderFatalError( JSON.parse(response.responseText).error );
+			// 	break;
 			case 502:
 				main._renderUnavailableSystem( JSON.parse(response.responseText).error );
 				break;
@@ -185,7 +198,7 @@ cell({
 					detail: {
 						source: "Admin GUI ApiV0 v0.5",
 						type: "Client" + response.status,
-						text: response.statusText,
+						text:  "Unexpected status in JSON response handler.\n" + response.statusText,
 						args: args,
 						backtrace: backtrace[0] }
 				} );

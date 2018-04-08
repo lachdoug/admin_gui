@@ -32,7 +32,7 @@ class V0
       # end
       #
       post '/system/users/accounts/' do
-        system.create_users_account( params[:account] ).to_json
+        system.create_users_account( params[:data] ).to_json
       end
 
     end

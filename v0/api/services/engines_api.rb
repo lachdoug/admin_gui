@@ -23,7 +23,6 @@ class V0
         end
 
         def post(route, data={}, opts={})
-          # byebug
           handle_response do
             RestClient::Request.execute(
               method: :post,
@@ -55,11 +54,11 @@ class V0
           end
         end
 
-        def get(route, query_params={}, opts={})
+        def get(route, data={}, opts={})
           handle_response do
             RestClient::Request.execute(
               method: :get,
-              url: "#{ @url }/v0/#{ route }?#{ URI.encode_www_form query_params }",
+              url: "#{ @url }/v0/#{ route }?#{ URI.encode_www_form data }",
               timeout: opts[:timeout] || 120,
               verify_ssl: false,
               headers: {
@@ -69,11 +68,12 @@ class V0
           end
         end
 
-        def delete(route, opts={})
+        def delete(route, data, opts={})
           handle_response do
             RestClient::Request.execute(
               method: :delete,
-              url: "#{@url}/v0/#{route}",
+              url: "#{@url}/v0/#{route}", #{}"?#{ URI.encode_www_form data }",
+              payload: { api_vars: ( data || {} ) }.to_json,
               timeout: opts[:timeout] || 120,
               verify_ssl: false,
               headers: {
@@ -100,7 +100,9 @@ class V0
           raise NonFatalError.new 'Not signed in.', 401
         rescue RestClient::MethodNotAllowed => e
           # byebug
-          system_error_message = JSON.parse(e.response.body, symbolize_names: true)[:error_object][:error_mesg]
+          response = JSON.parse(e.response.body, symbolize_names: true)
+          error = response[:error_object] || response[:error]
+          system_error_message = error[:error_mesg] || error[:message]
           raise NonFatalError.new "Not allowed.\n\nReason: #{system_error_message}", 405
         rescue Errno::ENETUNREACH => e
           raise NonFatalError.new "Admin GUI server is not connected to the network.\n\nReason: #{e.message}\n\nThe connection will be tried again in a moment.", 502

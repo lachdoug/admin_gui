@@ -14,9 +14,10 @@ class V0 < Sinatra::Base
   ##----------------------------------------------------------------------------
 
   before do
-    if Sinatra::Base.development?
-      puts "Request #{request.request_method} #{request.path_info} #{params.inspect}"
-    end
+    # if Sinatra::Base.development?
+    # byebug
+      logger.info "Request #{request.request_method} #{request.path_info} #{params.inspect}"
+    # end
   end
 
   post '/test_kerberos' do
@@ -143,12 +144,10 @@ class V0 < Sinatra::Base
       [ error.status_code, { error: { message: error.message, behavior: error.behavior } }.to_json ]
     else
       error_text = error.class.to_s + " (" + error.message + ")"
-      begin
-      # if error.respond_to?(:response) && error.response.respond_to?(:net_http_res) && !error.response.net_http_res.body.empty?
-        system_error = JSON.parse( error.response.net_http_res.body, symbolize_names: true )
-        error_text += "\n\n" + system_error[:error_object][:error_mesg].to_s
-      rescue
-      end
+      response = JSON.parse(error.response.net_http_res.body, symbolize_names: true)
+      system_error = response[:error_object] || response[:error]
+      system_error_message = system_error[:error_mesg] || system_error[:message]
+      error_text += "\n\n#{system_error_message}"
       [ 500, { error: { message: "Server error.",
         detail: {
           application: "Admin GUI ApiV0 v0.5",

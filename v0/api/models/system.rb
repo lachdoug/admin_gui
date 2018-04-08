@@ -219,97 +219,104 @@ class V0
           engines_api_system.show_users_account( uid )
         end
 
-        # def users
-        #   ldap.users
-        # end
-
         def create_users_account( data )
           engines_api_system.create_users_account( data )
         end
+
+        def delete_users_account_groups( user_uid, names )
+          engines_api_system.delete_users_account_groups( user_uid, names )
+        end
+
+        def new_users_account_groups( user_uid )
+          engines_api_system.new_users_account_groups( user_uid )
+        end
+
+
+
 
         # def user(user_uid)
         #   ldap.user(user_uid)
         # end
 
-        def user_available_groups(user_uid)
-          ldap.user_available_groups(user_uid)
-        end
-
-        def user_current_groups(user_uid)
-          ldap.user_current_groups(user_uid)
-        end
-
-        def user_new_add_to_group( user_uid )
-          ldap.user_new_add_to_group( user_uid )
-        end
-
-        def user_add_to_group( user_uid, group_name )
-          ldap.user_add_to_group( user_uid, group_name )
-        end
-
-        def user_new_remove_from_group( user_uid )
-          ldap.user_new_remove_from_group( user_uid )
-        end
-
-        def user_remove_from_group( user_uid, group_name )
-          ldap.user_remove_from_group( user_uid, group_name )
-        end
-
-        def user_email(user_uid)
-          ldap.user_email(user_uid)
-        end
-
-        def user_setup_email( user_uid, email_domain )
-          ldap.user_setup_email( user_uid, email_domain )
-        end
-
-        def user_disable_email( user_uid )
-          ldap.user_disable_email( user_uid )
-        end
-
-        def user_edit_mailbox_domain( user_uid )
-          ldap.user_edit_mailbox_domain( user_uid )
-        end
-
-        def user_update_mailbox_domain( user_uid, email_domain )
-          ldap.user_update_mailbox_domain( user_uid, email_domain )
-        end
-
-        def user_new_add_email_address( user_uid )
-          ldap.user_new_add_email_address( user_uid )
-        end
-
-        def user_add_email_address( user_uid, email_address )
-          ldap.user_add_email_address( user_uid, email_address )
-        end
-
-        def user_new_remove_email_address( user_uid )
-          ldap.user_email_addresses( user_uid )
-        end
-
-        def user_remove_email_address( user_uid, email_address )
-          ldap.user_remove_email_address( user_uid, email_address )
-        end
-
-        def user_new_distribution_group( user_uid )
-          ldap.user_new_distribution_group user_uid
-        end
-
-        def user_create_distribution_group( user_uid, distribution_group )
-          ldap.user_create_distribution_group( user_uid, distribution_group )
-        end
-
-        def user_distribution_groups_remove(user_uid)
-          ldap.user_distribution_groups_remove user_uid
-        end
-
-        def delete_user(user_uid)
-          ldap.delete_user(user_uid)
-        end
-
-        def update_user(user_uid, data)
-          ldap.update_user(user_uid, data)
-        end
+        # def user_available_groups(user_uid)
+        #   ldap.user_available_groups(user_uid)
+        # end
+        #
+        # def user_current_groups(user_uid)
+        #   ldap.user_current_groups(user_uid)
+        # end
+        #
+        # def user_new_add_to_group( user_uid )
+        #   ldap.user_new_add_to_group( user_uid )
+        # end
+        #
+        # def user_add_to_group( user_uid, group_name )
+        #   ldap.user_add_to_group( user_uid, group_name )
+        # end
+        #
+        # def user_new_remove_from_group( user_uid )
+        #   ldap.user_new_remove_from_group( user_uid )
+        # end
+        #
+        # def user_remove_from_group( user_uid, group_name )
+        #   ldap.user_remove_from_group( user_uid, group_name )
+        # end
+        #
+        # def user_email(user_uid)
+        #   ldap.user_email(user_uid)
+        # end
+        #
+        # def user_setup_email( user_uid, email_domain )
+        #   ldap.user_setup_email( user_uid, email_domain )
+        # end
+        #
+        # def user_disable_email( user_uid )
+        #   ldap.user_disable_email( user_uid )
+        # end
+        #
+        # def user_edit_mailbox_domain( user_uid )
+        #   ldap.user_edit_mailbox_domain( user_uid )
+        # end
+        #
+        # def user_update_mailbox_domain( user_uid, email_domain )
+        #   ldap.user_update_mailbox_domain( user_uid, email_domain )
+        # end
+        #
+        # def user_new_add_email_address( user_uid )
+        #   ldap.user_new_add_email_address( user_uid )
+        # end
+        #
+        # def user_add_email_address( user_uid, email_address )
+        #   ldap.user_add_email_address( user_uid, email_address )
+        # end
+        #
+        # def user_new_remove_email_address( user_uid )
+        #   ldap.user_email_addresses( user_uid )
+        # end
+        #
+        # def user_remove_email_address( user_uid, email_address )
+        #   ldap.user_remove_email_address( user_uid, email_address )
+        # end
+        #
+        # def user_new_distribution_group( user_uid )
+        #   ldap.user_new_distribution_group user_uid
+        # end
+        #
+        # def user_create_distribution_group( user_uid, distribution_group )
+        #   ldap.user_create_distribution_group( user_uid, distribution_group )
+        # end
+        #
+        # def user_distribution_groups_remove(user_uid)
+        #   ldap.user_distribution_groups_remove user_uid
+        # end
+        #
+        # def delete_user(user_uid)
+        #   ldap.delete_user(user_uid)
+        # end
+        #
+        # def update_user(user_uid, data)
+        #   ldap.update_user(user_uid, data)
+        # end
 
         ########################################################################
         # User groups
@@ -337,105 +344,105 @@ class V0
         # Distribution groups
         ########################################################################
 
-        def distribution_lists
-          ldap.distribution_lists
-        end
-
-        def distribution_list( distribution_list_name )
-          ldap.distribution_list( distribution_list_name )
-        end
-
-        def distribution_lists_new
-          ldap.distribution_lists_new
-        end
-
-        def distribution_lists_create( data )
-          ldap.distribution_lists_create( data )
-        end
-
-        def distribution_list_edit( distribution_list_name )
-          ldap.distribution_list_edit distribution_list_name
-        end
-
-        def distribution_list_update( distribution_list_name, data )
-          ldap.distribution_list_update distribution_list_name, data
-        end
-
-        def distribution_list_delete( distribution_list_name )
-          ldap.distribution_list_delete distribution_list_name
-        end
-
-        def distribution_list_new_email_address( distribution_list_name )
-          ldap.distribution_list_new_email_address( distribution_list_name )
-        end
-
-        def distribution_list_create_email_address( distribution_list_name, email_addresses )
-          ldap.distribution_list_create_email_address( distribution_list_name, email_addresses )
-        end
-
-        def distribution_list_delete_email_address( distribution_list_name, email_addresses )
-          ldap.distribution_list_delete_email_address( distribution_list_name, email_addresses )
-        end
+        # def distribution_lists
+        #   ldap.distribution_lists
+        # end
+        #
+        # def distribution_list( distribution_list_name )
+        #   ldap.distribution_list( distribution_list_name )
+        # end
+        #
+        # def distribution_lists_new
+        #   ldap.distribution_lists_new
+        # end
+        #
+        # def distribution_lists_create( data )
+        #   ldap.distribution_lists_create( data )
+        # end
+        #
+        # def distribution_list_edit( distribution_list_name )
+        #   ldap.distribution_list_edit distribution_list_name
+        # end
+        #
+        # def distribution_list_update( distribution_list_name, data )
+        #   ldap.distribution_list_update distribution_list_name, data
+        # end
+        #
+        # def distribution_list_delete( distribution_list_name )
+        #   ldap.distribution_list_delete distribution_list_name
+        # end
+        #
+        # def distribution_list_new_email_address( distribution_list_name )
+        #   ldap.distribution_list_new_email_address( distribution_list_name )
+        # end
+        #
+        # def distribution_list_create_email_address( distribution_list_name, email_addresses )
+        #   ldap.distribution_list_create_email_address( distribution_list_name, email_addresses )
+        # end
+        #
+        # def distribution_list_delete_email_address( distribution_list_name, email_addresses )
+        #   ldap.distribution_list_delete_email_address( distribution_list_name, email_addresses )
+        # end
 
         ########################################################################
         # Email domains
         ########################################################################
 
-        def email_domains
-          ldap.email_domains
-        end
-
-        def email_domain(email_domain)
-          ldap.email_domain(email_domain)
-        end
-
-        def new_email_domain
-          system_domains = domains
-          system_domain_names = system_domains[:names].map{ |domain| domain[:domain_name] }
-          existing_domain_names = email_domains[:domains]
-          {
-            domains: system_domain_names - existing_domain_names
-          }
-        end
-
-        def create_email_domain(data)
-          ldap.create_email_domain data
-        end
-
-        def deletable_email_domains
-          existing_domains = email_domains
-          if existing_domains[:domains].length < 2
-            existing_domains[:domains]
-          else
-            existing_domains[:domains] - [ existing_domains[:default] ]
-          end
-        end
-
-        def delete_email_domain(email_domain)
-          ldap.delete_email_domain email_domain
-        end
-
-        def set_default_email_domain(data)
-          ldap.set_default_email_domain data[:email_domain]
-        end
-
-        def email_domains_create_setup(data)
-          # service(:smtp).perform_configuration( :default_domain, domain_name: data[:email_domain] )
-          # service(:email).perform_configuration( :default_domain, domain_name: data[:email_domain] )
-
-          ldap.create_email_domain data
-        rescue
-          ldap.set_default_email_domain data[:email_domain]
-          # service(:imap).instruct(:start)
-        end
-
-        def email_domains_new_setup
-          system_domains = domains
-          {
-            select: system_domains[:default],
-            domains: system_domains[:names].map{ |domain| domain[:domain_name] }
-          }
-        end
+        # def email_domains
+        #   ldap.email_domains
+        # end
+        #
+        # def email_domain(email_domain)
+        #   ldap.email_domain(email_domain)
+        # end
+        #
+        # def new_email_domain
+        #   system_domains = domains
+        #   system_domain_names = system_domains[:names].map{ |domain| domain[:domain_name] }
+        #   existing_domain_names = email_domains[:domains]
+        #   {
+        #     domains: system_domain_names - existing_domain_names
+        #   }
+        # end
+        #
+        # def create_email_domain(data)
+        #   ldap.create_email_domain data
+        # end
+        #
+        # def deletable_email_domains
+        #   existing_domains = email_domains
+        #   if existing_domains[:domains].length < 2
+        #     existing_domains[:domains]
+        #   else
+        #     existing_domains[:domains] - [ existing_domains[:default] ]
+        #   end
+        # end
+        #
+        # def delete_email_domain(email_domain)
+        #   ldap.delete_email_domain email_domain
+        # end
+        #
+        # def set_default_email_domain(data)
+        #   ldap.set_default_email_domain data[:email_domain]
+        # end
+        #
+        # def email_domains_create_setup(data)
+        #   # service(:smtp).perform_configuration( :default_domain, domain_name: data[:email_domain] )
+        #   # service(:email).perform_configuration( :default_domain, domain_name: data[:email_domain] )
+        #
+        #   ldap.create_email_domain data
+        # rescue
+        #   ldap.set_default_email_domain data[:email_domain]
+        #   # service(:imap).instruct(:start)
+        # end
+        #
+        # def email_domains_new_setup
+        #   system_domains = domains
+        #   {
+        #     select: system_domains[:default],
+        #     domains: system_domains[:names].map{ |domain| domain[:domain_name] }
+        #   }
+        # end
 
 
 
@@ -444,14 +451,14 @@ class V0
         # Email addresses
         ########################################################################
 
-        def email_addresses
-          ldap.email_addresses
-        end
-
-        def email_address(email_address)
-          ldap.email_address(email_address)
-        end
-
+        # def email_addresses
+        #   ldap.email_addresses
+        # end
+        #
+        # def email_address(email_address)
+        #   ldap.email_address(email_address)
+        # end
+        #
 
 
 

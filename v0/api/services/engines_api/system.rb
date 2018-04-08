@@ -300,13 +300,22 @@ class V0
             @system_api.post 'system/uadmin/users/accounts/', account: account
           end
 
-          def index_users_groups
-            @system_api.get 'system/uadmin/users/groups'
+          def delete_users_account_groups( user_uid, names )
+            @system_api.delete 'system/uadmin/users/accounts/groups', user_uid: user_uid, names: names
           end
 
-          def show_users_group( name )
-            @system_api.get 'system/uadmin/users/groups/', name: name
+          def new_users_account_groups( user_uid )
+            @system_api.get 'system/uadmin/users/accounts/groups/new', user_uid: user_uid
           end
+
+
+          # def index_users_groups
+          #   @system_api.get 'system/uadmin/users/groups'
+          # end
+          #
+          # def show_users_group( name )
+          #   @system_api.get 'system/uadmin/users/groups/', name: name
+          # end
 
 
 
