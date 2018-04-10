@@ -1,6 +1,6 @@
 cell({
 
-	id: "systemEmailDistributionLists",
+	id: "systemEmailDistributionGroups",
 
 	_live: function () {
 
@@ -13,25 +13,25 @@ cell({
 					}),
 					hr(),
 					dataLoader({
-						action: "/system/email/distribution_lists",
+						action: "/system/email/distribution_groups",
 						render: function(data) {
 							return {
 								$components: [
 									button( {
-										onclick: systemEmailDistributionListNew._live,
+										onclick: systemEmailDistributionGroupNew._live,
 										icon: "fa fa-plus",
 										text: "New"
 									} ),
 									{ $type: "hr" },
 									{
-										$components: data.distribution_lists.map( function( distribution_list ) {
+										$components: data.map( function( distribution_group ) {
 											return {
 												$components: [
 													button({
-														text: distribution_list.name,
-														onclick: function() { systemEmailDistributionList._live(distribution_list.name) },
+														text: distribution_group.name,
+														onclick: function() { systemEmailDistributionGroup._live(distribution_group.name) },
 													}),
-													{ $type: "p", $text: distribution_list.description }
+													{ $type: "p", style: "margin-left: 30px;", $text: distribution_group.description }
 												]
 											};
 										})

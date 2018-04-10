@@ -47,10 +47,10 @@ cell({
 													text: email_address.email_address + " (alias)",
 													onclick: function() { systemUsersUser._live(email_address.user_uid) },
 												});
-												case 'list': return button({
+												case 'distribution_group': return button({
 													class: "searchListItem",
-													text: email_address.email_address + " (distribution list)",
-													onclick: function() { systemEmailDistributionList._live(email_address.distribution_list_name) },
+													text: email_address.email_address + " (distribution group)",
+													onclick: function() { systemEmailDistributionGroup._live(email_address.distribution_group_name) },
 												});
 											}
 										}),

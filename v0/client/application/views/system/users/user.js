@@ -27,6 +27,14 @@ cell({
 									}
 								},
 								$components: [
+									button({
+										text: "Password",
+										icon: "fa fa-user-secret",
+										wrapperClass: "pull-right",
+										onclick: function () {
+											systemUsersEditPassword._live(user_uid);
+										}
+									}),
 									dataList({ items: [
 										{ label: "Name", data: data.name }
 									]}),
@@ -70,6 +78,7 @@ cell({
 									},
 									hr(),
 									data.email.mailbox ? {
+										class: "clearfix",
 										$components: [
 											{
 												class: "pull-left",

@@ -1,7 +1,7 @@
 cell({
-	id: "systemEmailDistributionList",
+	id: "systemEmailDistributionGroup",
 
-	_live: function (distribution_list_name) {
+	_live: function (distribution_group_name) {
 
 		// debugger;
 		modal._live ( {
@@ -9,17 +9,17 @@ cell({
 			body: {
 				$components: [
 					modalNav({
-						up: systemEmailDistributionLists._live,
+						up: systemEmailDistributionGroups._live,
 						content: {
 							$components: [
-								{ $type: "h4", $text: distribution_list_name },
+								{ $type: "h4", $text: distribution_group_name },
 							]
 						}
 					}),
 					dataLoader({
-						action: "/system/email/distribution_list",
-						data: {
-							distribution_list_name: distribution_list_name
+						action: "/system/email/distribution_groups/",
+						params: {
+							name: distribution_group_name
 						},
 						render: function(data) {
 							return {
@@ -36,15 +36,15 @@ cell({
 													if ( data.email_addresses.length ) {
 														alert("Remove all email addresses first.");
 													} else {
-														if ( confirm("Are you sure that you want to delete this distribution list?") ) {
+														if ( confirm("Are you sure that you want to delete this distribution group?") ) {
 															apiRequest({
-																action: "/system/email/distribution_list",
+																action: "/system/email/distribution_groups/",
 																method: "DELETE",
-																data: {
-																	distribution_list_name: distribution_list_name
+																params: {
+																	name: distribution_group_name
 																},
 																callbacks: {
-																	200: systemEmailDistributionLists._live
+																	200: systemEmailDistributionGroups._live
 																}
 															});
 														};
@@ -56,7 +56,7 @@ cell({
 												icon: "fa fa-edit",
 												wrapperClass: "pull-left",
 												onclick: function () {
-													systemEmailDistributionListEdit._live( distribution_list_name );
+													systemEmailDistributionGroupEdit._live( distribution_group_name );
 												}
 											}),
 										]
@@ -71,7 +71,7 @@ cell({
 												icon: "fa fa-plus-square-o",
 												text: "Add",
 												onclick: function () {
-													systemDistributionListEmailAddressesAdd._live(distribution_list_name);
+													systemDistributionGroupEmailAddressesAdd._live(distribution_group_name);
 												},
 											}),
 											data.email_addresses.length ? button({
@@ -79,7 +79,7 @@ cell({
 												icon: "fa fa-minus-square-o",
 												text: "Remove",
 												onclick: function () {
-													systemDistributionListEmailAddressDelete._live(distribution_list_name);
+													systemDistributionGroupEmailAddressDelete._live(distribution_group_name);
 												},
 											}) : {},
 										]

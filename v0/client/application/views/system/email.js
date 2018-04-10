@@ -17,7 +17,7 @@ cell({
 								$components: [
 									button( {
 										wrapperClass: "pull-right",
-										onclick: systemEmailDistributionLists._live,
+										onclick: systemEmailDistributionGroups._live,
 										icon: "fa fa-share-square-o",
 										text: "Distribution groups"
 									} ),

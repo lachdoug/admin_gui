@@ -60,7 +60,7 @@ cell({
 																data.email.aliases.length ||
 																data.email.distribution_groups.length
 															) ?
-															alert("All email aliases and distribution lists must be removed before mailbox can be disabled.") :
+															alert("All email aliases and distribution groups must be removed before mailbox can be disabled.") :
 															apiRequest({
 																action: "/system/users/accounts/email",
 																params: { user_uid: user_uid },

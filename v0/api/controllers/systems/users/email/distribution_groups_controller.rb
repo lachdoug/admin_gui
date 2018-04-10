@@ -14,7 +14,7 @@ class V0
       #
       # delete '/system/user/:user_uid/distribution_group' do
       #   distribution_group, email_address = params[:distribution_group_email_address].split ":"
-      #   system.distribution_list_delete_email_address(
+      #   system.distribution_group_delete_email_address(
       #     distribution_group, email_address
       #   ).to_json
       # end

@@ -268,6 +268,14 @@ class V0
           engines_api_system.delete_users_account_email( user_uid )
         end
 
+        ########################################################################
+        # Users > accounts > password
+        ########################################################################
+
+        def update_users_account_password( user_uid, password )
+          engines_api_system.update_users_account_password( user_uid, password )
+        end
+
 
 
         #
@@ -325,7 +333,7 @@ class V0
         # end
 
         ########################################################################
-        # User groups
+        # User > groups
         ########################################################################
 
         def index_users_groups
@@ -347,12 +355,55 @@ class V0
         # end
 
         ########################################################################
-        # Distribution groups
+        # Email > distribution groups
         ########################################################################
 
-        # def distribution_lists
-        #   ldap.distribution_lists
-        # end
+        def index_email_distribution_groups
+          engines_api_system.index_email_distribution_groups
+        end
+
+        def show_email_distribution_group( name )
+          engines_api_system.show_email_distribution_group name
+        end
+
+        def new_email_distribution_group
+          engines_api_system.new_email_distribution_group name
+        end
+
+        def create_email_distribution_group( distribution_group )
+          engines_api_system.create_email_distribution_group distribution_group
+        end
+
+        def edit_email_distribution_group( name )
+          engines_api_system.edit_email_distribution_group name
+        end
+
+        def update_email_distribution_group( name, distribution_group )
+          engines_api_system.update_email_distribution_group name, distribution_group
+        end
+
+        def delete_email_distribution_group( name )
+          engines_api_system.delete_email_distribution_group name
+        end
+
+        ########################################################################
+        # Email > distribution groups > email addresses
+        ########################################################################
+
+        def new_email_distribution_group_email_address( distribution_group_name )
+          engines_api_system.new_email_distribution_group_email_address distribution_group_name
+        end
+
+        def create_email_distribution_group_email_address( distribution_group_name, email_address )
+          engines_api_system.create_email_distribution_group_email_address distribution_group_name, email_address
+        end
+
+        def delete_email_distribution_group_email_address( distribution_group_name, address )
+          engines_api_system.delete_email_distribution_group_email_address distribution_group_name, address
+        end
+
+
+
         #
         # def distribution_list( distribution_list_name )
         #   ldap.distribution_list( distribution_list_name )

@@ -1,42 +1,42 @@
 cell({
 
-	id: "systemEmailDistributionListNew",
+	id: "systemEmailDistributionGroupNew",
 
 	_live: function () {
 		modal._live ( {
-			header: icon( { icon: "fa fa-share-square-o", text: "System new email distribution list" } ),
+			header: icon( { icon: "fa fa-share-square-o", text: "System new email distribution group" } ),
 			body: {
 				$components: [
 					dataLoader({
-						action: "/system/email/distribution_lists/new",
+						action: "/system/email",
 						render: function(data) {
 							return form({
 								components: [
 									formField( {
-										name: "data[local_part]",
+										name: "distribution_group[local_part]",
 										label: "Local part (before the @)",
 									} ),
 									formField( {
 										type: "select",
-										name: "data[domain]",
+										name: "distribution_group[domain]",
 										label: "Domain",
-										value: data.default,
+										value: data.default_domain,
 										collection: data.domains,
 									} ),
 									formField( {
 										type: "text",
-										name: "data[description]",
+										name: "distribution_group[description]",
 										label: "Description",
 									} ),
 									formCancel ( {
-										onclick: systemEmailDistributionLists._live,
+										onclick: systemEmailDistributionGroups._live,
 									} ),
 									formSubmit(),
 								],
-								action: '/system/email/distribution_lists',
+								action: '/system/email/distribution_groups/',
 								method: 'POST',
 								callbacks: {
-									200: systemEmailDistributionLists._live,
+									200: systemEmailDistributionGroups._live,
 								}
 							})
 						}
