@@ -11,9 +11,9 @@ cell({
 						up: systemControlPanel._live,
 					}),
 					dataLoader({
-						action: "/system/email_domains",
+						action: "/system/email",
 						render: function(data) {
-							return data.default ? {
+							return data.default_domain ? {
 								$components: [
 									button( {
 										wrapperClass: "pull-right",
@@ -34,7 +34,7 @@ cell({
 											{
 												class: "pull-left",
 												$components: [
-													labelText("Default", data.default),
+													labelText("Default", data.default_domain),
 												]
 											},
 											button( {

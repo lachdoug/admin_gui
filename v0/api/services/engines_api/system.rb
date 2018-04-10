@@ -9,7 +9,7 @@ class V0
           end
 
           def sign_in( args )
-            # byebug
+
             @system_api.post 'system/login', { user_name: args[:username], password: args[:password], ip_address: args[:ip_address] }, { timeout: 5 }
           end
 
@@ -63,7 +63,7 @@ class V0
 
           def update_admin_user( args )
             args.merge!( { user_name: :admin } )
-            # byebug
+
             @system_api.post "system/user/admin", args
           end
 
@@ -285,7 +285,7 @@ class V0
 
 
           ##########################################################################
-          # Users
+          # Users > accounts
           ##########################################################################
 
           def index_users_accounts
@@ -300,6 +300,18 @@ class V0
             @system_api.post 'system/uadmin/users/accounts/', account: account
           end
 
+          def update_users_account( uid, account )
+            @system_api.put 'system/uadmin/users/accounts/', uid: uid, account: account
+          end
+
+          def delete_users_account( uid )
+            @system_api.delete 'system/uadmin/users/accounts/', uid: uid
+          end
+
+          ##########################################################################
+          # Users > accounts > groups
+          ##########################################################################
+
           def delete_users_account_groups( user_uid, names )
             @system_api.delete 'system/uadmin/users/accounts/groups', user_uid: user_uid, names: names
           end
@@ -308,6 +320,62 @@ class V0
             @system_api.get 'system/uadmin/users/accounts/groups/new', user_uid: user_uid
           end
 
+          def create_users_account_groups( user_uid, groups )
+            @system_api.post 'system/uadmin/users/accounts/groups', user_uid: user_uid, groups: groups
+          end
+
+          ##########################################################################
+          # Users > accounts > email
+          ##########################################################################
+
+          def create_users_account_email( user_uid, email )
+            @system_api.post 'system/uadmin/users/accounts/email', user_uid: user_uid, email: email
+          end
+
+          def edit_users_account_email( user_uid )
+            @system_api.get 'system/uadmin/users/accounts/email/edit', user_uid: user_uid
+          end
+
+          def update_users_account_email( user_uid, email )
+            @system_api.put 'system/uadmin/users/accounts/email', user_uid: user_uid, email: email
+          end
+
+          def delete_users_account_email( user_uid )
+            @system_api.delete 'system/uadmin/users/accounts/email', user_uid: user_uid
+          end
+
+
+          ########################################################################
+          # Email
+          ########################################################################
+
+          def show_email
+            @system_api.get 'system/uadmin/email'
+          end
+
+          ########################################################################
+          # Email > default domain
+          ########################################################################
+
+          def create_email_default_domain( default_domain )
+            @system_api.post 'system/uadmin/email/default_domain', default_domain: default_domain
+          end
+
+          def update_email_default_domain( default_domain )
+            @system_api.put 'system/uadmin/email/default_domain', default_domain: default_domain
+          end
+
+          ########################################################################
+          # Email > domains
+          ########################################################################
+
+          def create_email_domain( domain )
+            @system_api.post 'system/uadmin/email/domains/', domain: domain
+          end
+
+          def delete_email_domain( name )
+            @system_api.delete 'system/uadmin/email/domains/', name: name
+          end
 
           # def index_users_groups
           #   @system_api.get 'system/uadmin/users/groups'
@@ -316,6 +384,16 @@ class V0
           # def show_users_group( name )
           #   @system_api.get 'system/uadmin/users/groups/', name: name
           # end
+
+          ########################################################################
+          # Email > email addresses
+          ########################################################################
+
+          def index_email_email_addresses
+            @system_api.get 'system/uadmin/email/email_addresses'
+          end
+
+
 
 
 

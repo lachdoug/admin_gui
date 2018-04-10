@@ -18,6 +18,8 @@ cell({
 						action: "/system/users/accounts/",
 						params: { uid: user_uid },
 						render: function (data) {
+							var group_count = data.groups.length;
+							var group_text = group_count == 0 ? "No groups" : group_count == 1 ? "1 group" : group_count + " groups";
 							return {
 								$init: function() {
 									if ( opts.scrollTo ) {
@@ -44,7 +46,7 @@ cell({
 														if ( confirm("Are you sure that you want to delete user '" + user_uid + "'?") ) {
 															apiRequest({
 																action: "/system/users/accounts/",
-																params: { user_uid: user_uid},
+																params: { uid: user_uid},
 																method: "DELETE",
 																callbacks: {
 																	200: function () {
@@ -67,49 +69,83 @@ cell({
 										]
 									},
 									hr(),
-									button({
-										icon: "fa fa-users",
-										text: "Groups",
-										onclick: function() { systemUserUserGroups._live(user_uid); },
-									}),
-									hr(),
-									data.email.mailbox ? button({
-										icon: "fa fa-envelope",
-										text: "Email",
-										onclick: function() { systemUserEmail._live(user_uid); },
-									}) : {
+									data.email.mailbox ? {
+										$components: [
+											{
+												class: "pull-left",
+												style: "margin-top: 13px;",
+												$text: data.email.mailbox
+											},
+											button({
+												class: "pull-right",
+												icon: "fa fa-envelope",
+												text: "Email",
+												onclick: function() { systemUserEmail._live(user_uid); },
+											})
+										]
+									} : {
 										class: "clearfix",
 										$components: [
+											{
+												class: "pull-left",
+												style: "margin-top: 13px;",
+												$text: "Email not enabled"
+											},
 											button({
-												wrapperClass: "pull-right",
+												class: "pull-right",
 												icon: "fa fa-envelope",
 												text: "Enable email",
 												onclick: function() {
 													systemUserEnableEmail._live(user_uid);
 												},
 											}),
-											{ $type: "i", $text: "Email not enabled." }
 										]
 									},
 									hr(),
-									data.signin ? button({
-										icon: "fa fa-sign-in",
-										text: "Sign-in",
-										onclick: function() { systemUserEmail._live(user_uid); },
-									}) : {
+									{
 										class: "clearfix",
 										$components: [
+											{
+												class: "pull-left",
+												style: "margin-top: 13px;",
+												$text: group_text,
+											},
 											button({
-												wrapperClass: "pull-right",
-												icon: "fa fa-sign-in",
-												text: "Enable sign-in",
-												onclick: function() {
-													systemUserEnableSignin._live(user_uid);
-												},
+												icon: "fa fa-users",
+												class: "pull-right",
+												text: "Groups",
+												onclick: function() { systemUserUserGroups._live(user_uid); },
 											}),
-											{ $type: "i", $text: "Sign-in not enabled." }
 										]
 									},
+									// hr(),
+									// data.signin ? button({
+									// 	icon: "fa fa-sign-in",
+									// 	text: "Sign-in",
+									// 	onclick: function() { systemUserEmail._live(user_uid); },
+									// }) : {
+									// 	class: "clearfix",
+									// 	$components: [
+									// 		button({
+									// 			wrapperClass: "pull-right",
+									// 			icon: "fa fa-sign-in",
+									// 			text: "Enable sign-in",
+									// 			onclick: function() {
+									// 				systemUserEnableSignin._live(user_uid);
+									// 			},
+									// 		}),
+									// 		{
+									// 			class: "pull-left",
+									// 			$components: [
+									// 				{
+									// 					$type: "i",
+									// 					style: "margin-top: 13px;",
+									// 					$text: "Sign-in not enabled."
+									// 				}
+									// 			]
+									// 		},
+									// 	]
+									// },
 								]
 							};
 

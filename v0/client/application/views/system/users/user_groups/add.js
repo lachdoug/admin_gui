@@ -15,37 +15,38 @@ cell({
 					dataLoader({
 						action: "/system/users/accounts/groups/new",
 						params: { user_uid: user_uid },
-						// render: function(data) {
-						//
-						// 	return data.available_groups.length ? form({
-						// 		components: [
-						// 			formField( {
-						// 				type: "checkboxes",
-						// 				name: "data[groups]",
-						// 				label: "Group",
-						// 				collection: data.available_groups,
-						// 			} ),
-						// 			formCancel ( { onclick: function() { systemUserUserGroups._live(user_uid) } } ),
-						// 			formSubmit(),
-						// 		],
-						// 		action: "/system/users/user/" + user_uid + "/groups",
-						// 		method: "POST",
-						// 		callbacks: {
-						// 			200: function(response) {
-						// 				systemUserUserGroups._live(user_uid);
-						// 			},
-						// 		}
-						// 	}) : { $components: [
-						// 		{ $type: "i", $text: "No groups to add." },
-						// 		button({
-						// 			wrapperClass: "pull-right",
-						// 			text: "OK",
-						// 			icon: "fa fa-check",
-						// 			onclick: function() { systemUserUserGroups._live(user_uid) }
-						// 		})
-						// 	] };
-						//
-						// }
+						render: function(data) {
+
+							return data.groups.length ? form({
+								components: [
+									formField( {
+										type: "checkboxes",
+										name: "groups[names]",
+										label: "Group",
+										collection: data.groups,
+									} ),
+									formCancel ( { onclick: function() { systemUserUserGroups._live(user_uid) } } ),
+									formSubmit(),
+								],
+								action: "/system/users/accounts/groups",
+								params: { user_uid: user_uid },
+								method: "POST",
+								callbacks: {
+									200: function(response) {
+										systemUserUserGroups._live(user_uid);
+									},
+								}
+							}) : { $components: [
+								{ $type: "i", $text: "No groups to add." },
+								button({
+									wrapperClass: "pull-right",
+									text: "OK",
+									icon: "fa fa-check",
+									onclick: function() { systemUserUserGroups._live(user_uid) }
+								})
+							] };
+
+						}
 					}),
 				]
 			}

@@ -126,7 +126,6 @@ class V0
           end
 #
 #           def create_new_persistent_service( args )
-#             byebug
 #             @system_api.post "containers/service/#{@name}/services/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}", { variables: args[:variables] }
 #           end
 #
@@ -172,7 +171,7 @@ class V0
           ######################################################################
 
           def perform_action(args)
-            # byebug
+
             @system_api.post "containers/service/#{@name}/action/#{args[:actionator_name]}", args[:variables]
           end
 
@@ -185,7 +184,7 @@ class V0
           end
 
           def perform_configuration(args)
-            # byebug
+
             @system_api.post "containers/service/#{@name}/configuration/#{args[:configurator_name]}", { variables: args[:variables] }
           end
 
@@ -198,7 +197,7 @@ class V0
           end
 
           def import(file)
-            # byebug
+
             @system_api.put_stream "containers/service/#{@name}/import", file
           end
 

@@ -13,13 +13,13 @@ cell({
 								class: "row",
 								$components: [
 									formField( {
-										name: "data[first_name]",
+										name: "account[first_name]",
 										required: true,
 										label: "First name",
 										wrapperClass: "col-sm-6",
 									} ),
 									formField( {
-										name: "data[last_name]",
+										name: "account[last_name]",
 										required: true,
 										label: "Last name",
 										wrapperClass: "col-sm-6",
@@ -27,16 +27,16 @@ cell({
 								]
 							},
 							formField( {
-								name: "data[uid]",
+								name: "account[uid]",
 								label: "UID (username)",
 								required: true,
 							} ),
-							// formField( {
-							// 	type: "password_with_confirmation",
-							// 	name: "data[password]",
-							// 	label: "Password",
-							// 	required: true,
-							// } ),
+							formField( {
+								type: "password_with_confirmation",
+								name: "account[password]",
+								label: "Password",
+								required: true,
+							} ),
 							formCancel ( {
 								onclick: function () {
 									systemUsers._live();

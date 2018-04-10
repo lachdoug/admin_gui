@@ -60,18 +60,45 @@ var $serviceLogs = {
 							},
 
 							_logs: function () {
-								return {
-									$type: "table",
-									class: "table",
-									$components: [
-										tabs({ items: [
-											{ label: "Output", body: { $type: "pre", style: "white-space: pre-wrap;", $text: serviceLogsContent._data.stdout } },
-											{ label: "Error", body: { $type: "pre", style: "white-space: pre-wrap;", $text: serviceLogsContent._data.stderr } }
-										] })
+								return tabs({
+									items: [
+										{ label: "Output", body: { $components: [
+											button( {
+												onclick: function() {
+													var html = '<pre style=\'font-family: Menlo,Monaco,Consolas,"Courier New",monospace; font-size: 14px; line-height: 1.42857143; color: #333;"\'>' + $("#serviceLogsContentOutput").html() + '</pre>';
+													var newWindow = window.open('','Engines' + serviceName + " output log",'width=600, height=600, location=no, toolbar=0, scrollbars=1');
+													newWindow.document.title = serviceName + " output log"
+													$(newWindow.document.body).html( html );
+													newWindow.scrollTo(0,newWindow.document.body.scrollHeight);
+												},
+												icon: "fa fa-window-maximize",
+												text: "Popup",
+												wrapperClass: "clearfix",
+												class: "pull-right",
+												title: "Open build report in new window"
+											} ),
+											{ id: "serviceLogsContentOutput", $type: "pre", style: "white-space: pre-wrap;", $text: serviceLogsContent._data.stdout }
+										] } },
+										{ label: "Error", body: { $components: [
+											button( {
+												onclick: function() {
+													var html = '<pre style=\'font-family: Menlo,Monaco,Consolas,"Courier New",monospace; font-size: 14px; line-height: 1.42857143; color: #333;"\'>' + $("#serviceLogsContentError").html() + '</pre>';
+													var newWindow = window.open('','Engines' + serviceName + " error log",'width=600, height=600, location=no, toolbar=0, scrollbars=1');
+													newWindow.document.title = serviceName + " error log"
+													$(newWindow.document.body).html( html );
+													newWindow.scrollTo(0,newWindow.document.body.scrollHeight);
+												},
+												icon: "fa fa-window-maximize",
+												text: "Popup",
+												wrapperClass: "clearfix",
+												class: "pull-right",
+												title: "Open build report in new window"
+											} ),
+											{ id: "serviceLogsContentError", $type: "pre", style: "white-space: pre-wrap;", $text: serviceLogsContent._data.stderr }
+										] } }
 									]
-								};
+								});
 							}
-
 						}
 					]
 				}

@@ -418,7 +418,7 @@ private
         #   #   # )
         #   #   # sasl = SASL.new("DIGEST-MD5", pref)
         #   #   # response = sasl.receive("challenge", cred)
-        #   #   # byebug
+        #   #   
         #   #   # response[1]
         #   #   puts "SASL cred: #{cred}"
         #   #   true

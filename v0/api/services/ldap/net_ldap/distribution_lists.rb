@@ -21,7 +21,7 @@ class V0
           dn = "cn=#{distribution_list_name},ou=Distribution Groups,dc=engines,dc=internal"
           result = nil
           ldap.search(:base => dn ) do |entry|
-            # byebug
+            
             result = {
               name: entry.cn[0],
               description: entry.respond_to?(:description) ? entry.description[0] : "",
@@ -35,7 +35,7 @@ class V0
           dn = "cn=#{distribution_list_name},ou=Distribution Groups,dc=engines,dc=internal"
           result = nil
           ldap.search(:base => dn ) do |entry|
-            # byebug
+            
             local_part, domain = entry.cn[0].split('@')
             result = {
               local_part: local_part,
@@ -83,7 +83,7 @@ class V0
               "posixGroup",
               "top" ],
           }
-# byebug
+
           attributes.merge! description: data[:description] if data[:description].length > 0
 
           if ldap.add dn: dn, attributes: attributes

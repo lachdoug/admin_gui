@@ -12,7 +12,8 @@ cell({
 					}),
 					hr(),
 					dataLoader({
-						action: "/system/users/user/" + user_uid,
+						action: "/system/users/accounts/",
+						params: { uid: user_uid },
 						render: function( data ) {
 							return form({
 								components: [
@@ -20,14 +21,14 @@ cell({
 										class: "row",
 										$components: [
 											formField( {
-												name: "data[first_name]",
+												name: "account[first_name]",
 												value: data.first_name,
 												required: true,
 												label: "First name",
 												wrapperClass: "col-sm-6",
 											} ),
 											formField( {
-												name: "data[last_name]",
+												name: "account[last_name]",
 												value: data.last_name,
 												required: true,
 												label: "Last name",
@@ -42,7 +43,8 @@ cell({
 									} ),
 									formSubmit(),
 								],
-								action: '/system/users/user/' + user_uid,
+								action: "/system/users/accounts/",
+								params: { uid: user_uid },
 								method: 'PUT',
 								callbacks: {
 									200: function(response) {

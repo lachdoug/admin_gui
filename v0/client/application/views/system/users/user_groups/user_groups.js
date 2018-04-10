@@ -42,7 +42,9 @@ cell({
 											},
 											{
 												$type: "ul",
-												$components: data.groups.map( function( group ) {
+												$components: data.groups.length == 0 ?
+												[ { $type: "i", $text: "No groups." } ] :
+												data.groups.map( function( group ) {
 													return { $type: "li", $text: group };
 												})
 											},

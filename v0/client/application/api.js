@@ -83,20 +83,8 @@ cell({
 
 		responseContentType = response.getResponseHeader("Content-Type")
 
-		if ( response.status == 500 ) {
+		if ( response.status == 500 || response.status == 404 || response.status == 406 ) {
 			main._renderFatalError( JSON.parse(response.responseText).error );
-			//
-			// var backtrace = ( new Error() ).stack.split("\n");
-			// var message = response.responseText;
-			// main._renderFatalError( {
-			// 	message: message,
-			// 	detail: {
-			// 		source: "Admin GUI ApiV0 v0.5",
-			// 		type: "Client" + response.status,
-			// 		text: response.statusText,
-			// 		args: args,
-			// 		backtrace: backtrace[0] }
-			// } );
 		} else if ( response.status == 0 ) {
 			api._handleNoResponse( response, args );
 		} else if ( responseContentType == "application/json" ) {

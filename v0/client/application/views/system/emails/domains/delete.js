@@ -8,15 +8,15 @@ cell({
 			body: {
 				$components: [
 					dataLoader({
-						action: "/system/email_domains/delete",
-						render: function(response) {
+						action: "/system/email",
+						render: function(data) {
 							return form({
 								components: [
 									formField( {
 										type: "select",
-										name: "data[email_domain]",
+										name: "name",
 										label: "Email domain",
-										collection: response,
+										collection: data.domains,
 										required: true,
 									} ),
 									formCancel ( {
@@ -24,7 +24,7 @@ cell({
 									} ),
 									formSubmit(),
 								],
-								action: '/system/email_domains/email_domain/',
+								action: '/system/email/domains/',
 								method: 'DELETE',
 								callbacks: {
 									200: systemEmail._live,

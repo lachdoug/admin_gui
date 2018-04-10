@@ -12,7 +12,7 @@ cell({
 					}),
 					hr(),
 					dataLoader({
-						action: "/system/email_addresses",
+						action: "/system/email/email_addresses",
 						render: function(data) {
 							return {
 								id: "systemEmailAddressesSearchList",

@@ -16,7 +16,7 @@ class V0
             Net::LDAP::Filter.eq( "mailacceptinggeneralid", "*" )
           base = "dc=engines,dc=internal"
           ldap.search(:base => base, :filter => filter ) do |entry|
-            # byebug
+            
             entry.mailacceptinggeneralid.each do |email_address|
               result << {
                 source_type: :alias,
@@ -35,7 +35,7 @@ class V0
             Net::LDAP::Filter.eq( "maildrop", "*" )
           base = "dc=engines,dc=internal"
           ldap.search(:base => base, :filter => filter ) do |entry|
-            # byebug
+            
             result << {
               source_type: :mailbox,
               user_uid: entry.uid[0],

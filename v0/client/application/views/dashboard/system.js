@@ -84,8 +84,11 @@ cell({
 							class: "modal-content",
 							style: "margin-top: 20px; margin-bottom: 100px; padding: 10px;",
 							$components: [
-								button( { onclick: systemUsers._live,
-													icon: "fa fa-user", text: "Users" } ),
+								// button( { onclick: systemUsers._live,
+								// 					icon: "fa fa-user", text: "Users" } ),
+								// button( { onclick: systemEmail._live,
+								// 					icon: "fa fa-envelope", text: "Email" } ),
+								// { $type: "hr" },
 
 								{
 									$components: [

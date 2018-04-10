@@ -8,13 +8,13 @@ cell({
 			body: {
 				$components: [
 					dataLoader({
-						action: "/system/email_domains/new",
+						action: "/system/email/domains/new",
 						render: function(response) {
 							return form({
 								components: [
 									formField( {
 										type: response.domains.length ? "select_with_input" : "string",
-										name: "data[email_domain]",
+										name: "domain[name]",
 										label: "Email domain",
 										value: response.domains.length ? response.domains[0] : null,
 										collection: response.domains,
@@ -25,7 +25,7 @@ cell({
 									} ),
 									formSubmit(),
 								],
-								action: '/system/email_domains',
+								action: '/system/email/domains/',
 								method: 'POST',
 								callbacks: {
 									200: systemEmail._live,

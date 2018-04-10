@@ -62,8 +62,9 @@ cell({
 															) ?
 															alert("All email aliases and distribution lists must be removed before mailbox can be disabled.") :
 															apiRequest({
-																action: "/system/users/user/" + user_uid + "/disable_email",
-																method: "PUT",
+																action: "/system/users/accounts/email",
+																params: { user_uid: user_uid },
+																method: "DELETE",
 																callbacks: {
 																	200: function() {
 																		systemUsersUser._live(user_uid);

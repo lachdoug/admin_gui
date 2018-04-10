@@ -38,6 +38,22 @@ class V0
           end
         end
 
+        def put(route, data={}, opts={})
+          handle_response do
+            RestClient::Request.execute(
+              method: :put,
+              url: "#{@url}/v0/#{route}",
+              payload: { api_vars: ( data || {} ) }.to_json,
+              timeout: opts[:timeout] || 120,
+              verify_ssl: false,
+              headers: {
+                content_type: :json,
+                access_token: @token
+              }
+            )
+          end
+        end
+
         def put_stream(route, data={}, opts={})
           handle_response do
             RestClient::Request.execute(
@@ -68,7 +84,7 @@ class V0
           end
         end
 
-        def delete(route, data, opts={})
+        def delete(route, data={}, opts={})
           handle_response do
             RestClient::Request.execute(
               method: :delete,
@@ -84,6 +100,7 @@ class V0
         end
 
         def handle_response
+
           response = yield
           return nil unless response.headers[:content_type]
           case response.headers[:content_type].split(";").first
@@ -99,11 +116,11 @@ class V0
         rescue RestClient::Forbidden
           raise NonFatalError.new 'Not signed in.', 401
         rescue RestClient::MethodNotAllowed => e
-          # byebug
+
           response = JSON.parse(e.response.body, symbolize_names: true)
           error = response[:error_object] || response[:error]
           system_error_message = error[:error_mesg] || error[:message]
-          raise NonFatalError.new "Not allowed.\n\nReason: #{system_error_message}", 405
+          raise NonFatalError.new "Warning\n\n#{system_error_message}", 405
         rescue Errno::ENETUNREACH => e
           raise NonFatalError.new "Admin GUI server is not connected to the network.\n\nReason: #{e.message}\n\nThe connection will be tried again in a moment.", 502
         rescue  Errno::EHOSTUNREACH,

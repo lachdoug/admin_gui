@@ -11,11 +11,10 @@ class V0
       end
 
       post '/system/users/accounts/groups' do
-        system.create_users_account_groups( params[:user_uid], groups: params[:groups] ).to_json
+        system.create_users_account_groups( params[:user_uid], params[:groups] ).to_json
       end
 
       delete '/system/users/accounts/groups' do
-        # byebug
         system.delete_users_account_groups( params[:user_uid], params[:names] ).to_json
       end
 

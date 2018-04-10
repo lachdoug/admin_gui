@@ -13,23 +13,32 @@ cell({
 					}),
 					hr(),
 					dataLoader({
-						action: "/system/users/user/" + user_uid + "/new_email_address",
+						action: "/system/email",
+						params: { uid: user_uid },
 						render: function(data) {
 
-							return form({
+							return data.default_domain == "" ? {
+								$components: [
+									{
+										$text: "Set up system email domain first."
+									},
+									button( { icon: "fa fa-check", text: "OK", onclick: function() { systemUsersUser._live(user_uid) } } )
+								]
+							} : form({
 								components: [
 									formField( {
 										type: "select",
-										name: "data[domain]",
+										name: "email[domain_name]",
 										label: "Domain",
-										value: data.default,
+										value: data.default_domain,
 										collection: data.domains,
 									} ),
 									formCancel ( { onclick: function() { systemUsersUser._live(user_uid) } } ),
 									formSubmit(),
 								],
-								action: "/system/users/user/" + user_uid + "/setup_email",
-								method: "PUT",
+								action: "/system/users/accounts/email",
+								params: { user_uid: user_uid },
+								method: "POST",
 								callbacks: {
 									200: function(response) {
 										systemUserEmail._live(user_uid);

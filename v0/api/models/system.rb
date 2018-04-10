@@ -82,7 +82,7 @@ class V0
           }
 
         # rescue => e
-        #   # byebug
+        #
         #   # raise NonFatalError.new "System busy.", 503 if e.status_code == 405
         #   raise e
         end
@@ -187,28 +187,28 @@ class V0
         # User management
         ########################################################################
 
-        def ldap
-          @ldap ||= Services::Ldap.new( @settings )
-        end
-
-        def kerberos_auth_service
-          @kerberos_auth_service ||= Services::KerberosAuth.new(@settings)
-        end
-
-        def kerberos_admin_service
-          @kerberos_admin_service ||= Services::KerberosAdmin.new(@settings)
-        end
-
-        def kerberos_auth(user_uid, password)
-          kerberos_auth_service.auth(user_uid, password)
-        end
-
-        def kerberos_principal(user_uid)
-          kerberos_admin_service.get_principal(user_uid)
-        end
+        # def ldap
+        #   @ldap ||= Services::Ldap.new( @settings )
+        # end
+        #
+        # def kerberos_auth_service
+        #   @kerberos_auth_service ||= Services::KerberosAuth.new(@settings)
+        # end
+        #
+        # def kerberos_admin_service
+        #   @kerberos_admin_service ||= Services::KerberosAdmin.new(@settings)
+        # end
+        #
+        # def kerberos_auth(user_uid, password)
+        #   kerberos_auth_service.auth(user_uid, password)
+        # end
+        #
+        # def kerberos_principal(user_uid)
+        #   kerberos_admin_service.get_principal(user_uid)
+        # end
 
         ########################################################################
-        # Users
+        # Users > accounts
         ########################################################################
 
         def index_users_accounts
@@ -219,9 +219,21 @@ class V0
           engines_api_system.show_users_account( uid )
         end
 
-        def create_users_account( data )
-          engines_api_system.create_users_account( data )
+        def create_users_account( account )
+          engines_api_system.create_users_account( account )
         end
+
+        def update_users_account( uid, account )
+          engines_api_system.update_users_account( uid, account )
+        end
+
+        def delete_users_account( uid )
+          engines_api_system.delete_users_account( uid )
+        end
+
+        ########################################################################
+        # Users > accounts > groups
+        ########################################################################
 
         def delete_users_account_groups( user_uid, names )
           engines_api_system.delete_users_account_groups( user_uid, names )
@@ -231,36 +243,33 @@ class V0
           engines_api_system.new_users_account_groups( user_uid )
         end
 
+        def create_users_account_groups( user_uid, groups )
+          groups = groups[:names].map { |name| { name: name } }
+          engines_api_system.create_users_account_groups( user_uid, groups )
+        end
+
+        ########################################################################
+        # Users > accounts > email
+        ########################################################################
+
+        def create_users_account_email( user_uid, email )
+          engines_api_system.create_users_account_email( user_uid, email )
+        end
+
+        def edit_users_account_email( user_uid )
+          engines_api_system.edit_users_account_email( user_uid )
+        end
+
+        def update_users_account_email( user_uid, email )
+          engines_api_system.update_users_account_email( user_uid, email )
+        end
+
+        def delete_users_account_email( user_uid )
+          engines_api_system.delete_users_account_email( user_uid )
+        end
 
 
 
-        # def user(user_uid)
-        #   ldap.user(user_uid)
-        # end
-
-        # def user_available_groups(user_uid)
-        #   ldap.user_available_groups(user_uid)
-        # end
-        #
-        # def user_current_groups(user_uid)
-        #   ldap.user_current_groups(user_uid)
-        # end
-        #
-        # def user_new_add_to_group( user_uid )
-        #   ldap.user_new_add_to_group( user_uid )
-        # end
-        #
-        # def user_add_to_group( user_uid, group_name )
-        #   ldap.user_add_to_group( user_uid, group_name )
-        # end
-        #
-        # def user_new_remove_from_group( user_uid )
-        #   ldap.user_new_remove_from_group( user_uid )
-        # end
-        #
-        # def user_remove_from_group( user_uid, group_name )
-        #   ldap.user_remove_from_group( user_uid, group_name )
-        # end
         #
         # def user_email(user_uid)
         #   ldap.user_email(user_uid)
@@ -310,9 +319,6 @@ class V0
         #   ldap.user_distribution_groups_remove user_uid
         # end
         #
-        # def delete_user(user_uid)
-        #   ldap.delete_user(user_uid)
-        # end
         #
         # def update_user(user_uid, data)
         #   ldap.update_user(user_uid, data)
@@ -385,8 +391,38 @@ class V0
         # end
 
         ########################################################################
-        # Email domains
+        # Email
         ########################################################################
+
+        def show_email
+          engines_api_system.show_email
+        end
+
+        ########################################################################
+        # Email > default domain
+        ########################################################################
+
+        def new_email_default_domain
+          system_domains = domains
+          {
+            default: system_domains[:default],
+            domains: system_domains[:names].map{ |domain| domain[:domain_name] }
+          }
+        end
+
+        def update_email_default_domain( default_domain )
+          engines_api_system.update_email_default_domain( default_domain )
+        end
+
+        def create_email_default_domain( default_domain )
+          engines_api_system.create_email_default_domain( default_domain )
+        end
+
+        ########################################################################
+        # Email > domains
+        ########################################################################
+
+
 
         # def email_domains
         #   ldap.email_domains
@@ -396,18 +432,24 @@ class V0
         #   ldap.email_domain(email_domain)
         # end
         #
-        # def new_email_domain
-        #   system_domains = domains
-        #   system_domain_names = system_domains[:names].map{ |domain| domain[:domain_name] }
-        #   existing_domain_names = email_domains[:domains]
-        #   {
-        #     domains: system_domain_names - existing_domain_names
-        #   }
-        # end
-        #
-        # def create_email_domain(data)
-        #   ldap.create_email_domain data
-        # end
+        def new_email_domain
+          system_domains = domains
+          system_domain_names = system_domains[:names].map{ |domain| domain[:domain_name] }
+          existing_domain_names = show_email[:domains]
+          {
+            domains: system_domain_names - existing_domain_names
+          }
+        end
+
+        def create_email_domain( domain )
+          engines_api_system.create_email_domain domain
+        end
+
+        def delete_email_domain( name )
+          engines_api_system.delete_email_domain name
+        end
+
+
         #
         # def deletable_email_domains
         #   existing_domains = email_domains
@@ -436,13 +478,7 @@ class V0
         #   # service(:imap).instruct(:start)
         # end
         #
-        # def email_domains_new_setup
-        #   system_domains = domains
-        #   {
-        #     select: system_domains[:default],
-        #     domains: system_domains[:names].map{ |domain| domain[:domain_name] }
-        #   }
-        # end
+
 
 
 
@@ -450,6 +486,10 @@ class V0
         ########################################################################
         # Email addresses
         ########################################################################
+
+        def index_email_email_addresses
+          engines_api_system.index_email_email_addresses
+        end
 
         # def email_addresses
         #   ldap.email_addresses
@@ -960,7 +1000,7 @@ class V0
         def shutdown(data)
           # return {}
           engines_api_system.shutdown( { reason: data[:reason] } )
-          # byebug
+
           # return { message: "OK" } if engines_api_system.shutdown( { reason: data[:reason] } ) == 'true'
           # raise NonFatalError.new "Failed to shutdown system.", 405
         end

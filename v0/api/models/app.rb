@@ -57,7 +57,7 @@ class V0
           #   app_api.instruct_container(instruction)
           # end
           # { message: "OK" }
-          # byebug
+          
           return { message: "OK" } if app_api.instruct_container(instruction)
           raise NonFatalError.new "Failed to instruct #{name} to #{instruction}.", 405
         end
@@ -288,7 +288,7 @@ class V0
 
         def available_persistent_services_for( publisher_namespace, type_path )
           service_definition = @system.service_definition_for( publisher_namespace, type_path )
-          # byebug
+          
           params = ( service_definition[:consumer_params] || {} ).values.select do |param|
             param[:ask_at_build_time] == true || param[:immutable] != true
           end.map do |param|
@@ -317,7 +317,7 @@ class V0
         end
 
         def delete_persistent_service( publisher_namespace, type_path, service_handle, data )
-          # byebug
+          
           app_api.delete_existing_persistent_service(
             publisher_namespace: publisher_namespace,
             type_path: type_path,

@@ -405,7 +405,6 @@ class V0
         end
 
         # def actionator_summary_for(actionator)
-        #   byebug
         #   unless actionator[:variables]
         #     actionator[:variables] = ( actionator[:params] || {} ).map do |name, param|
         #       if param[:input]
@@ -415,7 +414,7 @@ class V0
         #       end
         #     end
         #   end
-        #   # byebug if actionator[:value] == '_Engines_System(default_domain)'
+        #    if actionator[:value] == '_Engines_System(default_domain)'
         #   # actionator[:value] = resolve_string( actionator[:value] )
         #   actionator
         # end
@@ -433,7 +432,7 @@ class V0
 
         def configurations
           ( service_definition[:configurators] || {} ).values.map do |configurator|
-            # byebug
+
             # configuration_detail_for(configurator)
             {
               name: configurator[:name],
@@ -468,7 +467,7 @@ class V0
 
         def configuration_edit(configurator_name)
           configurator = configurator_for(configurator_name)
-          # byebug
+
           if configurator[:no_save]
             configurator[:variables] = configurator[:variables].map do |variable|
               variable[:value] = resolve_string( variable[:value] )
@@ -496,7 +495,7 @@ class V0
           #     Helpers.legacy_input_definition_for param
           #   end
           # end
-          # byebug
+
           # configurator
           service_definition[:configurators][configurator_name.to_sym]
         end

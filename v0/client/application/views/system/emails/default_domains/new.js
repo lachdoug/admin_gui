@@ -1,32 +1,31 @@
 cell({
 
-	id: 'systemEmailDomainsDefault',
+	id: 'systemEmailSetupEmailDomain',
 
 	_live: function () {
 
 		modal._live ( {
-			header: icon( { icon: "fa fa-star-o", text: "System email default domain" } ),
+			header: icon( { icon: "fa fa-star-o", text: "System setup email domain" } ),
 			body: {
 				$components: [
 					dataLoader({
-						action: "/system/email_domains",
+						action: "/system/email/default_domain/new",
 						render: function(data) {
-
 							return form({
 								components: [
 									formField( {
 										type: "select",
-										name: "data[email_domain]",
+										name: "default_domain[name]",
 										label: "Domain",
-										value: data.default,
+                    value: data.default,
 										collection: data.domains,
 									} ),
 									formCancel ( { onclick: systemEmail._live } ),
 									formSubmit(),
-							//				pp( data )
+											pp( data )
 								],
-								action: "/system/email_domains/default",
-								method: "PUT",
+								action: "/system/email/default_domain",
+								method: "POST",
 								callbacks: {
 									200: systemEmail._live,
 								}

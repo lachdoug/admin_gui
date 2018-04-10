@@ -13,22 +13,25 @@ cell({
 					}),
 					hr(),
 					dataLoader({
-						action: "/system/users/user/" + user_uid + "/mailbox/edit",
+						action: "/system/users/accounts/email/edit",
+						params: { user_uid: user_uid },
 						render: function(data) {
 
 							return form({
 								components: [
 									formField( {
 										type: "select",
-										name: "data[domain]",
+										name: "email[domain_name]",
 										label: "Domain",
 										value: data.mailbox_domain,
-										collection: data.domains,
+										collection: data.email_domains,
 									} ),
+									pp(data),
 									formCancel ( { onclick: function() { systemUserEmail._live(user_uid, { scrollTo: "systemUserEmailArea" }); } } ),
 									formSubmit(),
 								],
-								action: "/system/users/user/" + user_uid + "/mailbox",
+								action: "/system/users/accounts/email",
+								params: { user_uid: user_uid },
 								method: "PUT",
 								callbacks: {
 									200: function(response) {
