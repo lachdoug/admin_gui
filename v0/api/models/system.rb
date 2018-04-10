@@ -269,6 +269,33 @@ class V0
         end
 
         ########################################################################
+        # Users > accounts > email > distribution groups
+        ########################################################################
+
+        def new_users_account_email_distribution_group( user_uid )
+          engines_api_system.new_users_account_email_distribution_group( user_uid )
+        end
+
+        def create_users_account_email_distribution_group( user_uid, distribution_group )
+          engines_api_system.create_users_account_email_distribution_group( user_uid, distribution_group )
+        end
+
+        ########################################################################
+        # Users > accounts > email > aliases
+        ########################################################################
+
+        def create_users_email_alias( user_uid, _alias )
+          engines_api_system.create_users_email_alias( user_uid,
+          { address: "#{_alias[:local_part]}@#{_alias[:domain]}" } )
+        end
+
+        def delete_users_email_alias( user_uid, address )
+          engines_api_system.delete_users_email_alias( user_uid, address )
+        end
+
+
+
+        ########################################################################
         # Users > accounts > password
         ########################################################################
 

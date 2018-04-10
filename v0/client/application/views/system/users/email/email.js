@@ -122,8 +122,8 @@ cell({
 												$type: "ul",
 												$components: data.email.distribution_groups.map( function( distribution_group ) {
 													return distribution_group.email_address == data.email.mailbox ?
-														{ $type: "li", $text: distribution_group.distribution_group } :
-														{ $type: "li", $text: distribution_group.distribution_group + " (alias " + distribution_group.email_address + ")" };
+														{ $type: "li", $text: distribution_group.name } :
+														{ $type: "li", $text: distribution_group.name + " (alias " + distribution_group.email_address + ")" };
 												})
 											},
 											{ $type: "br" },

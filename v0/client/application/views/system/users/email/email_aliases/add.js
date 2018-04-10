@@ -13,28 +13,29 @@ cell({
 					}),
 					hr(),
 					dataLoader({
-						action: "/system/users/user/" + user_uid + "/new_email_address",
+						action: "/system/email",
 						render: function(data) {
 
 							return form({
 								components: [
 									formField( {
-										name: "data[email_address][local_part]",
+										name: "alias[local_part]",
 										label: "Local part (before the @)",
 										required: true,
 									} ),
 									formField( {
 										type: "select",
-										name: "data[email_address][domain]",
+										name: "alias[domain]",
 										label: "Domain",
-										value: data.default,
+										value: data.default_domain,
 										collection: data.domains,
 									} ),
 									formCancel ( { onclick: function() { systemUserEmail._live(user_uid, { scrollTo: "systemUserEmailAliasesArea" }) } } ),
 									formSubmit(),
 							//				pp( data )
 								],
-								action: "/system/users/user/" + user_uid + "/email_addresses",
+								action: "/system/users/email/aliases/",
+								params: { user_uid: user_uid },
 								method: "POST",
 								callbacks: {
 									200: function(response) {

@@ -13,24 +13,26 @@ cell({
 					}),
 					hr(),
 					dataLoader({
-						action: "/system/users/user/" + user_uid + "/email_addresses/delete",
+						action: "/system/users/accounts/",
+						params: { uid: user_uid },
 						render: function(data) {
 
 							return form({
 								components: [
 									formField( {
 										type: "select",
-										name: "data[email_address]",
-										label: "Email address",
+										name: "address",
+										label: "Remove email alias",
 										value: "",
 										collectionIncludeBlank: true,
-										collection: data.email_addresses,
+										collection: data.email.aliases,
 									} ),
 									formCancel ( { onclick: function() { systemUserEmail._live(user_uid, { scrollTo: "systemUserEmailAliasesArea" }) } } ),
 									formSubmit(),
-							//				pp( data )
+											// pp( data )
 								],
-								action: "/system/users/user/" + user_uid + "/email_addresses/",
+								action: "/system/users/email/aliases/",
+								params: { user_uid: user_uid },
 								method: "DELETE",
 								callbacks: {
 									200: function(response) {

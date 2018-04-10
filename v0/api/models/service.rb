@@ -57,12 +57,12 @@ class V0
         #   raise NonFatalError.new "Failed to instruct #{name} to #{instruction}.", 405
         # end
         def instruct(instruction)
-          # Thread.new do
-          #   service_api.instruct_container(instruction)
-          # end
-          # { message: "OK" }
-          return { message: "OK" } if service_api.instruct_container(instruction)
-          raise NonFatalError.new "Failed to instruct #{name} to #{instruction}.", 405
+          Thread.new do
+            service_api.instruct_container(instruction)
+          end
+          { message: "OK" }
+          # return { message: "OK" } if service_api.instruct_container(instruction)
+          # raise NonFatalError.new "Failed to instruct #{name} to #{instruction}.", 405
         end
 
 

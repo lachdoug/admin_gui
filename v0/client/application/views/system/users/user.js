@@ -28,11 +28,11 @@ cell({
 								},
 								$components: [
 									button({
-										text: "Password",
-										icon: "fa fa-user-secret",
+										text: "Edit",
+										icon: "fa fa-edit",
 										wrapperClass: "pull-right",
 										onclick: function () {
-											systemUsersEditPassword._live(user_uid);
+											systemUsersUserEdit._live(user_uid);
 										}
 									}),
 									dataList({ items: [
@@ -67,11 +67,11 @@ cell({
 												}
 											}),
 											button({
-												text: "Edit",
-												icon: "fa fa-edit",
+												text: "Password",
+												icon: "fa fa-user-secret",
 												wrapperClass: "pull-left",
 												onclick: function () {
-													systemUsersUserEdit._live(user_uid);
+													systemUsersEditPassword._live(user_uid);
 												}
 											}),
 										]

@@ -358,6 +358,43 @@ class V0
             @system_api.delete 'system/uadmin/users/accounts/email', user_uid: user_uid
           end
 
+
+          ########################################################################
+          # Users > accounts > email > distribution groups
+          ########################################################################
+
+          def new_users_account_email_distribution_group( user_uid )
+            @system_api.get 'system/uadmin/users/accounts/email/distribution_groups/new', user_uid: user_uid
+          end
+
+          def create_users_account_email_distribution_group( user_uid, distribution_group )
+            @system_api.post 'system/uadmin/users/accounts/email/distribution_groups/', user_uid: user_uid, distribution_group: distribution_group
+          end
+
+          ########################################################################
+          # Users > accounts > email > aliases
+          ########################################################################
+
+          def create_users_email_alias( user_uid, _alias )
+            @system_api.post 'system/uadmin/users/accounts/email/aliases/', user_uid: user_uid, alias: _alias
+          end
+
+          def delete_users_email_alias( user_uid, address )
+            @system_api.delete 'system/uadmin/users/accounts/email/aliases/', user_uid: user_uid, address: address
+          end
+
+          ########################################################################
+          # Users > accounts > email > distribution groups
+          ########################################################################
+
+          def create_users_email_distribution_group( user_uid, distribution_group )
+            @system_api.post 'system/uadmin/users/accounts/email/distribution_groups/', user_uid: user_uid, distribution_group: distribution_group
+          end
+
+          def delete_users_email_distribution_group( user_uid, address )
+            @system_api.delete 'system/uadmin/users/accounts/email/distribution_groups/', user_uid: user_uid, address: address
+          end
+
           ##########################################################################
           # Users > accounts > password
           ##########################################################################

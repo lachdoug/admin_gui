@@ -13,14 +13,17 @@ cell({
 					}),
 					hr(),
 					dataLoader({
-						action: "/system/user/" + user_uid + "/distribution_groups/new",
+						action: "/system/users/email/distribution_groups/new",
+						params: { user_uid: user_uid },
 						render: function(data) {
-
+							// var distribution_groups = data.map(function(distribution_group){
+							// 	return distribution_group.name
+							// })
 							return data.distribution_groups.length ? form({
 								components: [
 									formField( {
 										type: "select",
-										name: "distribution_group",
+										name: "distribution_group[name]",
 										label: "Distribution group",
 										value: "",
 										collectionIncludeBlank: true,
@@ -28,9 +31,10 @@ cell({
 									} ),
 									formCancel ( { onclick: function() { systemUserEmail._live(user_uid, { scrollTo: "systemUserEmailDistributionGroupsArea" }) } } ),
 									formSubmit(),
-							//				pp( data )
+											pp( data )
 								],
-								action: "/system/user/" + user_uid + "/distribution_groups",
+								action: "/system/users/email/distribution_groups/",
+								params: { user_uid: user_uid },
 								method: "POST",
 								callbacks: {
 									200: function(response) {
