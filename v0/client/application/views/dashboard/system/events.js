@@ -30,8 +30,15 @@ cell({
 				systemEvents._handler( event );
 			};
       this._eventSource.onerror = function(e) {
-        debugger;
-        alert("System events error.");
+        if ( $("#systemEventsStreamingWarningMessage").length == 0 ) {
+          setTimeout( function() { // timeout to stop warning flashup on reload
+            $("<p id='systemEventsStreamingWarningMessage' " +
+              "class='text-center'>System events steaming error. " +
+              "Please <a  style='cursor: pointer;' " +
+              "onclick='location.reload()'>reload</a> page.</p>"
+            ).insertAfter( "#navbar" );
+          }.bind(this), 3000)
+        }
       };
 		};
 	},
