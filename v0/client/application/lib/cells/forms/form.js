@@ -6,13 +6,11 @@ function form(args) {
 		$type: "form",
 		class: "clearfix",
 		id: args.id,
-		// $components: ,
 		action: args.action + "?" + query_params,
 		method: args.method,
 		enctype: args.enctype || "application/x-www-form-urlencoded",
 		_callbacks: args.callbacks,
 		$init: function() {
-// debugger;
 			this.$components = (typeof args.components === "function") ? args.components(this) : ( args.components || [] );
 
 			if ( args.init ) {
@@ -20,7 +18,7 @@ function form(args) {
 			} else {
 				api._bindForm( this );
 			};
-			// debugger;
+
 			$(this).find("input:invalid").first().focus();
 		},
 		_field: function( args ) {

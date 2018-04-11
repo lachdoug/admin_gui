@@ -1,7 +1,7 @@
 Engines Admin GUI
 =================
 
-This application provides an interface for administering an Engines instance.
+This application provides an interface for administering an Engines system.
 
 Framework
 ---------
@@ -13,20 +13,13 @@ public directory: public
 persistent volume: data  
 Note: does not need a DB and does not send mail.
 
-config.ru
----------
-require_relative 'v0/module'  
-map('/') { run V0 }  
-
 Environment
 -----------
 **Required**  
-ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] include port, for example: "https://192.168.1.117:2380".  
 ENV['ENGINES_ADMIN_GUI_SESSION_SECRET']
 **Optional**  
-ENV['ENGINES_ADMIN_GUI_KERBEROS_SERVER'] default is "auth.engines.internal:88"
-ENV['ENGINES_ADMIN_GUI_KERBEROS_KEYTAB_PATH'] default is "/etc/krb5kdc/keys/kdc.keytab"
-ENV['ENGINES_ADMIN_GUI_REMOTE_MANAGEMENT'] default is false. When set to true the user can change :system_api_url at runtime (and also enables stop and pause instructions on mgmt service menu). Note that when true ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] is optional (if not given, gui will present form to enter system api url).  
+ENV['ENGINES_ADMIN_GUI_SYSTEM_IP'] include port, for example: "192.168.1.117".
+ENV['ENGINES_ADMIN_GUI_REMOTE_MANAGEMENT'] default is false. When set to true the user can change :system_ip at runtime (and also enables stop and pause instructions on control service menu). If false ENV['ENGINES_ADMIN_GUI_SYSTEM_IP'] is **Required**.  
 ENV['ENGINES_ADMIN_GUI_SHOW_SERVICES_BY_DEFAULT'] default is false
 ENV['ENGINES_ADMIN_GUI_SHOW_SOFTWARE_TITLES_BY_DEFAULT'] default is false
 ENV['ENGINES_ADMIN_GUI_SHOW_CONTAINER_MEMORY_USAGE_BY_DEFAULT'] default is false
@@ -36,3 +29,4 @@ ENV['ENGINES_ADMIN_GUI_BUG_REPORTS_URL'] for example: "https://127.0.0.1:3666".
 ENV['ENGINES_ADMIN_GUI_BANNER_TEXT'] default is nil.  
 ENV['ENGINES_ADMIN_GUI_BANNER_TEXT_COLOR'] default is '#fff'.  
 ENV['ENGINES_ADMIN_GUI_BANNER_BACKGROUND_COLOR'] default is '#48d'.  
+DEPRECATED:  ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] > use ENV['ENGINES_ADMIN_GUI_SYSTEM_IP'] instead

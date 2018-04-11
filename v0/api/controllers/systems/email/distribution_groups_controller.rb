@@ -26,22 +26,6 @@ class V0
         system.delete_email_distribution_group( params[:name] ).to_json
       end
 
-
-
-      # get "/system/email/distribution_group/edit" do
-      #   system.distribution_group_edit( params[:distribution_group_name] ).to_json
-      # end
-      #
-      # put "/system/email/distribution_group" do
-      #   system.distribution_group_update( params[:distribution_group_name], params[:data] ).to_json
-      # end
-      #
-      # delete "/system/email/distribution_group" do
-      #   system.distribution_group_delete( params[:distribution_group_name] ).to_json
-      # end
-      #
-
-
     end
   end
 end

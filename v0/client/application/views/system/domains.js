@@ -14,7 +14,7 @@ var $systemDomains = {
 							class: "clearfix",
 							$components: [
 								button( {
-									onclick: "systemControlPanel._live()",
+									onclick: systemControlPanel._live,
 									icon: "fa fa-arrow-up",
 									wrapperClass: "pull-right"
 								} ),
@@ -80,8 +80,8 @@ var $systemDomains = {
 								]
 							},
 							button( this._zeroconfEnabled ?
-						 		{icon: "fa fa-toggle-on", text: "Disable", wrapperClass: "pull-right", onclick: "systemDomains._disableZeroconf();" } :
-						 		{icon: "fa fa-toggle-off", text: "Enable", wrapperClass: "pull-right", onclick: "systemDomains._enableZeroconf();" } ),
+						 		{icon: "fa fa-toggle-on", text: "Disable", wrapperClass: "pull-right", onclick: systemDomains._disableZeroconf } :
+						 		{icon: "fa fa-toggle-off", text: "Enable", wrapperClass: "pull-right", onclick: systemDomains._enableZeroconf } ),
 						]
 					},
 					{
@@ -146,7 +146,7 @@ var $systemDomains = {
 									{ $text: this._defaultDomain },
 								]
 							},
-							button( {icon: "fa fa-edit", text: "Edit", wrapperClass: "pull-right", onclick: "systemDomainsDefaultEdit._live();" } ),
+							button( {icon: "fa fa-edit", text: "Edit", wrapperClass: "pull-right", onclick: systemDomainsDefaultEdit._live } ),
 						]
 					},
 					{
@@ -176,11 +176,10 @@ var $systemDomains = {
 						class: "clearfix",
 						$components: [
 							{	$type: "label", $text: "Domain names", class: "pull-left"	},
-							button( {icon: "fa fa-plus", text: "Add", title: "Add a new domain name", wrapperClass: "pull-right", onclick: "systemDomainsNew._live();" } ),
+							button( {icon: "fa fa-plus", text: "Add", title: "Add a new domain name", wrapperClass: "pull-right", onclick: systemDomainsNew._live } ),
 						]
 					},
 					systemDomains._domainNamesList(this._domainNamesData),
-//								pp( this._domainNamesData ),
 				];
 
 			},
@@ -222,13 +221,9 @@ var $systemDomains = {
 									text: "Delete",
 									wrapperClass: "pull-right",
 									onclick: function () {
-//										if ( domain.domain_name.length ) {
-											if( confirm("Are you sure that you want to delete " + domain.domain_name + "?") ) {
-												systemDomains._delete( i );
-											};
-//										} else {
-//
-//										};
+										if( confirm("Are you sure that you want to delete " + domain.domain_name + "?") ) {
+											systemDomains._delete( i );
+										};
 									}
 								} ),
 							]

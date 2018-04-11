@@ -77,14 +77,7 @@ class V0
               status: engines_api_system.builder_status,
               current: current_build
             },
-            # apps: app_statuses( include_software_titles: include_software_titles ),
-            # services: include_services ? service_statuses( include_software_titles: include_software_titles ) : []
           }
-
-        # rescue => e
-        #
-        #   # raise NonFatalError.new "System busy.", 503 if e.status_code == 405
-        #   raise e
         end
 
         ########################################################################
@@ -114,10 +107,6 @@ class V0
 
         def update_admin_user(data)
           engines_api_system.update_admin_user( data )
-        end
-
-        def admin_user
-          engines_api_system.admin_user
         end
 
         ########################################################################
@@ -155,6 +144,13 @@ class V0
         # Reserved names
         ########################################################################
 
+        def reserved_names
+          {
+            reserved_fqdns: reserved_fqdns,
+            reserved_container_names: reserved_container_names,
+          }
+        end
+
         def reserved_container_names
           engines_api_system.reserved_container_names
         end
@@ -182,30 +178,6 @@ class V0
         def container_memory_statistics
           engines_api_system.container_memory_statistics
         end
-
-        ########################################################################
-        # User management
-        ########################################################################
-
-        # def ldap
-        #   @ldap ||= Services::Ldap.new( @settings )
-        # end
-        #
-        # def kerberos_auth_service
-        #   @kerberos_auth_service ||= Services::KerberosAuth.new(@settings)
-        # end
-        #
-        # def kerberos_admin_service
-        #   @kerberos_admin_service ||= Services::KerberosAdmin.new(@settings)
-        # end
-        #
-        # def kerberos_auth(user_uid, password)
-        #   kerberos_auth_service.auth(user_uid, password)
-        # end
-        #
-        # def kerberos_principal(user_uid)
-        #   kerberos_admin_service.get_principal(user_uid)
-        # end
 
         ########################################################################
         # Users > accounts
@@ -293,8 +265,6 @@ class V0
           engines_api_system.delete_users_email_alias( user_uid, address )
         end
 
-
-
         ########################################################################
         # Users > accounts > password
         ########################################################################
@@ -302,62 +272,6 @@ class V0
         def update_users_account_password( user_uid, password )
           engines_api_system.update_users_account_password( user_uid, password )
         end
-
-
-
-        #
-        # def user_email(user_uid)
-        #   ldap.user_email(user_uid)
-        # end
-        #
-        # def user_setup_email( user_uid, email_domain )
-        #   ldap.user_setup_email( user_uid, email_domain )
-        # end
-        #
-        # def user_disable_email( user_uid )
-        #   ldap.user_disable_email( user_uid )
-        # end
-        #
-        # def user_edit_mailbox_domain( user_uid )
-        #   ldap.user_edit_mailbox_domain( user_uid )
-        # end
-        #
-        # def user_update_mailbox_domain( user_uid, email_domain )
-        #   ldap.user_update_mailbox_domain( user_uid, email_domain )
-        # end
-        #
-        # def user_new_add_email_address( user_uid )
-        #   ldap.user_new_add_email_address( user_uid )
-        # end
-        #
-        # def user_add_email_address( user_uid, email_address )
-        #   ldap.user_add_email_address( user_uid, email_address )
-        # end
-        #
-        # def user_new_remove_email_address( user_uid )
-        #   ldap.user_email_addresses( user_uid )
-        # end
-        #
-        # def user_remove_email_address( user_uid, email_address )
-        #   ldap.user_remove_email_address( user_uid, email_address )
-        # end
-        #
-        # def user_new_distribution_group( user_uid )
-        #   ldap.user_new_distribution_group user_uid
-        # end
-        #
-        # def user_create_distribution_group( user_uid, distribution_group )
-        #   ldap.user_create_distribution_group( user_uid, distribution_group )
-        # end
-        #
-        # def user_distribution_groups_remove(user_uid)
-        #   ldap.user_distribution_groups_remove user_uid
-        # end
-        #
-        #
-        # def update_user(user_uid, data)
-        #   ldap.update_user(user_uid, data)
-        # end
 
         ########################################################################
         # User > groups
@@ -370,16 +284,6 @@ class V0
         def show_users_group( name )
           engines_api_system.show_users_group( name )
         end
-
-        #
-        # def user_groups
-        #   # engines_api_system.user_groups
-        #   ldap.user_groups
-        # end
-        #
-        # def user_group(user_group_name)
-        #   ldap.user_group user_group_name
-        # end
 
         ########################################################################
         # Email > distribution groups
@@ -429,45 +333,6 @@ class V0
           engines_api_system.delete_email_distribution_group_email_address distribution_group_name, address
         end
 
-
-
-        #
-        # def distribution_list( distribution_list_name )
-        #   ldap.distribution_list( distribution_list_name )
-        # end
-        #
-        # def distribution_lists_new
-        #   ldap.distribution_lists_new
-        # end
-        #
-        # def distribution_lists_create( data )
-        #   ldap.distribution_lists_create( data )
-        # end
-        #
-        # def distribution_list_edit( distribution_list_name )
-        #   ldap.distribution_list_edit distribution_list_name
-        # end
-        #
-        # def distribution_list_update( distribution_list_name, data )
-        #   ldap.distribution_list_update distribution_list_name, data
-        # end
-        #
-        # def distribution_list_delete( distribution_list_name )
-        #   ldap.distribution_list_delete distribution_list_name
-        # end
-        #
-        # def distribution_list_new_email_address( distribution_list_name )
-        #   ldap.distribution_list_new_email_address( distribution_list_name )
-        # end
-        #
-        # def distribution_list_create_email_address( distribution_list_name, email_addresses )
-        #   ldap.distribution_list_create_email_address( distribution_list_name, email_addresses )
-        # end
-        #
-        # def distribution_list_delete_email_address( distribution_list_name, email_addresses )
-        #   ldap.distribution_list_delete_email_address( distribution_list_name, email_addresses )
-        # end
-
         ########################################################################
         # Email
         ########################################################################
@@ -500,16 +365,6 @@ class V0
         # Email > domains
         ########################################################################
 
-
-
-        # def email_domains
-        #   ldap.email_domains
-        # end
-        #
-        # def email_domain(email_domain)
-        #   ldap.email_domain(email_domain)
-        # end
-        #
         def new_email_domain
           system_domains = domains
           system_domain_names = system_domains[:names].map{ |domain| domain[:domain_name] }
@@ -527,40 +382,6 @@ class V0
           engines_api_system.delete_email_domain name
         end
 
-
-        #
-        # def deletable_email_domains
-        #   existing_domains = email_domains
-        #   if existing_domains[:domains].length < 2
-        #     existing_domains[:domains]
-        #   else
-        #     existing_domains[:domains] - [ existing_domains[:default] ]
-        #   end
-        # end
-        #
-        # def delete_email_domain(email_domain)
-        #   ldap.delete_email_domain email_domain
-        # end
-        #
-        # def set_default_email_domain(data)
-        #   ldap.set_default_email_domain data[:email_domain]
-        # end
-        #
-        # def email_domains_create_setup(data)
-        #   # service(:smtp).perform_configuration( :default_domain, domain_name: data[:email_domain] )
-        #   # service(:email).perform_configuration( :default_domain, domain_name: data[:email_domain] )
-        #
-        #   ldap.create_email_domain data
-        # rescue
-        #   ldap.set_default_email_domain data[:email_domain]
-        #   # service(:imap).instruct(:start)
-        # end
-        #
-
-
-
-
-
         ########################################################################
         # Email addresses
         ########################################################################
@@ -568,19 +389,6 @@ class V0
         def index_email_email_addresses
           engines_api_system.index_email_email_addresses
         end
-
-        # def email_addresses
-        #   ldap.email_addresses
-        # end
-        #
-        # def email_address(email_address)
-        #   ldap.email_address(email_address)
-        # end
-        #
-
-
-
-
 
         ########################################################################
         # Registry
@@ -668,23 +476,14 @@ class V0
 
         def delete_domain( domain_name)
           engines_api_system.delete_domain( domain_name )
-          # return { message: "OK" } \
-          #   if engines_api_system.delete_domain( domain_name ) == 'true'
-          # raise NonFatalError.new "Failed to delete domain.", 405
         end
 
         def enable_zeroconf
-          # return { message: "OK" } \
-          #   if create_domain( { domain_name: :local, self_hosted: false, internal_only: false } ) == 'true'
           create_domain( { domain_name: :local, self_hosted: false, internal_only: false } )
-        # rescue 405
-        #   raise NonFatalError.new "Failed to enable Avahi (zeroconf).", 405
         end
 
         def disable_zeroconf
           delete_domain( :local )
-        # rescue 405
-        #   raise NonFatalError.new "Failed to disable Avahi (zeroconf).", 405
         end
 
         ########################################################################
@@ -696,9 +495,6 @@ class V0
         end
 
         def update_default_site( data )
-          # return { message: "OK" } \
-          #   if engines_api_system.update_default_site( data ) == 'true'
-          # raise NonFatalError.new "Failed to update domain.", 405
           engines_api_system.update_default_site( data )
         end
 
@@ -707,33 +503,23 @@ class V0
         ########################################################################
 
         def restart_base_os
-          ## Give a response before shutting down.
-          # Thread.new do
-            # sleep 3
+          Thread.new do
+            sleep 1
             engines_api_system.restart_base_os
-          # end
-          # return {}
-        # rescue
-          # return { message: "OK" } if engines_api_system.restart_base_os == 'true'
-          # raise NonFatalError.new "Failed to reboot system.", 405
+          end
+          return {}
         end
 
         def restart_engines
           engines_api_system.restart_engines
-          # return { message: "OK" } if engines_api_system.restart_engines == 'true'
-          # raise NonFatalError.new "Failed to restart Engines.", 405
         end
 
         def update_engines
           engines_api_system.update_engines
-          # return { message: "OK" } if engines_api_system.update_engines == 'true'
-          # raise NonFatalError.new "Engines is already up to date.", 405
         end
 
         def update_base_os
           engines_api_system.update_base_os
-          # return { message: "OK" } if engines_api_system.update_base_os == 'true'
-          # raise NonFatalError.new "Base OS is already up to date.", 405
         end
 
         ########################################################################
@@ -778,7 +564,6 @@ class V0
             data[:target] = nil if data[:for] == :unassigned
             engines_api_system.create_service_certificate( api_args )
           end
-          # key = Base64.encode64 data[:key_file][:tempfile].read
         end
 
         def delete_certificate( certificate_path )
@@ -811,14 +596,9 @@ class V0
           engines_api_system.container_event_stream do |event_json|
             begin
               event = JSON.parse(event_json, symbolize_names: true)
-#
-# puts "Processing event: #{event}"
-# puts "Event state: #{event[:state]}"
-#
               if event[:container_name].nil?
                 yield ( {type: :heartbeat} )
               else
-                # sleep 5
                 container_name = event[:container_name]
                 case event[:container_type].to_sym
                 when :container, :application, :app ## James needs to standardize this
@@ -828,24 +608,6 @@ class V0
                   container_type = :service
                   status = service_status_for container_name
                 end
-
-# begin
-#   if status
-#     puts "AFTER EVENT container[:status][:state] #{status[:state]}"
-#   else
-#     puts "AFTER EVENT no container[:status]"
-#   end
-# rescue => e
-# puts '[------------------------------------------------------'
-# puts "Event error"
-# puts :event
-# puts event
-# puts :status
-# puts status
-# puts :error
-# puts e
-# puts ']------------------------------------------------------'
-# end
                 if status
                   yield ( { type: :container_status,
                             container_type: container_type,
@@ -853,38 +615,17 @@ class V0
                             status: status.merge( { name: container_name } ) } )
                 end
               end
-            # rescue JSON::ParserError
-            #   yield( {type: :heartbeat} )
             end
           end
         end
 
         def app_status_for(container_name)
-
           app(container_name).container[:status]
         end
 
         def service_status_for(container_name)
           service(container_name).container[:status]
         end
-
-        # def escape(string)
-        #   if string.respond_to?(:force_encoding)
-        #     string = string.encode(::Encoding::UTF_8, :undef => :replace).
-        #                     force_encoding(::Encoding::BINARY)
-        #   end
-        #   json = string.
-        #     gsub(escape_regex) { |s| ESCAPED_CHARS[s] }.
-        #     gsub(/([\xC0-\xDF][\x80-\xBF]|
-        #            [\xE0-\xEF][\x80-\xBF]{2}|
-        #            [\xF0-\xF7][\x80-\xBF]{3})+/nx) { |s|
-        #     s.unpack("U*").pack("n*").unpack("H*")[0].gsub(/.{4}/n, '\\\\u\&')
-        #   }
-        #   json = %("#{json}")
-        #   json.force_encoding(::Encoding::UTF_8) \
-        #           if json.respond_to?(:force_encoding)
-        #   json
-        # end
 
         def builder_log_event_stream(&block)
           engines_api_system.builder_log_event_stream do |event|
@@ -935,28 +676,6 @@ class V0
           end
         end
 
-        # def existing_services_for( publisher_namespace, type_path )
-        #   @existing_services_collection ||=
-        #   engines_system.persistent_service_connections_for(publisher_type_path).map do |service_consumer|
-        #     [ "#{service_consumer[:parent_engine]}##{service_consumer[:service_handle]}",
-        #     (service_consumer[:parent_engine] +
-        #     ( service_consumer[:parent_engine] ==
-        #                 service_consumer[:service_handle] ?
-        #                 '' : " - (#{service_consumer[:service_handle]})" ) ) ]
-        #   end
-        # end
-        #
-        # def orphan_services_for( publisher_namespace, type_path )
-        #   @orphan_services_collection ||=
-        #   engines_system.orphan_service_connections_for(publisher_type_path).map do |service_consumer|
-        #     ["#{service_consumer[:parent_engine]}##{service_consumer[:service_handle]}",
-        #     (service_consumer[:parent_engine] +
-        #     ( service_consumer[:parent_engine] ==
-        #                 service_consumer[:service_handle] ?
-        #                 '' : " - (#{service_consumer[:service_handle]})" ) ) ]
-        #   end
-        # end
-
         ########################################################################
         # Orphan data
         ########################################################################
@@ -998,8 +717,6 @@ class V0
         def install(data)
           install_params = install_params_for(data)
           engines_api_system.install(install_params)
-          # return { message: "OK" } if engines_api_system.install(install_params) == 'true'
-          # raise NonFatalError.new "Failed to install.", 405
         end
 
         def install_params_for(data)
@@ -1061,26 +778,19 @@ class V0
         end
 
         def enable_exception_reporting
-
           engines_api_system.enable_exception_reporting
         end
 
         def disable_exception_reporting
-
           engines_api_system.disable_exception_reporting
         end
-
 
         ########################################################################
         # Shutdown
         ########################################################################
 
         def shutdown(data)
-          # return {}
           engines_api_system.shutdown( { reason: data[:reason] } )
-
-          # return { message: "OK" } if engines_api_system.shutdown( { reason: data[:reason] } ) == 'true'
-          # raise NonFatalError.new "Failed to shutdown system.", 405
         end
 
       end

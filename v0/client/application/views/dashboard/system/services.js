@@ -12,7 +12,6 @@ function renderSystemServices() {
         callbacks: {
           200: function(data) {
             systemServices._refresh(data);
-            // return {};
           },
         },
       });
@@ -62,11 +61,9 @@ function renderSystemServices() {
     },
 
     _titleFor: function (serviceName) {
-// console.log("get title for: " + serviceName);
   		var cachedTitle = systemServices.$titleData[serviceName];
 
   		if ( typeof cachedTitle == 'undefined' ) {
-        // systemServices.$titleData[serviceName] = ""
         apiRequest({
   				action: "/services/" + serviceName + "/about",
   				callbacks: {
@@ -74,7 +71,7 @@ function renderSystemServices() {
               window["systemServiceTitle" + serviceName]._refresh( data.title );
   						systemServices.$titleData[serviceName] = data.title || "";
   					},
-            401: function() {}, // remove this once api token not in file
+            // 401: function() {}, // remove this once api token not in file
   				}
   			});
   			return null;

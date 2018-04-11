@@ -16,7 +16,16 @@ cell({
 						action: "/system/email",
 						render: function(data) {
 
-							return form({
+							return data.domains.length == 0 ? {
+								$components: [
+									{ $type: "i", $text: "The system does not have an email domain." },
+									button({
+										wrapperClass: "pull-right",
+										text: "OK",
+										icon: "fa fa-check",
+										onclick: function() { systemUserEmail._live(user_uid) }
+									})
+								] } : form({
 								components: [
 									formField( {
 										name: "alias[local_part]",
@@ -32,7 +41,6 @@ cell({
 									} ),
 									formCancel ( { onclick: function() { systemUserEmail._live(user_uid, { scrollTo: "systemUserEmailAliasesArea" }) } } ),
 									formSubmit(),
-							//				pp( data )
 								],
 								action: "/system/users/email/aliases/",
 								params: { user_uid: user_uid },

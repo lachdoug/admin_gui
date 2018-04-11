@@ -11,27 +11,19 @@ GEM
       ffi (>= 1.0.1)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
-    kerberos_authenticator (0.0.7)
-      ffi (~> 1.9)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
     multi_json (1.12.2)
     mustermann (1.0.1)
-    net-ldap (0.16.1)
     netrc (0.11.0)
     rack (2.0.3)
     rack-protection (2.0.0)
       rack
-    rake (12.3.0)
-    rake-compiler (1.0.4)
-      rake
     rest-client (2.0.2)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
-    rkerberos (0.1.5)
-      rake-compiler
     sinatra (2.0.0)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -58,10 +50,7 @@ PLATFORMS
 
 DEPENDENCIES
   gssapi
-  kerberos_authenticator
-  net-ldap
   rest-client
-  rkerberos
   sinatra
   sinatra-contrib
   thin

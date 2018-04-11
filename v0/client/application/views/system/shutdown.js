@@ -41,7 +41,7 @@ var $systemShutdown = {
 					id: "systemShutdownField_shutdown",
 					label: "Reason",
 				} ),
-				formCancel ( { onclick: "systemControlPanel._live();" } ),
+				formCancel ( { onclick: systemControlPanel._live } ),
 				formSubmit(),
 			],
 			action: "/system/shutdown",

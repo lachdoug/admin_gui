@@ -16,7 +16,6 @@ function progressBar(obj) {
 					},
 					{
 						role: "progressbar",
-						// style: "background-image: none;",
 						class: "minor progress-bar progress-bar-info progress-bar-striped active"
 					}
 				]
@@ -32,18 +31,13 @@ function progressBar(obj) {
 		},
 
 		_setWidth: function ( widthRatio ) {
-
 			this._progress = widthRatio * 1000;
 			this._minorProgress = 0;
-
 		},
 
-
 		$update: function () {
-
 			$(this).find(".major.progress-bar").css('width', (this._progress/10).toString() + '%');
 			$(this).find(".minor.progress-bar").css('width', (this._minorProgress/10).toString() + '%');
-
 		}
 
 	}

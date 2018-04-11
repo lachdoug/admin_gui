@@ -33,7 +33,7 @@ var $appEnvironmentVariablesApplication = {
 										components: [
 											{
 												$components: data.blueprint_environment_variables.map( function( field ) {
-													
+
 													field.value = data.variables.find( function( variable ) { return variable.name == field.name } ).value;
 													field.name_prefix = "data";
 													return enginesField( field );
@@ -50,7 +50,6 @@ var $appEnvironmentVariablesApplication = {
 											},
 										}
 									} ),
-									// pp( data )
 								];
 							},
 

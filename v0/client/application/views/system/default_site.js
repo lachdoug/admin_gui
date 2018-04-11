@@ -47,7 +47,7 @@ var $systemDefaultSite = {
 					hint: "Enter a host name (e.g: www.engines.org )",
 					value: data.default_site
 				} ),
-				formCancel ( { onclick: "systemControlPanel._live();" } ),
+				formCancel ( { onclick: systemControlPanel._live } ),
 				formSubmit(),
 			],
 			action: "/system/default_site",

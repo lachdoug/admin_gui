@@ -22,7 +22,7 @@ var $systemSshKeys = {
 					},
 					{
 						$components: [
-							button( { onclick: "systemSshKeys._generatePrivate();",
+							button( { onclick: systemSshKeys._generatePrivate,
 							title: "Generate and download private key",
 								icon: "fa fa-user-secret", text: "Private key"	} ),
 							{ $type: "hr" },
@@ -30,11 +30,11 @@ var $systemSshKeys = {
 							{
 								class: "clearfix",
 								$components: [
-									button( { onclick: "systemSshKeysUploadPublic._live();",
+									button( { onclick: systemSshKeysUploadPublic._live,
 										icon: "fa fa-upload", text: "Upload",
 										title: "Upload public key",
 										wrapperClass: "pull-right-md"	} ),
-									button( { onclick: "systemSshKeys._downloadPublic();",
+									button( { onclick: systemSshKeys._downloadPublic,
 										icon: "fa fa-download", text: "Download",
 										title: "Upload private key",
 										wrapperClass: "pull-left-md"	} ),

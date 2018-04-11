@@ -100,7 +100,6 @@ class V0
         end
 
         def handle_response
-
           response = yield
           return nil unless response.headers[:content_type]
           case response.headers[:content_type].split(";").first
@@ -116,7 +115,6 @@ class V0
         rescue RestClient::Forbidden
           raise NonFatalError.new 'Not signed in.', 401
         rescue RestClient::MethodNotAllowed => e
-
           response = JSON.parse(e.response.body, symbolize_names: true)
           error = response[:error_object] || response[:error]
           system_error_message = error[:error_mesg] || error[:message]
@@ -132,8 +130,6 @@ class V0
                 RestClient::Exceptions::ReadTimeout => e
           raise NonFatalError.new "The system is unavailable.\n\nReason: #{e.message}\n\nThis usually temporary and happens when the system is busy or restarting.\n\nPlease wait a moment.", 502
         end
-
-        # read stream
 
         def stream(route)
           uri = URI @url

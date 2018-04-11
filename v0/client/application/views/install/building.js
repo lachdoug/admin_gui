@@ -31,15 +31,8 @@ var $installBuild = {
 										text: "Build report",
 										onclick: function () { appBuildReport._live( installBuild._appName ); },
 									} ),
-									// icon ( { icon: "fa fa-spinner fa-spin", text: "Loading build report" } )
 								],
-								// _render: function (report) {
-								// 	this.$components = [
-								// 	];
-								// }
 							},
-							// { $type: "p", $text: "Build complete. Please check the build report for any steps that may be required to complete the installation."},
-							// button({ text: "Build report", icon: "fa fa-list-ol", onclick: function () { appBuildReport._live(); } }),
 							{ $type: "hr" }
 						]
 					},
@@ -52,7 +45,7 @@ var $installBuild = {
 								class: "clearfix",
 								$components: [
 									{ $type: "p", $text: "Build failed.", class: "pull-left" },
-									button( { icon: "fa fa-times", text: "Close", onclick: "modal._kill()", wrapperClass: "pull-right" } ),
+									button( { icon: "fa fa-times", text: "Close", onclick: modal._kill, wrapperClass: "pull-right" } ),
 								]
 							},
 							{ $type: "hr" }
@@ -152,33 +145,14 @@ var $installBuild = {
 
 	},
 
-
 	_showComplete: function () {
-
 		$("#installBuildProgress").hide();
 		$("#installBuildComplete").show();
-		// installBuild._loadBuildReport();
 	},
 
-	// _loadBuildReport: function () {
-	//
-	// 	apiRequest({
-	// 		action: "/apps/" + this._appName + "/build_report",
-	// 		callbacks: {
-	// 			200: function(response) {
-	// 				installBuildCompleteBuildReport._render( response.build_report );
-	// 			}
-	// 		}
-	// 	});
-	//
-	// },
-
-
 	_showFailed: function () {
-
 		$("#installBuildProgress").hide();
 		$("#installBuildFailed").show();
-
 	},
 
 	_incrementProgress: function ( line ) {

@@ -33,7 +33,6 @@ function dataLoader( args ) {
 
 		},
 
-
 	};
 
 };

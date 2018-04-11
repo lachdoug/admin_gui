@@ -8,7 +8,6 @@ class V0
           @data_file_path = settings.data_directory_path + "/library.json"
           FileUtils.touch @data_file_path
         end
-        # attr_reader :url
 
         def to_h
           @to_h ||= app_data

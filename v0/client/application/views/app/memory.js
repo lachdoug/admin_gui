@@ -2,8 +2,6 @@ cell({
 
 	id: "appMemory",
 
-	// _appName: null,
-
 	_live: function (appName) {
 
 		this._appName = appName;
@@ -111,37 +109,6 @@ cell({
 
 		};
 	},
-
-
-	// _memoryUsage: function () {
-	//
-	// 	var appName = this._appName;
-	//
-	// 	return {
-	// 		id: "appMemoryUsage",
-	//
-	// 		$components: [
-	// 			icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
-	// 		],
-	//
-	// 		_refresh: function( data ) {
-	//
-	// 			var appMemory = data.containers.applications[appName];
-	//
-	// 			this.$components = [
-	// 				appMemory && appMemory.current ? dataList( {
-	// 					class: "dl-horizontal",
-	// 					items: [
-	// 						{ label: "Current", data: (appMemory.current/1024/1024).toFixed(1) + " MB" },
-	// 						{ label: "Peak", data: (appMemory.maximum/1024/1024).toFixed(1) + " MB" },
-	// 					]
-	// 				} ) :
-	// 				{ $type: "i", $text: "No memory usage."},
-	// 			];
-	// 		}
-	//
-	// 	};
-	// },
 
 	_memoryAllocated: function () {
 

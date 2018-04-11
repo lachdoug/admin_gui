@@ -4,7 +4,6 @@ var $appServicesNonpersistentNew = {
 	id: "appServicesNonpersistentNew",
 
 	_appName: null,
-	// _data: null,
 
 	_live: function( appName, publisherNamespace, typePath ) {
 
@@ -50,7 +49,6 @@ var $appServicesNonpersistentNew = {
 											{ $type: "p", $text: appServicesNonpersistentNewContent._data.description },
 											{ $type: "hr" },
 											appServicesNonpersistentNew._form(),
-											// pp(this._data)
 										];
 									},
 

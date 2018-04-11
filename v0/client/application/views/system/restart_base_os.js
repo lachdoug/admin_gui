@@ -12,13 +12,6 @@ var $systemRestartBaseOS = {
 					$components: [
 						{ $type: "p", $text: "Restart " + baseOSName + "? This will reboot the system." },
 						systemRestartBaseOS._form(),
-						// {
-						// 	class: "clearfix",
-						// 	$components: [
-						// 		button( { icon: "fa fa-times", text: "Cancel", wrapperClass: "pull-left", onclick: systemMenu._live } ),
-						// 		button( { icon: "fa fa-check", text: "OK", wrapperClass: "pull-right", onclick: systemRestartBaseOS._restart } ),
-						// 	]
-						// }
 					]
 				}
 			}
@@ -37,7 +30,10 @@ var $systemRestartBaseOS = {
 			method: 'GET',
 			callbacks: {
 				200: function(response) {
-					main._renderBusySystem( { behavior: "base_os_restart" } );
+					setTimeout( function () {
+						main._renderBusySystem( { behavior: "base_os_restart" } );
+					}.bind( this ), 1000 );
+
 				},
 			}
 		});

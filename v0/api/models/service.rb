@@ -30,43 +30,17 @@ class V0
           @service_definition ||= @system.service_definition_for( publisher_namespace, type_path )
         end
 
-        # def blueprint
-        #   @blueprint ||= service_api.blueprint
-        # end
-        #
-        # ######################################################################
-        # # Installation
-        # ######################################################################
-        #
-        # def uninstall(opts)
-        #   return { message: "OK" } if service_api.uninstall
-        #   raise NonFatalError.new "Failed to uninstall #{name}.", 405
-        # end
-        #
-        # def build_report
-        #   { build_report: service_api.build_report }
-        # end
-        #
         ######################################################################
         # Instructions
         ######################################################################
 
-        # def instruct(instruction)
-        #
-        #   return { message: "OK" } if service_api.instruct_container(instruction)
-        #   raise NonFatalError.new "Failed to instruct #{name} to #{instruction}.", 405
-        # end
         def instruct(instruction)
           Thread.new do
             service_api.instruct_container(instruction)
           end
           { message: "OK" }
-          # return { message: "OK" } if service_api.instruct_container(instruction)
-          # raise NonFatalError.new "Failed to instruct #{name} to #{instruction}.", 405
         end
 
-
-        #
         ######################################################################
         # Websites
         ######################################################################
@@ -80,7 +54,6 @@ class V0
         ######################################################################
 
         def about
-          # return { title: '?' } if name == "ivpn"
           service_definition
         end
 
@@ -99,26 +72,6 @@ class V0
         def logs
           service_api.logs
         end
-        #
-        # ######################################################################
-        # # Network
-        # ######################################################################
-        #
-        # def network
-        #
-        #   {
-        #     http_protocol: container[:protocol],
-        #     host_name: container[:hostname],
-        #     domain_name: container[:domain_name],
-        #     available_domain_names: @system.domains[:names].map{ |domain| domain[:domain_name] },
-        #     default_http_protocol: blueprint[:software][:base][:http_protocol],
-        #     reserved_fqdns: @system.reserved_fqdns
-        #   }
-        # end
-        #
-        # def update_network( form_params )
-        #   service_api.update_network( form_params )
-        # end
 
         ######################################################################
         # Memory
@@ -140,51 +93,8 @@ class V0
 
         def environment_variables
           container[:environments]
-          # {}.tap do |result|
-          #   container[:environments].map do |variable|
-          #     if [ "Memory", "LANGUAGE", "LANG", "LC_ALL" ].include? variable[:name]
-          #       variable[:owner_type] = "system"
-          #       variable
-          #     else
-          #       variable
-          #     end
-          #   end.group_by do |variable|
-          #     variable[:owner_type]
-          #   end.tap do |envs|
-          #     result[:servicelication] = servicelication_environment_variables_for envs["servicelication"] || []
-          #     result[:user] = envs["user"] || []
-          #     result[:system] = envs["system"] || []
-          #     result[:service_consumers] = service_consumer_environment_variables_for envs["service_consumer"] || []
-          #   end
-          # end
-
         end
 
-        # def servicelication_environment_variables_for(servicelication_envs)
-        #   {
-        #     variables: servicelication_envs || [],
-        #     blueprint_environment_variables: blueprint[:software][:environment_variables]
-        #   }
-        # end
-        #
-        # def service_consumer_environment_variables_for(service_consumer_envs)
-        #   return {} unless service_consumer_envs
-        #   service_consumer_envs.group_by do |env|
-        #     env[:owner_path].split(':').first
-        #   end.map do |owner_group, envs|
-        #     publisher_namespace, *type_path = owner_group.split('/')
-        #     type_path = type_path.join('/')
-        #     service_definition = @system.service_definition_for( publisher_namespace, type_path )
-        #     {
-        #       owner_group => { variables: envs, consumer_params: service_definition[:consumer_params].values, label: service_definition[:title] }
-        #     }
-        #   end.inject :merge
-        # end
-        #
-        # def update_environment_variables( data )
-        #   service_api.update_environment_variables( variables: data )
-        # end
-        #
         ########################################################################
         # Services
         ########################################################################
@@ -196,8 +106,6 @@ class V0
             available: service_api.available_services
           }
         end
-
-
 
         def services
           {
@@ -222,22 +130,6 @@ class V0
           }
         end
 
-
-        # def services_detail
-        #   {
-        #     persistent: service_api.persistent_services.map do |service|
-        #       # service
-        #       service_detail_for(service[:publisher_namespace], service[:type_path], service[:service_handle] )
-        #     end.sort_by{ |service| service[:label] },
-        #     non_persistent: service_api.non_persistent_services.map do |service|
-        #       # service
-        #       service_detail_for(service[:publisher_namespace], service[:type_path], service[:service_handle] )
-        #     end.sort_by{ |service| service[:label] }
-        #   }
-        # end
-
-
-
         def service_detail_for( publisher_namespace, type_path, service_handle )
           service_definition = @system.service_definition_for( publisher_namespace, type_path )
           persistent_services = service_api.persistent_services_for( publisher_namespace: publisher_namespace, type_path: type_path )
@@ -261,35 +153,8 @@ class V0
             end,
           }
         end
-        #
-        # def update_persistent_service( publisher_namespace, type_path, service_handle, form_params )
-        #   service_api.update_persistent_service( {
-        #     publisher_namespace: publisher_namespace,
-        #     type_path: type_path,
-        #     service_handle: service_handle,
-        #     variables: form_params[:variables]
-        #   } )
-        # end
-        #
-        # def export_persistent_service( publisher_namespace, type_path, service_handle )
-        #   service_api.export_persistent_service( {
-        #     publisher_namespace: publisher_namespace,
-        #     type_path: type_path,
-        #     service_handle: service_handle,
-        #   } )
-        # end
-        #
-        # def import_persistent_service( publisher_namespace, type_path, service_handle, file )
-        #   service_api.import_persistent_service( {
-        #     publisher_namespace: publisher_namespace,
-        #     type_path: type_path,
-        #     service_handle: service_handle,
-        #     file: file
-        #   } )
-        # end
-        #
+
         def available_services
-          # service_api.available_services
           service_api.available_services.map do |type, services|
             {
               type => services.map do |service|
@@ -303,59 +168,7 @@ class V0
             }
           end.inject :merge
         end
-        #
-        # def available_persistent_services_for( publisher_namespace, type_path )
-        #   service_definition = @system.service_definition_for( publisher_namespace, type_path )
-        #   params = service_definition[:consumer_params].values.select do |param|
-        #     param[:ask_at_build_time] == true || param[:immutable] != true
-        #   end.map do |param|
-        #     if param[:input]
-        #       param
-        #     else
-        #       Lib.Helpers.legacy_input_definition_for param
-        #     end
-        #   end
-        #   {
-        #     publisher_namespace: publisher_namespace,
-        #     type_path: type_path,
-        #     label: service_definition[:title],
-        #     description: service_definition[:description],
-        #     shareable: @system.shareable_service_consumers_for( publisher_namespace, type_path ),
-        #     adoptable: @system.adoptable_service_consumers_for( publisher_namespace, type_path ),
-        #     params: params,
-        #   }
-        # end
-        #
-        # def create_new_persistent_service( publisher_namespace, type_path, data )
-        #   service_api.create_new_persistent_service(
-        #     publisher_namespace: publisher_namespace,
-        #     type_path: type_path,
-        #     variables: data[:variables] )
-        # end
-        #
-        # def delete_persistent_service( publisher_namespace, type_path, service_handle )
-        #   service_api.share_existing_persistent_service(
-        #     publisher_namespace: publisher_namespace,
-        #     type_path: type_path,
-        #     service_handle: service_handle )
-        # end
-        #
-        # def share_existing_persistent_service( publisher_namespace, type_path, service_handle, data )
-        #   service_api.share_existing_persistent_service(
-        #     publisher_namespace: publisher_namespace,
-        #     type_path: type_path,
-        #     service_handle: service_handle,
-        #     variables: data[:variables] )
-        # end
-        #
-        # def adopt_orphan_persistent_service( publisher_namespace, type_path, service_handle, data )
-        #   service_api.adopt_orphan_persistent_service(
-        #     publisher_namespace: publisher_namespace,
-        #     type_path: type_path,
-        #     service_handle: service_handle,
-        #     variables: data[:variables] )
-        # end
-        #
+
         def register_nonpersistent_service( publisher_namespace, type_path, service_handle )
           service_api.register_nonpersistent_service(
             publisher_namespace: publisher_namespace,
@@ -387,9 +200,6 @@ class V0
 
         def actions
           ( service_definition[:service_actionators] || {} ).values
-          # .map do |actionator|
-          #   actionator_summary_for(actionator)
-          # end
         end
 
         def action(action_name)
@@ -404,21 +214,6 @@ class V0
           end
         end
 
-        # def actionator_summary_for(actionator)
-        #   unless actionator[:variables]
-        #     actionator[:variables] = ( actionator[:params] || {} ).map do |name, param|
-        #       if param[:input]
-        #         param
-        #       else
-        #         Helpers.legacy_input_definition_for param
-        #       end
-        #     end
-        #   end
-        #    if actionator[:value] == '_Engines_System(default_domain)'
-        #   # actionator[:value] = resolve_string( actionator[:value] )
-        #   actionator
-        # end
-
         def perform_action( actionator_name, variables )
           service_api.perform_action(
             actionator_name: actionator_name,
@@ -432,8 +227,6 @@ class V0
 
         def configurations
           ( service_definition[:configurators] || {} ).values.map do |configurator|
-
-            # configuration_detail_for(configurator)
             {
               name: configurator[:name],
               label: configurator[:label] || configurator[:name],
@@ -467,7 +260,6 @@ class V0
 
         def configuration_edit(configurator_name)
           configurator = configurator_for(configurator_name)
-
           if configurator[:no_save]
             configurator[:variables] = configurator[:variables].map do |variable|
               variable[:value] = resolve_string( variable[:value] )
@@ -476,7 +268,6 @@ class V0
           else
             current_config = configuration_for(configurator_name)[:variables]
             configurator[:variables] = configurator[:variables].map do |variable|
-# puts "current_config #{current_config}"
               current_value = current_config[ variable[:name].to_sym ]
               variable[:value] =
                 current_value ? current_value : resolve_string( variable[:value] )
@@ -487,30 +278,18 @@ class V0
         end
 
         def configurator_for(configurator_name)
-          # configurator = service_definition[:configurators][configurator_name.to_sym]
-          # configurator[:variables] = ( configurator[:variables] || configurator[:params] || {} ).map do |name, param|
-          #   if param[:input]
-          #     param
-          #   else
-          #     Helpers.legacy_input_definition_for param
-          #   end
-          # end
-
-          # configurator
           service_definition[:configurators][configurator_name.to_sym]
         end
 
         def configuration_for(configurator_name)
           service_api.configuration(
-            configurator_name: configurator_name
-          )
+            configurator_name: configurator_name )
         end
 
         def perform_configuration( configurator_name, variables )
           service_api.perform_configuration(
             configurator_name: configurator_name,
-            variables: variables
-          )
+            variables: variables )
         end
 
         ######################################################################
@@ -525,27 +304,14 @@ class V0
           service_api.import file
         end
 
-
         ######################################################################
         # Resolve string
         ######################################################################
 
         def resolve_string(string)
           return "" if string.to_s == ""
-          # strings.map do |string|
-            #  if string == "_Engines_System(random(10))"
-            service_api.resolve_string(string.to_s)
-          # end
+          service_api.resolve_string(string.to_s)
         end
-        #
-        #
-        # ######################################################################
-        # # OOM
-        # ######################################################################
-        #
-        # def clear_had_oom
-        #   service_api.clear_had_oom
-        # end
 
       end
     end

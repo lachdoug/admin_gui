@@ -121,15 +121,4 @@ var $installFromLibrary = {
 
 	},
 
-
-	// _failedToLoad: function (error_message) {
-	//
-	// 	installFromLibraryAppList.$components = [
-	// 		{ $text: "Failed to load apps from library."},
-	// 		{ $type: "br" },
-	// 		{ $text: error_message }
-	// 	];
-	//
-	// },
-
 };

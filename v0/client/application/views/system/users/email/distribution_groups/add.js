@@ -16,10 +16,7 @@ cell({
 						action: "/system/users/email/distribution_groups/new",
 						params: { user_uid: user_uid },
 						render: function(data) {
-							// var distribution_groups = data.map(function(distribution_group){
-							// 	return distribution_group.name
-							// })
-							return data.distribution_groups.length ? form({
+							return data.distribution_groups.length > 0 ? form({
 								components: [
 									formField( {
 										type: "select",
@@ -31,7 +28,6 @@ cell({
 									} ),
 									formCancel ( { onclick: function() { systemUserEmail._live(user_uid, { scrollTo: "systemUserEmailDistributionGroupsArea" }) } } ),
 									formSubmit(),
-											pp( data )
 								],
 								action: "/system/users/email/distribution_groups/",
 								params: { user_uid: user_uid },

@@ -14,7 +14,7 @@ var $systemRegion = {
 							class: "clearfix",
 							$components: [
 								button( {
-									onclick: "systemControlPanel._live()",
+									onclick: systemControlPanel._live,
 									icon: "fa fa-arrow-up",
 									wrapperClass: "pull-right"
 								} ),

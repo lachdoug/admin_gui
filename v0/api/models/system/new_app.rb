@@ -25,7 +25,6 @@ class V0
           end
 
           def blueprint
-
             @blueprint ||= handle_response do
               RestClient::Request.execute( method: :get, url: "#{@blueprint_url}", timeout: 120, verify_ssl: false )
             end

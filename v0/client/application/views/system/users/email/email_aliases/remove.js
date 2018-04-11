@@ -29,7 +29,6 @@ cell({
 									} ),
 									formCancel ( { onclick: function() { systemUserEmail._live(user_uid, { scrollTo: "systemUserEmailAliasesArea" }) } } ),
 									formSubmit(),
-											// pp( data )
 								],
 								action: "/system/users/email/aliases/",
 								params: { user_uid: user_uid },

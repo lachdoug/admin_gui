@@ -7,7 +7,6 @@ cell({
 	_close: function () {
 
 		if (this._eventSource) {
-      // alert('close events');
 			this._eventSource.close();
 			this._eventSource = null
 		};
@@ -30,6 +29,10 @@ cell({
 				console.log(event);
 				systemEvents._handler( event );
 			};
+      this._eventSource.onerror = function(e) {
+        debugger;
+        alert("System events error.");
+      };
 		};
 	},
 

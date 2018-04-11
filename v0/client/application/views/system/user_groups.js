@@ -11,7 +11,6 @@ cell({
 					modalNav({
 						up: systemUsers._live,
 					}),
-					// hr(),
 					dataLoader({
 						action: "/system/users/groups",
 						render: function(data) {

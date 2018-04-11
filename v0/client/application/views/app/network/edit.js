@@ -94,8 +94,6 @@ var $appNetworkEdit = {
 	},
 
 	_checkFqdnReserved: function () {
-		// var data = appNetworkEdit._data;
-		
 		var fqdn = $("#appNetworkEditFormField_host_name").val() + '.' + $("#appNetworkEditFormField_domain_name").val();
 		if( $.inArray( fqdn, appNetworkEdit._data.reserved_fqdns ) > -1 ) {
 			$("#appNetworkEditFormField_host_name")[0].setCustomValidity(
@@ -105,7 +103,5 @@ var $appNetworkEdit = {
 			$("#appNetworkEditFormField_host_name")[0].setCustomValidity('')
 		};
 	},
-
-
 
 };

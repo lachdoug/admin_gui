@@ -63,7 +63,6 @@ var $appServicesPersistentCreateNew = {
 				}
 			}
 		);
-		// this._load();
 
 	},
 
@@ -95,7 +94,7 @@ var $appServicesPersistentCreateNew = {
 	_form: function () {
 
 		var params = appServicesPersistentCreateNewContent._data;
-		
+
 		return form ( {
 			components: [
 				formField( {

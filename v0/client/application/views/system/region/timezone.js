@@ -44,13 +44,11 @@ var $systemRegionTimezone = {
 				formField( {
 					type: "timezone",
 					name: "data[timezone]",
-					// id: "systemRegionTimezoneField_timezone",
 					label: "Country",
 					value: timezoneData.timezone
 				} ),
 				formCancel ( { onclick: systemRegion._live } ),
 				formSubmit(),
-//				pp( timezoneData )
 			],
 			action: "/system/timezone",
 			method: "PUT",

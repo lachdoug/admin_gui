@@ -14,7 +14,7 @@ var $systemServiceCertificates = {
 							class: "clearfix",
 							$components: [
 								button( {
-									onclick: "systemCertificates._live()",
+									onclick: systemCertificates._live,
 									icon: "fa fa-arrow-up",
 									wrapperClass: "pull-right"
 								} ),
@@ -32,10 +32,6 @@ var $systemServiceCertificates = {
 							_render: function ( data ) {
 								this._data = data;
 							},
-
-							// _remove: function( i ) {
-							// 	this._data.splice( i ,1 )
-							// },
 
 							$update: function () {
 								this.$components = systemServiceCertificates._serviceCertificates( this._data );
@@ -69,11 +65,9 @@ var $systemServiceCertificates = {
 	      $type: "table",
 	      $components: data.map( function( serviceCertificate, i ) {
 	        var serviceCertificatePath = serviceCertificate.cert_name ? serviceCertificate.store_name + "/" + serviceCertificate.cert_name : "";
-	        // var serviceCertificateId = serviceCertificatePath.replace(/\//g, "|");
 	  			return {
 	          $type: "tr",
 	  				$components: [
-							// pp( serviceCertificate ),
 	            {
 	              $type: "td",
 	              $components: [
@@ -99,7 +93,6 @@ var $systemServiceCertificates = {
 	  			};
 	  		} )
 	    },
-			// pp( data ),
 		];
 	},
 

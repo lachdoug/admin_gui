@@ -3,7 +3,6 @@ cell({
 	id: "systemUnavailable",
 
 	_live: function ( opts={} ) {
-		// systemUnavailable._opts = opts
 		modal._live(
 			{
 				header: icon({icon: "fa fa-window-close", text: "System unavailable"}),
@@ -43,9 +42,6 @@ cell({
 								alert("System ready.");
 								location.reload();
 							},
-							// 500: function() {
-							// 	systemUnavailable._handlePollingResponseFailure();
-							// },
 							502: function(response) {
 								systemUnavailable._handlePollingResponseFailure(response.error.message);
 							},

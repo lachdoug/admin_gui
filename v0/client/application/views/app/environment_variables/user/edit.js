@@ -51,7 +51,6 @@ var $appEnvironmentVariablesUserEdit = {
 											},
 										}
 									} ),
-									// pp( data )
 								];
 							},
 
@@ -69,7 +68,6 @@ var $appEnvironmentVariablesUserEdit = {
 			action: "/apps/" + this._appName + "/environment_variables",
 			callbacks: {
 				200: function(response) {
-					
 					appEnvironmentVariablesUserEditContent._refresh( response.user );
 				},
 			}

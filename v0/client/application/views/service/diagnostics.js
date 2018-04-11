@@ -56,12 +56,6 @@ var $serviceDiagnostics = {
 							onclick: function () { serviceProcesses._live(serviceName); },
 						} ),
 
-						// button( {
-						// 	icon: "fa fa-question-circle-o",
-						// 	text: "Environment",
-						// 	onclick: function () { serviceDiagnosticsEnvironment._live(serviceName); },
-						// } ),
-
 						{ $type: "hr" },
 
 						button( {
@@ -74,12 +68,6 @@ var $serviceDiagnostics = {
 							text: "Consumers",
 							onclick: function () { serviceConsumers._live(serviceName); },
 						} ),
-
-						// button( {
-						// 	icon: "fa fa-plus",
-						// 	text: "Available services",
-						// 	onclick: function () { serviceAvailableServices._live(serviceName); },
-						// } ),
 
 						{ $type: "hr" },
 

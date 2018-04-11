@@ -7,11 +7,7 @@ var formCancel = function (obj={}) {
 				class: "btn btn-lg btn-custom pull-left disable_button_on_form_submit",
 				id: "form_cancel_button",
 				title: ( obj.title || "Cancel" ),
-				// $components: [
-				// 	obj.icon == false ? {} : { $type: "i", class: ( obj.icon || "fa fa-times" ) },
-				// 	obj.text == false ? {} : { $type: "span", $text: " " + ( obj.text || "Cancel" ) }
-				// ],
-			 	onclick: ( obj.onclick || "$('.modal').modal('hide');" ),
+			 	onclick: ( obj.onclick || modal._kill ),
 
 				$init: function () {
 					this._enableButton();

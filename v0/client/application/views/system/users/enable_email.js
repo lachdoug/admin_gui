@@ -20,9 +20,10 @@ cell({
 							return data.default_domain == "" ? {
 								$components: [
 									{
+										$type: 'i',
 										$text: "Set up system email domain first."
 									},
-									button( { icon: "fa fa-check", text: "OK", onclick: function() { systemUsersUser._live(user_uid) } } )
+									button( { icon: "fa fa-check", wrapperClass: "pull-right", text: "OK", onclick: function() { systemUsersUser._live(user_uid) } } )
 								]
 							} : form({
 								components: [

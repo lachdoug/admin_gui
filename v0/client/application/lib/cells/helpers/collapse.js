@@ -4,10 +4,8 @@ function collapse(args) {
 		style: ( args.wrapperStyle || null ),
 		$components: [
       {
-        // _in: false,
         $init: function () { this.$update() },
         $update: function () {
-          // var collapser = this;
           this.$components = [
             buttonUnwrapped( {
               icon: "fa fa-caret-right",

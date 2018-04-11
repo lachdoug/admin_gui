@@ -14,7 +14,7 @@ var $systemOrphanData = {
 							class: "clearfix",
 							$components: [
 								button( {
-									onclick: "systemControlPanel._live()",
+									onclick: systemDiagnostics._live,
 									icon: "fa fa-arrow-up",
 									wrapperClass: "pull-right"
 								} ),
@@ -27,7 +27,7 @@ var $systemOrphanData = {
 								this._data = data;
 							},
 							_removeGroupItem: function( groupIndex, itemIndex ) {
-								
+
 								$(this).find(".systemOrphanDataApp").eq( groupIndex )[0]._remove( itemIndex );
 							},
 							$components: [

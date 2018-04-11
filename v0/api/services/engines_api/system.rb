@@ -9,7 +9,6 @@ class V0
           end
 
           def sign_in( args )
-
             @system_api.post 'system/login', { user_name: args[:username], password: args[:password], ip_address: args[:ip_address] }, { timeout: 5 }
           end
 
@@ -32,10 +31,6 @@ class V0
           def service_statuses
             @system_api.get 'containers/services/status'
           end
-
-          # def builder_status
-          #   @system_api.get 'engine_builder/status'
-          # end
 
           def update_status
             @system_api.get 'system/status/update'
@@ -63,7 +58,6 @@ class V0
 
           def update_admin_user( args )
             args.merge!( { user_name: :admin } )
-
             @system_api.post "system/user/admin", args
           end
 
@@ -104,7 +98,6 @@ class V0
           end
 
           def update_timezone( args )
-            # timezone = ActiveSupport::TimeZone.find_tzinfo(timezone).to_s.sub(' - ', '/')
             @system_api.post 'system/control/base_os/timezone', args
           end
 
@@ -192,13 +185,9 @@ class V0
           def builder_log_event_stream
             @system_api.stream(
             "engine_builder/follow_stream") do |chunk|
-              # begin
-                chunk.split("\n").each do |line|
-                  yield line
-                end
-              # rescue => e
-                # yield "\n\n\n\u001b[91m+++++++++++++Build log error... #{e}\n\n\n"
-              # end
+              chunk.split("\n").each do |line|
+                yield line
+              end
             end
           end
 
@@ -231,7 +220,6 @@ class V0
           ##########################################################################
 
           def install( args )
-
             @system_api.post 'containers/engines/build', args
           end
 
@@ -320,8 +308,6 @@ class V0
             @system_api.get 'system/uadmin/users/groups/', name: name
           end
 
-
-
           ##########################################################################
           # Users > accounts > groups
           ##########################################################################
@@ -357,7 +343,6 @@ class V0
           def delete_users_account_email( user_uid )
             @system_api.delete 'system/uadmin/users/accounts/email', user_uid: user_uid
           end
-
 
           ########################################################################
           # Users > accounts > email > distribution groups
@@ -402,7 +387,6 @@ class V0
           def update_users_account_password( user_uid, password )
             @system_api.put 'system/uadmin/users/accounts/password', user_uid: user_uid, password: password
           end
-
 
           ########################################################################
           # Email
@@ -492,7 +476,6 @@ class V0
             @system_api.delete 'system/uadmin/email/distribution_groups/email_addresses/', distribution_group_name: distribution_group_name, address: address
           end
 
-
           ##########################################################################
           # Registry
           ##########################################################################
@@ -531,7 +514,6 @@ class V0
           end
 
           def delete_certificate(certificate_path)
-
             @system_api.delete "system/certs/#{certificate_path}"
           end
 
@@ -572,221 +554,9 @@ class V0
             @system_api.post 'system/config/remote_exception_logging/disable'
           end
 
-
         end
 
       end
     end
   end
 end
-
-    # module EnginesApiCore
-    #   class CoreSystem
-    #
-    #     include CoreApi::ApiCall
-    #     include CoreApi::ApiStream
-    #     include EventStreams
-    #
-    #     def initialize(system_url, token, name)
-    #       @system_url = system_url
-    #       @token = token
-    #       @name = name
-    #     end
-    #
-    #     # admin
-    #
-    #     def update_password(params)
-    #       post "system/user/admin", params: params.merge({ username: 'admin', current_password: params[:current_password], new_password: params[:new_password]}), expect: :boolean
-    #     end
-    #
-    #     def update_email(params)
-    #       post "system/user/admin", params: { username: 'admin', current_password: params[:current_password], email: params[:email] }, expect: :boolean
-    #     end
-    #
-    #     def admin_user
-    #       get "system/user/admin", expect: :json
-    #     end
-    #
-    #     # authentication
-    #
-    #     def authenticate(password)
-    #       post "system/login", params: { username: 'admin', password: password }, expect: :plain_text
-    #     end
-    #
-    #
-    #     # container statuses
-    #
-    #     def engine_statuses
-    #       get 'containers/engines/status', expect: :json
-    #     end
-    #
-    #     def service_statuses
-    #       get 'containers/services/status', expect: :json
-    #     end
-    #
-
-    #
-    #     # install apps
-    #
-    #     def build_app(params)
-    #       post 'containers/engines/build', params: params, expect: :boolean
-    #     end
-    #
-    #     def current_build_params
-    #       get 'engine_builder/params', expect: :json
-    #     end
-    #
-    #     def last_build_params
-    #       get 'engine_builder/last_build/params', expect: :json
-    #     end
-    #
-    #     def last_build_log
-    #       get 'engine_builder/last_build/log', expect: :plain_text
-    #     end
-    #
-
-    #
-    #     # region
-    #
-    #     def timezone
-    #       get 'system/control/base_os/timezone', expect: :plain_text
-    #     end
-    #
-    #     def update_timezone(timezone)
-    #       timezone = ActiveSupport::TimeZone.find_tzinfo(timezone).to_s.sub(' - ', '/')
-    #       post 'system/control/base_os/timezone', params: {timezone: timezone}, expect: :boolean
-    #     end
-    #
-    #     def locale
-    #       get 'system/control/base_os/locale', expect: :json
-    #     end
-    #
-    #     def update_locale(lang_code, country_code)
-    #       post 'system/control/base_os/locale', params: {lang_code: lang_code, country_code: country_code} , expect: :boolean
-    #     end
-    #
-    #     # logs
-    #
-    #     def logs
-    #       { stdout: 'Logs are not available.', stderr: 'Logs are not available.' }
-    #     end
-    #
-    #     # registries
-    #
-    #     def registry_configurations
-    #       get 'registry/configurations/', expect: :json
-    #     end
-    #
-    #     def registry_apps
-    #       get 'registry/engines/', expect: :json
-    #     end
-    #
-    #     def registry_services
-    #       get 'registry/services/', expect: :json
-    #     end
-    #
-    #     def registry_orphans
-    #       get 'registry/orphans/', expect: :json
-    #     end
-    #
-    #     def registry_shares
-    #       get 'registry/shares/', expect: :json
-    #     end
-    #
-    #     # reserved
-    #
-    #     def reserved_container_names
-    #       get 'system/reserved/engine_names', expect: :json
-    #     end
-    #
-    #     def reserved_fqdns
-    #       get 'system/reserved/hostnames', expect: :json
-    #     end
-    #
-    #     def reserved_ports
-    #       get 'system/reserved/ports', expect: :json
-    #     end
-    #
-
-    #
-    #     # service manager
-    #
-    #     def service_definition_for(publisher_type_path)
-    #       get "service_manager/service_definitions/#{publisher_type_path}", expect: :json
-    #     end
-    #
-    #     def persistent_service_connections_for(publisher_type_path)
-    #       get "service_manager/persistent_services/#{publisher_type_path}", expect: :json
-    #     end
-    #
-    #     def orphan_service_connections_for(publisher_type_path)
-    #       get "service_manager/orphan_services/#{publisher_type_path}", expect: :json
-    #     end
-    #
-
-    #
-    #     # statistics
-    #
-    #     def container_memory_statistics
-    #       get 'system/metrics/memory/statistics', expect: :json
-    #     end
-    #
-    #     def system_memory_statistics
-    #       get 'system/metrics/memory', expect: :json
-    #     end
-    #
-    #     def cpu_statistics
-    #       get 'system/metrics/load', expect: :json
-    #     end
-    #
-    #     def disk_statistics
-    #       get 'system/metrics/disks', expect: :json
-    #     end
-    #
-    #     def network_statistics
-    #       get 'system/metrics/network', expect: :json
-    #     end
-    #
-    #     # status
-    #
-    #     def builder_status
-    #       get 'engine_builder/status', expect: :json
-    #     end
-    #
-    #     def system_status
-    #       get 'system/status', expect: :json
-    #     end
-    #
-    #     def system_update_status
-    #       get 'system/status/update', expect: :json
-    #     end
-    #
-    #     def first_run_required?
-    #       raise WTF
-    #       # get 'system/status/first_run_required', expect: :boolean
-    #     end
-    #
-    #     # updates
-    #
-    #     def update_engines
-    #       get 'system/control/engines_system/update', expect: :boolean
-    #       # false
-    #     end
-    #
-    #     def update_base_os
-    #       get 'system/control/base_os/update', expect: :boolean
-    #       # true
-    #     end
-    #
-    #     # versions
-    #
-    #     def engines_version
-    #       get 'system/version/system', expect: :plain_text
-    #     end
-    #
-    #     def base_system_version
-    #       get 'system/version/base_os', expect: :json
-    #     end
-    #
-    #   end
-    # end

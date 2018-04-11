@@ -16,10 +16,10 @@ var $systemMenu = {
 					{
 						class: "clearfix",
 						$components: [
-							button( { onclick: "installFromLibrary._live();",
+							button( { onclick: installFromLibrary._live,
 												class: "pull-left-md",
 												icon: "fa fa-plus", text: "Install app"	} ),
-							button( { onclick: "systemControlPanel._live();",
+							button( { onclick: systemControlPanel._live,
 												class: "pull-right-md",
 												icon: "fa fa-gears", text: "Control panel" } ),
 						]
@@ -45,12 +45,12 @@ var $systemMenu = {
 							} ),
 							button( {
 								class: "pull-right-md",
-								onclick: "systemUpdateEngines._live();",
+								onclick: systemUpdateEngines._live,
 								icon: "fa fa-refresh",
 								text: "Update",
 								title: "Update Engines"
 							} ),
-							button( { onclick: "systemRestartEngines._live();", class: "pull-right-md",
+							button( { onclick: systemRestartEngines._live, class: "pull-right-md",
 												icon: "fa fa-play-circle", text: "Restart", title: "Restart Engines" } ),
 						]
 					},
@@ -81,12 +81,12 @@ var $systemMenu = {
 							} ),
 							button( {
 								class: "pull-right-md",
-								onclick: "systemUpdateBaseOS._live();",
+								onclick: systemUpdateBaseOS._live,
 								icon: "fa fa-refresh",
 								text: "Update",
 								title: "Update " + baseOsName
 							} ),
-							button( { onclick: "systemRestartBaseOS._live();", class: "pull-right-md",
+							button( { onclick: systemRestartBaseOS._live, class: "pull-right-md",
 												icon: "fa fa-power-off", text: "Reboot", title: "Restart " + baseOsName + " (reboot system)" } ),
 						]
 					},

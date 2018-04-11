@@ -77,7 +77,6 @@ function renderSystemApps() {
   		var cachedTitle = systemApps.$titleData[appName];
 
       if ( typeof cachedTitle == 'undefined' ) {
-        // systemApps.$titleData[appName] = ""
         apiRequest({
   				action: "/apps/" + appName + "/about",
   				callbacks: {
@@ -86,7 +85,7 @@ function renderSystemApps() {
               window["systemAppTitle" + appName]._refresh( appTitle );
   						systemApps.$titleData[appName] = appTitle || "";
   					},
-            401: function() {}, // remove this once api token not in file
+            // 401: function() {}, // remove this once api token not in file
   				}
   			});
   			return null;

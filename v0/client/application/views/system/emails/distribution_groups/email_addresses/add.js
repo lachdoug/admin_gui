@@ -30,12 +30,10 @@ cell({
 										type: "select_with_input",
 										name: "email_address[address]",
 										label: "Email address",
-										// value: nil,
 										collection: data.email_addresses,
 									} ),
 									formCancel ( { onclick: function() { systemEmailDistributionGroup._live(distribution_group_name) } } ),
 									formSubmit(),
-							//				pp( data )
 								],
 								action: "/system/email/distribution_groups/email_addresses/",
 								method: "POST",

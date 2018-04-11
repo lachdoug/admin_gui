@@ -3,7 +3,6 @@ cell({
 
 	_live: function (distribution_group_name) {
 
-		// debugger;
 		modal._live ( {
 			header: icon( { icon: "fa fa-share-square-o", text: "System distribution group" } ),
 			body: {

@@ -44,14 +44,12 @@ var $systemRegionLocale = {
 				formField( {
 					type: "country",
 					name: "data[country_code]",
-					// id: "systemRegionLocaleField_country_code",
 					label: "Country",
 					value: localeData.country_code
 				} ),
 				formField( {
 					type: "language",
 					name: "data[lang_code]",
-					// id: "systemRegionLocaleField_lang_code",
 					label: "Language",
 					value: localeData.lang_code
 				} ),

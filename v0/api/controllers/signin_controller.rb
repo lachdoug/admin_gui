@@ -5,7 +5,6 @@ class V0
       post '/system/signin' do
         session[:system_ip] = params[:data][:system_ip]
         @user = User.new( session, settings )
-        
         @user.sign_in( system( without_token: true ), params[:data].merge( { ip_address: request.ip } ) )
         { system_ip: params[:data][:system_ip] }.to_json
       end

@@ -43,7 +43,6 @@ var $appEnvironmentVariables = {
 									appEnvironmentVariables._userEnvironmentVariables( data ),
 									appEnvironmentVariables._systemEnvironmentVariables( data ),
 									appEnvironmentVariables._serviceConsumerEnvironmentVariables( data ),
-									// pp( data ),
 								];
 							},
 
@@ -84,9 +83,6 @@ var $appEnvironmentVariables = {
 
 
 	_userEnvironmentVariables: function( data ) {
-		// var disableEdit = data.user.every( function ( variable ) {
-		// 	return variable.immutable;
-		// });
 		return {
 			$components: [
 				{ $type: "label", $text: "User" },
@@ -106,7 +102,7 @@ var $appEnvironmentVariables = {
 							icon: "fa fa-edit",
 							text: "Edit",
 							class: "pull-right",
-							disabled: !data.user.length,
+							disabled: data.user.length == 0,
 							onclick: () => { appEnvironmentVariablesUserEdit._live( appEnvironmentVariables._appName ) }
 						} ),
 					]
@@ -133,23 +129,12 @@ var $appEnvironmentVariables = {
 	_serviceConsumerEnvironmentVariables: function( data ) {
 		var components = [];
 		for ( var ownerGroup in data.service_consumers ) {
-			// var disableEdit = data.service_consumers[ownerGroup].variables.every( function ( variable ) {
-			// 	return variable.immutable;
-			// });
 			components.push( { $type: "label", $text: data.service_consumers[ownerGroup].label } );
 			components.push( {
-			// 	class: "clearfix",
 				$components: [
 					dataList( { class: "dl-horizontal", items: data.service_consumers[ownerGroup].variables.map( function ( variable ) {
 						return { label: ( variable.input || {} ).label || variable.label || variable.name, data: variable.value }; // variable.label to support legacy service definition
 					} ) } ),
-			// 		button( {
-			// 			icon: "fa fa-edit",
-			// 			text: "Edit",
-			// 			class: "pull-right",
-			// 			disabled: disableEdit,
-			// 			onclick: () => { appEnvironmentVariablesServiceConsumer._live( appEnvironmentVariables._appName, ownerGroup ) }
-			// 		} )
 				]
 			} );
 			components.push( { $type: "hr" } );

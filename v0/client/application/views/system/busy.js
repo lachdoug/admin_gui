@@ -28,7 +28,7 @@ cell({
 						hourglass(),
 						{ $type: "span", $text: " System busy" }
 					]
-				},  // icon({icon: "fa fa-exchange", text: "System busy"}),
+				},
 				body: {
 					$components: [
 						{

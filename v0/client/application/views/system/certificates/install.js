@@ -52,7 +52,6 @@ var $systemCertificatesInstall = {
 
 		return form( {
 			components: [
-// pp( data ),
 				formField( {
 					name: "data[for]",
 					id: "systemCertificatesInstallFormInput_target",
@@ -74,7 +73,6 @@ var $systemCertificatesInstall = {
 						property: "checked"
 					}
 				} ),
-				// pp(  ),
 
 				formField( {
 					name: "format",
@@ -111,7 +109,6 @@ var $systemCertificatesInstall = {
 					name: "data[password]",
 					type: "password",
 					label: "Password",
-					// required: true,
 					dependOn: {
 						input: "systemCertificatesInstallFormInput_format_pem",
 						property: "checked"

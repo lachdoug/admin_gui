@@ -19,7 +19,6 @@ var $serviceServices = {
 		var serviceName = this._serviceName;
 		modal._live (
 			{
-				// dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-compass",
 					text: "Service services",
@@ -57,8 +56,6 @@ var $serviceServices = {
 									{ $type: "hr" },
 									{ $type: "label", $text: "Non-persistent" },
 									serviceServices._nonpersistentServices(),
-									// pp( this._data )
-
 								];
 							},
 

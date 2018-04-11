@@ -16,9 +16,6 @@ cell({
 						action: "/system/users/accounts/",
 						params: { uid: user_uid },
 						render: function(data) {
-							// delete '/email/distribution_groups/email_addresses/',
-							//     distribution_group_name: "testdistribution@testdomain.fake",
-							//     address: "testuser@testdomain.fake"
 							return form({
 								components: [
 									formField( {
@@ -41,15 +38,8 @@ cell({
 									} ),
 									formCancel ( { onclick: function() { systemUserEmail._live(user_uid, { scrollTo: "systemUserEmailDistributionGroupsArea" }) } } ),
 									formSubmit(),
-							//				pp( data )
 								],
-
-
-
-
-
 								action: "/system/users/email/distribution_groups/",
-								// params: { user_uid: user_uid },
 								method: "DELETE",
 								callbacks: {
 									200: function(response) {

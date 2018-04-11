@@ -17,7 +17,6 @@ var formFieldRadioButtonsOptions = function( args ) {
 			$components: [
 				{
 					$type: "label",
-					// title: args.title,
 					$components: [
 						$.extend (
 							{

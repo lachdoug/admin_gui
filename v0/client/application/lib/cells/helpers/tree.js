@@ -22,7 +22,6 @@ function tree (treeData) {
 
 };
 
-
 function treeBranch(branchData) {
   return {
     $type: "li",
@@ -68,7 +67,6 @@ function treeBranch(branchData) {
   };
 
 };
-
 
 function treeBranchBranches( branchesData ) {
 

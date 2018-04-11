@@ -3,7 +3,6 @@ var $navbar = {
 	$cell: true,
 	id: "navbar",
 	class: "clearfix",
-	// style: "z-index: 2; position: absolute; top: 0; left: 0; right: 0;",
 
 	_live: function () {
 		this.$components = [

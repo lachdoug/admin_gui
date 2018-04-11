@@ -19,7 +19,6 @@ var $appActions = {
 		var appName = this._appName;
 		modal._live (
 			{
-				// dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-crosshairs",
 					text: "App actions",

@@ -55,9 +55,8 @@ var $systemDomainsDefaultEdit = {
 					value: data.default,
 					collection: namesCollection,
 				} ),
-				formCancel ( { onclick: "systemDomains._live();" } ),
+				formCancel ( { onclick: systemDomains._live } ),
 				formSubmit(),
-//				pp( data )
 			],
 			action: "/system/domains/default",
 			method: "PUT",

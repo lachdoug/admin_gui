@@ -36,7 +36,6 @@ cell({
 									} ),
 									formCancel ( { onclick: function() { systemEmailDistributionGroup._live(distribution_group_name) } } ),
 									formSubmit(),
-							//				pp( data )
 								],
 								action: "/system/email/distribution_groups/email_addresses/",
 								method: "DELETE",

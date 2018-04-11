@@ -6,13 +6,12 @@ var formFieldTimezone = function( args ) {
 			class: "form-control",
 			name: ( args.name || "" ),
 			id: ( args.id || "" ),
-			$components: formFieldCollectionSelectOptions ( 
+			$components: formFieldCollectionSelectOptions (
 				{ collection: formFieldTimezonesCollection, value: args.value }
 			)
 		}
 	);
 };
-
 
 var formFieldTimezonesCollection = {
 	"Pacific/Pago_Pago": "(GMT-11:00) American Samoa",

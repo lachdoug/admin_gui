@@ -1,7 +1,4 @@
 var formFieldSelect = function( args ) {
-
-// debugger
-
 	return formFieldWrapper(
 		args,
 		formFieldSelectUnwrapped( args )
@@ -9,7 +6,6 @@ var formFieldSelect = function( args ) {
 };
 
 var formFieldSelectUnwrapped = function( args ) {
-	// debugger;
 	return {
 		$type: "select",
 		class: ( args.class || "" ) + " form-control",
@@ -23,8 +19,5 @@ var formFieldSelectUnwrapped = function( args ) {
 				return args.onchange(e)
 			};
 		},
-		// $init: function () {
-		// 	$(this).selectpicker();
-		// },
 	};
 };

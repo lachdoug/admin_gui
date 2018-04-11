@@ -23,7 +23,6 @@ cell({
 									} ),
 									formCancel ( { onclick: systemEmail._live } ),
 									formSubmit(),
-											// pp( data )
 								],
 								action: "/system/email/default_domain",
 								method: "PUT",

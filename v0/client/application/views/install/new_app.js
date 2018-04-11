@@ -1,4 +1,3 @@
-// https://raw.githubusercontent.com/EnginesBlueprints/PHPNavigator/master/blueprint.json
 var $installNewApp = {
 
 	$cell: true,
@@ -15,7 +14,6 @@ var $installNewApp = {
 		this._show();
 
 	},
-
 
 	_show: function () {
 
@@ -216,7 +214,6 @@ var $installNewApp = {
 				: { $type: "p", $text: "No license." },
 				formCancel ( { onclick: installNewApp._cancelFunc } ),
 				formSubmit( { onclick: installNewApp._checkFqdnReserved }),
-				// reason for checking fqdn is that default value may conflict if user has previously assigned an existing app to hostname with same container name as this new app.
 			],
 			action: "/system/install",
 			callbacks: {
@@ -244,8 +241,6 @@ var $installNewApp = {
 	},
 
 	_checkFqdnReserved: function () {
-		// alert("hiii");
-		// debugger;
 		var fqdn = $("#installNewAppFormField_host_name").val() + '.' + $("#installNewAppFormField_domain_name").val();
 		if( $.inArray( fqdn, installNewApp._data.reserved.fqdns ) > -1 ) {
 			if ( !$("#installNewAppFormField_host_name").is(':visible') ) {
@@ -254,7 +249,6 @@ var $installNewApp = {
 			$("#installNewAppFormField_host_name")[0].setCustomValidity(
 				fqdn + " is already in use."
 			);
-			// debugger;
 			return true;
 		} else {
 			$("#installNewAppFormField_host_name")[0].setCustomValidity('')
@@ -287,7 +281,7 @@ var $installNewApp = {
 			field.id = "installNewAppFormFieldEnvironmentVariable_" + i;
 			field.name_prefix = "data[environment_variables]";
 			return {
-				// class: ( field.mandatory == true ? "" : "collapse installNewAppFormCustomCollapse" ),
+				class: ( field.mandatory == true ? "" : "collapse installNewAppFormCustomCollapse" ),
 				$components: [
 					enginesField(field)
 				]
@@ -305,15 +299,6 @@ var $installNewApp = {
 				consumable_service.service_definition.type_path == obj.type_path );
 			}
 		);
-
-		// var selectOptions = {	new: "Create new" };
-		// if ( consumableService.shareable.length > 0 ) {
-		// 	selectOptions.share = "Share existing";
-		// };
-		// if ( consumableService.adoptable.length > 0 ) {
-		// 	selectOptions.adopt = "Adopt orphan";
-		// };
-
 
 		var selectOptions = serviceConsumerCreateType( consumableService );
 

@@ -59,7 +59,6 @@ cell({
 
 	},
 
-
 	_load: function () {
 
 		apiRequest({

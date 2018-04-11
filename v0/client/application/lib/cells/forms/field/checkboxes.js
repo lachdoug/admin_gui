@@ -19,7 +19,6 @@ var formFieldCheckboxesOptions = function( args ) {
 			$components: [
 				{
 					$type: "label",
-					// title: args.title,
 					$components: [
 						$.extend (
 							{
@@ -28,7 +27,6 @@ var formFieldCheckboxesOptions = function( args ) {
 								name: args.name + '[]',
 								value: option[0],
 								id: ( ( args.id || "" ) + "_" + option[0] ),
-								// value: option[0]
 							},
 							( values.includes( option[0] ) ? { checked: true } : {} )
 						),

@@ -9,16 +9,8 @@ cell({
 
 
 	_live: function( onloadCallback ) {
-		// if ( systemApiUrl ) {
-			if ( enableEventStreaming ) { systemEvents._live() };
-			this._load( onloadCallback );
-		// } else {
-			// if ( remoteManagement ) {
-				// main._renderSelectSystem();
-			// } else {
-				// alert('No system API URL.');
-			// };
-		// }
+		if ( enableEventStreaming ) { systemEvents._live() };
+		this._load( onloadCallback );
 	},
 
 
@@ -39,7 +31,6 @@ cell({
 					$("#pageLoadingSpinner").fadeOut();
 				},
 				401: function() {
-					// override default behaviour to: close events; and skip alert message.
 					systemEvents._close();
 					main._renderSignedOut();
 				}
@@ -72,14 +63,6 @@ cell({
 				{
 					class: "container",
 					$components: [
-
-
-						// button( { onclick: systemUsers._live,
-						// 					icon: "fa fa-user", text: "Users" } ),
-						// button( { onclick: systemEmail._live,
-						// 					icon: "fa fa-envelope", text: "Email" } ),
-
-
 						{
 							class: "modal-content",
 							style: "margin-top: 20px; margin-bottom: 100px; padding: 10px;",

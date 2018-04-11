@@ -19,7 +19,7 @@ var $systemSshKeysUploadPublic = {
 											label: "Public key file",
 											required: true
 								} ),
-								formCancel ( { onclick: "systemSshKeys._live();" } ),
+								formCancel ( { onclick: systemSshKeys._live } ),
 								formSubmit(),
 							],
 							enctype: "multipart/form-data",
@@ -29,10 +29,6 @@ var $systemSshKeysUploadPublic = {
 								200: function(response) {
 									systemSshKeys._live();
 								},
-//								405: function(response) {
-//									alert("Failed to upload key.")
-//									systemSshKeys._live();
-//								},
 							}
 						} )
 					]

@@ -19,7 +19,6 @@ var $serviceConfigurations = {
 		var serviceName = this._serviceName;
 		modal._live (
 			{
-				// dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-crosshairs",
 					text: "Service configurations",
@@ -86,7 +85,6 @@ var $serviceConfigurations = {
 			callbacks: {
 				200: function(response) {
 					var configs = Object.values( response );
-					// console.log( configs );
 					serviceConfigurationsContent._refresh( configs );
 				}
 			}

@@ -78,7 +78,6 @@ var $serviceMenu = {
 			action: "/services/" + this._serviceName + "/websites",
 			callbacks: {
 				200: function( data ) {
-					// console.log(data);
 					serviceMenuWebsites._refresh( data );
 				},
 			}
@@ -92,11 +91,6 @@ var $serviceMenu = {
 
 		return {
 			id: "serviceMenuWebsites",
-
-			// $components: [
-			// 	// icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
-			// ],
-
 			_refresh: function( websites ) {
 				this.$components = [
 					button( $.extend( {
@@ -328,8 +322,6 @@ var $serviceMenu = {
 			return {
 				$components: [
 					button({ onclick: function () { serviceMenu._instruct('create'); }, icon: "fa fa-wrench", text: "Create", wrapperStyle: "display: inline-block"}),
-					// button({ onclick: function () { serviceMenu._instruct('reinstall'); }, icon: "fa fa-plus-circle", text: "Reinstall", wrapperStyle: "display: inline-block"}),
-					// button({ onclick: function () { serviceUninstall._live( serviceName ); }, icon: "fa fa-minus-square", text: "Uninstall", wrapperStyle: "display: inline-block"})
 				]
 			};
 		} else {

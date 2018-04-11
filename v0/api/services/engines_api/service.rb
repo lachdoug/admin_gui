@@ -10,36 +10,13 @@ class V0
           end
 
           def container
-            # p "get container for #{@name}"
              @system_api.get "containers/service/#{@name}"
           end
 
+          ######################################################################
+          # Instructions
+          ######################################################################
 
-#
-#           ######################################################################
-#           # Blueprint
-#           ######################################################################
-#
-          # def blueprint
-          #   @system_api.get "containers/service/#{@name}/blueprint"
-          # end
-#
-#           ######################################################################
-#           # Installation
-#           ######################################################################
-#
-#           def build_report
-#             @system_api.get "containers/service/#{@name}/build_report"
-#           end
-#
-#           def uninstall(args={})
-#             @system_api.delete "containers/service/#{@name}/delete/#{args[:delete_app_data] ? 'all' : 'none'}"
-#           end
-#
-#           ######################################################################
-#           # Instructions
-#           ######################################################################
-#
           def instruct_container(instruction)
 
             if instruction == "destroy"
@@ -48,7 +25,7 @@ class V0
               @system_api.get "containers/service/#{@name}/#{instruction}"
             end
           end
-#
+
           ######################################################################
           # Websites
           ######################################################################
@@ -56,7 +33,7 @@ class V0
           def websites
             @system_api.get "containers/service/#{@name}/websites"
           end
-#
+
           ######################################################################
           # Processes
           ######################################################################
@@ -72,26 +49,6 @@ class V0
           def logs
             @system_api.get "containers/service/#{@name}/logs"
           end
-#
-#           ######################################################################
-#           # Network
-#           ######################################################################
-#
-#           def update_network( args )
-#             @system_api.post "containers/service/#{@name}/properties/network", args
-#           end
-#
-#           def network_metrics
-#             get "containers/service/#{name}/metrics/network", expect: :json
-#           end
-#
-#           ######################################################################
-#           # Environment variables
-#           ######################################################################
-#
-#           def update_environment_variables( args )
-#             @system_api.post "containers/service/#{@name}/properties/runtime", args
-#           end
 
           ######################################################################
           # Memory
@@ -124,32 +81,7 @@ class V0
           def persistent_services_for( args )
             @system_api.get "containers/service/#{@name}/services/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}"
           end
-#
-#           def create_new_persistent_service( args )
-#             @system_api.post "containers/service/#{@name}/services/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}", { variables: args[:variables] }
-#           end
-#
-#           def share_existing_persistent_service( args )
-#
-#             @system_api.post "containers/service/#{@name}/services/persistent/share/#{args[:parent_engine]}/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}", { variables: args[:variables] }
-#           end
-#
-#           def adopt_orphan_persistent_service( args )
-#             @system_api.post "containers/service/#{@name}/services/persistent/orphan/#{args[:parent_engine]}/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}", { variables: args[:variables] }
-#           end
-#
-#           def update_persistent_service( args )
-#             @system_api.post "containers/service/#{@name}/service/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}", { variables: args[:variables] }
-#           end
-#
-#           def export_persistent_service( args )
-#             @system_api.get "containers/service/#{@name}/service/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/export"
-#           end
-#
-#           def import_persistent_service( args )
-#             @system_api.put_stream "containers/service/#{@name}/service/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/#{args[:write]}", { file: args[:file] }
-#           end
-#
+
           def register_nonpersistent_service(args)
             @system_api.get "containers/service/#{@name}/service/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/register"
           end
@@ -171,7 +103,6 @@ class V0
           ######################################################################
 
           def perform_action(args)
-
             @system_api.post "containers/service/#{@name}/action/#{args[:actionator_name]}", args[:variables]
           end
 
@@ -184,7 +115,6 @@ class V0
           end
 
           def perform_configuration(args)
-
             @system_api.post "containers/service/#{@name}/configuration/#{args[:configurator_name]}", { variables: args[:variables] }
           end
 
@@ -197,10 +127,8 @@ class V0
           end
 
           def import(file)
-
             @system_api.put_stream "containers/service/#{@name}/import", file
           end
-
 
           ######################################################################
           # Resolve string
@@ -209,15 +137,7 @@ class V0
           def resolve_string(string)
             @system_api.post "containers/service/#{@name}/template", { template_string: string }
           end
-#
-#           ######################################################################
-#           # OOM
-#           ######################################################################
-#
-#           def clear_had_oom
-#             @system_api.get "containers/service/#{@name}/clear_error"
-#           end
-#
+
         end
 
       end

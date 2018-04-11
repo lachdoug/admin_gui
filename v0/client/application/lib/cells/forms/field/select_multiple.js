@@ -37,17 +37,14 @@ var formFieldSelectMultiple = function( args ) {
 					_itemCount: 0,
 
 					$init: function () {
-						// debugger
 						items = [];
 						var formFieldSelectMultipleSelectedItems = this;
 						var preselectedValues = formFieldCollectionMultipleValues( args.value );
-						// debugger
 						if ( preselectedValues.length ) {
 							preselectedValues.map( function( value ) {
 								var label = $(formFieldSelectMultipleSelectedItems).prev().find("option[value='" + value + "']").text();
 								items.unshift( { value: value, label: label } );
 								formFieldSelectMultipleSelectedItems.previousSibling._disableListItem( value );
-								// formFieldSelectMultipleSelectedItems._addSelectedItem( { value: value, label: label } )
 							} )
 						};
 						this._items = items;
@@ -66,10 +63,7 @@ var formFieldSelectMultiple = function( args ) {
 						this._render();
 					},
 
-					// $update: this._render,
-
 					_render: function () {
-						// alert( JSON.stringify(this._items) );
 						var newItemHasBeenAdded = this._items.length > this._itemCount;
 						this._itemCount = this._items.length;
 						this.$components = [
@@ -106,7 +100,6 @@ var formFieldSelectMultiple = function( args ) {
 															icon({icon: "fa fa-times"})
 														],
 														onclick: function(e) {
-															// debugger;
 															$(e.target).closest(".formFieldSelectMultipleSelectedItem").slideUp(
 																'fast', function() {
 																	$(e.target).closest(".formFieldSelectMultipleSelectedItems")[0]._removeSelectedItem(item, i);
@@ -125,7 +118,6 @@ var formFieldSelectMultiple = function( args ) {
 								$type: "input",
 								class: 'form-control',
 								placeholder: "None",
-								// style: "position: absolute; width: 0px; box-shadow: none; padding: 0px; border: none;",
 								onfocus: function () {
 									$(this).closest(".formFieldSelectMultipleSelectedItems").prev().focus();
 								},
@@ -133,9 +125,6 @@ var formFieldSelectMultiple = function( args ) {
 							}
 					 	];
 					},
-					// $components: [
-					//
-					// ]
 				}
 			]
 		}

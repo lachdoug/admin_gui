@@ -23,7 +23,6 @@ var $appServicesPersistentNewType = {
 		var appName = this._appName;
 		modal._live (
 			{
-				// dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-plus",
 					text: "App new persistent service",
@@ -52,7 +51,6 @@ var $appServicesPersistentNewType = {
 									{ $type: "p", $text: this._data.description },
 									{ $type: "hr" },
 									appServicesPersistentNewType._form(),
-									// pp( this._data ),
 								];
 							},
 
@@ -120,19 +118,6 @@ var $appServicesPersistentNewType = {
 						}
 					} )
 				),
-
-
-				// _formAvailableServiceOption: function( availableService ) {
-				// 	var parent = availableService.parent;
-				// 	var serviceHandle = availableService.service_handle;
-				// 	var optionValue = parent + "#" + serviceHandle;
-				// 	var optionLabel = ( parent + ( parent == serviceHandle ? "" : " - " + serviceHandle ) );
-				// 	return [ optionValue, optionLabel ];
-				// }
-
-
-
-
 				(
 					appServicesPersistentNewTypeContent._data.adoptable == 0 ? {} :
 					formField( {

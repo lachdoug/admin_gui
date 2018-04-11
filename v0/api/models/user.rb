@@ -40,7 +40,6 @@ class V0
         end
 
         def save_current_user(new_system_api_token)
-          puts "save user $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
           File.write "#{@settings.data_directory_path}/current_user.json",
            {
              system_api_token: new_system_api_token,

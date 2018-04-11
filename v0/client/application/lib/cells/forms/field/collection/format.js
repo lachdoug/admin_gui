@@ -1,5 +1,4 @@
 function formFieldCollectionFormat ( args ) {
-  // debugger;
   var ary = [];
 	var collection_ary_or_obj = args.collection || [];
 	if ( collection_ary_or_obj.constructor.name == "Object" ) {

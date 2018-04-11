@@ -55,7 +55,6 @@ var $appMenu = {
 							]
 						},
 						{ $type: "hr" },
-						// pp(appData),
 						appMenu._websites(),
 						button( {
 							icon: "fa fa-info-circle",
@@ -90,10 +89,6 @@ var $appMenu = {
 
 		return {
 			id: "appMenuWebsites",
-
-			// $components: [
-			// 	// icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
-			// ],
 
 			_refresh: function( websites ) {
 				this.$components = [

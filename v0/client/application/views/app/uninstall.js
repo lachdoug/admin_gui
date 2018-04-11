@@ -30,7 +30,6 @@ var $appUninstall = {
 									name: "data[delete_app_data]",
 									id: "appUninstallField_delete_app_data",
 									label: "Delete app data",
-//									value: 'true',
 									class: "text-center"
 								} ),
 								formCancel ( {
@@ -53,7 +52,5 @@ var $appUninstall = {
 			}
 		);
 	},
-
-
 
 };

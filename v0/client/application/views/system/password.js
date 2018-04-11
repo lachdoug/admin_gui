@@ -21,23 +21,16 @@ cell({
 				formField( {
 					type: "password",
 					name: "data[current_password]",
-					// id: "systemPasswordField_current_password",
 					label: "Current password",
 					required: true,
 				} ),
-				// formField( {
-				// 	type: "hidden",
-				// 	name: "data[username]",
-				// 	value: "admin",
-				// } ),
 				formField( {
 					type: "password_with_confirmation",
 					name: "data[new_password]",
-					// id: "systemPasswordField_new_password",
 					label: "New password",
 					required: true,
 				} ),
-				formCancel ( { onclick: "systemControlPanel._live();" } ),
+				formCancel ( { onclick: systemControlPanel._live } ),
 				formSubmit(),
 			],
 			action: "/system/user/admin",
@@ -45,10 +38,8 @@ cell({
 			callbacks: {
 				200: function(response) {
 					alert(
-						"You will be redirected to the sign in page. " +
-						"Please sign in again using your new password.\n\n" +
-						"If your browser has asked to update your password, " +
-						"you can accept this first, then click OK."
+						"You will be redirected to the system sign in page.\n\n" +
+						"Please sign in using the new password."
 					);
 					location.reload();
 				},

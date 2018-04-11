@@ -127,34 +127,6 @@ cell({
 											}),
 										]
 									},
-									// hr(),
-									// data.signin ? button({
-									// 	icon: "fa fa-sign-in",
-									// 	text: "Sign-in",
-									// 	onclick: function() { systemUserEmail._live(user_uid); },
-									// }) : {
-									// 	class: "clearfix",
-									// 	$components: [
-									// 		button({
-									// 			wrapperClass: "pull-right",
-									// 			icon: "fa fa-sign-in",
-									// 			text: "Enable sign-in",
-									// 			onclick: function() {
-									// 				systemUserEnableSignin._live(user_uid);
-									// 			},
-									// 		}),
-									// 		{
-									// 			class: "pull-left",
-									// 			$components: [
-									// 				{
-									// 					$type: "i",
-									// 					style: "margin-top: 13px;",
-									// 					$text: "Sign-in not enabled."
-									// 				}
-									// 			]
-									// 		},
-									// 	]
-									// },
 								]
 							};
 

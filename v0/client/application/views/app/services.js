@@ -19,7 +19,6 @@ var $appServices = {
 		var appName = this._appName;
 		modal._live (
 			{
-				// dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-compass",
 					text: "App services",
@@ -65,8 +64,6 @@ var $appServices = {
 									{ $type: "hr" },
 									{ $type: "label", $text: "Non-persistent" },
 									appServices._nonpersistentServices(),
-									// pp( this._data )
-
 								];
 							},
 
@@ -114,7 +111,6 @@ var $appServices = {
 		return services.map( function( service ) {
 			return button( {
 				text: service.label || service.name,
-				// title: service.description || service.label || service.name,
 				onclick: function () {
 					appServicesPersistent._live(
 						appServices._appName,
@@ -132,7 +128,6 @@ var $appServices = {
 			$components: appServicesContent._data[ "non_persistent" ].map( function( nonpersistentService ) {
 				return button( {
 					text: nonpersistentService.label || nonpersistentService.name,
-					// title: nonpersistentService.description || nonpersistentService.label || nonpersistentService.name,
 					onclick: function () {
 						appServicesNonpersistent._live(
 							appServices._appName,

@@ -51,7 +51,6 @@ var $appServicesPersistentImport = {
 				}
 			}
 		);
-		// this._load();
 
   },
 
@@ -80,17 +79,6 @@ var $appServicesPersistentImport = {
 						replace: "Replace"
 					}
 				}),
-				// formField( {
-				// 	name: "data[service_handle]",
-				// 	type: "hidden",
-				// 	value: appServicesPersistentImport._data.service_handle
-				// } ),
-				// {
-				// 	$components: appServicesPersistentImportContent._data.map( function( param ) {
-				// 		param.name = "data[variables][" + param.name + "]";
-				// 		return enginesField( param );
-				// 	} )
-				// },
 				formCancel ( { onclick: () => { appServicesPersistent._live(
 					appServicesPersistentImport._appName,
 					appServicesPersistentImport._publisherNamespace,

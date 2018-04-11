@@ -68,7 +68,6 @@ var $serviceProcesses = {
 											$type: "table",
 											class: "table",
 											$components: [
-												// pp( serviceProcessesContent._data )
 												{
 													$type: "thead",
 													$components: [

@@ -11,23 +11,12 @@ require 'yaml'
 class V0 < Sinatra::Base
 
   ## For debugging in development
-  ##----------------------------------------------------------------------------
 
   before do
-    # if Sinatra::Base.development?
-    
+    if Sinatra::Base.development?
       logger.info "Request #{request.request_method} #{request.path_info} #{params.inspect}"
-    # end
+    end
   end
-
-  post '/test_kerberos' do
-    system.kerberos_auth( "admin", params[:data][:password]).to_json
-  end
-
-  get '/kerberos_principal' do
-    system.kerberos_principal("admin")
-  end
-
 
   ##############################################################################
   ## Settings
@@ -42,9 +31,6 @@ class V0 < Sinatra::Base
   set data_directory_path: 'data/v0'
   set system_ip: ENV['ENGINES_ADMIN_GUI_SYSTEM_IP'] || ( ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] ? ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'][8..-6] : nil )
   set session_secret: ENV['ENGINES_ADMIN_GUI_SESSION_SECRET'] || '0'
-  set kerberos_server: ENV['ENGINES_ADMIN_GUI_KERBEROS_SERVER'] || "auth.engines.internal"
-  set kerberos_ldap_keytab_path: ENV['ENGINES_ADMIN_GUI_KERBEROS_LDAP_KEYTAB_PATH'] || "/etc/krb5kdc/keys/control.keytab"
-  set kerberos_kadmin_keytab_path: ENV['ENGINES_ADMIN_GUI_KERBEROS_ADMIN_KEYTAB_PATH'] || "/etc/krb5kdc/keys/control_kadmin.keytab"
   set remote_management: Sinatra::Base.development? || ENV['ENGINES_ADMIN_GUI_REMOTE_MANAGEMENT'] || false
   set show_services: ENV['ENGINES_ADMIN_GUI_SHOW_SERVICES_BY_DEFAULT'] || false
   set show_software_titles: ENV['ENGINES_ADMIN_GUI_SHOW_SOFTWARE_TITLES_BY_DEFAULT'] || false
@@ -55,7 +41,7 @@ class V0 < Sinatra::Base
   set banner_text: ENV['ENGINES_ADMIN_GUI_BANNER_TEXT'] || nil
   set banner_text_color: ENV['ENGINES_ADMIN_GUI_BANNER_TEXT_COLOR'] || '#fff'
   set banner_background_color: ENV['ENGINES_ADMIN_GUI_BANNER_BACKGROUND_COLOR'] || '#48d'
-  set enable_client_event_streaming: true || !Sinatra::Base.development?
+  set enable_client_event_streaming: true
 
   ##############################################################################
   ## CLIENT
@@ -73,12 +59,6 @@ class V0 < Sinatra::Base
     content_type :'application/javascript'
     erb :'client.js'
   end
-
-  # put '/client/select_system' do
-  #   halt 404 unless settings.remote_management
-  #   session[:system_api_url] = params[:data][:system_api_url]
-  #   { system_api_url: session[:system_api_url] }.to_json
-  # end
 
   patch '/client/display_settings' do
     unless params[:show_services].nil?
@@ -164,6 +144,7 @@ class V0 < Sinatra::Base
   end
 
   def obscure_system_error_params( system_error )
+    # TODO: hide param values, say by turning "Hi" into "String 2"
     system_error
   end
 
@@ -184,22 +165,6 @@ class V0 < Sinatra::Base
     content_type :json
   end
 
-  # ## CORS
-  # ##----------------------------------------------------------------------------
-  #
-  # before do
-  #   headers['Access-Control-Allow-Methods'] = 'HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS'
-  #   headers['Access-Control-Allow-Origin'] = '*'
-  #   headers['Access-Control-Allow-Headers'] = 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept'
-  #   headers['Access-Control-Expose-Headers'] = 'Content-Disposition, Content-Type'
-  # end
-  #
-  # options "*" do
-  #   response.headers["Allow"] = "HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS"
-  #   response.headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept"
-  #   status 200
-  # end
-
   ## Authenticate
   ##----------------------------------------------------------------------------
 
@@ -212,13 +177,10 @@ class V0 < Sinatra::Base
 
   def no_auth
     request.path_info == '/' ||
-    request.path_info == '/test_kerberos' ||
-    request.path_info == '/kerberos_principal' ||
     request.path_info == '/system/signin' ||
     request.path_info == '/system/container_events' ||
     request.path_info == '/system/statistics/container_memory' ||
-    request.path_info == '/client' ||
-    request.path_info == '/client/select_system'
+    request.path_info == '/client'
   end
 
   def system_api_token
@@ -276,6 +238,5 @@ class V0 < Sinatra::Base
   def set_service(service_name)
     @service = system.service service_name
   end
-
 
 end

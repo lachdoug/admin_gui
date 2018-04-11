@@ -53,12 +53,6 @@ cell({
 							},
 
 							$update: function () {
-								// var report = "";
-								// if ( this._processes == "" ) {
-								// 	report = { $type: "i", $text: "This app does not have a build report." };
-								// } else {
-								// 	report = markdown( this._processes );
-								// }
 								this.$components = [ this._processes() ];
 							},
 
@@ -71,7 +65,6 @@ cell({
 											$type: "table",
 											class: "table",
 											$components: [
-												// pp( appProcessesContent._data )
 												{
 													$type: "thead",
 													$components: [

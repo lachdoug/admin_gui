@@ -69,11 +69,6 @@ var $appIcon = {
 															}
 														]
 													}),
-													// button({
-													// 	icon: "fa fa-external-link",
-													// 	text: "Open",
-													// 	onclick: function() { openUrl(iconUrl) },
-													// }),
 												],
 											} : {
 												$type: 'i',

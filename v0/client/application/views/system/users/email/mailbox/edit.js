@@ -17,7 +17,16 @@ cell({
 						params: { user_uid: user_uid },
 						render: function(data) {
 
-							return form({
+							return data.email_domains.length == 0 ? {
+								$components: [
+									{ $type: "i", $text: "The system does not have an email domain." },
+									button({
+										wrapperClass: "pull-right",
+										text: "OK",
+										icon: "fa fa-check",
+										onclick: function() { systemUserEmail._live(user_uid) }
+									})
+								] } : form({
 								components: [
 									formField( {
 										type: "select",
@@ -26,7 +35,6 @@ cell({
 										value: data.mailbox_domain,
 										collection: data.email_domains,
 									} ),
-									pp(data),
 									formCancel ( { onclick: function() { systemUserEmail._live(user_uid, { scrollTo: "systemUserEmailArea" }); } } ),
 									formSubmit(),
 								],

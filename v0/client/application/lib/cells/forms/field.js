@@ -45,29 +45,3 @@ function formField(args) {
 			return formFieldInput( args );
 	};
 };
-
-
-	//[ :string,
-	//	:boolean,
-	//	:email,
-	//	:url,
-	//	:tel,
-	//	:password,
-	//	:password_with_confirmation,
-	//	:uuid,
-	//	:text,
-	//	:file,
-	//	:hidden,
-	//	:integer,
-	//	:float,
-	//	:decimal,
-	//	:range,
-	//	:datetime,
-	//	:date,
-	//	:time,
-	//	:select,
-	//	:radio_buttons,
-	//	:check_boxes,
-	//	:country,
-	//	:time_zone ]
-	// add :select_multiple, :language, :country, :timezone

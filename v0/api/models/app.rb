@@ -28,7 +28,6 @@ class V0
 
         def icon_url
           { icon_url: app_api.icon_url }
-          # "https://library.engines.org/system/apps/icons/000/000/006/small/PhpMyAdmin_logo.png?1486242338"
         end
 
         def update_icon_url( data )
@@ -57,9 +56,6 @@ class V0
             app_api.instruct_container(instruction)
           end
           { message: "OK" }
-
-          # return { message: "OK" } if app_api.instruct_container(instruction)
-          # raise NonFatalError.new "Failed to instruct #{name} to #{instruction}.", 405
         end
 
         ######################################################################
@@ -77,10 +73,6 @@ class V0
         def about
           blueprint[:metadata] || {}
         end
-
-        # def icon
-        #   { icon_url: icon_url }
-        # end
 
         def processes
           app_api.processes
@@ -209,17 +201,6 @@ class V0
           }
         end
 
-        # def services_detail
-        #   {
-        #     persistent: app_api.persistent_services.map do |service|
-        #       service_detail_for(service[:publisher_namespace], service[:type_path], service[:service_handle] )
-        #     end.sort_by{ |service| service[:label] },
-        #     non_persistent: app_api.non_persistent_services.map do |service|
-        #       service_detail_for(service[:publisher_namespace], service[:type_path], service[:service_handle] )
-        #     end.sort_by{ |service| service[:label] }
-        #   }
-        # end
-
         def service_detail_for( publisher_namespace, type_path, service_handle )
           service_definition = @system.service_definition_for( publisher_namespace, type_path )
           persistent_services = app_api.persistent_services_for( publisher_namespace: publisher_namespace, type_path: type_path )
@@ -317,7 +298,6 @@ class V0
         end
 
         def delete_persistent_service( publisher_namespace, type_path, service_handle, data )
-
           app_api.delete_existing_persistent_service(
             publisher_namespace: publisher_namespace,
             type_path: type_path,
@@ -417,7 +397,6 @@ class V0
             service_handle: service_handle )
         end
 
-
         ######################################################################
         # Actions
         ######################################################################
@@ -437,7 +416,6 @@ class V0
             end
           end
         end
-
 
         def perform_action( actionator_name, variables )
           app_api.perform_action(
@@ -459,7 +437,6 @@ class V0
         def resolve_string(string)
           app_api.resolve_string(string.to_s)
         end
-
 
         ######################################################################
         # OOM
