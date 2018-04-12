@@ -147,9 +147,9 @@ var $appServicesNonpersistent = {
 	_delete: function( method ) {
 
 		var appName = this._appName;
-		var publisher_namespace = this._publisherNamespace;
-		var type_path = this._typePath;
-		var service_handle = this._serviceHandle;
+		var publisherNamespace = this._publisherNamespace;
+		var typePath = this._typePath;
+		var serviceHandle = this._serviceHandle;
 
 		apiRequest({
 			method: "DELETE",

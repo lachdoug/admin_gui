@@ -7,7 +7,7 @@ class V0
         user = current_user( skip_timeout: true )
         stream do |out|
           system.container_event_stream do |event|
-            if user.within_timeout?
+            unless user.signin_timeout?
               begin
                 out.puts "data: #{event.to_json}\n\n"
               rescue => e
@@ -24,7 +24,7 @@ class V0
               break
             end
           end
-          
+
         end
       end
 

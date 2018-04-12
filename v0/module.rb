@@ -5,8 +5,9 @@ require "sinatra/streaming"
 
 require 'tempfile'
 require 'rest-client'
-require 'byebug' if Sinatra::Base.development?
 require 'yaml'
+
+require 'byebug' if Sinatra::Base.development?
 
 class V0 < Sinatra::Base
 
@@ -55,9 +56,9 @@ class V0 < Sinatra::Base
     erb :'index.html'
   end
 
-  get '/client' do
+  get '/application' do
     content_type :'application/javascript'
-    erb :'client.js'
+    erb :'application.js'
   end
 
   patch '/client/display_settings' do
@@ -180,7 +181,7 @@ class V0 < Sinatra::Base
     request.path_info == '/system/signin' ||
     request.path_info == '/system/container_events' ||
     request.path_info == '/system/statistics/container_memory' ||
-    request.path_info == '/client'
+    request.path_info == '/application'
   end
 
   def system_api_token
@@ -217,7 +218,7 @@ class V0 < Sinatra::Base
   def current_user(opts={})
     return @current_user if @current_user
     user = Api::Models::User.new session, settings
-    @current_user = user if user.authenticated?(opts)
+    @current_user = user if user.authenticated?( request.ip, opts)
   end
 
   ## Set core resources

@@ -9,7 +9,7 @@ class V0
           end
 
           def sign_in( args )
-            @system_api.post 'system/login', { user_name: args[:username], password: args[:password], ip_address: args[:ip_address] }, { timeout: 5 }
+            @system_api.post 'system/login', { user_name: "admin", password: args[:password], ip_address: args[:ip_address] }, { timeout: 5 }
           end
 
           ##########################################################################

@@ -30,15 +30,15 @@ cell({
 				systemEvents._handler( event );
 			};
       this._eventSource.onerror = function(e) {
-        if ( $("#systemEventsStreamingWarningMessage").length == 0 ) {
-          setTimeout( function() { // timeout to stop warning flashup on reload
+        setTimeout( function() { // timeout to stop warning flashup on reload
+          if ( $("#systemEventsStreamingWarningMessage").length == 0 ) {
             $("<p id='systemEventsStreamingWarningMessage' " +
-              "class='text-center'>System events steaming error. " +
+              "class='text-center'>System events steam closed. " +
               "Please <a  style='cursor: pointer;' " +
               "onclick='location.reload()'>reload</a> page.</p>"
-            ).insertAfter( "#navbar" );
-          }.bind(this), 3000)
-        }
+            ).prepend( "#system" );
+          }
+        }.bind(this), 3000)
       };
 		};
 	},
