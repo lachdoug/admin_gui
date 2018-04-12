@@ -7,6 +7,4 @@ var inDevelopment = <%= Sinatra::Base.development? %>;
 var remoteManagement = <%= settings.remote_management %>;
 var bugReportsUrl = "<%= settings.bug_reports_url %>";
 
-<% Dir.glob( [ './v0/client/application/**/*.js' ] ).each do |file| %>
- 	<%= File.read file %>
-<% end %>
+<%= self.class.application_package %>

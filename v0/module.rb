@@ -48,6 +48,22 @@ class V0 < Sinatra::Base
   ## CLIENT
   ##############################################################################
 
+  def self.application_package
+    return application_files if Sinatra::Base.development?
+    File.read "#{root}/client/package.js"
+  end
+
+  def self.application_files
+    Dir.glob( [ "#{root}/client/application/**/*.js" ] ).map do |file|
+      File.read file
+    end.join('')
+  end
+
+  File.write "#{root}/client/package.js", application_files
+
+  # byebug
+
+
   # Locate erb files
   set :views, Proc.new { File.join(root, "client") }
 
