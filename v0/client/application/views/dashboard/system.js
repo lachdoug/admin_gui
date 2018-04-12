@@ -64,6 +64,21 @@ cell({
 					class: "container",
 					$components: [
 						{
+							id: "systemEventsStreamingWarningMessage",
+							_live: function() {
+								this.$components = [
+									{
+										$type: "p",
+										id: 'systemEventsStreamingWarningMessage',
+										class: 'text-center',
+										$html: "System events steam closed. " +
+											"Please <a  style='cursor: pointer;' " +
+											"onclick='location.reload()'>reload</a> page.</p>",
+									}
+								];
+							}
+						},
+						{
 							class: "modal-content",
 							style: "margin-top: 20px; margin-bottom: 100px; padding: 10px;",
 							$components: [

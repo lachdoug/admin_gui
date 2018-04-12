@@ -29,16 +29,12 @@ cell({
 				console.log(event);
 				systemEvents._handler( event );
 			};
-      this._eventSource.onerror = function(e) {
+      this._eventSource.onerror = function() {
         setTimeout( function() { // timeout to stop warning flashup on reload
-          if ( $("#systemEventsStreamingWarningMessage").length == 0 ) {
-            $("<p id='systemEventsStreamingWarningMessage' " +
-              "class='text-center'>System events steam closed. " +
-              "Please <a  style='cursor: pointer;' " +
-              "onclick='location.reload()'>reload</a> page.</p>"
-            ).prepend( "#system" );
-          }
-        }.bind(this), 3000)
+          if ( $("#systemEventsStreamingWarningMessage").length > 0 ) {
+            document.querySelector("#systemEventsStreamingWarningMessage")._live();
+          };
+        }, 1000);
       };
 		};
 	},
