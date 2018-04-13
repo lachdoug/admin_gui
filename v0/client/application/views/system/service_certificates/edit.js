@@ -68,7 +68,7 @@ var $systemServiceCertificatesEdit = {
 				{ $type: "br" },
 				{ $type: "hr" },
 				{ $type: "label", $text: "current cert for " + serviceCertificateData.service_name },
-				{ $text: serviceCertificateData.store_name + '/' + serviceCertificateData.cert_name },
+				{ $text: serviceCertificateData.store.store_path + serviceCertificateData.service_name },
 				{ $type: "br" },
 				{ $type: "label", $text: "available system certs" },
 				{ $html: systemCertificatesData.map( function( availableCertificate ) {

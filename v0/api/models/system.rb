@@ -184,6 +184,7 @@ class V0
         ########################################################################
 
         def index_users_accounts
+          # byebug
           engines_api_system.index_users_accounts
         end
 
@@ -575,7 +576,7 @@ class V0
         end
 
         def service_certificates
-          engines_api_system.service_certificates
+          engines_api_system.service_certificates.sort_by{|service_certificate| service_certificate[:name]}
         end
 
         def update_service_certificate( data )

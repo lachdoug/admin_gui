@@ -4,7 +4,7 @@ class V0
 
       get '/system/container_events' do
         content_type "text/event-stream"
-        user = current_user( skip_timeout: true )
+        user = current_user( skip_timeout_update: true )
         stream do |out|
           system.container_event_stream do |event|
             unless user.signin_timeout?

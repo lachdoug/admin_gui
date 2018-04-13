@@ -48,6 +48,8 @@ class V0 < Sinatra::Base
   ## CLIENT
   ##############################################################################
 
+  # Build application package.js
+
   def self.application_package
     return application_files if Sinatra::Base.development?
     File.read "#{root}/client/package.js"
@@ -59,10 +61,7 @@ class V0 < Sinatra::Base
     end.join('')
   end
 
-  File.write "#{root}/client/package.js", application_files
-
-  # byebug
-
+  File.write "#{root}/client/package.js", application_files ## TODO: minify this
 
   # Locate erb files
   set :views, Proc.new { File.join(root, "client") }

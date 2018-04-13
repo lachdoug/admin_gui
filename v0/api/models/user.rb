@@ -22,7 +22,7 @@ class V0
 
         def authenticated?(ip_address, opts={})
           ( session_id == stored_session_id ) &&
-          ( opts[:skip_timeout] || check_timeout_and_ip( ip_address ) )
+          check_timeout_and_ip( ip_address, opts )
         end
 
         def system_api_token
@@ -67,13 +67,10 @@ class V0
           current_user_tokens[:session_id]
         end
 
-        def check_timeout_and_ip( ip_address )
-          # if current_user_tokens[:timestamp]
-            # byebug
-            force_sign_out "Signed out due to inactivity." if signin_timeout?
-            force_sign_out "Signed out due to sign in from another IP address." if not_from_original_ip_address?( ip_address )
-            refresh_timestamp_and_ip( ip_address )
-          # end
+        def check_timeout_and_ip( ip_address, opts )
+          force_sign_out "Signed out due to inactivity." if signin_timeout?
+          force_sign_out "Signed out due to sign in from another IP address." if not_from_original_ip_address?( ip_address )
+          refresh_timestamp_and_ip( ip_address, opts )
         end
 
         def force_sign_out( message )
@@ -81,12 +78,13 @@ class V0
           raise NonFatalError.new message, 401
         end
 
-        def refresh_timestamp_and_ip( ip_address )
+        def refresh_timestamp_and_ip( ip_address, opts )
+          timestamp = opts[:skip_timeout_update] ? current_user_tokens[:timestamp] : Time.now.to_i
           File.write "#{@settings.data_directory_path}/current_user.json",
            {
              system_api_token: system_api_token,
              session_id: session_id,
-             timestamp: Time.now.to_i,
+             timestamp: timestamp,
              ip_address: ip_address
            }.to_json
         end
