@@ -29,12 +29,13 @@ cell({
 				console.log(event);
 				systemEvents._handler( event );
 			};
-      this._eventSource.onerror = function() {
+      this._eventSource.onerror = function(e) {
         setTimeout( function() { // timeout to stop warning flashup on reload
           if ( $("#systemEventsStreamingWarningMessage").length > 0 ) {
             document.querySelector("#systemEventsStreamingWarningMessage")._live();
           };
         }, 1000);
+        systemEvents._close();
       };
 		};
 	},

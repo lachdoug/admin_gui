@@ -58,7 +58,7 @@ class V0 < Sinatra::Base
   def self.application_files
     Dir.glob( [ "#{root}/client/application/**/*.js" ] ).map do |file|
       File.read file
-    end.join('')
+    end.join("\n")
   end
 
   File.write "#{root}/client/package.js", application_files ## TODO: minify this
@@ -186,30 +186,40 @@ class V0 < Sinatra::Base
 
   enable :sessions
 
-  before do
-    raise NonFatalError.new('Not signed in.', 401) unless
-      no_auth || current_user
+  # before do
+  #   raise NonFatalError.new('Not signed in.', 401) unless
+  #     no_auth || current_user
+  # end
+  #
+  def current_user(opts={})
+    return @current_user if @current_user
+    user = Api::Models::User.new unauthenticated_system, session, request, settings
+    @current_user = user if user.authenticated?( opts )
   end
-
-  def no_auth
-    request.path_info == '/' ||
-    request.path_info == '/system/signin' ||
-    request.path_info == '/system/container_events' ||
-    request.path_info == '/system/statistics/container_memory' ||
-    request.path_info == '/application'
-  end
-
+  #
+  # def no_auth
+  #   request.path_info == '/' ||
+  #   request.path_info == '/system/signin' ||
+  #   request.path_info == '/system/container_events' ||
+  #   request.path_info == '/system/statistics/container_memory' ||
+  #   request.path_info == '/application'
+  # end
+  #
   def system_api_token
     current_user.system_api_token if current_user
   end
-
+  #
   def system_ip
     settings.remote_management ? session[:system_ip] : settings.system_ip
   end
-
+  #
   def system_api_url
     "https://#{system_ip}:2380"
   end
+
+
+  ## Dashboard display flags
+  ##----------------------------------------------------------------------------
 
   def show_software_titles
     session[:show_software_titles].nil? ?
@@ -230,21 +240,19 @@ class V0 < Sinatra::Base
   end
 
 
-  def current_user(opts={})
-    return @current_user if @current_user
-    user = Api::Models::User.new session, settings
-    @current_user = user if user.authenticated?( request.ip, opts)
-  end
-
   ## Set core resources
   ##----------------------------------------------------------------------------
 
-  def system(opts={})
+  def system
     @system ||=
       Api::Models::System.new(
         system_api_url,
-        opts[:without_token] ? nil : system_api_token,
+        system_api_token,
         settings )
+  end
+  #
+  def unauthenticated_system
+    Api::Models::System.new( system_api_url, nil, settings )
   end
 
   def set_app(app_name)
