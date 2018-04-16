@@ -186,30 +186,31 @@ class V0 < Sinatra::Base
 
   enable :sessions
 
-  # before do
-  #   raise NonFatalError.new('Not signed in.', 401) unless
-  #     no_auth || current_user
-  # end
+  before do
+    raise NonFatalError.new('Not signed in.', 401) unless
+      no_auth || current_user
+  end
   #
   def current_user(opts={})
     return @current_user if @current_user
-    user = Api::Models::User.new unauthenticated_system, session, request, settings
+    user = Api::Models::User.new session, request, settings
     @current_user = user if user.authenticated?( opts )
   end
   #
-  # def no_auth
-  #   request.path_info == '/' ||
-  #   request.path_info == '/system/signin' ||
-  #   request.path_info == '/system/container_events' ||
-  #   request.path_info == '/system/statistics/container_memory' ||
-  #   request.path_info == '/application'
-  # end
+  def no_auth
+    request.path_info == '/' ||
+    request.path_info == '/system/signin' ||
+    request.path_info == '/system/container_events' ||
+    request.path_info == '/system/statistics/container_memory' ||
+    request.path_info == '/application'
+  end
   #
   def system_api_token
     current_user.system_api_token if current_user
   end
   #
   def system_ip
+    byebug
     settings.remote_management ? session[:system_ip] : settings.system_ip
   end
   #

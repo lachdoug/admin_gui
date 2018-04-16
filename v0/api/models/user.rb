@@ -5,16 +5,15 @@ class V0
 
         attr_reader :username
 
-        def initialize( system, session, request, settings )
-          @system = system
+        def initialize( session, request, settings )
           @session = session
           @ip_address = request.ip
           @settings = settings
           FileUtils.touch "#{@settings.data_directory_path}/current_user.json"
         end
 
-        def sign_in( data )
-          api_token = @system.sign_in( { password: data[:password], ip_address: @ip_address } )
+        def sign_in( system, data )
+          api_token = system.sign_in( { password: data[:password], ip_address: @ip_address } )
           save_current_user api_token
         end
 
@@ -23,8 +22,6 @@ class V0
         end
 
         def authenticated?(opts={})
-          # byebug
-
           ( session_id == stored_session_id ) &&
           check_timeout_and_ip( opts )
         end
@@ -48,7 +45,6 @@ class V0
         end
 
         def save_current_user(new_system_api_token)
-          # byebug
           File.write "#{@settings.data_directory_path}/current_user.json",
            new_system_api_token ? {
              system_api_token: new_system_api_token,
@@ -59,9 +55,9 @@ class V0
         end
 
         def current_user_tokens
-          current_user_tokens_file = File.read "#{@settings.data_directory_path}/current_user.json"
           @current_user_tokens ||=
           begin
+            current_user_tokens_file = File.read "#{@settings.data_directory_path}/current_user.json"
             JSON.parse ( current_user_tokens_file ), symbolize_names: true
           rescue
             {}
@@ -85,7 +81,7 @@ class V0
 
         def refresh_timestamp_and_ip( opts )
           File.write "#{@settings.data_directory_path}/current_user.json",
-          current_user_tokens.merge({ timestamp: Time.now.to_i })
+          current_user_tokens.merge({ timestamp: Time.now.to_i }).to_json
         end
 
       end

@@ -5,8 +5,8 @@ class V0
       post '/system/signin' do
         session[:system_ip] = params[:data][:system_ip]
         # byebug
-        @user = User.new( system, session, request, settings )
-        @user.sign_in( password: params[:data][:password] )
+        @user = User.new( session, request, settings )
+        @user.sign_in( unauthenticated_system, password: params[:data][:password] )
         { system_ip: params[:data][:system_ip] }.to_json
 
         #
