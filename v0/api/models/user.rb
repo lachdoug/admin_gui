@@ -3,39 +3,33 @@ class V0
     module Models
       class User
 
-        attr_reader :username
-
         def initialize( session, request, settings )
           @session = session
-          @ip_address = request.ip
+          @request = request
           @settings = settings
-          FileUtils.touch "#{@settings.data_directory_path}/current_user.json"
         end
 
         def sign_in( system, data )
-          api_token = system.sign_in( { password: data[:password], ip_address: @ip_address } )
-          save_current_user api_token
+          api_token = system.sign_in( { password: data[:password], ip_address: @request.ip } )
+          store_system_api_token api_token
         end
 
         def sign_out
-          save_current_user(nil)
+          @session.clear
         end
 
         def authenticated?(opts={})
-          ( session_id == stored_session_id ) &&
-          check_timeout_and_ip( opts )
+          force_sign_out "Not signed in." unless system_api_token
+          check_timeout( opts )
+          return true
         end
 
         def system_api_token
-          current_user_tokens[:system_api_token]
+          @session[:system_api_token]
         end
 
         def signin_timeout?
-          ( Time.now.to_i - current_user_tokens[:timestamp].to_i ) > @settings.user_inactivity_timeout
-        end
-
-        def not_from_original_ip_address?
-          @ip_address != current_user_tokens[:ip_address]
+          ( Time.now.to_i - @session[:timestamp].to_i ) > @settings.user_inactivity_timeout
         end
 
         private
@@ -44,34 +38,14 @@ class V0
           @session[:tracking]["HTTP_USER_AGENT"]
         end
 
-        def save_current_user(new_system_api_token)
-          File.write "#{@settings.data_directory_path}/current_user.json",
-           new_system_api_token ? {
-             system_api_token: new_system_api_token,
-             session_id: session_id,
-             timestamp: Time.now.to_i,
-             ip_address: @ip_address
-           }.to_json : ""
+        def store_system_api_token(new_system_api_token)
+          @session[:system_api_token] = new_system_api_token
+          @session[:timestamp] = Time.now.to_i
         end
 
-        def current_user_tokens
-          @current_user_tokens ||=
-          begin
-            current_user_tokens_file = File.read "#{@settings.data_directory_path}/current_user.json"
-            JSON.parse ( current_user_tokens_file ), symbolize_names: true
-          rescue
-            {}
-          end
-        end
-
-        def stored_session_id
-          current_user_tokens[:session_id]
-        end
-
-        def check_timeout_and_ip( opts )
+        def check_timeout( opts )
           force_sign_out "Signed out due to inactivity." if signin_timeout?
-          force_sign_out "Signed out due to sign in from another IP address." if not_from_original_ip_address?
-          refresh_timestamp_and_ip( opts )
+          refresh_timestamp unless opts[:skip_timeout_update]
         end
 
         def force_sign_out( message )
@@ -79,9 +53,8 @@ class V0
           raise NonFatalError.new message, 401
         end
 
-        def refresh_timestamp_and_ip( opts )
-          File.write "#{@settings.data_directory_path}/current_user.json",
-          current_user_tokens.merge({ timestamp: Time.now.to_i }).to_json
+        def refresh_timestamp
+          @session[:timestamp] = Time.now.to_i
         end
 
       end

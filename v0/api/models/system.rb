@@ -3,12 +3,16 @@ class V0
     module Models
       class System
 
-        def initialize(url, token, settings)
-          @url = url
+        def initialize(ip_address, settings, token=nil)
+          @ip_address = ip_address
           @token = token
           @settings = settings
         end
-        attr_reader :url, :api
+        attr_reader :ip_address, :api
+
+        def system_api_url
+          "https://#{@ip_address}:2380"
+        end
 
         ########################################################################
         # System resources
@@ -31,7 +35,7 @@ class V0
         ########################################################################
 
         def engines_api
-          @engines_api ||= Services::EnginesApi.new( @url, @token, @settings )
+          @engines_api ||= Services::EnginesApi.new( system_api_url, @token, @settings )
         end
 
         def engines_api_system
@@ -59,7 +63,7 @@ class V0
           include_services = opts[:include_services] || false;
 
           {
-            url: url,
+            ip_address: ip_address,
             status: status,
             report_exceptions: report_exceptions,
             properties: {
@@ -184,7 +188,6 @@ class V0
         ########################################################################
 
         def index_users_accounts
-          # byebug
           engines_api_system.index_users_accounts
         end
 

@@ -1,12 +1,5 @@
-# Ignore persistent user data
-/data/v0/current_user.json
+# Ignore data
 /data/v0/library.json
 
-# Ignore scrap
-/scrap
-
-# Ignore Byebug command history file.
+# Ignore Byebug history
 .byebug_history
-
-# Ignore client application package
-/v0/client/package.js
