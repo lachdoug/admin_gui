@@ -10,6 +10,8 @@ function formSubmit( args={} ) {
 				$init: function () {
 					this._enableButton();
 					args.init && args.init(this);
+					// TODO: Fix invalid field focus. It would be good to focus on first invalid field, but not working nicely with sigin form because browser inserts password after field gets focus
+								// $(this).parents("form").find("input:invalid, select:invalid, textarea:invalid").first().focus();
 				},
 
 				_disableButton: function () {

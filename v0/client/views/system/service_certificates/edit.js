@@ -54,7 +54,7 @@ var $systemServiceCertificatesEdit = {
 					label: "Certificate",
 					value: serviceCertificateData.cert_name ? serviceCertificateData.store_name + '|' + serviceCertificateData.cert_name : "",
 					collection: systemCertificatesData.map( function( availableCertificate ) {
-						return [ availableCertificate.store + "|" + availableCertificate.cert_name, availableCertificate.store + "/" + availableCertificate.cert_name ];
+						return [ availableCertificate.store + "|" + availableCertificate.cert_name, availableCertificate.store + " - " + availableCertificate.cert_name ];
 					} ),
 					collectionIncludeBlank: true,
 				} ),
@@ -72,7 +72,7 @@ var $systemServiceCertificatesEdit = {
 				{ $type: "br" },
 				{ $type: "label", $text: "available system certs" },
 				{ $html: systemCertificatesData.map( function( availableCertificate ) {
-					return availableCertificate.store + "/" + availableCertificate.cert_name;
+					return availableCertificate.store + " - " + availableCertificate.cert_name;
 				} ).join('<br>') },
 				{ $type: "hr" },
 				pp( serviceCertificateData ),

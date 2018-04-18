@@ -25,6 +25,8 @@ function formField(args) {
 			return formFieldCheckboxes(args);
 		case "hidden":
 			return formFieldInputUnwrapped( args );
+		case "color":
+			return formFieldColor( args );
 		case "country":
 			return formFieldCountry( args );
 		case "language":

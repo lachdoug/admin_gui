@@ -43,7 +43,7 @@ var $serviceEnvironmentVariables = {
 										class: "dl-horizontal",
 										items: data.map( function( variable ) {
 											return {
-												label: variable.label || variable.name,
+												label: variable.name,
 												data: variable.value
 											};
 										})

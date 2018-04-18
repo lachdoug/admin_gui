@@ -58,7 +58,7 @@ cell({
 					$text: this._$data.properties.label.text,
 					style: ( "color: " + this._$data.properties.label.color +
 									 "; background-color: " + this._$data.properties.label.background_color +
-									"; text-align: center; padding: 10px; font-size: 24px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;" )
+									"; text-align: center; padding: 10px; font-size: 24px; margin-top: -5px; margin-bottom: 5px;" )
 				} : {} ),
 				{
 					class: "container",
@@ -80,7 +80,7 @@ cell({
 						},
 						{
 							class: "modal-content",
-							style: "margin-top: 20px; margin-bottom: 100px; padding: 10px;",
+							style: "margin-top: 5px; margin-bottom: 100px; padding: 10px;",
 							$components: [
 								{
 									$components: [

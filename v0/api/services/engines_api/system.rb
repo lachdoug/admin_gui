@@ -170,6 +170,18 @@ class V0
           end
 
           ##########################################################################
+          # System user settings
+          ##########################################################################
+
+          def system_user_settings
+            @system_api.get 'system/system_user/settings'
+          end
+
+          def update_system_user_settings( args )
+            @system_api.post 'system/system_user/settings', args
+          end
+
+          ##########################################################################
           # Events
           ##########################################################################
 

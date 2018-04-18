@@ -10,6 +10,7 @@ function form(args) {
 		method: args.method,
 		enctype: args.enctype || "application/x-www-form-urlencoded",
 		_callbacks: args.callbacks,
+		// $components: (typeof args.components === "function") ? args.components(this) : ( args.components || [] ),
 		$init: function() {
 			this.$components = (typeof args.components === "function") ? args.components(this) : ( args.components || [] );
 
@@ -19,7 +20,6 @@ function form(args) {
 				api._bindForm( this );
 			};
 
-			$(this).find("input:invalid").first().focus();
 		},
 		_field: function( args ) {
 			args._formId = args.id;

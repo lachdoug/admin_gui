@@ -50,6 +50,8 @@ cell({
 									button( { onclick: systemEmail._live,
 														icon: "fa fa-envelope", text: "Email" } ),
 									{ $type: "hr" },
+									button( { onclick: systemLabel._live,
+														icon: "fa fa-window-maximize", text: "Label" } ),
 									button( { onclick: installSideLoad._live,
 														icon: "fa fa-caret-square-o-right", text: "Side load" } ),
 									button( { onclick: systemDiagnostics._live,

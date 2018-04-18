@@ -67,11 +67,7 @@ class V0
             status: status,
             report_exceptions: report_exceptions,
             properties: {
-              label: {
-                text: @settings.banner_text,
-                color: @settings.banner_text_color,
-                background_color: @settings.banner_background_color
-              },
+              label: label,
               version: {
                 engines: engines_api_system.engines_version,
                 base_os: engines_api_system.base_os_version
@@ -503,6 +499,20 @@ class V0
         end
 
         ########################################################################
+        # Dashboard label
+        ########################################################################
+
+        def label
+          engines_api_system.system_user_settings[:label] || {}
+        end
+
+        def update_label( data )
+          engines_api_system.update_system_user_settings(
+            engines_api_system.system_user_settings.merge( { label: data } )
+          )
+        end
+
+        ########################################################################
         # Instructions
         ########################################################################
 
@@ -579,7 +589,8 @@ class V0
         end
 
         def service_certificates
-          engines_api_system.service_certificates.sort_by{|service_certificate| service_certificate[:name]}
+          engines_api_system.service_certificates.
+            sort_by{|service_certificate| service_certificate[:name]}
         end
 
         def update_service_certificate( data )

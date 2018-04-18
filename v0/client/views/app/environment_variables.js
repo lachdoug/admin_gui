@@ -65,7 +65,7 @@ var $appEnvironmentVariables = {
 					class: "clearfix",
 					$components: [
 						dataList( { class: "dl-horizontal", items: data.application.variables.map( function ( variable ) {
-							return { label: ( variable.input || {} ).label || variable.name, data: variable.value };
+							return { label: variable.name, data: variable.value };
 						} ) } ),
 						button( {
 							icon: "fa fa-edit",
@@ -90,7 +90,7 @@ var $appEnvironmentVariables = {
 					class: "clearfix",
 					$components: [
 						dataList( { class: "dl-horizontal", items: data.user.map( function ( variable ) {
-							return { label: ( variable.input || {} ).label || variable.name, data: variable.value };
+							return { label: variable.name, data: variable.value };
 						} ) } ),
 						button( {
 							icon: "fa fa-plus",
@@ -118,7 +118,7 @@ var $appEnvironmentVariables = {
 			$components: [
 				{ $type: "label", $text: "System" },
 				dataList( { class: "dl-horizontal", items: data.system.map( function ( variable ) {
-					return { label: variable.label || variable.name, data: variable.value };
+					return { label: variable.name, data: variable.value };
 				} ) } ),
 				{ $type: "hr" },
 			]
@@ -133,7 +133,7 @@ var $appEnvironmentVariables = {
 			components.push( {
 				$components: [
 					dataList( { class: "dl-horizontal", items: data.service_consumers[ownerGroup].variables.map( function ( variable ) {
-						return { label: ( variable.input || {} ).label || variable.label || variable.name, data: variable.value }; // variable.label to support legacy service definition
+						return { label: variable.name, data: variable.value };
 					} ) } ),
 				]
 			} );
