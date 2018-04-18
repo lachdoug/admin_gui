@@ -71,7 +71,7 @@ cell({
 										$type: "p",
 										id: 'systemEventsStreamingWarningMessage',
 										class: 'text-center',
-										$html: "System events steam closed. " +
+										$html: "System disconnected. " +
 											"Please <a  style='cursor: pointer;' " +
 											"onclick='location.reload()'>reload</a> page.</p>",
 									}
