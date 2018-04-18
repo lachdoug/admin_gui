@@ -1,5 +1,6 @@
 # Ignore data
 /data/v0/library.json
+/data/v0/client.js
 
 # Ignore Byebug history
 .byebug_history
