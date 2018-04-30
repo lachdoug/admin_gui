@@ -26,8 +26,8 @@ cell({
 							{
 								class: "col-sm-6",
 								$components: [
-									button( { onclick: systemPassword._live,
-														icon: "fa fa-lock", text: "System password" } ),
+									button( { onclick: systemAdminUser._live,
+														icon: "fa fa-user-md", text: "API admin" } ),
 									button( { onclick: systemRegion._live,
 														icon: "fa fa-map-marker", text: "Region"	} ),
 									button( { onclick: systemDefaultSite._live,

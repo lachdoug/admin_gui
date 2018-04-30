@@ -138,6 +138,14 @@ class V0
             @system_api.post "containers/service/#{@name}/template", { template_string: string }
           end
 
+          ######################################################################
+          # OOM
+          ######################################################################
+
+          def clear_had_oom
+            @system_api.get "containers/service/#{@name}/clear_error"
+          end
+
         end
 
       end

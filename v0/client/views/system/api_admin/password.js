@@ -5,7 +5,7 @@ cell({
 	_live: function() {
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-lock", text: "System password" } ),
+				header: icon( { icon: "fa fa-lock", text: "System API admin password" } ),
 				body: {
 					$components: [
 						systemPassword._form()

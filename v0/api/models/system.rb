@@ -102,11 +102,19 @@ class V0
         end
 
         ########################################################################
-        # Admin user
+        # Sysadmin user
         ########################################################################
 
-        def update_admin_user(data)
-          engines_api_system.update_admin_user( data )
+        def api_admin_user
+          engines_api_system.api_admin_user
+        end
+
+        def update_api_admin_user_password(data)
+          engines_api_system.update_api_admin_user_password( data )
+        end
+
+        def update_api_admin_user_email(data)
+          engines_api_system.update_api_admin_user_email( data )
         end
 
         ########################################################################

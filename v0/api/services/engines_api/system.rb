@@ -9,7 +9,11 @@ class V0
           end
 
           def sign_in( args )
-            @system_api.post 'system/login', { user_name: "admin", password: args[:password], ip_address: args[:ip_address] }, { timeout: 5 }
+            @system_api.post 'system/login', {
+              user_name: "admin",
+              password: args[:password],
+              ip_address: args[:ip_address] },
+            { timeout: 5 }
           end
 
           ##########################################################################
@@ -56,13 +60,17 @@ class V0
           # Admin
           ##########################################################################
 
-          def update_admin_user( args )
-            args.merge!( { user_name: :admin } )
-            @system_api.post "system/user/admin", args
+          def api_admin_user
+            # @system_api.get "system/user/api_admin"
+            @system_api.get "system/user/admin"
           end
 
-          def admin_user
-            @system_api.get "system/user/admin"
+          def update_api_admin_user_password( args )
+            @system_api.post "system/user/api_admin/password", args
+          end
+
+          def update_api_admin_user_email( args )
+            @system_api.post "system/user/api_admin/email", args
           end
 
           ##########################################################################
@@ -170,7 +178,7 @@ class V0
           end
 
           ##########################################################################
-          # System user settings
+          # Sysadmin user settings
           ##########################################################################
 
           def system_user_settings

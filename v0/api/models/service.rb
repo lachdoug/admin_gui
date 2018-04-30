@@ -313,6 +313,14 @@ class V0
           service_api.resolve_string(string.to_s)
         end
 
+        ######################################################################
+        # OOM
+        ######################################################################
+
+        def clear_had_oom
+          service_api.clear_had_oom
+        end
+
       end
     end
   end
