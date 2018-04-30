@@ -4,3 +4,5 @@
 
 # Ignore Byebug history
 .byebug_history
+
+Gemfile.lock

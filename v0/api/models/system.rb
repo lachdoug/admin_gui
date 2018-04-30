@@ -215,8 +215,8 @@ class V0
         # Users > accounts > groups
         ########################################################################
 
-        def delete_users_account_groups( user_uid, names )
-          engines_api_system.delete_users_account_groups( user_uid, names )
+        def delete_users_account_groups( user_uid, group_dns )
+          engines_api_system.delete_users_account_groups( user_uid, group_dns )
         end
 
         def new_users_account_groups( user_uid )
@@ -224,8 +224,8 @@ class V0
         end
 
         def create_users_account_groups( user_uid, groups )
-          groups = groups[:names].map { |name| { name: name } }
-          engines_api_system.create_users_account_groups( user_uid, groups )
+          # groups = groups[:names].map { |name| { name: name } }
+          engines_api_system.create_users_account_groups( user_uid, groups[:dns] )
         end
 
         ########################################################################
@@ -289,8 +289,8 @@ class V0
           engines_api_system.index_users_groups
         end
 
-        def show_users_group( name )
-          engines_api_system.show_users_group( name )
+        def show_users_group( group_dn )
+          engines_api_system.show_users_group( group_dn )
         end
 
         ########################################################################

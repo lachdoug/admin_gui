@@ -45,7 +45,13 @@ cell({
 												$components: data.groups.length == 0 ?
 												[ { $type: "i", $text: "No groups." } ] :
 												data.groups.map( function( group ) {
-													return { $type: "li", $text: group };
+													var group_path =  group.dn.replace(",ou=Groups,dc=engines,dc=internal", '').replace("cn=", '').replace(/,ou=/g, "/");
+													var label = (
+														group.name === group_path ?
+														group.name :
+														( group.name + " (" + group_path + ")" )
+													);
+													return { $type: "li", $text: label };
 												})
 											},
 										]

@@ -11,7 +11,7 @@ class V0
       end
 
       delete '/uadmin/users/accounts/groups' do
-        system.delete_users_account_groups( params[:user_uid], params[:names] ).to_json
+        system.delete_users_account_groups( params[:user_uid], params[:group_dns] ).to_json
       end
 
     end

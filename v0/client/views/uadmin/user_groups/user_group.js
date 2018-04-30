@@ -1,7 +1,14 @@
 cell({
 	id: "systemUserGroup",
 
-	_live: function (user_group_name) {
+	_live: function (group) {
+
+		var group_path =  group.dn.replace(",ou=Groups,dc=engines,dc=internal", '').replace("cn=", '').replace(/,ou=/g, "/");
+		var label = (
+			group.name === group_path ?
+			group.name :
+			( group.name + " (" + group_path + ")" )
+		);
 
 		modal._live ( {
 			header: icon( { icon: "fa fa-users", text: "System user group" } ),
@@ -9,13 +16,13 @@ cell({
 				$components: [
 					modalNav({
 						up: systemUserGroups._live,
-						content: { $type: "h4", $text: user_group_name }
+						content: { $type: "h4", $text: label }
 					}),
 					hr(),
 					dataLoader({
 						action: "/uadmin/users/groups/",
 						params: {
-							name: user_group_name
+							dn: group.dn
 						},
 						render: function(data) {
 							return ( data.members.length > 0 ) ? {

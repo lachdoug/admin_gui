@@ -7,7 +7,7 @@ class V0
       end
 
       get '/uadmin/users/groups/' do
-        system.show_users_group( params[:name] ).to_json
+        system.show_users_group( params[:dn] ).to_json
       end
 
     end

@@ -17,13 +17,25 @@ cell({
 						params: { user_uid: user_uid },
 						render: function(data) {
 
+
+
+							var collection = data.groups.map(function(group){
+								var group_path =  group.dn.replace(",ou=Groups,dc=engines,dc=internal", '').replace("cn=", '').replace(/,ou=/g, "/");
+								var label = (
+									group.name === group_path ?
+									group.name :
+									( group.name + " (" + group_path + ")" )
+								);
+								return [ group.dn, label ];
+							});
+
 							return data.groups.length ? form({
 								components: [
 									formField( {
 										type: "checkboxes",
-										name: "groups[names]",
+										name: "groups[dns]",
 										label: "Group",
-										collection: data.groups,
+										collection: collection,
 									} ),
 									formCancel ( { onclick: function() { systemUserUserGroups._live(user_uid) } } ),
 									formSubmit(),

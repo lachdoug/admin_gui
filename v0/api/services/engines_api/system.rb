@@ -324,24 +324,24 @@ class V0
             @system_api.get 'system/uadmin/users/groups'
           end
 
-          def show_users_group( name )
-            @system_api.get 'system/uadmin/users/groups/', name: name
+          def show_users_group( group_dn )
+            @system_api.get 'system/uadmin/users/groups/', dn: group_dn
           end
 
           ##########################################################################
           # Users > accounts > groups
           ##########################################################################
 
-          def delete_users_account_groups( user_uid, names )
-            @system_api.delete 'system/uadmin/users/accounts/groups', user_uid: user_uid, names: names
+          def delete_users_account_groups( user_uid, group_dns )
+            @system_api.delete 'system/uadmin/users/accounts/groups', user_uid: user_uid, group_dns: group_dns
           end
 
           def new_users_account_groups( user_uid )
             @system_api.get 'system/uadmin/users/accounts/groups/new', user_uid: user_uid
           end
 
-          def create_users_account_groups( user_uid, groups )
-            @system_api.post 'system/uadmin/users/accounts/groups', user_uid: user_uid, groups: groups
+          def create_users_account_groups( user_uid, group_dns )
+            @system_api.post 'system/uadmin/users/accounts/groups', user_uid: user_uid, group_dns: group_dns
           end
 
           ##########################################################################
