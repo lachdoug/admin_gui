@@ -15,10 +15,9 @@ Note: does not need a DB and does not send mail.
 
 Environment
 -----------
-**Required**  
-ENV['ENGINES_ADMIN_GUI_SESSION_SECRET']
-**Optional**  
-ENV['ENGINES_ADMIN_GUI_SYSTEM_IP'] include port, for example: "192.168.1.117".
+
+ENV['ENGINES_ADMIN_GUI_SESSION_SECRET'] optional (sinatra will randomly generate if not provided)
+ENV['ENGINES_ADMIN_GUI_SYSTEM_IP'] for example: "192.168.1.117".
 ENV['ENGINES_ADMIN_GUI_REMOTE_MANAGEMENT'] default is false. When set to true the user can change :system_ip at runtime (and also enables stop and pause instructions on control service menu). If false ENV['ENGINES_ADMIN_GUI_SYSTEM_IP'] is **Required**.  
 ENV['ENGINES_ADMIN_GUI_SHOW_SERVICES_BY_DEFAULT'] default is false
 ENV['ENGINES_ADMIN_GUI_SHOW_SOFTWARE_TITLES_BY_DEFAULT'] default is false
