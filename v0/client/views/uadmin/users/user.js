@@ -18,8 +18,21 @@ cell({
 						action: "/uadmin/users/accounts/",
 						params: { uid: user_uid },
 						render: function (data) {
-							var group_count = data.groups.length;
+							var groups = data.groups;
+							var group_count = groups.length;
 							var group_text = group_count == 0 ? "No groups" : group_count == 1 ? "1 group" : group_count + " groups";
+
+							var is_administrator = false;
+							for(var i = 0; i < groups.length; i++) {
+							    if (groups[i].dn == 'cn=administrators,ou=Groups,dc=engines,dc=internal') {
+							        is_administrator = true;
+							        break;
+							    }
+							};
+
+
+
+							// debugger;
 							return {
 								$init: function() {
 									if ( opts.scrollTo ) {
@@ -32,7 +45,11 @@ cell({
 										icon: "fa fa-edit",
 										wrapperClass: "pull-right",
 										onclick: function () {
-											systemUsersUserEdit._live(user_uid);
+											if ( is_administrator ) {
+												alert("Name can't be changed when account is member of administrators group.");
+											} else {
+												systemUsersUserEdit._live(user_uid);
+											}
 										}
 									}),
 									dataList({ items: [
@@ -48,7 +65,7 @@ cell({
 												onclick: function () {
 													if ( data.email.mailbox ) {
 														alert("Disable email first.");
-													}	else if ( data.groups.length > 0 ) {
+													}	else if ( groups.length > 0 ) {
 														alert("Remove all groups first.");
 													} else {
 														if ( confirm("Are you sure that you want to delete user '" + user_uid + "'?") ) {

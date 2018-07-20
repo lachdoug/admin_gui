@@ -216,6 +216,7 @@ class V0
         ########################################################################
 
         def delete_users_account_groups( user_uid, group_dns )
+          return unless group_dns
           engines_api_system.delete_users_account_groups( user_uid, group_dns )
         end
 
@@ -224,6 +225,7 @@ class V0
         end
 
         def create_users_account_groups( user_uid, groups )
+          return unless groups
           # groups = groups[:names].map { |name| { name: name } }
           engines_api_system.create_users_account_groups( user_uid, groups[:dns] )
         end

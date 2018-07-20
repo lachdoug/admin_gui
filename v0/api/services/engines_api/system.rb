@@ -376,28 +376,20 @@ class V0
             @system_api.post 'system/uadmin/users/accounts/email/distribution_groups/', user_uid: user_uid, distribution_group: distribution_group
           end
 
+          def delete_users_email_distribution_group( user_uid, address )
+            @system_api.delete 'system/uadmin/users/accounts/email/distribution_groups/', user_uid: user_uid, address: address
+          end
+
           ########################################################################
           # Users > accounts > email > aliases
           ########################################################################
 
-          def create_users_email_alias( user_uid, _alias )
-            @system_api.post 'system/uadmin/users/accounts/email/aliases/', user_uid: user_uid, alias: _alias
+          def create_users_email_alias( user_uid, email_alias )
+            @system_api.post 'system/uadmin/users/accounts/email/aliases/', user_uid: user_uid, alias: email_alias
           end
 
           def delete_users_email_alias( user_uid, address )
             @system_api.delete 'system/uadmin/users/accounts/email/aliases/', user_uid: user_uid, address: address
-          end
-
-          ########################################################################
-          # Users > accounts > email > distribution groups
-          ########################################################################
-
-          def create_users_email_distribution_group( user_uid, distribution_group )
-            @system_api.post 'system/uadmin/users/accounts/email/distribution_groups/', user_uid: user_uid, distribution_group: distribution_group
-          end
-
-          def delete_users_email_distribution_group( user_uid, address )
-            @system_api.delete 'system/uadmin/users/accounts/email/distribution_groups/', user_uid: user_uid, address: address
           end
 
           ##########################################################################
@@ -484,17 +476,17 @@ class V0
           # Email > distribution groups > email addresses
           ########################################################################
 
-          def new_email_distribution_group_email_address( distribution_group_name )
-            @system_api.get 'system/uadmin/email/distribution_groups/email_addresses/new', distribution_group_name: distribution_group_name
-          end
-
-          def create_email_distribution_group_email_address( distribution_group_name, email_address )
-            @system_api.post 'system/uadmin/email/distribution_groups/email_addresses/', distribution_group_name: distribution_group_name, email_address: email_address
-          end
-
-          def delete_email_distribution_group_email_address( distribution_group_name, address )
-            @system_api.delete 'system/uadmin/email/distribution_groups/email_addresses/', distribution_group_name: distribution_group_name, address: address
-          end
+          # def new_email_distribution_group_email_address( distribution_group_name )
+          #   @system_api.get 'system/uadmin/email/distribution_groups/email_addresses/new', distribution_group_name: distribution_group_name
+          # end
+          #
+          # def create_email_distribution_group_email_address( distribution_group_name, email_address )
+          #   @system_api.post 'system/uadmin/email/distribution_groups/email_addresses/', distribution_group_name: distribution_group_name, email_address: email_address
+          # end
+          #
+          # def delete_email_distribution_group_email_address( distribution_group_name, address )
+          #   @system_api.delete 'system/uadmin/email/distribution_groups/email_addresses/', distribution_group_name: distribution_group_name, address: address
+          # end
 
           ##########################################################################
           # Registry
