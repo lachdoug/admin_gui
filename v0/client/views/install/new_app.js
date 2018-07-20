@@ -154,7 +154,7 @@ var $installNewApp = {
 							name: "data[host_name]",
 							id: "installNewAppFormField_host_name",
 							label: "Host name",
-							value: name.replace('_','-'),
+							value: name.replace(/_/g,'-'),
 							onchange: function( e ) {
 								installNewApp._checkFqdnReserved();
 							},
