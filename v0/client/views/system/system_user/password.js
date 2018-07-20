@@ -1,14 +1,14 @@
 cell({
 
-	id: "systemPassword",
+	id: "systemSystemUserPassword",
 
 	_live: function() {
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-lock", text: "System API admin password" } ),
+				header: icon( { icon: "fa fa-lock", text: "System user password" } ),
 				body: {
 					$components: [
-						systemPassword._form()
+						systemSystemUserPassword._form()
 					]
 				}
 			}
@@ -20,20 +20,20 @@ cell({
 			components: [
 				formField( {
 					type: "password",
-					name: "data[current_password]",
+					name: "system_user[current_password]",
 					label: "Current password",
 					required: true,
 				} ),
 				formField( {
 					type: "password_with_confirmation",
-					name: "data[new_password]",
+					name: "system_user[new_password]",
 					label: "New password",
 					required: true,
 				} ),
 				formCancel ( { onclick: systemControlPanel._live } ),
 				formSubmit(),
 			],
-			action: "/system/user/admin",
+			action: "/system/system_user/password",
 			method: 'PATCH',
 			callbacks: {
 				200: function(response) {

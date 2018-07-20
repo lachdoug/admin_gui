@@ -1,13 +1,13 @@
-var $systemAdminUser = {
+var $systemSystemUser = {
 
 	$cell: true,
-	id: "systemAdminUser",
+	id: "systemSystemUser",
 
 
 	_live: function() {
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-user", text: "System API admin" } ),
+				header: icon( { icon: "fa fa-user-md", text: "System user" } ),
 				body: {
 					$components: [
 						{
@@ -21,12 +21,12 @@ var $systemAdminUser = {
 							]
 						},
 						{
-							id: "systemAdminUserContent",
+							id: "systemSystemUserContent",
 							$components: [
 								icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
 							],
 							_refresh: function ( data ) {
-								this.$components = [ systemAdminUser._content( data ) ];
+								this.$components = [ systemSystemUser._content( data ) ];
 							},
 						}
 					]
@@ -38,10 +38,10 @@ var $systemAdminUser = {
 
 	_load: function () {
 		apiRequest({
-			action: "/system/api_admin",
+			action: "/system/system_user",
 			callbacks: {
 				200: function(response) {
-					systemAdminUserContent._refresh(response);
+					systemSystemUserContent._refresh(response);
 				},
 			}
 		});
@@ -62,12 +62,12 @@ var $systemAdminUser = {
 				button( {
 					icon: "fa fa-lock",
 					text: "Password",
-					onclick: systemPassword._live
+					onclick: systemSystemUserPassword._live
 				} ),
 				button( {
 					icon: "fa fa-envelope",
 					text: "Email",
-					onclick: systemAdminUserEmail._live
+					onclick: systemSystemUserEmail._live
 				} ),
 			]
 		};

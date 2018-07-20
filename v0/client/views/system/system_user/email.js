@@ -1,22 +1,22 @@
-var $systemAdminUserEmail = {
+var $systemSystemUserEmail = {
 
 	$cell: true,
-	id: "systemAdminUserEmail",
+	id: "systemSystemUserEmail",
 
 
 	_live: function() {
 		modal._live(
 			{
-				header: icon( { icon: "fa fa-lock", text: "System API admin email" } ),
+				header: icon( { icon: "fa fa-envelope", text: "System user email" } ),
 				body: {
 					$components: [
 						{
-							id: "systemAdminUserEmailForm",
+							id: "systemSystemUserEmailForm",
 							$components: [
 								icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
 							],
 							_refresh: function ( data ) {
-								this.$components = [ systemAdminUserEmail._form( data ) ];
+								this.$components = [ systemSystemUserEmail._form( data ) ];
 							},
 						}
 					]
@@ -28,10 +28,10 @@ var $systemAdminUserEmail = {
 
 	_load: function () {
 		apiRequest({
-			action: "/system/api_admin",
+			action: "/system/system_user",
 			callbacks: {
 				200: function(response) {
-					systemAdminUserEmailForm._refresh(response);
+					systemSystemUserEmailForm._refresh(response);
 				},
 			}
 		});
@@ -43,24 +43,23 @@ var $systemAdminUserEmail = {
 			components: [
 				formField( {
 					type: "site_password",
-					name: "api_admin[current_password]",
+					name: "system_user[current_password]",
 					label: "Current password",
 				} ),
 				formField( {
 					type: "email",
-					name: "api_admin[email]",
+					name: "system_user[email]",
 					label: "Admin email",
 					value: data.email
 				} ),
-				formCancel ( { onclick: "systemAdminUser._live();" } ),
+				formCancel ( { onclick: "systemSystemUser._live();" } ),
 				formSubmit(),
-				pp( data )
 			],
-			action: "/system/api_admin/email",
+			action: "/system/system_user/email",
 			method: 'PATCH',
 			callbacks: {
 				200: function(response) {
-					systemAdminUser._live();
+					systemSystemUser._live();
 				},
 			}
 		});
