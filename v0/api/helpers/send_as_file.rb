@@ -5,7 +5,7 @@ class V0
       def send_as_file( filename, contents )
         send_file(
           tempfile_for( contents ).path,
-          type: "application/octet-stream",
+          type: "text/plain",
           filename: filename )
       end
 

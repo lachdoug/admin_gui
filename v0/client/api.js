@@ -76,6 +76,25 @@ cell({
 		} );
 	},
 
+// 	_downloadStream: function( args ) {
+// console.log( args.action )
+// 		// See: https://github.com/jimmywarting/StreamSaver.js/releases
+// 		fetch( args.action ).then(res => {
+// 			debugger
+// 			const fileStream = streamSaver.createWriteStream( args.filename || 'engines.bin')
+// 			const writer = fileStream.getWriter()
+// 			const reader = res.body.getReader()
+// 			const pump = () => reader.read()
+// 				.then(({ value, done }) => done
+// 					? writer.close()
+// 					: writer.write(value).then(pump)
+// 				)
+// 			pump().then(() =>
+// 				console.log('Closed the stream, Done writing.')
+// 			)
+// 		})
+// 	},
+
 
 	_handleResponse: function( response, args ) {
 
@@ -89,10 +108,12 @@ cell({
 			api._handleNoResponse( response, args );
 		} else if ( responseContentType == "application/json" ) {
 			api._handleJsonResponse(response, args);
-		} else if ( responseContentType == "application/octet-stream" ) {
-			api._handleStreamResponse(response, args);
 		} else if ( responseContentType == "text/html;charset=utf-8" ) {
 			api._handleHtmlResponse(response, args);
+		} else if ( responseContentType == "text/plain;charset=utf-8" ) {
+			api._handlePlainResponse(response, args);
+		} else if ( responseContentType == "application/octet-stream" ) {
+			api._handleBinaryResponse(response, args);
 		} else {
 			var backtrace = ( new Error() ).stack.split("\n");
 			var message = response.responseText;
@@ -101,7 +122,7 @@ cell({
 				detail: {
 					source: "Admin GUI ApiV0 v0.5",
 					type: "Client" + response.status,
-					text: "Unexpected content_type.\n" + response.statusText,
+					text: "Unexpected content_type: " + responseContentType,
 					args: args,
 					backtrace: backtrace[0] }
 			} );
@@ -133,11 +154,19 @@ cell({
 	},
 
 
-	_handleStreamResponse: function( response ) {
+	_handlePlainResponse: function( response ) {
+		// debugger
 		var regex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
 		var match = regex.exec( response.getResponseHeader("Content-Disposition") );
-		var fileName = match[1].replace(/^"(.*)"$/, '$1') || "engines_file.txt";
+		var fileName = match[1].replace(/^"(.*)"$/, '$1') || "engines.txt";
 		download(new Blob([response.responseText]), fileName, "text/plain");
+	},
+
+
+	_handleBinaryResponse: function( response, args ) {
+		// debugger
+		var fileName = args.filename || "engines.data";
+		download(new Blob([response.responseText]), fileName, "application/octet-stream");
 	},
 
 

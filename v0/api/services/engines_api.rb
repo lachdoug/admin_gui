@@ -107,8 +107,8 @@ class V0
             JSON.parse response.body, symbolize_names: true
           when 'text/plain'
             response.body
-          when 'application/octet-stream'
-            response.body
+          # when 'application/octet-stream'
+          #   response.body
           else
             raise StandardError.new "An unhandled content type was returned by the system API. (#{response.headers[:content_type]})"
           end
@@ -141,10 +141,10 @@ class V0
               request = Net::HTTP::Get.new URI("#{@url}/v0/#{route}")
               request['access_token'] = @token
               http.request(request) do |response|
-                # puts "response #{response}"
-                response.read_body do |event|
-                  # puts "event #{event}"
-                  yield event
+                response.read_body do |chunk|
+                  # puts "chunk #{chunk}"
+                  # STDOUT.write chunk
+                  yield chunk
                 end
               end
             end

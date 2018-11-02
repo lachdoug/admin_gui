@@ -173,8 +173,12 @@ var $appServicesPersistent = {
 			params: {
 				publisher_namespace: publisherNamespace,
 				type_path: typePath,
-				service_handle: serviceHandle
+				service_handle: serviceHandle,
 			},
+			filename: `Engines_${
+				publisherNamespace }_${
+				typePath.replace( /\//g, '_') }_${
+				serviceHandle }.data`
 		});
 
 	},

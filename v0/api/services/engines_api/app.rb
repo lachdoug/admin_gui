@@ -156,6 +156,14 @@ class V0
             @system_api.post "containers/engine/#{@name}/service/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}", { variables: args[:variables] }
           end
 
+          def export_persistent_service_stream( args, out )
+            @system_api.stream(
+              "containers/engine/#{@name}/service/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/export"
+            ) do |chunk|
+             out.write chunk
+            end
+          end
+
           def export_persistent_service( args )
             @system_api.get "containers/engine/#{@name}/service/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}/export"
           end

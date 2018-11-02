@@ -234,6 +234,10 @@ class V0
           } )
         end
 
+        def export_persistent_service_stream( params, out )
+          app_api.export_persistent_service_stream( params, out )
+        end
+
         def export_persistent_service( publisher_namespace, type_path, service_handle )
           app_api.export_persistent_service( {
             publisher_namespace: publisher_namespace,

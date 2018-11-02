@@ -41,12 +41,21 @@ class V0
       end
 
       get '/apps/:app_name/service_manager/persistent/export' do
-        ## Query params: :publisher_namespace, :type_path, :service_handle
         set_app(params[:app_name])
-        send_as_file "engines_data_#{@app.name}__"\
-              "#{params[:publisher_namespace]}_#{params[:type_path].gsub '/', '_'}_"\
-              "#{params[:service_handle]}__#{Time.now.utc}.gzip",
-              @app.export_persistent_service( params[:publisher_namespace], params[:type_path], params[:service_handle] )
+        content_type "application/octet-stream"
+        stream do |out|
+          @app.export_persistent_service_stream( params, out )
+        end
+        # params[:publisher_namespace],
+        # params[:type_path],
+        # params[:service_handle]
+        #
+        # ## Query params: :publisher_namespace, :type_path, :service_handle
+        # set_app(params[:app_name])
+        # send_as_file "engines_data_#{@app.name}__"\
+        #       "#{params[:publisher_namespace]}_#{params[:type_path].gsub '/', '_'}_"\
+        #       "#{params[:service_handle]}__#{Time.now.utc}.gzip",
+        #       @app.export_persistent_service( params[:publisher_namespace], params[:type_path], params[:service_handle] )
       end
 
       post '/apps/:app_name/service_manager/persistent/import/' do
