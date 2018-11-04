@@ -122,9 +122,19 @@ class V0
           # Data export/import
           ######################################################################
 
-          def export
-            @system_api.get "containers/service/#{@name}/export"
+          def export( out )
+          #   @system_api.get "containers/service/#{@name}/export"
+          # end
+          #
+          # def export_persistent_service_stream( out )
+            @system_api.stream(
+              "containers/service/#{@name}/export"
+            ) do |chunk|
+             out.write chunk
+            end
           end
+
+
 
           def import(file)
             @system_api.put_stream "containers/service/#{@name}/import", file

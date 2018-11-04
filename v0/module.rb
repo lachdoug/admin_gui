@@ -17,7 +17,7 @@ class V0 < Sinatra::Base
     if [true, false].sample
       ENV['ENGINES_ADMIN_GUI_REMOTE_MANAGEMENT'] = 'true'
     else
-      ENV['ENGINES_ADMIN_GUI_SYSTEM_IP'] = "172.16.162.128"
+      ENV['ENGINES_ADMIN_GUI_SYSTEM_IP'] = "172.16.162.129"
     end
     before do
       puts "Request #{request.request_method} #{request.path_info} #{params.inspect}"

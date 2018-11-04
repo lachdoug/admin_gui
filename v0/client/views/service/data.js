@@ -13,16 +13,19 @@ cell({
 						up: function () { serviceControlPanel._live( serviceName ); }
 					}),
 					hr(),
-          button( {
-            wrapperClass: "pull-left",
-            icon: "fa fa-download",
-            text: "Export",
-            onclick: function () {
-              apiRequest({
-          			action: "/services/" + serviceName + "/data/export",
-          		});
-            },
-          } ),
+          {
+            $type: "a",
+            class: "btn btn-lg btn-custom pull-left-md",
+            $components: [
+              icon( {
+                icon: "fa fa-download",
+                text: "Export"
+              } )
+            ],
+            href: "/services/" + serviceName + "/data/export",
+            download: `Engines_${ serviceName
+              }.data`
+          },
           button( {
             wrapperClass: "pull-right",
             icon: "fa fa-upload",

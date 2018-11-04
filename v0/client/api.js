@@ -164,7 +164,6 @@ cell({
 
 
 	_handleBinaryResponse: function( response, args ) {
-		// debugger
 		var fileName = args.filename || "engines.data";
 		download(new Blob([response.responseText]), fileName, "application/octet-stream");
 	},

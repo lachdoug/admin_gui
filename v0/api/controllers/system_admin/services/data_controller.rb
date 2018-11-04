@@ -4,9 +4,10 @@ class V0
 
       get '/services/:service_name/data/export' do
         set_service(params[:service_name])
-        send_as_file("engines_data_#{@service.name}__"\
-          "#{Time.now.utc}.gzip",
-          @service.export).to_json
+        content_type "application/octet-stream"
+        stream do |out|
+          @service.export( out )
+        end
       end
 
       put '/services/:service_name/data/import' do

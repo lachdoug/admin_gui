@@ -296,9 +296,13 @@ class V0
         # Data export/import
         ######################################################################
 
-        def export
-          service_api.export
+        def export( out )
+          service_api.export( out )
+        # end
+        # def export_persistent_service_stream( params, out )
+        #   app_api.export_persistent_service_stream( params, out )
         end
+
 
         def import(file)
           service_api.import file

@@ -74,12 +74,23 @@ var $appServicesPersistent = {
 									{
 										class: "clearfix",
 										$components: [
-											button( {
-												icon: "fa fa-download",
-												class: "pull-left-md",
-												text: "Export",
-												onclick: appServicesPersistent._export
-											} ),
+											{
+												$type: "a",
+												class: "btn btn-lg btn-custom pull-left-md",
+												$components: [
+													icon( {
+														icon: "fa fa-download",
+														text: "Export"
+													} )
+												],
+												href: "/apps/" + appName + "/service_manager/persistent/export" +
+												"?publisher_namespace=" + publisherNamespace +
+												"&type_path=" + typePath +
+												"&service_handle=" + serviceHandle,
+												download: `Engines_${ publisherNamespace
+													}_${ typePath.replace( /\//g, '_')
+													}_${ serviceHandle }.data`
+											},
 											button( {
 												icon: "fa fa-upload",
 												class: "pull-right-md",
@@ -162,25 +173,31 @@ var $appServicesPersistent = {
 
 	},
 
-	_export: function () {
-
-		var publisherNamespace = this._publisherNamespace;
-		var typePath = this._typePath;
-		var serviceHandle = this._serviceHandle;
-
-		apiRequest({
-			action: "/apps/" + this._appName + "/service_manager/persistent/export",
-			params: {
-				publisher_namespace: publisherNamespace,
-				type_path: typePath,
-				service_handle: serviceHandle,
-			},
-			filename: `Engines_${
-				publisherNamespace }_${
-				typePath.replace( /\//g, '_') }_${
-				serviceHandle }.data`
-		});
-
-	},
+	// _export: function () {
+	//
+	// 	var publisherNamespace = this._publisherNamespace;
+	// 	var typePath = this._typePath;
+	// 	var serviceHandle = this._serviceHandle;
+	//
+	// 	openUrl(
+	// 		"/apps/" + this._appName + "/service_manager/persistent/export" +
+	// 		"?publisher_namespace=" + publisherNamespace +
+	// 		"&type_path=" + typePath +
+	// 		"&service_handle=" + serviceHandle )
+	//
+	// 	// apiRequest({
+	// 	// 	action: "/apps/" + this._appName + "/service_manager/persistent/export",
+	// 	// 	params: {
+	// 	// 		publisher_namespace: publisherNamespace,
+	// 	// 		type_path: typePath,
+	// 	// 		service_handle: serviceHandle,
+	// 	// 	},
+	// 	// 	// filename: `Engines_${
+	// 	// 	// 	publisherNamespace }_${
+	// 	// 	// 	typePath.replace( /\//g, '_') }_${
+	// 	// 	// 	serviceHandle }.data`
+	// 	// });
+	//
+	// },
 
 };
