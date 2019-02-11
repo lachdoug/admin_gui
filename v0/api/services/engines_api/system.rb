@@ -238,6 +238,10 @@ class V0
           # Install app
           ##########################################################################
 
+          def resolve_blueprint( blueprint_url )
+            @system_api.get 'engine_builder/resolve_blueprint', blueprint_url: blueprint_url
+          end
+
           def install( args )
             @system_api.post 'containers/engines/build', args
           end

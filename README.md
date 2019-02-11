@@ -29,3 +29,12 @@ NO LONGER USED: ENV['ENGINES_ADMIN_GUI_BANNER_TEXT'] default is nil.
 NO LONGER USED: ENV['ENGINES_ADMIN_GUI_BANNER_TEXT_COLOR'] default is '#fff'.  
 NO LONGER USED: ENV['ENGINES_ADMIN_GUI_BANNER_BACKGROUND_COLOR'] default is '#48d'.  
 DEPRECATED:  ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] > use ENV['ENGINES_ADMIN_GUI_SYSTEM_IP'] instead
+
+
+Todo
+----
+Subservices
+Clear OOM
+Export/import
+Install blueprint merge via route
+Install form reserved names and reinstalling deleted app

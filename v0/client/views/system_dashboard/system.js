@@ -40,8 +40,10 @@ cell({
 	},
 
 	_refresh: function(data, onupdateCallback ) {
-		this._$data = data;
 		this._onupdateCallback = onupdateCallback;
+		// let mmm = this._$data == data
+		this._$data = data;
+		// this.$update();
 		if ( this._$showContainerMemoryUsage ) {	systemMemory._live(); };
 		if ( data.builder.current.engine_name ) { installBuild._live(); };
 	},

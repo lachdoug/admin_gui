@@ -101,6 +101,20 @@ var $systemOrphanData = {
 			$components: [
 				{ $text: title },
 				{
+					$type: "a",
+					class: "btn btn-lg btn-custom pull-left-md",
+					$components: [
+						icon( {
+							icon: "fa fa-download",
+							text: "Export"
+						} )
+					],
+					href: "/services/" + serviceName + "/data/export",
+					download: `Engines_${ serviceName
+						}.data`
+				},
+
+				{
 					class: "clearfix",
 					$components: [
 						button( {

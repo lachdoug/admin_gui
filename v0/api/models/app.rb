@@ -328,6 +328,15 @@ class V0
             variables: ( ( data || {} )[:variables] || {} ) )
         end
 
+        def available_subservices_for( type_path )
+
+          app_api.available_subservices_for( type_path: type_path )
+        end
+
+
+
+
+
         def new_nonpersistent_service( publisher_namespace, type_path )
           service_definition = @system.service_definition_for( publisher_namespace, type_path )
           params = service_definition[:consumer_params].values.select do |param|

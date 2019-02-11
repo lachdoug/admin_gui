@@ -54,6 +54,13 @@ class V0
         @app.import_persistent_service( params[:publisher_namespace], params[:type_path], params[:service_handle], params[:data] )
       end
 
+      get '/apps/:app_name/service_manager/persistent/subservices/available' do
+        set_app(params[:app_name])
+        @app.available_subservices_for( params[:type_path] ).to_json
+      end
+
+
+
     end
   end
 end

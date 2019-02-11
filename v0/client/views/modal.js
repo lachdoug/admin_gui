@@ -6,7 +6,8 @@ var $modal = {
 	$components: [
 		{
 			id: "modalContent",
-			class: "modal"
+			class: "modal",
+			tabindex: -1,
 		}
 	],
 
@@ -14,7 +15,7 @@ var $modal = {
 	_live: function (obj) {
 
 		$(".modal").attr("class","modal " + ( obj.class || "" ) );
-		$(".modal").modal({backdrop: 'static'});
+		$(".modal").modal({ keyboard: true, backdrop: 'static'});
 		modalContent.$components = [
 			{ class: "modal-dialog " + ( obj.dialogClass || "" ),
 				$components: [

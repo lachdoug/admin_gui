@@ -126,6 +126,19 @@ var $appServicesPersistent = {
 											this._data ); }
 									} ),
 									{ $type: "hr" },
+									{ $type: "label", $text: "Subservices" },
+									button( {
+										icon: "fa fa-plus",
+										wrapperClass: "clearfix",
+										class: "pull-right-md",
+										text: "New",
+										onclick: () => { appServicesPersistentSubservicesNew._live(
+											appName,
+											this._data,
+											serviceHandle,
+										 ); }
+									} ),
+									{ $type: "hr" },
 									button( {
 										icon: "fa fa-trash",
 										class: "pull-left-md",

@@ -123,6 +123,11 @@ class V0
             @system_api.get "service_manager/available_services/managed_engine/#{@name}"
           end
 
+          def available_subservices_for( args )
+            # debugger
+            @system_api.get "service_manager/available_services/type/#{args[:type_path]}"
+          end
+
           def persistent_services
             @system_api.get "containers/engine/#{@name}/services/persistent/"
           end
@@ -132,11 +137,11 @@ class V0
           end
 
           def persistent_services_for( args )
+            # debugger
             @system_api.get "containers/engine/#{@name}/services/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}"
           end
 
           def delete_existing_persistent_service( args )
-
             @system_api.delete "containers/engine/#{@name}/services/persistent/#{ args[:delete_data] == true ? 'all' : 'none' }/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}"
           end
 

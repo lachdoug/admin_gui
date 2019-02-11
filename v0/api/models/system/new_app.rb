@@ -25,19 +25,20 @@ class V0
           end
 
           def blueprint
-            @blueprint ||= handle_response do
-              RestClient::Request.execute( method: :get, url: "#{@blueprint_url}", timeout: 120, verify_ssl: false )
-            end
+            @blueprint ||= @system.engines_api.system.resolve_blueprint( @blueprint_url )
+            # handle_response do
+            #   RestClient::Request.execute( method: :get, url: "#{@blueprint_url}", timeout: 120, verify_ssl: false )
+            # end
           end
 
-          def handle_response
-            JSON.parse yield.body, symbolize_names: true
-          rescue JSON::ParserError
-
-            raise NonFatalError.new "Invalid blueprint.", 405
-          rescue RestClient::NotFound
-            raise NonFatalError.new "Could not find blueprint.", 405
-          end
+          # def handle_response
+          #   JSON.parse yield.body, symbolize_names: true
+          # rescue JSON::ParserError
+          #
+          #   raise NonFatalError.new "Invalid blueprint.", 405
+          # rescue RestClient::NotFound
+          #   raise NonFatalError.new "Could not find blueprint.", 405
+          # end
 
           def consumable_services
             ( blueprint.dig(:software, :service_configurations) || [] ).
