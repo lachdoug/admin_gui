@@ -3,7 +3,7 @@ cell({
 	id: "appServicesPersistentSubservicesNew",
 
 	_live: function (
-		appName, publisherNamespace, typePath, serviceHandle, subPublisherNamespace, subTypePath
+		appName, publisherNamespace, typePath, serviceHandle, subPublisherNamespace, subTypePath, subContainerName
   ) {
 
 		this._appName = appName;
@@ -12,6 +12,7 @@ cell({
     this._serviceHandle = serviceHandle
 		this._subPublisherNamespace = subPublisherNamespace;
 		this._subTypePath = subTypePath;
+		this._subContainerName = subContainerName
 
 		this._show();
 
@@ -61,7 +62,7 @@ cell({
     let serviceHandle = this._serviceHandle
 		let subPublisherNamespace = this._subPublisherNamespace;
 		let subTypePath = this._subTypePath;
-
+		let subContainerName = this._subContainerName
     apiRequest({
 
 // get blueprint for subservice
@@ -75,16 +76,15 @@ cell({
 				publisher_namespace: publisherNamespace,
 				sub_type_path: subTypePath,
 				sub_publisher_namespace: subPublisherNamespace,
+				sub_container_name: subContainerName,
       },
       callbacks: {
         200: function(response, el) {
 					let new_service = { service_handle: serviceHandle, ...response }
           appServicesPersistentSubservicesNewContent.$components = [
-            { $type: "label", $text: "Persistent" },
 						{ $type: "h4", $text: new_service.service_label },
 	          { $type: "p", $text: new_service.service_description },
 						{ $type: "hr" },
-						// { $type: "h4", $text: new_service.sub_service_container },
 	          { $type: "h5", $text: new_service.sub_label },
 	          { $type: "p", $text: new_service.sub_description },
 						{ $type: "hr" },

@@ -201,8 +201,13 @@ class V0
           end
 
           def create_subservice( args )
-            debugger
-            @system_api.post "containers/service/#{ args[:service_container_name] }/sub_services/#{@name}/#{args[:service_handle]}/#{args[:sub_handle]}", { variables: args[:variables] }
+            # debugger
+            @system_api.post "containers/service/#{ args[:service_container_name] }/sub_services/#{@name}/#{args[:service_handle]}/#{args[:sub_handle]}",
+            {
+              publisher_namespace: args[:sub_publisher_namespace],
+              type_path: args[:sub_type_path],
+              variables: args[:variables]
+            }
           end
 
 
