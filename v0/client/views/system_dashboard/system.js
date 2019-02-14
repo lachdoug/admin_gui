@@ -80,6 +80,20 @@ cell({
 								];
 							}
 						},
+
+button( {
+	icon: "fa fa-plus",
+	wrapperClass: "clearfix",
+	class: "pull-right-md",
+	text: "New",
+	onclick: () => { appServicesPersistentSubservicesNewType._live(
+		"owntest",
+		"EnginesSystem",
+		"filesystem/local/filesystem",
+		"owntest_data"
+	 ); }
+} ),
+
 						{
 							class: "modal-content",
 							style: "margin-top: 5px; margin-bottom: 100px; padding: 10px;",

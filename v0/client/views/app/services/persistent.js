@@ -132,10 +132,11 @@ var $appServicesPersistent = {
 										wrapperClass: "clearfix",
 										class: "pull-right-md",
 										text: "New",
-										onclick: () => { appServicesPersistentSubservicesNew._live(
+										onclick: () => { appServicesPersistentSubservicesNewType._live(
 											appName,
-											this._data,
-											serviceHandle,
+											publisherNamespace,
+											typePath,
+											serviceHandle
 										 ); }
 									} ),
 									{ $type: "hr" },

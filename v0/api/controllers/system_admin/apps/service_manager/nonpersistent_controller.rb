@@ -26,7 +26,7 @@ class V0
       get '/apps/:app_name/service_manager/nonpersistent/new' do
         ## Query params: :publisher_namespace, :type_path
         set_app( params[:app_name] )
-        @app.new_nonpersistent_service( params[:publisher_namespace], params[:type_path] ).to_json
+        @app.new_service( params[:publisher_namespace], params[:type_path] ).to_json
       end
 
       post '/apps/:app_name/service_manager/nonpersistent/' do
