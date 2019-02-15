@@ -507,6 +507,10 @@ class V0
             @system_api.get 'registry/services/'
           end
 
+          def registry_subservices
+            @system_api.get 'registry/sub_services/'
+          end
+
           def registry_orphans
             @system_api.get 'registry/orphans/'
           end

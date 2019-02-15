@@ -1,6 +1,6 @@
 cell({
 
-	id: "serviceConsumers",
+	id: "serviceDiagnosticsConsumers",
 
 	_live: function (serviceName) {
 
@@ -18,7 +18,7 @@ cell({
 				dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-map-signs",
-					text: "Service consumers",
+					text: "Service diagnostics consumers",
 				} ),
 				body: {
 					$components: [

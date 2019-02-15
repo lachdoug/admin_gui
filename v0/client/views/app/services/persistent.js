@@ -68,6 +68,12 @@ var $appServicesPersistent = {
 								var mutableParams = this._data.params.filter( function(param) { return param.immutable != true } );
 
 								this.$components = [
+									// pp([
+									// 	appServicesPersistent._appName,
+									// 	appServicesPersistent._publisherNamespace,
+									// 	appServicesPersistent._typePath,
+									// 	appServicesPersistent._serviceHandle
+									// ]),
 									{ $type: "h4", $text: this._data.label },
 									{ $type: "p", $text: this._data.description },
 									{ $type: "hr" },
@@ -172,7 +178,7 @@ var $appServicesPersistent = {
 		var serviceHandle = this._serviceHandle;
 
 		apiRequest({
-			action: "/apps/" + this._appName + "/service_manager/services/",
+			action: "/apps/" + this._appName + "/service_manager/persistent/",
 			params: {
 				publisher_namespace: publisherNamespace,
 				type_path: typePath,

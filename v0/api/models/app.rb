@@ -201,14 +201,41 @@ class V0
           }
         end
 
-        def service_detail_for( publisher_namespace, type_path, service_handle )
-          service_definition = @system.service_definition_for( publisher_namespace, type_path )
-          persistent_services = app_api.persistent_services_for( publisher_namespace: publisher_namespace, type_path: type_path )
-          service = persistent_services.find do |service|
+        def service_for( category, publisher_namespace, type_path, service_handle )
+          services = app_api.send("#{ category }_services_for", publisher_namespace: publisher_namespace, type_path: type_path )
+          services.find do |service|
             service[:service_handle] == service_handle &&
             service[:publisher_namespace] == publisher_namespace &&
             service[:type_path] == type_path
           end
+        end
+
+        def persistent_service_detail_for( publisher_namespace, type_path, service_handle )
+          service_definition = @system.service_definition_for( publisher_namespace, type_path )
+          service = service_for( :persistent, publisher_namespace, type_path, service_handle )
+          subservices = [] # app_api.subservices_for( service[:service_container_name], service_handle )
+          {
+            label: "#{service_definition[:title]} #{service[:service_container_name]}:#{service_handle}",
+            description: service_definition[:description],
+            publisher_namespace: publisher_namespace,
+            type_path: type_path,
+            service_handle: service_handle,
+            subservices: subservices,
+            params: service_definition[:consumer_params].keys.map do |name|
+              param = service_definition[:consumer_params][name]
+              param[:value] = service[:variables][name]
+              if param[:input]
+                param
+              else
+                Helpers.legacy_input_definition_for param
+              end
+            end,
+          }
+        end
+
+        def nonpersistent_service_detail_for( publisher_namespace, type_path, service_handle )
+          service_definition = @system.service_definition_for( publisher_namespace, type_path )
+          service = service_for( :nonpersistent, publisher_namespace, type_path, service_handle )
           {
             label: "#{service_definition[:title]} #{service[:service_container_name]}:#{service_handle}",
             description: service_definition[:description],
@@ -332,14 +359,7 @@ class V0
         def new_type_of_subservice( service_handle, service_publisher_namespace, service_type_path )
           service_definition = @system.service_definition_for( service_publisher_namespace, service_type_path )
           available_subservices = app_api.available_subservices_for( type_path: service_type_path )
-
-          persistent_services = app_api.persistent_services_for( publisher_namespace: service_publisher_namespace, type_path: service_type_path )
-          service = persistent_services.find do |service|
-            service[:service_handle] == service_handle &&
-            service[:publisher_namespace] == service_publisher_namespace &&
-            service[:type_path] == service_type_path
-          end
-
+          service = service_for( :persistent, service_publisher_namespace, service_type_path, service_handle )
           {
             service_publisher_namespace: service_publisher_namespace,
             service_type_path: service_type_path,
@@ -359,13 +379,7 @@ class V0
 
           service_service_definition = @system.service_definition_for( service_publisher_namespace, service_type_path )
           sub_service_definition = @system.service_definition_for( sub_publisher_namespace, sub_type_path )
-
-          persistent_services = app_api.persistent_services_for( publisher_namespace: service_publisher_namespace, type_path: service_type_path )
-          service = persistent_services.find do |service|
-            service[:service_handle] == service_handle &&
-            service[:publisher_namespace] == service_publisher_namespace &&
-            service[:type_path] == service_type_path
-          end
+          service = service_for( :persistent, service_publisher_namespace, service_type_path, service_handle )
 
           sub_params = sub_service_definition[:consumer_params].values.select do |param|
             param[:ask_at_build_time] == true || param[:immutable] != true
@@ -403,19 +417,12 @@ class V0
           variables )
 
           service_service_definition = @system.service_definition_for( service_publisher_namespace, service_type_path )
-          persistent_services = app_api.persistent_services_for( publisher_namespace: service_publisher_namespace, type_path: service_type_path )
-          service = persistent_services.find do |service|
-            service[:service_handle] == service_handle &&
-            service[:publisher_namespace] == service_publisher_namespace &&
-            service[:type_path] == service_type_path
-          end
+          service = service_for( :persistent, service_publisher_namespace, service_type_path, service_handle )
 
           service_container_name = service[:service_container_name]
           sub_service_definition = @system.service_definition_for( sub_publisher_namespace, sub_type_path )
           service_handle_field = sub_service_definition[:service_handle_field]
           sub_handle = variables[service_handle_field]
-
-          # debugger
 
           app_api.create_subservice({
             service_container_name: service_container_name,

@@ -75,7 +75,7 @@ cell({
 
 		return form( {
 			components: [
-				inDevelopment ? pp(data) : {},
+				// inDevelopment ? pp(data) : {},
 				formField( {
 					type: "hidden",
 					name: "actionator_name",

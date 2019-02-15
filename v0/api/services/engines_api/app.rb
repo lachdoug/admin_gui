@@ -132,8 +132,11 @@ class V0
           end
 
           def persistent_services_for( args )
-            # debugger
             @system_api.get "containers/engine/#{@name}/services/persistent/#{args[:publisher_namespace]}/#{args[:type_path]}"
+          end
+
+          def nonpersistent_services_for( args )
+            @system_api.get "containers/engine/#{@name}/services/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}"
           end
 
           def delete_existing_persistent_service( args )
@@ -194,6 +197,10 @@ class V0
 
           def delete_nonpersistent_service( args )
             @system_api.delete "containers/engine/#{@name}/services/non_persistent/#{args[:publisher_namespace]}/#{args[:type_path]}/#{args[:service_handle]}"
+          end
+
+          def subservices_for( service_container_name, service_handle )
+            @system_api.get "containers/service/#{service_container_name}/sub_services", { engine_name: @name }
           end
 
           def available_subservices_for( args )

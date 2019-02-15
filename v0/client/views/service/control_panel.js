@@ -45,6 +45,11 @@ cell({
 												onclick: function () { serviceMemory._live(serviceName); },
 											} ),
 											hr(),
+											data.persistent ? button( {
+												icon: "fa fa-database",
+												text: "Data",
+												onclick: function () { serviceData._live(serviceName); },
+											} ) : {}
 										]
 									},
 									{
@@ -60,17 +65,17 @@ cell({
 												text: "Services",
 												onclick: function () { serviceServices._live(serviceName); },
 											} ),
+											button( {
+												icon: "fa fa-map-signs",
+												text: "Consumers",
+												onclick: function () { serviceConsumers._live(serviceName); },
+											} ),
 											hr(),
 											button( {
 												icon: "fa fa-stethoscope",
 												text: "Diagnostics",
 												onclick: function () { serviceDiagnostics._live(serviceName); },
 											} ),
-											data.persistent ? button( {
-												icon: "fa fa-database",
-												text: "Data",
-												onclick: function () { serviceData._live(serviceName); },
-											} ) : {}
 										]
 									},
 								]

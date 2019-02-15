@@ -66,7 +66,7 @@ var $serviceDiagnostics = {
 						button( {
 							icon: "fa fa-map-signs",
 							text: "Consumers",
-							onclick: function () { serviceConsumers._live(serviceName); },
+							onclick: function () { serviceDiagnosticsConsumers._live(serviceName); },
 						} ),
 
 						{ $type: "hr" },

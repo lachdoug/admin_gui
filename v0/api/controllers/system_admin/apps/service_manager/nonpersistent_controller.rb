@@ -2,6 +2,13 @@ class V0
   module Api
     module Controllers
 
+      ## Detail for an existing persistent service consumer
+      get '/apps/:app_name/service_manager/nonpersistent/' do
+        ## Query params: :publisher_namespace, :type_path, :service_handle
+        set_app(params[:app_name])
+        @app.nonpersistent_service_detail_for( params[:publisher_namespace], params[:type_path], params[:service_handle] ).to_json
+      end
+
       ## Register an existing non-persistent service consumer
       put '/apps/:app_name/service_manager/nonpersistent/registration/' do
         ## Query params: :publisher_namespace, :type_path, :service_handle

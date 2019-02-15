@@ -64,7 +64,16 @@ var $appEnvironmentVariables = {
 				{
 					class: "clearfix",
 					$components: [
-						dataList( { class: "dl-horizontal", items: data.application.variables.map( function ( variable ) {
+						{ $type: "label", $text: "Immutable" },
+						dataList( { class: "dl-horizontal", items: data.application.variables.filter( function ( variable ) {
+							return variable.immutable
+						} ).map( function ( variable ) {
+							return { label: variable.name, data: variable.value };
+						} ) } ),
+						{ $type: "label", $text: "Mutable" },
+						dataList( { class: "dl-horizontal", items: data.application.variables.filter( function ( variable ) {
+							return !variable.immutable
+						} ).map( function ( variable ) {
 							return { label: variable.name, data: variable.value };
 						} ) } ),
 						button( {

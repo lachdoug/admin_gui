@@ -412,6 +412,7 @@ class V0
               engines_api_system.registry_configurations,
               engines_api_system.registry_apps,
               engines_api_system.registry_services,
+              engines_api_system.registry_subservices,
               engines_api_system.registry_orphans,
               engines_api_system.registry_shares,
             ]

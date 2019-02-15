@@ -128,7 +128,7 @@ var $appServicesNonpersistent = {
 		var serviceHandle = this._serviceHandle;
 
 		apiRequest({
-			action: "/apps/" + this._appName + "/service_manager/services/",
+			action: "/apps/" + this._appName + "/service_manager/nonpersistent/",
 			params: {
 				publisher_namespace: publisherNamespace,
 				type_path: typePath,
