@@ -81,7 +81,7 @@ cell({
 							}
 						},
 
-button( {
+inDevelopment ? button( {
 	icon: "fa fa-plus",
 	wrapperClass: "clearfix",
 	class: "pull-right-md",
@@ -92,7 +92,7 @@ button( {
 		"filesystem/local/filesystem",
 		"owntest_data"
 	 ); }
-} ),
+} ) : {},
 
 						{
 							class: "modal-content",

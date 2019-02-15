@@ -10,7 +10,6 @@ cell({
 
 	},
 
-
 	_show: function ( data ) {
 
 		var appName = this._appName;
