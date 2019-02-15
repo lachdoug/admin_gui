@@ -337,7 +337,9 @@ var $serviceMenu = {
 			method: "DELETE",
 			callbacks: {
 				200: function(e) {
+					debugger
 					system._live( function () {
+						debugger
 						serviceMenu._live( serviceName );
 					} );
 				}
