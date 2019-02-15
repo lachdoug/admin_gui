@@ -74,7 +74,7 @@ class V0
           handle_response do
             RestClient::Request.execute(
               method: :get,
-              url: "#{ @url }/v0/#{ route }?#{ URI.encode_www_form data }",
+              # url: "#{ @url }/v0/#{ route }?#{ URI.encode_www_form data }",
               url: "#{ @url }/v0/#{ route }",
               payload: { api_vars: ( data || {} ) }.to_json, # data ? { api_vars: data } : null,
               timeout: opts[:timeout] || 120,
