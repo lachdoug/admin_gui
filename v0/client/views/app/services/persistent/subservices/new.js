@@ -173,13 +173,13 @@ cell({
 			method: 'POST',
 			callbacks: {
 				200: function() {
-					alert(`Successfully added subservice. Now open ${appServicesPersistentCreateNew._appName}`)
+					// alert(`Successfully added subservice. Now open ${appServicesPersistentSubservicesNew._appName}`)
 					// debugger
 					appServicesPersistent._live(
-						appServicesPersistentCreateNew._appName,
-						appServicesPersistentCreateNew._publisherNamespace,
-						appServicesPersistentCreateNew._typePath,
-						appServicesPersistentCreateNew._serviceHandle
+						appServicesPersistentSubservicesNew._appName,
+						appServicesPersistentSubservicesNew._publisherNamespace,
+						appServicesPersistentSubservicesNew._typePath,
+						appServicesPersistentSubservicesNew._serviceHandle
 					);
 				},
 			}

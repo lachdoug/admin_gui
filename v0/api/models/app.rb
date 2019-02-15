@@ -213,7 +213,7 @@ class V0
         def persistent_service_detail_for( publisher_namespace, type_path, service_handle )
           service_definition = @system.service_definition_for( publisher_namespace, type_path )
           service = service_for( :persistent, publisher_namespace, type_path, service_handle )
-          subservices = [] # app_api.subservices_for( service[:service_container_name], service_handle )
+          subservices = app_api.subservices_for( service[:service_container_name], service_handle )
           {
             label: "#{service_definition[:title]} #{service[:service_container_name]}:#{service_handle}",
             description: service_definition[:description],

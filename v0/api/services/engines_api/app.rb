@@ -200,7 +200,7 @@ class V0
           end
 
           def subservices_for( service_container_name, service_handle )
-            @system_api.get "containers/service/#{service_container_name}/sub_services", { engine_name: @name }
+            @system_api.get "containers/service/#{service_container_name}/sub_services", { engine_name: @name, service_handle: service_handle }
           end
 
           def available_subservices_for( args )
