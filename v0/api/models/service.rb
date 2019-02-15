@@ -194,6 +194,10 @@ class V0
           service_api.consumers
         end
 
+        def subservices
+          service_api.subservices
+        end
+
         ######################################################################
         # Actions
         ######################################################################

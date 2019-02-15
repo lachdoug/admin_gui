@@ -68,12 +68,6 @@ var $appServicesPersistent = {
 								var mutableParams = this._data.params.filter( function(param) { return param.immutable != true } );
 
 								this.$components = [
-									// pp([
-									// 	appServicesPersistent._appName,
-									// 	appServicesPersistent._publisherNamespace,
-									// 	appServicesPersistent._typePath,
-									// 	appServicesPersistent._serviceHandle
-									// ]),
 									{ $type: "h4", $text: this._data.label },
 									{ $type: "p", $text: this._data.description },
 									{ $type: "hr" },

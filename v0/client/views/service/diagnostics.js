@@ -68,6 +68,11 @@ var $serviceDiagnostics = {
 							text: "Consumers",
 							onclick: function () { serviceDiagnosticsConsumers._live(serviceName); },
 						} ),
+						button( {
+							icon: "fa fa-life-bouy",
+							text: "Subservices",
+							onclick: function () { serviceDiagnosticsSubservices._live(serviceName); },
+						} ),
 
 						{ $type: "hr" },
 

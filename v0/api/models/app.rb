@@ -433,6 +433,8 @@ class V0
             variables: variables
           })
 
+          # debugger
+
         end
 
         def new_service( publisher_namespace, type_path )

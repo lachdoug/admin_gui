@@ -24,6 +24,16 @@ function renderSystemApp( app, memory ) {
 					{
 						$components: [
 							containerStateIcon(app.state),
+							app.state !== app.set_state ? {
+								$type: "span",
+								$components: [
+									{ $type: "span", $text: "( " },
+									containerStateIcon(app.set_state),
+									{ $type: "span", $text: " ) " },
+								]
+							} : {
+								$type: "span"
+							},
 							{
 								$type: "span",
 								$text: app.name

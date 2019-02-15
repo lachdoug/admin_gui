@@ -254,6 +254,17 @@ var $appMenu = {
 							" (" + this._appData.why_stop + ")." : "." ),
 						$components: [
 							containerStateIcon(this._appData.state),
+							this._appData.state !== this._appData.set_state ? {
+								$type: "span",
+								$components: [
+									{ $type: "span", $text: "( " },
+									containerStateIcon(this._appData.set_state),
+									// icon( { icon: "fa fa-spinner fa-spin" } ),
+									{ $type: "span", $text: " ) " },
+								]
+							} : {
+								$type: "span"
+							},
 							{
 								$type: "span",
 								$text: this._appData.state
@@ -286,6 +297,11 @@ var $appMenu = {
 						// Check matching app name because a different app menu may have
 						// been opened by user during wait for instruction response
 						appMenuInstructionMessage._showMessage("Sent " + instruction + " instruction");
+
+
+						systemApps._load()
+
+
 					};
 				}
 			},

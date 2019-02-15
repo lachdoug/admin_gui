@@ -16,6 +16,17 @@ function renderSystemApps() {
         callbacks: {
           200: function(data) {
             systemApps._refresh(data);
+            data.forEach( function(app) {
+              // debugger
+              // event.container_type == "app" && this._appName == event.container_name
+              if ( "appMenu" in window ) {
+                appMenu._handleContainerEvent( {
+                  container_type: 'app',
+                  container_name: app.name,
+                  status: app
+                } )
+              };
+            })
           },
         },
       });

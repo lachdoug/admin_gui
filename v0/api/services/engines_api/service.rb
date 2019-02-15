@@ -98,6 +98,10 @@ class V0
             @system_api.get "containers/service/#{@name}/consumers/"
           end
 
+          def subservices
+            @system_api.get "containers/service/#{@name}/sub_services"
+          end
+
           ######################################################################
           # Actions
           ######################################################################

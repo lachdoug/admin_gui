@@ -45,11 +45,14 @@ cell({
 												onclick: function () { serviceMemory._live(serviceName); },
 											} ),
 											hr(),
-											data.persistent ? button( {
-												icon: "fa fa-database",
-												text: "Data",
-												onclick: function () { serviceData._live(serviceName); },
-											} ) : {}
+											data.persistent ? { $components: [
+												button( {
+													icon: "fa fa-database",
+													text: "Data",
+													onclick: function () { serviceData._live(serviceName); },
+												} ),
+												hr() 
+											] } : {}
 										]
 									},
 									{
