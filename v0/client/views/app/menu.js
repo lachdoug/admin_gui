@@ -257,7 +257,21 @@ var $appMenu = {
 							{
 								$type: "span",
 								$text: this._appData.state
-							}
+							},
+							this._appData.state !== this._appData.set_state ? {
+								$type: 'span',
+								$components: [
+									{ $type: "span", $text: " "},
+									{
+										$type: "span",
+										style: "color: #bbb;",
+										$components: [
+											icon ( {icon: "fa fa-long-arrow-right" } ),
+										]
+									},
+									{ $type: "span", $text: this._appData.set_state },
+								]
+							} : {$type: 'span'},
 						]
 					}
 				];

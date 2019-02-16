@@ -237,7 +237,7 @@ var $serviceMenu = {
 
 
 	_stateDisplay: function( serviceData ) {
-
+// debugger
 		return {
 			id: "serviceMenuStateDisplay",
 			style: "display: inline-block;",
@@ -256,7 +256,21 @@ var $serviceMenu = {
 							{
 								$type: "span",
 								$text: this._serviceData.state
-							}
+							},
+							this._serviceData.state !== this._serviceData.set_state ? {
+								$type: 'span',
+								$components: [
+									{ $type: "span", $text: " "},
+									{
+										$type: "span",
+										style: "color: #bbb;",
+										$components: [
+											icon ( {icon: "fa fa-long-arrow-right" } ),
+										]
+									},
+									{ $type: "span", $text: this._serviceData.set_state },
+								]
+							} : {$type: 'span'},
 						]
 					}
 				];
@@ -335,7 +349,7 @@ var $serviceMenu = {
 			if (status.set_state == "running" ) {
 				return {
 					$components: [
-						button({ onclick: function () { appMenu._instruct('stop'); }, icon: "fa fa-stop", text: "Stop", wrapperStyle: "display: inline-block"}),
+						( serviceName == 'control' && !remoteManagement ) ? {} : button({ onclick: function () { serviceMenu._instruct('stop'); }, icon: "fa fa-stop", text: "Stop", wrapperStyle: "display: inline-block"}),
 					]
 				};
 			} else {
