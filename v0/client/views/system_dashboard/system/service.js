@@ -23,7 +23,7 @@ function renderSystemService( service, memory ) {
 				$components: [
 					{
 						$components: [
-							containerStateIcon(service.state),
+							containerStateIcons(service.state, service.set_state),
 							{
 								$type: "span",
 								$text: service.name

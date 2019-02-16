@@ -7,11 +7,27 @@ function renderSystemServices() {
     $titleData: {},
 
     $init: function() {
-  		apiRequest({
+  		this._load()
+    },
+
+    _load: function() {
+      // debugger
+      apiRequest({
   			action: 'system/containers/services',
         callbacks: {
           200: function(data) {
             systemServices._refresh(data);
+            data.forEach( function(service) {
+              if ( "serviceMenu" in window ) {
+                console.log( service )
+                // debugger
+                serviceMenu._handleContainerEvent( {
+                  container_type: 'service',
+                  container_name: service.name,
+                  status: service
+                } )
+              };
+            })
           },
         },
       });

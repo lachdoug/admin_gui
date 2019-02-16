@@ -1,3 +1,40 @@
+
+// this._appData.state !== this._appData.set_state ? {
+// 	$type: "span",
+// 	$components: [
+// 		{ $type: "span", $text: "/ " },
+// 		containerStateIcon(this._appData.set_state),
+// 		// icon( { icon: "fa fa-spinner fa-spin" } ),
+// 		{ $type: "span", $text: " " },
+// 	]
+// } : {
+// 	$type: "span"
+// },
+
+function containerStateIcons(state, set_state) {
+	return {
+		$type: "span",
+		$components: [
+			containerStateIcon(state),
+			state !== set_state ? {
+				$type: 'span',
+				$components: [
+					{
+						$type: "span",
+						style: "color: #bbb;",
+						$components: [
+							icon ( {icon: "fa fa-long-arrow-right" } ),
+						]
+					},
+					containerStateIcon(set_state),
+					// { $type: "span", $text: " "},
+				]
+			} : {$type: 'span'},
+		]
+	};
+};
+
+
 function containerStateIcon(state) {
 	return {
 		$type: "span",

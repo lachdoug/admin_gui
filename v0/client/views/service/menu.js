@@ -53,7 +53,7 @@ var $serviceMenu = {
 								serviceMenu._needsRestartMessage( serviceData.restart_required ),
 								serviceMenu._stateDisplay( serviceData ),
 								serviceMenu._instructionMessage( state ),
-								serviceMenu._stateInstructions( state ),
+								serviceMenu._stateInstructions( serviceData ),
 							]
 						},
 						{ $type: "hr" },
@@ -187,7 +187,7 @@ var $serviceMenu = {
 
 	_handleContainerEvent: function( event ) {
 		if ( event.container_type == "service" && this._serviceName == event.container_name && typeof serviceMenuContent !== 'undefined' ) {
-			serviceMenuStateInstructions._refresh( event.status.state );
+			serviceMenuStateInstructions._refresh( event.status );
 			serviceMenuStateDisplay._refresh( event.status );
 			serviceMenuNeedsRestartMessage._refresh( event.status.restart_required );
 			serviceMenuOomMessage._refresh( event.status.had_oom );
@@ -215,21 +215,21 @@ var $serviceMenu = {
 	},
 
 
-	_stateInstructions: function( state ) {
+	_stateInstructions: function( status ) {
 
 		return {
 			id: "serviceMenuStateInstructions",
-			_serviceState: null,
+			_serviceStatus: null,
 			$init: function () {
-				this._serviceState = state;
+				this._serviceStatus = status;
 			},
 			$update: function () {
 				this.$components = [
-					serviceMenu._containerInstructions(this._serviceState),
+					serviceMenu._containerInstructions(this._serviceStatus),
 				];
 			},
-			_refresh: function( state ) {
-				this._serviceState = state;
+			_refresh: function( status ) {
+				this._serviceStatus = status;
 			}
 		};
 
@@ -252,7 +252,7 @@ var $serviceMenu = {
 						style: "margin-left: 17px;",
 						title: "Container state is " + this._serviceData.state + ( ( this._serviceData.state == "stopped" && this._serviceData.why_stop ) ? " (" + this._serviceData.why_stop + ")." : "." ),
 						$components: [
-							containerStateIcon(this._serviceData.state),
+							containerStateIcons(this._serviceData.state, this._serviceData.set_state),
 							{
 								$type: "span",
 								$text: this._serviceData.state
@@ -285,6 +285,8 @@ var $serviceMenu = {
 						// Check matching service name because a different service menu may have
 						// been opened by user during wait for instruction response
 						serviceMenuInstructionMessage._showMessage("Sent " + instruction + " instruction");
+
+						systemServices._load()
 					};
 				}
 			},
@@ -293,40 +295,54 @@ var $serviceMenu = {
 	},
 
 
-	_containerInstructions: function(state) {
+	_containerInstructions: function(status) {
 
 		var serviceName = this._serviceName;
-		if (state == "running" ) {
-			return {
-				$components: [
-					( serviceName == 'control' && !remoteManagement ) ? {} : button({ onclick: function () { serviceMenu._instruct('stop'); }, icon: "fa fa-stop", text: "Stop", wrapperStyle: "display: inline-block"}),
-					button({ onclick: function () { serviceMenu._instruct('restart'); }, icon: "fa fa-play-circle", text: "Restart", wrapperStyle: "display: inline-block"}),
-					( serviceName == 'control' && !remoteManagement ) ? {} : button({ onclick: function () { serviceMenu._instruct('pause'); }, icon: "fa fa-pause", text: "Pause", wrapperStyle: "display: inline-block"})
-				]
-			};
-		} else if ( state == "stopped" ) {
-			return {
-				$components: [
-					button({ onclick: function () { serviceMenu._instruct('start'); }, icon: "fa fa-play", text: "Start", wrapperStyle: "display: inline-block"}),
-					button({ onclick: function () { serviceMenu._instruct('destroy'); }, icon: "fa fa-bomb", text: "Destroy", wrapperStyle: "display: inline-block"}),
-					button({ onclick: function () { serviceMenu._instruct('recreate'); }, icon: "fa fa-wrench", text: "Recreate", wrapperStyle: "display: inline-block"})
-				]
-			};
-		} else if ( state == "paused" ) {
-			return {
-				$components: [
-					button({ onclick: function () { serviceMenu._instruct('unpause'); }, icon: "fa fa-pause-circle", text: "Unpause", wrapperStyle: "display: inline-block"})
-				]
-			};
-		} else if ( state == "nocontainer" ) {
-			return {
-				$components: [
-					button({ onclick: function () { serviceMenu._instruct('create'); }, icon: "fa fa-wrench", text: "Create", wrapperStyle: "display: inline-block"}),
-				]
+
+		if ( status.set_state === status.state ) {
+			if (status.state == "running" ) {
+				return {
+					$components: [
+						( serviceName == 'control' && !remoteManagement ) ? {} : button({ onclick: function () { serviceMenu._instruct('stop'); }, icon: "fa fa-stop", text: "Stop", wrapperStyle: "display: inline-block"}),
+						button({ onclick: function () { serviceMenu._instruct('restart'); }, icon: "fa fa-play-circle", text: "Restart", wrapperStyle: "display: inline-block"}),
+						( serviceName == 'control' && !remoteManagement ) ? {} : button({ onclick: function () { serviceMenu._instruct('pause'); }, icon: "fa fa-pause", text: "Pause", wrapperStyle: "display: inline-block"})
+					]
+				};
+			} else if ( status.state == "stopped" ) {
+				return {
+					$components: [
+						button({ onclick: function () { serviceMenu._instruct('start'); }, icon: "fa fa-play", text: "Start", wrapperStyle: "display: inline-block"}),
+						button({ onclick: function () { serviceMenu._instruct('destroy'); }, icon: "fa fa-bomb", text: "Destroy", wrapperStyle: "display: inline-block"}),
+						button({ onclick: function () { serviceMenu._instruct('recreate'); }, icon: "fa fa-wrench", text: "Recreate", wrapperStyle: "display: inline-block"})
+					]
+				};
+			} else if ( status.state == "paused" ) {
+				return {
+					$components: [
+						button({ onclick: function () { serviceMenu._instruct('unpause'); }, icon: "fa fa-pause-circle", text: "Unpause", wrapperStyle: "display: inline-block"})
+					]
+				};
+			} else if ( status.state == "nocontainer" ) {
+				return {
+					$components: [
+						button({ onclick: function () { serviceMenu._instruct('create'); }, icon: "fa fa-wrench", text: "Create", wrapperStyle: "display: inline-block"}),
+					]
+				};
+			} else {
+				return { style: "height: 46px;" };
 			};
 		} else {
-			return { style: "height: 46px;" };
-		};
+			if (status.set_state == "running" ) {
+				return {
+					$components: [
+						button({ onclick: function () { appMenu._instruct('stop'); }, icon: "fa fa-stop", text: "Stop", wrapperStyle: "display: inline-block"}),
+					]
+				};
+			} else {
+				return { style: "height: 46px;" };
+			};
+
+		}
 	},
 
 
@@ -337,11 +353,8 @@ var $serviceMenu = {
 			method: "DELETE",
 			callbacks: {
 				200: function(e) {
-					debugger
-					system._live( function () {
-						debugger
-						serviceMenu._live( serviceName );
-					} );
+					modal._kill()
+					systemServices._load();
 				}
 			},
 		} );

@@ -8,25 +8,25 @@ cell({
 	_$showContainerMemoryUsage: showContainerMemoryUsage,
 
 
-	_live: function( onloadCallback ) {
+	_live: function() {
 		if ( enableEventStreaming ) { systemEvents._live() };
-		this._load( onloadCallback );
+		this._load();
 	},
 
 
 	_kill: function() {
 		systemEvents._close();
 		systemMemory._close();
-		this._$data = null;
+		this._refresh(null);
 	},
 
 
-	_load: function ( onupdateCallback ) {
+	_load: function () {
 		apiRequest({
 			action: '/system',
 			callbacks: {
 				200: function(response) {
-					system._refresh(response, onupdateCallback);
+					system._refresh(response);
 					$("#navbarSignOutButton").show();
 					$("#pageLoadingSpinner").fadeOut();
 				},
@@ -39,16 +39,9 @@ cell({
 
 	},
 
-	_refresh: function(data, onupdateCallback ) {
-		this._onupdateCallback = onupdateCallback;
-		// let mmm = this._$data == data
+	_refresh: function(data) {
 		this._$data = data;
-		// this.$update();
-		if ( this._$showContainerMemoryUsage ) {	systemMemory._live(); };
-		if ( data.builder.current.engine_name ) { installBuild._live(); };
-	},
 
-	$update: function(){
 		if ( this._$data ) {
 
 			var needsAttention = 	this._$data.status.needs_reboot ||
@@ -81,18 +74,18 @@ cell({
 							}
 						},
 
-inDevelopment ? button( {
-	icon: "fa fa-plus",
-	wrapperClass: "clearfix",
-	class: "pull-right-md",
-	text: "New",
-	onclick: () => { appServicesPersistentSubservicesNewType._live(
+		inDevelopment ? button( {
+		icon: "fa fa-plus",
+		wrapperClass: "clearfix",
+		class: "pull-right-md",
+		text: "New",
+		onclick: () => { appServicesPersistentSubservicesNewType._live(
 		"owntest",
 		"EnginesSystem",
 		"filesystem/local/filesystem",
 		"owntest_data"
-	 ); }
-} ) : {},
+		); }
+		} ) : {},
 
 						{
 							class: "modal-content",
@@ -119,7 +112,7 @@ inDevelopment ? button( {
 											],
 											onclick: systemMenu._live
 										},
- 									]
+									]
 								},
 								renderSystemApps(),
 								this._$showServices ? renderSystemServices() : {},
@@ -128,11 +121,20 @@ inDevelopment ? button( {
 					]
 				},
 			];
-			if ( this._onupdateCallback ) { this._onupdateCallback(); };
+
+			if ( this._$showContainerMemoryUsage ) {	systemMemory._live(); };
+			if ( data.builder.current.engine_name ) { installBuild._live(); };
+			
 		} else {
 			this.$components = [];
 		};
 
 	},
+
+	// $update: function(){
+	// 	debugger
+	//
+	//
+	// },
 
 });
