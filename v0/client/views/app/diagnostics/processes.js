@@ -59,7 +59,7 @@ cell({
 							_processes: function () {
 								return {
 									class: "well",
-									style: "font-family: monospace; box-shadow: none; background-image: none;",
+									style: "font-family: monospace; box-shadow: none; background-image: none;  display: inline-block;",
 									$components: [
 										{
 											$type: "table",

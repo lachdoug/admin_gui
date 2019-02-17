@@ -53,8 +53,7 @@ cell({
 													{
 														$type: "h5",
 														$text: (
-															dig( data, "title" ) ||
-															dig( data, "label" )
+															dig( data, "title" ) || ''
 														) +
 														( version ? " (" + version + ")" : "" )
 													},

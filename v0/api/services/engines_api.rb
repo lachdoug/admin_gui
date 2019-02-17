@@ -130,7 +130,7 @@ class V0
                 RestClient::ServerBrokeConnection,
                 RestClient::Exceptions::OpenTimeout,
                 RestClient::Exceptions::ReadTimeout => e
-          raise NonFatalError.new "The system is unavailable.\n\nReason: #{e.message}\n\nThis usually temporary and happens when the system is busy or restarting.\n\nPlease wait a moment.", 502
+          raise NonFatalError.new "The system is unavailable.\n\nReason: #{e.message}\n\nThis is usually temporary and happens when the system is busy or restarting.\n\nPlease wait a moment.", 502
         end
 
         def stream(route)
