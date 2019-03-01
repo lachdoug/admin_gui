@@ -48,6 +48,11 @@ cell({
 														this._$data.status.needs_engines_update ||
 														this._$data.status.needs_base_update;
 
+			if ( this._$data.properties.label.text ) {
+				// Show label in browser document title
+				document.title = `${this._$data.properties.label.text} - Engines system`;
+			}
+
 			this.$components = [
 				( this._$data.properties.label.text ? {
 					$text: this._$data.properties.label.text,
@@ -124,7 +129,7 @@ cell({
 
 			if ( this._$showContainerMemoryUsage ) {	systemMemory._live(); };
 			if ( data.builder.current.engine_name ) { installBuild._live(); };
-			
+
 		} else {
 			this.$components = [];
 		};
