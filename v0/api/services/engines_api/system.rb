@@ -274,6 +274,10 @@ class V0
           # Statistics
           ##########################################################################
 
+          def summary_statistics
+            @system_api.get 'system/metrics/summary'
+          end
+
           def container_memory_statistics
             @system_api.get 'system/metrics/memory/statistics'
           end

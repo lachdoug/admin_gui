@@ -2,6 +2,10 @@ class V0
   module Api
     module Controllers
 
+      get '/system/statistics/summary' do
+        system.summary_statistics.to_json
+      end
+
       get '/system/statistics' do
         system.statistics.to_json
       end

@@ -6,7 +6,7 @@ var $systemMenu = {
 
 	_live: function () {
 
-		authCheck(); // this modal does not call api for data, so do fake call to check if auth'd
+		// authCheck(); // this modal does not call api for data, so do fake call to check if auth'd
 
 		var baseOsName = system._$data.properties.version.base_os.name;
 		modal._live ( {
@@ -90,6 +90,8 @@ var $systemMenu = {
 												icon: "fa fa-power-off", text: "Reboot", title: "Restart " + baseOsName + " (reboot system)" } ),
 						]
 					},
+					{ $type: "hr" },
+					systemMenu._metricsSummary(),
 					{ $type: "hr" },
 					{
 						id: "systemMenuDisplayOptions",
@@ -254,6 +256,28 @@ var $systemMenu = {
 				},
 			}
 		});
+	},
+
+	_metricsSummary: function() {
+		return {
+			id: "systemMenuMetricsSummary",
+			$init: function () {
+				apiRequest({
+					action: "/system/statistics/summary",
+					callbacks: {
+						200: function(response) {
+							systemMenuMetricsSummary._refresh(response);
+						},
+					}
+				})
+			},
+			$components: [
+				icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
+			],
+			_refresh: function (data) {
+				this.$components = [ pp( data ) ];
+			},
+		}
 	},
 
 

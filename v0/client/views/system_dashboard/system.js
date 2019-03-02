@@ -51,6 +51,8 @@ cell({
 			if ( this._$data.properties.label.text ) {
 				// Show label in browser document title
 				document.title = `${this._$data.properties.label.text} - Engines system`;
+			} else {
+				document.title = 'Engines system';
 			}
 
 			this.$components = [

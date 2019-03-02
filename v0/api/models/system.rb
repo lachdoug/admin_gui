@@ -171,6 +171,10 @@ class V0
         # Statistics
         ########################################################################
 
+        def summary_statistics
+          engines_api_system.summary_statistics
+        end
+
         def statistics
           {
             system_memory_statistics: engines_api_system.
