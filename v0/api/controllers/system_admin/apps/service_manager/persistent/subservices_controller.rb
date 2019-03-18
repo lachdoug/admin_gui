@@ -20,7 +20,6 @@ class V0
       end
 
       post '/apps/:app_name/service_manager/persistent/subservices/' do
-        # debugger
         set_app( params[:app_name] )
         @app.create_subservice(
           params[:service_handle],
