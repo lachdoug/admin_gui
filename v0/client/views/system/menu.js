@@ -301,19 +301,19 @@ var $systemMenu = {
 											items: [
 												{
 													label: "Total",
-													data: Number(data.memory.total)/1024/1024
+													data: Number(data.memory.total)/1024
 												},
 												{
 													label: "Free",
-													data: Number(data.memory.free)/1024/1024
+													data: Number(data.memory.free)/1024
 												},
 												{
 													label: "File cache",
-													data: Number(data.memory.file_cache)/1024/1024
+													data: Number(data.memory.file_cache)/1024
 												},
 												{
 													label: "Buffers",
-													data: Number(data.memory.buffers)/1024/1024
+													data: Number(data.memory.buffers)/1024
 												},
 											]
 										} ),
@@ -337,11 +337,11 @@ var $systemMenu = {
 																},
 																{
 																	label: "Size",
-																	data: Number(store.size)/1024/1024
+																	data: Number(store.size)/1024
 																},
 																{
 																	label: "Free",
-																	data: Number(store.free)/1024/1024
+																	data: Number(store.free)/1024
 																},
 															]
 														} ),
