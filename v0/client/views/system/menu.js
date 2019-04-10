@@ -110,14 +110,14 @@ var $systemMenu = {
 								button({
 									id: "hideContainerMemoryUsageButton",
 									icon: "fa fa-microchip",
-									text: "Hide memory usage",
+									text: "Hide apps memory",
 									title: "Hide container memory usage",
 									onclick: systemMenu._hideContainerMemoryUsage
 								}) :
 								button({
 									id: "showContainerMemoryUsageButton",
 									icon: "fa fa-microchip",
-									text: "Show memory usage",
+									text: "Show apps memory",
 									title: "Show container memory usage",
 									onclick: systemMenu._showContainerMemoryUsage,
 								}),
@@ -287,69 +287,89 @@ var $systemMenu = {
 							})
 						},
 						$components: [
-							icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
+							{
+								class: "panel panel-default",
+								$components: [
+									{
+										class: "panel-body",
+										$components: [
+											icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
+										]
+									},
+								]
+							}
 						],
 						_refresh: function (data) {
 
+							let showInMB = function( kbytes ) {
+								return `${ Math.round( Number( kbytes )/1024 * 10) / 10 } MB`
+							}
+
 							this.$components = [
 								{
-									class: "well",
+									class: "panel panel-default",
 									$components: [
-										legend( { text: "Memory" } ),
-										dataList( {
-											class: "pull-left-md",
-											items: [
-												{
-													label: "Total",
-													data: Number(data.memory.total)/1024
-												},
-												{
-													label: "Free",
-													data: Number(data.memory.free)/1024
-												},
-												{
-													label: "File cache",
-													data: Number(data.memory.file_cache)/1024
-												},
-												{
-													label: "Buffers",
-													data: Number(data.memory.buffers)/1024
-												},
-											]
-										} ),
-
-										legend( { text: "Storage"}  ),
 										{
-											$components: Object.keys(data.storage).map( (key) => {
-												let store = data.storage[key]
-												return {
-													$components: [
-														dataList( {
-															class: "pull-left-md",
-															items: [
-																{
-																	label: "Drive",
-																	data: key
-																},
-																{
-																	label: "Mount",
-																	data: store.mount
-																},
-																{
-																	label: "Size",
-																	data: Number(store.size)/1024
-																},
-																{
-																	label: "Free",
-																	data: Number(store.free)/1024
-																},
-															]
-														} ),
-														hr()
+											class: "panel-body",
+											$components: [
+												legend( { text: "Memory" } ),
+												dataList( {
+													class: "dl-horizontal",
+													items: [
+														{
+															label: "Total",
+															data: showInMB(data.memory.total)
+														},
+														{
+															label: "Free",
+															data: showInMB(data.memory.free) + ` ( ${ Math.round( data.memory.free/data.memory.total * 100 ) }% )`
+														},
+														{
+															label: "File cache",
+															data: showInMB(data.memory.file_cache)
+														},
+														{
+															label: "Buffers",
+															data: showInMB(data.memory.buffers)
+														},
 													]
-												}
-											} )
+												} ),
+												legend( { text: "Storage"}  ),
+												{
+													$components: Object.keys(data.storage).map( (key) => {
+														let store = data.storage[key]
+														return {
+															$components: [
+																dataList( {
+																	class: "dl-horizontal",
+																	items: [
+																		{
+																			label: "Drive",
+																			data: key
+																		},
+																		{
+																			label: "Mount",
+																			data: store.mount
+																		},
+																		{
+																			label: "Size",
+																			data: showInMB(store.size)
+																		},
+																		{
+																			label: "Free",
+																			data: showInMB(store.free) + ` ( ${ Math.round( store.free/store.size * 100 ) }% )`
+																		},
+																	]
+																} ),
+																br()
+															]
+														}
+													} )
+												},
+
+											]
 										},
+
 									]
 								},
 								// pp( data ),
