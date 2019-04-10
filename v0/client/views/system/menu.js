@@ -110,14 +110,14 @@ var $systemMenu = {
 								button({
 									id: "hideContainerMemoryUsageButton",
 									icon: "fa fa-microchip",
-									text: "Hide apps memory",
+									text: "Hide memory",
 									title: "Hide container memory usage",
 									onclick: systemMenu._hideContainerMemoryUsage
 								}) :
 								button({
 									id: "showContainerMemoryUsageButton",
 									icon: "fa fa-microchip",
-									text: "Show apps memory",
+									text: "Show memory",
 									title: "Show container memory usage",
 									onclick: systemMenu._showContainerMemoryUsage,
 								}),
