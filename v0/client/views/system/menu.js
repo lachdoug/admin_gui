@@ -8,7 +8,7 @@ var $systemMenu = {
 
 		// authCheck(); // this modal does not call api for data, so do fake call to check if auth'd
 
-		var baseOsName = system._$data.properties.version.base_os.name;
+		var baseOsName = system._$data.properties.version.base_os.name
 		modal._live ( {
 			header: icon( { icon: "fa fa-hdd-o", text: "System menu" } ),
 			body: {
@@ -92,7 +92,7 @@ var $systemMenu = {
 					},
 					{ $type: "hr" },
 					systemMenu._metricsSummary(),
-					{ $type: "hr" },
+
 					{
 						id: "systemMenuDisplayOptions",
 
@@ -157,7 +157,7 @@ var $systemMenu = {
 
 				]
 			}
-		} );
+		} )
 
 	},
 
@@ -168,13 +168,13 @@ var $systemMenu = {
 			data: { show_software_titles: true },
 			callbacks: {
 				200: function(response) {
-					$("#pageLoadingSpinner").fadeIn();
-					$(".modal").modal("hide");
-					system._$showSoftwareTitles = true;
-					system._live();
+					$("#pageLoadingSpinner").fadeIn()
+					$(".modal").modal("hide")
+					system._$showSoftwareTitles = true
+					system._live()
 				},
 			}
-		});
+		})
 	},
 
 	_hideSoftwareTitles: function () {
@@ -184,13 +184,13 @@ var $systemMenu = {
 			data: { show_software_titles: false },
 			callbacks: {
 				200: function(response) {
-					$("#pageLoadingSpinner").fadeIn();
-					$(".modal").modal("hide");
-					system._$showSoftwareTitles = false;
-					system._live();
+					$("#pageLoadingSpinner").fadeIn()
+					$(".modal").modal("hide")
+					system._$showSoftwareTitles = false
+					system._live()
 				},
 			}
-		});
+		})
 	},
 
 	_showContainerMemoryUsage: function () {
@@ -200,13 +200,13 @@ var $systemMenu = {
 			data: { show_container_memory_usage: true },
 			callbacks: {
 				200: function(response) {
-					$("#pageLoadingSpinner").fadeIn();
-					$(".modal").modal("hide");
-					system._$showContainerMemoryUsage = true;
-					system._live();
+					$("#pageLoadingSpinner").fadeIn()
+					$(".modal").modal("hide")
+					system._$showContainerMemoryUsage = true
+					system._live()
 				},
 			}
-		});
+		})
 	},
 
 	_hideContainerMemoryUsage: function () {
@@ -216,13 +216,13 @@ var $systemMenu = {
 			data: { show_container_memory_usage: false },
 			callbacks: {
 				200: function(response) {
-					$("#pageLoadingSpinner").fadeIn();
-					$(".modal").modal("hide");
-					system._$showContainerMemoryUsage = false;
-					system._live();
+					$("#pageLoadingSpinner").fadeIn()
+					$(".modal").modal("hide")
+					system._$showContainerMemoryUsage = false
+					system._live()
 				},
 			}
-		});
+		})
 	},
 
 	_showServices: function () {
@@ -232,13 +232,13 @@ var $systemMenu = {
 			data: { show_services: true },
 			callbacks: {
 				200: function(response) {
-					$("#pageLoadingSpinner").fadeIn();
-					$(".modal").modal("hide");
-					system._$showServices = true;
-					system._live();
+					$("#pageLoadingSpinner").fadeIn()
+					$(".modal").modal("hide")
+					system._$showServices = true
+					system._live()
 				},
 			}
-		});
+		})
 	},
 
 	_hideServices: function () {
@@ -248,37 +248,122 @@ var $systemMenu = {
 			data: { show_services: false },
 			callbacks: {
 				200: function(response) {
-					$("#pageLoadingSpinner").fadeIn();
-					$(".modal").modal("hide");
-					$('#services').slideUp('fast');
-					system._$showServices = false;
-					system._live();
+					$("#pageLoadingSpinner").fadeIn()
+					$(".modal").modal("hide")
+					$('#services').slideUp('fast')
+					system._$showServices = false
+					system._live()
 				},
 			}
-		});
+		})
 	},
 
 	_metricsSummary: function() {
+
 		return {
-			id: "systemMenuMetricsSummary",
-			$init: function () {
-				apiRequest({
-					action: "/system/statistics/summary",
-					callbacks: {
-						200: function(response) {
-							systemMenuMetricsSummary._refresh(response);
+			id: "systemMenuMetricsSummaryButton",
+
+			$components: [
+				button({
+					icon: "fa fa-area-chart",
+					text: "Usage",
+					onclick: function () { systemMenuMetricsSummaryButton._showOptions(); },
+				})
+			],
+
+			_showOptions: function () {
+				this.$components = [
+
+					{
+						id: "systemMenuMetricsSummary",
+						$init: function () {
+							apiRequest({
+								action: "/system/statistics/summary",
+								callbacks: {
+									200: function(response) {
+										systemMenuMetricsSummary._refresh(response)
+									},
+								}
+							})
+						},
+						$components: [
+							icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
+						],
+						_refresh: function (data) {
+
+							this.$components = [
+								{
+									class: "well",
+									$components: [
+										legend( { text: "Memory" } ),
+										dataList( {
+											class: "pull-left-md",
+											items: [
+												{
+													label: "Total",
+													data: Number(data.memory.total)/1024/1024
+												},
+												{
+													label: "Free",
+													data: Number(data.memory.free)/1024/1024
+												},
+												{
+													label: "File cache",
+													data: Number(data.memory.file_cache)/1024/1024
+												},
+												{
+													label: "Buffers",
+													data: Number(data.memory.buffers)/1024/1024
+												},
+											]
+										} ),
+
+										legend( { text: "Storage"}  ),
+										{
+											$components: Object.keys(data.storage).map( (key) => {
+												let store = data.storage[key]
+												return {
+													$components: [
+														dataList( {
+															class: "pull-left-md",
+															items: [
+																{
+																	label: "Drive",
+																	data: key
+																},
+																{
+																	label: "Mount",
+																	data: store.mount
+																},
+																{
+																	label: "Size",
+																	data: Number(store.size)/1024/1024
+																},
+																{
+																	label: "Free",
+																	data: Number(store.free)/1024/1024
+																},
+															]
+														} ),
+														hr()
+													]
+												}
+											} )
+										},
+									]
+								},
+								// pp( data ),
+
+
+							]
 						},
 					}
-				})
+
+				]
 			},
-			$components: [
-				icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
-			],
-			_refresh: function (data) {
-				this.$components = [ pp( data ) ];
-			},
+
 		}
-	},
 
+	}
 
-};
+}

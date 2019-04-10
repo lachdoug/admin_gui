@@ -102,7 +102,11 @@ cell({
 
 		responseContentType = response.getResponseHeader("Content-Type")
 
-		if ( response.status == 500 || response.status == 404 || response.status == 406 ) {
+		if (
+			response.status == 500 ||
+			response.status == 404 ||
+			response.status == 406
+		) {
 			main._renderFatalError( JSON.parse(response.responseText).error );
 		} else if ( response.status == 0 ) {
 			api._handleNoResponse( response, args );

@@ -96,6 +96,7 @@ var $systemOrphanData = {
 	_orphan: function( data, groupIndex, itemIndex, orphanCount ) {
 		var orphanId = ( data.publisher_namespace + "|" + data.type_path.replace(/\//g, "|") + "|" + data.parent + "|" + data.service_handle );
 		var title = data.type + ( data.parent == data.service_handle ? "" : " (" + data.service_handle + ")" );
+
 		return {
 			class: "systemOrphanDataAppItem",
 			$components: [
