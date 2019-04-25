@@ -5,7 +5,7 @@ class V0
       get '/system/container_events' do
         authenticate_user( skip_timeout_update: true )
         content_type "text/event-stream"
-        stream do |out|
+        stream(:keep_open) do |out|
           system.container_event_stream do |event|
             unless current_user.signin_timeout?
               begin

@@ -96,7 +96,7 @@ cell({
 
 						{
 							class: "modal-content",
-							style: "margin-top: 5px; margin-bottom: 100px; padding: 10px;",
+							style: "overflow-x: hidden; margin-top: 5px; margin-bottom: 100px; padding: 10px;",
 							$components: [
 								{
 									$components: [

@@ -4,7 +4,7 @@ class V0
 
       get '/system/builder_log_events' do
         content_type "text/event-stream"
-        stream do |out|
+        stream(:keep_open) do |out|
           system.builder_log_event_stream do |event|
             begin
               out.puts "data: #{event.to_json}\n\n"

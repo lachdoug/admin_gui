@@ -317,77 +317,36 @@ var $appMenu = {
 
 		var appName = this._appName;
 
-		if ( status.set_state === status.state ) {
-			if (status.state == "running" ) {
-				return {
-					$components: [
-						button({ onclick: function () { appMenu._instruct('stop'); }, icon: "fa fa-stop", text: "Stop", wrapperStyle: "display: inline-block"}),
-						button({ onclick: function () { appMenu._instruct('restart'); }, icon: "fa fa-play-circle", text: "Restart", wrapperStyle: "display: inline-block"}),
-						button({ onclick: function () { appMenu._instruct('pause'); }, icon: "fa fa-pause", text: "Pause", wrapperStyle: "display: inline-block"})
-					]
-				};
-			} else if ( status.state == "stopped" ) {
-				return {
-					$components: [
-						button({ onclick: function () { appMenu._instruct('start'); }, icon: "fa fa-play", text: "Start", wrapperStyle: "display: inline-block"}),
-						button({ onclick: function () { appMenu._instruct('destroy'); }, icon: "fa fa-bomb", text: "Destroy", wrapperStyle: "display: inline-block"}),
-						button({ onclick: function () { appMenu._instruct('recreate'); }, icon: "fa fa-wrench", text: "Recreate", wrapperStyle: "display: inline-block"})
-					]
-				};
-			} else if ( status.state == "paused" ) {
-				return {
-					$components: [
-						button({ onclick: function () { appMenu._instruct('unpause'); }, icon: "fa fa-pause-circle", text: "Unpause", wrapperStyle: "display: inline-block"})
-					]
-				};
-			} else if ( status.state == "nocontainer" ) {
-				return {
-					$components: [
-						button({ onclick: function () { appMenu._instruct('create'); }, icon: "fa fa-wrench", text: "Create", wrapperStyle: "display: inline-block"}),
-						button({ onclick: function () { appMenu._instruct('reinstall'); }, icon: "fa fa-plus-circle", text: "Reinstall", wrapperStyle: "display: inline-block"}),
-						button({ onclick: function () { appUninstall._live( appName ); }, icon: "fa fa-minus-square", text: "Uninstall", wrapperStyle: "display: inline-block"})
-					]
-				};
-			} else {
-				return { style: "height: 46px;" };
-			};
-		} else {
-			if (status.set_state == "running" ) {
-				return {
-					$components: [
-						button({ onclick: function () { appMenu._instruct('stop'); }, icon: "fa fa-stop", text: "Stop", wrapperStyle: "display: inline-block"}),
-						// button({ onclick: function () { appMenu._instruct('restart'); }, icon: "fa fa-play-circle", text: "Restart", wrapperStyle: "display: inline-block"}),
-						// button({ onclick: function () { appMenu._instruct('pause'); }, icon: "fa fa-pause", text: "Pause", wrapperStyle: "display: inline-block"})
-					]
-				};
-			// } else if ( status.set_state == "stopped" ) {
-			// 	return {
-			// 		$components: [
-			// 			button({ onclick: function () { appMenu._instruct('start'); }, icon: "fa fa-play", text: "Start", wrapperStyle: "display: inline-block"}),
-			// 			button({ onclick: function () { appMenu._instruct('destroy'); }, icon: "fa fa-bomb", text: "Destroy", wrapperStyle: "display: inline-block"}),
-			// 			button({ onclick: function () { appMenu._instruct('recreate'); }, icon: "fa fa-wrench", text: "Recreate", wrapperStyle: "display: inline-block"})
-			// 		]
-			// 	};
-			// } else if ( status.set_state == "paused" ) {
-			// 	return {
-			// 		$components: [
-			// 			button({ onclick: function () { appMenu._instruct('unpause'); }, icon: "fa fa-pause-circle", text: "Unpause", wrapperStyle: "display: inline-block"})
-			// 		]
-			// 	};
-			// } else if ( status.set_state == "nocontainer" ) {
-			// 	return {
-			// 		$components: [
-			// 			button({ onclick: function () { appMenu._instruct('create'); }, icon: "fa fa-wrench", text: "Create", wrapperStyle: "display: inline-block"}),
-			// 			button({ onclick: function () { appMenu._instruct('reinstall'); }, icon: "fa fa-plus-circle", text: "Reinstall", wrapperStyle: "display: inline-block"}),
-			// 			button({ onclick: function () { appUninstall._live( appName ); }, icon: "fa fa-minus-square", text: "Uninstall", wrapperStyle: "display: inline-block"})
-			// 		]
-			// 	};
-			} else {
-				return { style: "height: 46px;" };
-			};
-		}
-		//  ? button({ onclick: function () { appMenu._instruct('stop'); }, icon: "fa fa-stop", text: "Stop", wrapperStyle: "display: inline-block"}) : { $type:'span' },
+		var components = [];
 
+		if ( status.state === "nocontainer" || status.set_state === "nocontainer" ) {
+			components.push( { $components: [
+				button({ onclick: function () { appMenu._instruct('create'); }, icon: "fa fa-wrench", text: "Create", wrapperStyle: "display: inline-block"}),
+				button({ onclick: function () { appMenu._instruct('reinstall'); }, icon: "fa fa-plus-circle", text: "Reinstall", wrapperStyle: "display: inline-block"}),
+				button({ onclick: function () { appUninstall._live( appName ); }, icon: "fa fa-minus-square", text: "Uninstall", wrapperStyle: "display: inline-block"})
+			]	} )
+		}
+		if ( status.state === "stopped" || status.set_state === "stopped" ) {
+			components.push( { $components: [
+				button({ onclick: function () { appMenu._instruct('start'); }, icon: "fa fa-play", text: "Start", wrapperStyle: "display: inline-block"}),
+				button({ onclick: function () { appMenu._instruct('destroy'); }, icon: "fa fa-bomb", text: "Destroy", wrapperStyle: "display: inline-block"}),
+				button({ onclick: function () { appMenu._instruct('recreate'); }, icon: "fa fa-wrench", text: "Recreate", wrapperStyle: "display: inline-block"})
+			]	} )
+		}
+		if ( status.state === "running" || status.set_state === "running" ) {
+			components.push( { $components: [
+				button({ onclick: function () { appMenu._instruct('stop'); }, icon: "fa fa-stop", text: "Stop", wrapperStyle: "display: inline-block"}),
+				button({ onclick: function () { appMenu._instruct('restart'); }, icon: "fa fa-play-circle", text: "Restart", wrapperStyle: "display: inline-block"}),
+				button({ onclick: function () { appMenu._instruct('pause'); }, icon: "fa fa-pause", text: "Pause", wrapperStyle: "display: inline-block"})
+			]	} )
+		}
+		if ( status.state === "paused" || status.set_state === "paused" ) {
+			components.push( { $components: [
+				button({ onclick: function () { appMenu._instruct('unpause'); }, icon: "fa fa-pause-circle", text: "Unpause", wrapperStyle: "display: inline-block"})
+			]	} )
+		}
+
+		return { $components: components, style: "min-height: 46px;" }
 
 	},
 
