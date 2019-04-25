@@ -26,7 +26,7 @@ cell({
 			);
 			this._eventSource.onmessage = function(e) {
 				var event = JSON.parse(e.data);
-				console.log(event);
+				console.log([ ( new Date ).toLocaleTimeString(), event ] );
 				systemEvents._handler( event );
 			};
       this._eventSource.onerror = function(e) {
@@ -40,15 +40,19 @@ cell({
 		};
 	},
 
-
 	_handler: function( event ) {
-		if ( event.container_type == "service" ) {
-      if ( "serviceMenu" in window ) { serviceMenu._handleContainerEvent( event ) };
-			if ( "systemServices" in window ) { systemServices._handleEvent( event ) };
-		} else {
-      if ( "appMenu" in window ) { appMenu._handleContainerEvent( event ) };
-      if ( "systemApps" in window ) { systemApps._handleEvent( event ) };
-		};
+    if ( event.type == "container_status" ) {
+  		if ( event.container_type == "service" ) {
+        if ( "serviceMenu" in window ) { serviceMenu._handleContainerEvent( event ) };
+  			if ( "systemServices" in window ) { systemServices._handleEvent( event ) };
+  		} else {
+        if ( "appMenu" in window ) { appMenu._handleContainerEvent( event ) };
+        if ( "systemApps" in window ) { systemApps._handleEvent( event ) };
+  		};
+    } else {
+      alert( "Signed out due to inactivity." )
+      system._live()
+    }
 	},
 
 });

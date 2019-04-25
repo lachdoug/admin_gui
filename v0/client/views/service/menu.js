@@ -342,19 +342,6 @@ var $serviceMenu = {
 
 		return { $components: components, style: "min-height: 46px;" }
 
-			;
-		// } else {
-		// 	if (status.set_state == "running" ) {
-		// 		return {
-		// 			$components: [
-		// 				( serviceName == 'control' && !remoteManagement ) ? {} : button({ onclick: function () { serviceMenu._instruct('stop'); }, icon: "fa fa-stop", text: "Stop", wrapperStyle: "display: inline-block"}),
-		// 			]
-		// 		};
-		// 	} else {
-		// 		return { style: "height: 46px;" };
-		// 	};
-		//
-		// }
 	},
 
 

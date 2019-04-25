@@ -11,7 +11,6 @@ function renderSystemServices() {
     },
 
     _load: function() {
-      // debugger
       apiRequest({
   			action: 'system/containers/services',
         callbacks: {
@@ -19,8 +18,6 @@ function renderSystemServices() {
             systemServices._refresh(data);
             data.forEach( function(service) {
               if ( "serviceMenu" in window ) {
-                console.log( service )
-                // debugger
                 serviceMenu._handleContainerEvent( {
                   container_type: 'service',
                   container_name: service.name,
@@ -87,7 +84,6 @@ function renderSystemServices() {
               window["systemServiceTitle" + serviceName]._refresh( data.title );
   						systemServices.$titleData[serviceName] = data.title || "";
   					},
-            // 401: function() {}, // remove this once api token not in file
   				}
   			});
   			return null;

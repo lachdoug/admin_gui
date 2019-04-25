@@ -3,6 +3,7 @@ class V0
     module Controllers
 
       get '/system/builder_log_events' do
+        authenticate_user( skip_timeout_update: true )
         content_type "text/event-stream"
         stream(:keep_open) do |out|
           system.builder_log_event_stream do |event|

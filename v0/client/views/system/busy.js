@@ -7,16 +7,16 @@ cell({
 		var message;
 		switch(opts.behavior) {
     case "engines_update":
-			message = "Engines update in progress.\n\nThis normally takes a minute or two, but can take longer in some cases.\n\nPlease wait.";
+			message = "Engines update in progress. Please wait.";
       break;
 		case "engines_restart":
-      message = "Engines is restarting.";
+      message = "Engines is restarting. Please wait.";
       break;
 		case "base_os_update":
-			message = "Base OS update in progress.\n\nThis normally takes a minute or two, but can take longer in some cases.\n\nPlease wait.";
+			message = "Base OS update in progress. Please wait.";
 		  break;
 		case "base_os_restart":
-			message = "Base OS is restarting.\n\nThis normally takes a few minutes.\n\nPlease wait.";
+			message = "Base OS is restarting. Please wait.";
 		  break;
 		}
 

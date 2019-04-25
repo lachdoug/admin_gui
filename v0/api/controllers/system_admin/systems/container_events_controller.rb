@@ -19,6 +19,7 @@ class V0
                 end
               end
             else
+              out.puts "data: #{ { type: :timeout }.to_json }\n\n"
               out.close
               puts "Event stream closed due to user timeout."
               break

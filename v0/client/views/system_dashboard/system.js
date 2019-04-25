@@ -68,6 +68,7 @@ cell({
 						{
 							id: "systemEventsStreamingWarningMessage",
 							_live: function() {
+								console.log( [ ( new Date ).toLocaleTimeString(), "Container events stream closed." ] )
 								this.$components = [
 									{
 										$type: "p",
@@ -75,7 +76,7 @@ cell({
 										class: 'text-center',
 										$html: "System disconnected. " +
 											"Please <a  style='cursor: pointer;' " +
-											"onclick='location.reload()'>reload</a> page.</p>",
+											"onclick='location.reload()'><i class='fa fa-repeat'></i> reload</a> page.</p>",
 									}
 								];
 							}
