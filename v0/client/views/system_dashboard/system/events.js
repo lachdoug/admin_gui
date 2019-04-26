@@ -49,7 +49,7 @@ cell({
         if ( "appMenu" in window ) { appMenu._handleContainerEvent( event ) };
         if ( "systemApps" in window ) { systemApps._handleEvent( event ) };
   		};
-    } else {
+    } else if ( event.type == "timeout" ) {
       alert( "Signed out due to inactivity." )
       system._live()
     }

@@ -44,7 +44,7 @@ cell({
 										// return pp( consumer )
 										return button( {
 											text: `${consumer.parent_engine} ${serviceName}:${consumer.service_handle}`,
-											icon: "fa fa-external-link-square",
+											icon: "fa fa-caret-right",
 											onclick: function () {
 												consumer.container_type === 'app' ?
 												consumer.persistent ?
