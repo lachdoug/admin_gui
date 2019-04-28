@@ -1,6 +1,6 @@
 class V0
 
-  set dump_errors: Sinatra::Base.development?
+  set dump_errors: true # Sinatra::Base.development?
   set public_folder: 'public'
   set data_directory_path: 'data/v0'
   set system_ip: ENV['ENGINES_ADMIN_GUI_SYSTEM_IP'] || ( ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] ? ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'][8..-6] : nil )
