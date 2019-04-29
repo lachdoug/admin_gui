@@ -758,6 +758,7 @@ class V0
             memory: data[:memory],
             country_code: data[:country_code],
             lang_code: data[:language_code],
+            permission_as: data[:permission_as],
             variables: data[:environment_variables],
             attached_services: ( data[:services] || [] ).map do |service|
               if service[:create_type] == "share"

@@ -16,6 +16,7 @@ class V0
               consumable_services: consumable_services,
               locale: @system.locale,
               domains: domains,
+              installed_apps: @system.app_statuses.map{ |app| app[:name] },
               default_domain: @system.default_domain,
               reserved: {
                 container_names: @system.reserved_container_names,

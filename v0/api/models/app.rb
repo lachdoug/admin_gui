@@ -177,7 +177,6 @@ class V0
           }
         end
 
-
         def services
           {
             persistent: app_api.persistent_services.map do |service|

@@ -78,6 +78,7 @@ var $installNewApp = {
 		var defaultHttpProtocol = dig ( blueprint, "software", "base", "http_protocol" );
 		var defaultDomain = this._data.default_domain;
 		var domains = this._data.domains;
+		var installedApps = this._data.installed_apps;
 		var environmentVariables = blueprint.software.environment_variables || [];
 		var serviceConfigurations = blueprint.software.service_configurations || [];
 
@@ -169,6 +170,17 @@ var $installNewApp = {
 							onchange: function( e ) {
 								installNewApp._checkFqdnReserved();
 							},
+						} ),
+						legend ( { text: "Sharing" } ),
+						formField( {
+							type: "select",
+							name: "data[permission_as]",
+							label: "Permission as",
+							collectionIncludeBlank: true,
+							collection: installedApps,
+							placeholder: " ",
+							value: "",
+							required: false,
 						} ),
 						serviceConfigurations.length ? legend ( { text: "Services" } ) : {},
 						{ $components: serviceConfigurations.map(
