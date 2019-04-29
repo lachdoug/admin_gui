@@ -143,7 +143,7 @@ class V0
         def application_environment_variables_for(application_envs)
           {
             variables: application_envs || [],
-            blueprint_environment_variables: blueprint[:software][:environment_variables]
+            blueprint_environment_variables: blueprint[:software][:environment_variables] || [],
           }
         end
 

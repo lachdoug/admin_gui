@@ -15,6 +15,9 @@ var $appEnvironmentVariablesApplication = {
 
 
 	_show: function () {
+
+		let name = this._appName
+
 		modal._live(
 			{
 				header: icon( { icon: "fa fa-question-circle-o", text: "Environment variables for application" } ),
@@ -28,6 +31,7 @@ var $appEnvironmentVariablesApplication = {
 								icon( { icon: "fa fa-spinner fa-spin", text: "Loading..." } )
 							],
 							_refresh: function ( data ) {
+
 								this.$components = [
 									form( {
 										components: [
@@ -42,7 +46,7 @@ var $appEnvironmentVariablesApplication = {
 											formCancel ( { onclick: function () { appEnvironmentVariables._live( appEnvironmentVariablesApplication._appName ); } } ),
 											formSubmit(),
 										] ,
-										action: "/apps/" + this._appName + "/environment_variables",
+										action: "/apps/" + name + "/environment_variables",
 										method: "PATCH",
 										callbacks: {
 											200: function(response) {
