@@ -162,7 +162,7 @@ class V0
         end
 
         def update_environment_variables( data )
-          app_api.update_environment_variables( variables: data )
+          app_api.update_environment_variables( environment_variables: data )
         end
 
         ########################################################################
