@@ -100,7 +100,6 @@ class V0
           ######################################################################
 
           def update_environment_variables( args )
-            debugger
             @system_api.post "containers/engine/#{@name}/properties/runtime", args
           end
 
