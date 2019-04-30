@@ -54,6 +54,11 @@ cell({
 														icon: "fa fa-window-maximize", text: "Label" } ),
 									button( { onclick: installSideLoad._live,
 														icon: "fa fa-caret-square-o-right", text: "Side load" } ),
+									button( {
+										icon: "fa fa-retweet",
+										text: "Reinstate",
+										onclick: systemReinstate._live,
+									} ),
 									button( { onclick: systemDiagnostics._live,
 														icon: "fa fa-stethoscope", text: "Diagnostics" } ),
 									{ $type: "hr" },

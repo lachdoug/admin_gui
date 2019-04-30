@@ -40,6 +40,10 @@ class V0
             @system_api.get 'system/status/update'
           end
 
+          def reinstate
+            @system_api.get 'containers/check_and_act'
+          end
+
           ##########################################################################
           # Restart
           ##########################################################################
