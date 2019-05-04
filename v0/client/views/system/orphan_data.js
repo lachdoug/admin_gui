@@ -14,7 +14,7 @@ var $systemOrphanData = {
 							class: "clearfix",
 							$components: [
 								button( {
-									onclick: systemDiagnostics._live,
+									onclick: systemControlPanel._live,
 									icon: "fa fa-arrow-up",
 									wrapperClass: "pull-right"
 								} ),
@@ -95,43 +95,34 @@ var $systemOrphanData = {
 
 	_orphan: function( data, groupIndex, itemIndex, orphanCount ) {
 		var orphanId = ( data.publisher_namespace + "|" + data.type_path.replace(/\//g, "|") + "|" + data.parent + "|" + data.service_handle );
-		var title = data.type + ( data.parent == data.service_handle ? "" : " (" + data.service_handle + ")" );
-
+		var title = data.service_name + ":" + data.service_handle;
+// debugger
 		return {
 			class: "systemOrphanDataAppItem",
 			$components: [
-				{ $text: title },
-				{
-					$type: "a",
-					class: "btn btn-lg btn-custom pull-left-md",
-					$components: [
-						icon( {
-							icon: "fa fa-download",
-							text: "Export"
-						} )
-					],
-					href: "/services/" + serviceName + "/data/export",
-					download: `Engines_${ serviceName
-						}.data`
-				},
-
+				{ $type: "h4", $text: title },
 				{
 					class: "clearfix",
 					$components: [
-						button( {
-							icon: "fa fa-download",
-							text: "Download",
-							wrapperClass: "pull-left-md",
-							onclick: function () {
-								systemOrphanData._download( orphanId );
-							}
-						}  ),
+						{
+							$type: "a",
+							class: "btn btn-lg btn-custom pull-left-md",
+							$components: [
+								icon( {
+									icon: "fa fa-download",
+									text: "Export"
+								} )
+							],
+							href: "/services/" + data.service_name + "/data/export",
+							download: `Engines_${ data.parent }_${ data.service_name }_${ data.service_handle
+								}.data`
+						},
 						button( {
 							icon: "fa fa-trash-o",
 							text: "Delete",
 							wrapperClass: "pull-right-md",
 							onclick: function () {
-								if( confirm("Are you sure that you want to delete the " + title + " for " + data.parent + "?") ) {
+								if( confirm("Are you sure that you want to delete the " + title + " data for " + data.parent + "?") ) {
 									systemOrphanData._delete( orphanId, groupIndex, itemIndex );
 								};
 							}
@@ -139,6 +130,7 @@ var $systemOrphanData = {
 					]
 				},
 				( itemIndex + 1 == orphanCount ? {} : { $type: "hr" } ),
+				// pp( data ),
 			]
 		};
 	},

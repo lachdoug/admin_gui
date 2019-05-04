@@ -15,7 +15,7 @@ cell({
 						class: "clearfix",
 						$components: [
 							button( {
-								onclick: systemControlPanel._live,
+								onclick: systemDiagnostics._live,
 								icon: "fa fa-arrow-up",
 								wrapperClass: "pull-right"
 							} ),
@@ -41,7 +41,7 @@ cell({
 			callbacks: {
 				200: function() {
 					alert("Successfully initiated check.")
-					systemControlPanel._live();
+					systemDiagnostics._live();
 				}
 			}
 		});

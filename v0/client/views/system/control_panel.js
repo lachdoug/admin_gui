@@ -40,6 +40,9 @@ cell({
 									button( { onclick: systemSshKeys._live,
 														icon: "fa fa-key", text: "SSH keys" } ),
 									{ $type: "hr" },
+									button( { onclick: systemOrphanData._live,
+														icon: "fa fa-compass", text: "Orphan data" } ),
+									{ $type: "hr" },
 								]
 							},
 							{
@@ -52,13 +55,10 @@ cell({
 									{ $type: "hr" },
 									button( { onclick: systemLabel._live,
 														icon: "fa fa-window-maximize", text: "Label" } ),
+									{ $type: "hr" },
 									button( { onclick: installSideLoad._live,
 														icon: "fa fa-caret-square-o-right", text: "Side load" } ),
-									button( {
-										icon: "fa fa-retweet",
-										text: "Reinstate",
-										onclick: systemReinstate._live,
-									} ),
+									{ $type: "hr" },
 									button( { onclick: systemDiagnostics._live,
 														icon: "fa fa-stethoscope", text: "Diagnostics" } ),
 									{ $type: "hr" },

@@ -95,6 +95,11 @@ cell({
 		); }
 		} ) : {},
 
+
+		inDevelopment ? button( { onclick: systemOrphanData._live,
+							icon: "fa fa-compass", text: "Orphan data" } ) : {},
+
+
 						{
 							class: "modal-content",
 							style: "overflow-x: hidden; margin-top: 5px; margin-bottom: 100px; padding: 10px;",

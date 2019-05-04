@@ -39,8 +39,11 @@ cell({
 								$components: [
 									button( { onclick: systemLastInstall._live,
 														icon: "fa fa-history", text: "Last install" } ),
-									button( { onclick: systemOrphanData._live,
-														icon: "fa fa-compass", text: "Orphan data" } ),
+									button( {
+										icon: "fa fa-retweet",
+										text: "Reinstate",
+										onclick: systemReinstate._live,
+									} ),
 									button( { onclick: systemExceptionReporting._live,
 														icon: "fa fa-bug", text: "Bug reports" } ),
 								]

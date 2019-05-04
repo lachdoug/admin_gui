@@ -717,13 +717,14 @@ class V0
         def orphan_data
           return [] if engines_api_system.orphan_data[:children].empty?
           listTreeNodesContent( engines_api_system.orphan_data ).map do |orphan|
-            service_definition = service_definition_for( orphan[:publisher_namespace], orphan[:type_path] )
+            # service_definition = service_definition_for( orphan[:publisher_namespace], orphan[:type_path] )
             {
-              type: "#{service_definition[:author]} #{service_definition[:title]}",
+              service_name: orphan[:service_container_name],
+              # title: "#{service_definition[:title] || "SERVICE DEFINITON IS MISSING VALUE FOR `TITLE`"}",
               publisher_namespace: orphan[:publisher_namespace],
               type_path: orphan[:type_path],
               parent: orphan[:parent_engine],
-              service_handle: orphan[:service_handle]
+              service_handle: orphan[:service_handle],
             }
           end.sort_by { |orphan| orphan[:parent] + orphan[:service_handle] }
         end
