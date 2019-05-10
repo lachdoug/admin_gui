@@ -787,6 +787,7 @@ class V0
                 service_handle: service_handle
               }
             end,
+            installed_packages: data[:installed_packages],
             repository_url: data[:blueprint_url],
             icon_url: data[:icon_url],
           }
