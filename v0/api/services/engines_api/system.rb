@@ -168,6 +168,10 @@ class V0
             @system_api.get 'system/keys/user/engines/generate'
           end
 
+          def repo_keys
+            @system_api.get 'system/keys/repo'
+          end
+
           ##########################################################################
           # Default site
           ##########################################################################

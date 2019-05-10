@@ -19,13 +19,13 @@ var $installSideLoad = {
 									label: "Blueprint URL",
 									required: true
 								} ),
-								formField( {
-									name: "icon_url",
-									id: "installSideLoadField_icon_url",
-									type: "url",
-									label: "Icon URL",
-									required: false
-								} ),
+								// formField( {
+								// 	name: "icon_url",
+								// 	id: "installSideLoadField_icon_url",
+								// 	type: "url",
+								// 	label: "Icon URL",
+								// 	required: false
+								// } ),
 								formCancel ( { onclick: systemControlPanel._live } ),
 								formSubmit()
 							],

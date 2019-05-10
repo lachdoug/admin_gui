@@ -1,14 +1,14 @@
 cell({
 
-	id: "appActionsResult",
+	id: "appOperationsResult",
 
 	_appName: null,
-	_actionData: null,
+	_operationData: null,
 	_responseData: null,
 
-	_live: function ( appName, actionData, responseData ) {
+	_live: function ( appName, operationData, responseData ) {
 		this._appName = appName;
-		this._actionData = actionData;
+		this._operationData = operationData;
 		this._responseData = responseData;
 		this._show();
 	},
@@ -17,7 +17,7 @@ cell({
 	_show: function () {
 
 		var appName = this._appName;
-		var actionData = this._actionData;
+		var operationData = this._operationData;
 		var responseData = this._responseData;
 
 		modal._live (
@@ -25,7 +25,7 @@ cell({
 				dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-crosshairs",
-					text: "App action result",
+					text: "App operation result",
 				} ),
 				body: {
 					$components: [
@@ -36,15 +36,15 @@ cell({
 								button( {
 									icon: "fa fa-arrow-up",
 									wrapperClass: "pull-right",
-									onclick: function () { appActions._live( appName ); }
+									onclick: function () { appDiagnostics._live( appName ); }
 								} ),
 								{ $type: "h4", $text: appName },
 							]
 						},
 						{ $type: "hr" },
-						{ $type: "h4", $text: actionData.label || actionData.name },
-						{ $type: "p", $text: actionData.description },
-						appActionsResult._renderResult( actionData, responseData )
+						{ $type: "h4", $text: operationData.label || operationData.name },
+						{ $type: "p", $text: operationData.description },
+						appOperationsResult._renderResult( operationData, responseData )
 					]
 				}
 			}
@@ -52,8 +52,8 @@ cell({
 
 	},
 
-	_renderResult: function ( actionData, responseData ) {
-		switch ( actionData.return_type ) {
+	_renderResult: function ( operationData, responseData ) {
+		switch ( operationData.return_type ) {
 			case "plain_text":
 				return { class: "panel panel-default", $components: [ { class: "panel-body", style: "white-space: nowrap; overflow-x: auto;", $components: responseData.split(/\r|\n/).map( function( line ) {
 					return { $text: line };
@@ -71,7 +71,7 @@ cell({
 			// 	return pp( responseData );
 			// 	break;
 			case "none":
-				return { class: "panel panel-default", $components: [ { class: "panel-body", $components: [ { $type: "i", $text: "Successfully performed action." } ] } ] };
+				return { class: "panel panel-default", $components: [ { class: "panel-body", $components: [ { $type: "i", $text: "Successfully performed operation." } ] } ] };
 				break;
 			default:
 				return pp( responseData );

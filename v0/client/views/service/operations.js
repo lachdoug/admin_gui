@@ -1,6 +1,10 @@
-cell({
+var $serviceOperations = {
 
-	id: "serviceActions",
+	$cell: true,
+	id: "serviceOperations",
+
+	_serviceName: null,
+
 
 	_live: function (serviceName) {
 
@@ -17,7 +21,7 @@ cell({
 			{
 				header: icon ( {
 					icon: "fa fa-crosshairs",
-					text: "Service actions",
+					text: "Service operations",
 				} ),
 				body: {
 					$components: [
@@ -34,7 +38,7 @@ cell({
 						},
 						{ $type: "hr" },
 						{
-							id: "serviceActionsContent",
+							id: "serviceOperationsContent",
 							_data: null,
 
 							$components: [
@@ -47,16 +51,16 @@ cell({
 
 							$update: function () {
 								this.$components =
-									serviceActionsContent._data.length ?
-										serviceActionsContent._data.map(
-											function( action ) {
-												return button( { text: action.label || action.name, onclick: function () { serviceActionsNew._live( serviceName, action.name ) } });
+									serviceOperationsContent._data.length ?
+										serviceOperationsContent._data.map(
+											function( operation ) {
+												return button( { text: operation.label || operation.name, onclick: function () { serviceOperationsNew._live( serviceName, operation.name ) } });
 											}
 										) : [
-										{ $type: "i", $text: "This service does not have any actions." }
+											{ $type: "i", $text: "This service does not have any operations." }
 										];
 							},
-						}
+						},
 					]
 				}
 			}
@@ -65,18 +69,17 @@ cell({
 
 	},
 
-
 	_load: function () {
 
-		apiRequest({
-			action: "/services/" + this._serviceName + "/actions",
+		apiRequest( {
+			action: "/services/" + this._serviceName + "/operations",
 			callbacks: {
 				200: function(response) {
-					serviceActionsContent._refresh( response );
+					serviceOperationsContent._refresh( response );
 				}
 			}
 		});
 
 	},
 
-});
+};

@@ -106,7 +106,7 @@ class V0
           # Actions
           ######################################################################
 
-          def perform_action(args)
+          def perform_actionator(args)
             @system_api.post "containers/service/#{@name}/action/#{args[:actionator_name]}", args[:variables]
           end
 

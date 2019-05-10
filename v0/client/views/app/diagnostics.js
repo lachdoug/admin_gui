@@ -39,12 +39,6 @@ var $appDiagnostics = {
 						{ $type: "hr" },
 
 						button( {
-							icon: "fa fa-cube",
-							text: "Container",
-							onclick: function () { appContainer._live(appName); },
-						} ),
-
-						button( {
 							icon: "fa fa-file-text-o",
 							text: "Logs",
 							onclick: function () { appLogs._live(appName); },
@@ -56,6 +50,19 @@ var $appDiagnostics = {
 							onclick: function () { appProcesses._live(appName); },
 						} ),
 
+						{ $type: "hr" },
+						button( {
+							icon: "fa fa-dot-circle-o",
+							text: "Actionators",
+							onclick: function () {
+								if ( systemApps._dataFor(appName).state == "running" ) {
+									appActionators._live(appName);
+								} else {
+									alert("App must be running to perform actionators.")
+								}
+							},
+						} ),
+
 						// button( {
 						// 	icon: "fa fa-question-circle-o",
 						// 	text: "Environment",
@@ -65,12 +72,16 @@ var $appDiagnostics = {
 						{ $type: "hr" },
 
 						button( {
+							icon: "fa fa-cube",
+							text: "Container",
+							onclick: function () { appContainer._live(appName); },
+						} ),
+
+						button( {
 							icon: "fa fa-compass",
 							text: "Services",
 							onclick: function () { appDiagnosticsServices._live(appName); },
 						} ),
-
-						{ $type: "hr" },
 
 						button( {
 							icon: false,

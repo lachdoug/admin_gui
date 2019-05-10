@@ -27,9 +27,9 @@ cell({
 												text: "Actions",
 												onclick: function () {
 													if ( systemServices._dataFor(serviceName).state == "running" ) {
-														serviceActions._live(serviceName);
+														serviceActionators._live(serviceName);
 													} else {
-														alert("Service must be running to perform actions.")
+														alert("Service must be running to perform actionators.")
 													}
 												},
 											} ),
@@ -51,7 +51,7 @@ cell({
 													text: "Data",
 													onclick: function () { serviceData._live(serviceName); },
 												} ),
-												hr() 
+												hr()
 											] } : {}
 										]
 									},

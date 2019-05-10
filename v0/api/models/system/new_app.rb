@@ -18,6 +18,7 @@ class V0
               domains: domains,
               installed_apps: @system.app_statuses.map{ |app| app[:name] },
               default_domain: @system.default_domain,
+              repo_keys: @system.repo_keys,
               reserved: {
                 container_names: @system.reserved_container_names,
                 fqdns: @system.reserved_fqdns

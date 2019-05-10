@@ -1,15 +1,14 @@
-var $serviceActionatorsResult = {
+cell({
 
-	$cell: true,
-	id: "serviceActionatorsResult",
+	id: "serviceOperationsResult",
 
 	_serviceName: null,
-	_actionatorData: null,
+	_operationData: null,
 	_responseData: null,
 
-	_live: function ( serviceName, actionatorData, responseData ) {
+	_live: function ( serviceName, operationData, responseData ) {
 		this._serviceName = serviceName;
-		this._actionatorData = actionatorData;
+		this._operationData = operationData;
 		this._responseData = responseData;
 		this._show();
 	},
@@ -18,7 +17,7 @@ var $serviceActionatorsResult = {
 	_show: function () {
 
 		var serviceName = this._serviceName;
-		var actionatorData = this._actionatorData;
+		var operationData = this._operationData;
 		var responseData = this._responseData;
 
 		modal._live (
@@ -26,7 +25,7 @@ var $serviceActionatorsResult = {
 				dialogClass: "modal-lg",
 				header: icon ( {
 					icon: "fa fa-crosshairs",
-					text: "Service actionators",
+					text: "Service operation result",
 				} ),
 				body: {
 					$components: [
@@ -37,15 +36,15 @@ var $serviceActionatorsResult = {
 								button( {
 									icon: "fa fa-arrow-up",
 									wrapperClass: "pull-right",
-									onclick: function () { serviceActionators._live( serviceName ); }
+									onclick: function () { serviceDiagnostics._live( serviceName ); }
 								} ),
 								{ $type: "h4", $text: serviceName },
 							]
 						},
 						{ $type: "hr" },
-						{ $type: "h4", $text: actionatorData.label || actionatorData.name },
-						{ $type: "p", $text: actionatorData.description },
-						serviceActionatorsResult._renderResult( actionatorData, responseData )
+						{ $type: "h4", $text: operationData.label || operationData.name },
+						{ $type: "p", $text: operationData.description },
+						serviceOperationsResult._renderResult( operationData, responseData )
 					]
 				}
 			}
@@ -53,8 +52,8 @@ var $serviceActionatorsResult = {
 
 	},
 
-	_renderResult: function ( actionatorData, responseData ) {
-		switch ( actionatorData.return_type ) {
+	_renderResult: function ( operationData, responseData ) {
+		switch ( operationData.return_type ) {
 			case "plain_text":
 				return { class: "panel panel-default", $components: [ { class: "panel-body", style: "white-space: nowrap; overflow-x: auto;", $components: responseData.split(/\r|\n/).map( function( line ) {
 					return { $text: line };
@@ -68,19 +67,15 @@ var $serviceActionatorsResult = {
 			case "json":
 				return pp( responseData );
 				break;
-			case "file":
-				return button({
-					onclick: function () { downloadTextAsFile( actionatorData.return_file_name, responseData ) },
-					icon: 'fa fa-download',
-					text: 'Download'
-				});
-				break;
+			// case "file":
+			// 	return pp( responseData );
+			// 	break;
 			case "none":
-				return { class: "panel panel-default", $components: [ { class: "panel-body", $components: [ { $type: "i", $text: "Successfully performed actionator." } ] } ] };
+				return { class: "panel panel-default", $components: [ { class: "panel-body", $components: [ { $type: "i", $text: "Successfully performed operation." } ] } ] };
 				break;
 			default:
 				return pp( responseData );
 		}
 	},
 
-};
+});

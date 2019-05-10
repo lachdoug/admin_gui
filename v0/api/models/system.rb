@@ -573,6 +573,10 @@ class V0
           engines_api_system.private_ssh_key
         end
 
+        def repo_keys
+          engines_api_system.repo_keys[:repo_key_names]
+        end
+
         ########################################################################
         # Certificates
         ########################################################################

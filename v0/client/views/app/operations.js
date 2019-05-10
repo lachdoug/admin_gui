@@ -1,7 +1,7 @@
-var $appActions = {
+var $appOperations = {
 
 	$cell: true,
-	id: "appActions",
+	id: "appOperations",
 
 	_appName: null,
 
@@ -21,7 +21,7 @@ var $appActions = {
 			{
 				header: icon ( {
 					icon: "fa fa-crosshairs",
-					text: "App actions",
+					text: "App operations",
 				} ),
 				body: {
 					$components: [
@@ -38,7 +38,7 @@ var $appActions = {
 						},
 						{ $type: "hr" },
 						{
-							id: "appActionsContent",
+							id: "appOperationsContent",
 							_data: null,
 
 							$components: [
@@ -51,16 +51,16 @@ var $appActions = {
 
 							$update: function () {
 								this.$components =
-									appActionsContent._data.length ?
-										appActionsContent._data.map(
-											function( action ) {
-												return button( { text: action.label || action.name, onclick: function () { appActionsNew._live( appName, action.name ) } });
+									appOperationsContent._data.length ?
+										appOperationsContent._data.map(
+											function( operation ) {
+												return button( { text: operation.label || operation.name, onclick: function () { appOperationsNew._live( appName, operation.name ) } });
 											}
 										) : [
-										{ $type: "i", $text: "This app does not have any actions." }
+											{ $type: "i", $text: "This app does not have any operations." }
 										];
 							},
-						}
+						},
 					]
 				}
 			}
@@ -69,14 +69,13 @@ var $appActions = {
 
 	},
 
-
 	_load: function () {
 
 		apiRequest( {
-			action: "/apps/" + this._appName + "/actions",
+			action: "/apps/" + this._appName + "/operations",
 			callbacks: {
 				200: function(response) {
-					appActionsContent._refresh( response );
+					appOperationsContent._refresh( response );
 				}
 			}
 		});

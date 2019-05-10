@@ -1,12 +1,12 @@
-var $serviceActionsNew = {
+var $serviceActionatorsNew = {
 
 	$cell: true,
-	id: "serviceActionsNew",
+	id: "serviceActionatorsNew",
 
-	_live: function (serviceName, actionName) {
+	_live: function (serviceName, actionatorName) {
 
 		this._serviceName = serviceName;
-		this._actionName = actionName;
+		this._actionatorName = actionatorName;
 		this._load();
 
 	},
@@ -21,7 +21,7 @@ var $serviceActionsNew = {
 			{
 				header: icon ( {
 					icon: "fa fa-crosshairs",
-					text: "Service action",
+					text: "Service actionator",
 				} ),
 				body: {
 					$components: [
@@ -30,7 +30,7 @@ var $serviceActionsNew = {
 						{ $type: "h4", $text: data.label || data.name },
 						{ $type: "p", $text: data.description },
 						hasVariables ?
-						serviceActionsNew._form( data ) :
+						serviceActionatorsNew._form( data ) :
 						icon ( { icon: "fa fa-spinner fa-spin", text: "Loading" } )
 					]
 				}
@@ -47,12 +47,12 @@ var $serviceActionsNew = {
 		var serviceName = this._serviceName;
 
 		apiRequest({
-			action: "/services/" + serviceName + "/action",
+			action: "/services/" + serviceName + "/actionator",
 			params: { actionator_name: data.name },
 			method: "POST",
 			callbacks: {
 				200: function( response ) {
-					serviceActionsResult._live( serviceName, data, response )
+					serviceActionatorsResult._live( serviceName, data, response )
 				},
 			}
 		});
@@ -60,11 +60,11 @@ var $serviceActionsNew = {
 
 	_load: function () {
 		apiRequest({
-			action: "/services/" + this._serviceName + "/action",
-			params: { actionator_name: this._actionName },
+			action: "/services/" + this._serviceName + "/actionator",
+			params: { actionator_name: this._actionatorName },
 			callbacks: {
 				200: function(response) {
-					serviceActionsNew._show( response );
+					serviceActionatorsNew._show( response );
 				}
 			}
 		});
@@ -91,16 +91,16 @@ var $serviceActionsNew = {
 				},
 				formCancel ( {
 					onclick: function () {
-						serviceActions._live( serviceName );
+						serviceActionators._live( serviceName );
 					}
 				} ),
 				formSubmit(),
 			],
-			action: "/services/" + serviceName + "/action",
+			action: "/services/" + serviceName + "/actionator",
 			method: "POST",
 			callbacks: {
 				200: function(response) {
-					serviceActionsResult._live( serviceName, data, response );
+					serviceActionatorsResult._live( serviceName, data, response );
 				},
 			}
 		} )

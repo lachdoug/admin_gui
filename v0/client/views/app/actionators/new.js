@@ -1,6 +1,6 @@
 cell({
 
-	id: "appActionsNew",
+	id: "appActionatorsNew",
 
 	_live: function (appName, actionName) {
 
@@ -20,8 +20,8 @@ cell({
 		modal._live (
 			{
 				header: icon ( {
-					icon: "fa fa-crosshairs",
-					text: "App action",
+					icon: "fa fa-dot-circle-o",
+					text: "App actionator",
 				} ),
 				body: {
 					$components: [
@@ -30,7 +30,7 @@ cell({
 						{ $type: "h4", $text: data.label || data.name },
 						{ $type: "p", $text: data.description },
 						hasVariables ?
-						appActionsNew._form( data ) :
+						appActionatorsNew._form( data ) :
 						icon ( { icon: "fa fa-spinner fa-spin", text: "Loading" } )
 					]
 				}
@@ -45,12 +45,12 @@ cell({
 	_postWithoutParams: function ( data ) {
 		var appName = this._appName;
 		apiRequest({
-			action: "/apps/" + appName + "/action",
+			action: "/apps/" + appName + "/actionator",
 			params: { actionator_name: data.name },
 			method: "POST",
 			callbacks: {
 				200: function( response ) {
-					appActionsResult._live( appName, data, response )
+					appActionatorsResult._live( appName, data, response )
 				},
 			}
 		});
@@ -58,11 +58,11 @@ cell({
 
 	_load: function () {
 		apiRequest({
-			action: "/apps/" + this._appName + "/action",
+			action: "/apps/" + this._appName + "/actionator",
 			params: { actionator_name: this._actionName },
 			callbacks: {
 				200: function(response) {
-					appActionsNew._show( response );
+					appActionatorsNew._show( response );
 				}
 			}
 		});
@@ -88,16 +88,16 @@ cell({
 				},
 				formCancel ( {
 					onclick: function () {
-						appActions._live( appName );
+						appActionators._live( appName );
 					}
 				} ),
 				formSubmit(),
 			],
-			action: "/apps/" + appName + "/action",
+			action: "/apps/" + appName + "/actionator",
 			method: "POST",
 			callbacks: {
 				200: function(response) {
-					appActionsResult._live( appName, data, response );
+					appActionatorsResult._live( appName, data, response );
 				},
 			}
 		} )

@@ -513,23 +513,44 @@ class V0
         ######################################################################
 
         def actions
-          blueprint.dig( :software, :actionators ) || []
+          blueprint.dig( :software, :actions ) || []
         end
 
         def action(action_name)
-          actions.find{ |action| action[:name] == action_name }.tap do |action|
-            action[:variables] = ( action[:variables] || [] ).map do |variable|
+          actions.find{ |action| action[:name] == action_name }
+          # .tap do |action|
+          #   action[:variables] = ( action[:variables] || [] ).map do |variable|
+          #     variable[:value] = resolve_string variable[:value]
+          #     variable
+          #   end
+          #   if action[:return_type] == 'file'
+          #     action[:return_file_name] = resolve_string action[:return_file_name]
+          #   end
+          # end
+        end
+
+        ######################################################################
+        # Actionators
+        ######################################################################
+
+        def actionators
+          blueprint.dig( :software, :actionators ) || []
+        end
+
+        def actionator(actionator_name)
+          actionators.find{ |actionator| actionator[:name] == actionator_name }.tap do |actionator|
+            actionator[:variables] = ( actionator[:variables] || [] ).map do |variable|
               variable[:value] = resolve_string variable[:value]
               variable
             end
-            if action[:return_type] == 'file'
-              action[:return_file_name] = resolve_string action[:return_file_name]
+            if actionator[:return_type] == 'file'
+              actionator[:return_file_name] = resolve_string actionator[:return_file_name]
             end
           end
         end
 
-        def perform_action( actionator_name, variables )
-          app_api.perform_action(
+        def perform_actionator( actionator_name, variables )
+          app_api.perform_actionator(
             actionator_name: actionator_name,
             variables: variables
           )

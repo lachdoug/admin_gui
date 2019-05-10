@@ -199,27 +199,49 @@ class V0
         end
 
         ######################################################################
-        # Actions
+        # Operations
         ######################################################################
 
-        def actions
+        def operations
+          service_definition.dig( :service_operations ) || []
+          JSON.parse( YAML.load_file('operations.yaml').to_json, symbolize_names: true)
+        end
+
+        def operation(operation_name)
+          operations.find{ |operation| operation[:name] == operation_name }
+          # .tap do |action|
+          #   action[:variables] = ( action[:variables] || [] ).map do |variable|
+          #     variable[:value] = resolve_string variable[:value]
+          #     variable
+          #   end
+          #   if action[:return_type] == 'file'
+          #     action[:return_file_name] = resolve_string action[:return_file_name]
+          #   end
+          # end
+        end
+
+        ######################################################################
+        # Actionators
+        ######################################################################
+
+        def actionators
           ( service_definition[:service_actionators] || {} ).values
         end
 
-        def action(action_name)
-          ( service_definition[:service_actionators] || {} )[action_name.to_sym].tap do |action|
-            action[:variables] = action[:variables].map do |variable|
+        def actionator(actionator_name)
+          ( service_definition[:service_actionators] || {} )[actionator_name.to_sym].tap do |actionator|
+            actionator[:variables] = actionator[:variables].map do |variable|
               variable[:value] = resolve_string variable[:value]
               variable
             end
-            if action[:return_type] == 'file'
-              action[:return_file_name] = resolve_string action[:return_file_name]
+            if actionator[:return_type] == 'file'
+              actionator[:return_file_name] = resolve_string actionator[:return_file_name]
             end
           end
         end
 
-        def perform_action( actionator_name, variables )
-          service_api.perform_action(
+        def perform_actionator( actionator_name, variables )
+          service_api.perform_actionator(
             actionator_name: actionator_name,
             variables: variables
           )

@@ -82,22 +82,35 @@ cell({
 							}
 						},
 
-		inDevelopment ? button( {
-		icon: "fa fa-plus",
-		wrapperClass: "clearfix",
-		class: "pull-right-md",
-		text: "New",
-		onclick: () => { appServicesPersistentSubservicesNewType._live(
-		"owntest",
-		"EnginesSystem",
-		"filesystem/local/filesystem",
-		"owntest_data"
-		); }
-		} ) : {},
+		inDevelopment ? { $components: [
+			button( {
+				icon: "fa fa-plus",
+				wrapperClass: "clearfix",
+				class: "pull-right-md",
+				text: "New",
+				onclick: () => { appServicesPersistentSubservicesNewType._live(
+					"owntest",
+					"EnginesSystem",
+					"filesystem/local/filesystem",
+					"owntest_data"
+				); }
+			} ),
+			button( { onclick: systemOrphanData._live,
+				icon: "fa fa-compass", text: "Orphan data" } ),
+			button( {
+				icon: "fa fa-crosshairs",
+				text: 'Actions',
+				onclick: () => { serviceOperations._live( "uadmin" ) },
+			} )
+			// {
+			// 	$components: actions.map( function( action ) {
+			// 		return
+			// 	} )
+			// }
+			] } : {},
 
 
-		inDevelopment ? button( { onclick: systemOrphanData._live,
-							icon: "fa fa-compass", text: "Orphan data" } ) : {},
+
 
 
 						{

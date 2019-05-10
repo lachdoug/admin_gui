@@ -1,0 +1,108 @@
+---
+- name: index_groups
+  level: primary # or secondary or null (for background action)
+  label: Groups
+  data:
+    # - key: system
+    #   source: action
+    #   reference: ./action/show_system
+    - key: groups
+      source:
+        type: action
+        action: list_groups
+
+
+  components:
+    - type: markdown
+      template: |
+        #My groups
+        {{#data.groups}}
+        - {{group.name}}
+        {{/data.group}}
+  # type: index
+  # search: true
+  # params:
+  #   - key: system_name
+  #     value: "{{ data.system.name }}"
+  #     # value:
+  #     #   data: system.name
+  #   - key: groups
+  #     value:
+  #       data: groups
+  #     map:
+  #       variable: group
+  #       value: "{{ group.name }}"
+  #       filter: ^_(.*)$
+  #   - key: label
+  #     value: dn
+  #     filter: dn=(\w*)
+  # components:
+  #   - type: markdown
+  #     markdown: |
+  #       #My groups
+  #       {{#params.groups}}
+  #       - {{group.name}}
+  #       {{/params.group}}
+  #   - type: list
+  #     collection: params.groups
+  #     item:
+  #       variable: group
+  #       type: action
+  #       label:
+  #
+  #
+  #   list # or table or markdown
+  # list:
+  #   type: ol # or ul
+  #   li:
+  #     components:
+  #       - type: action
+  #         label: "{{ data.label }}"
+  #         reference: group
+  #         params:
+  #           - key: name
+  #             value: data.group_name
+  #             # template: "{{ data.first_name }}+{{ data.last_name }}"
+# - key: group
+#   label: "Group {{ data.name }}"
+#   type: show
+#   data:
+#     reference: show_group
+#     params:
+#       - key: name
+#         value: params.name
+#     result:
+#       - key: id
+#         value: group_id
+#       - key: name
+#         value: group_name
+#       - key: users
+#         map:
+#           data: members
+#           item:
+#
+#   components:
+#     - type: markdown
+#       markdown: "The group ID is {{ data.id }}."
+#     - type: action
+#       reference: group_users
+#       params:
+#         - key:
+#
+#
+#
+#   li:
+#     components: link
+#
+#   # template: |
+#   #   {{#data.groups}}
+#   #   - [{{ name }}]({{ action }})
+#   #   {{/data.groups}}
+#   items:
+#     name: Group
+#     data: show_group
+#
+#
+#
+#
+#

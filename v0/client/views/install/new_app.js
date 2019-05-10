@@ -81,6 +81,7 @@ var $installNewApp = {
 		var installedApps = this._data.installed_apps;
 		var environmentVariables = blueprint.software.environment_variables || [];
 		var serviceConfigurations = blueprint.software.service_configurations || [];
+		var installedPackagesRequiringAuthentication = ( blueprint.software.installed_packages || [] ).filter( function( obj ) { return obj.authentication } );
 
 		var licenseLabel = dig ( blueprint, "metadata", "software", "license", "label" );
 		var licenseUrl = dig ( blueprint, "metadata", "software", "license", "url" );
@@ -198,6 +199,12 @@ var $installNewApp = {
 						}
 					)
 				},
+				installedPackagesRequiringAuthentication.length ? legend ( { text: "Package authentication" } ) : {},
+				{ $components: installedPackagesRequiringAuthentication.map(
+					function (obj, i) {
+						return installNewApp._formInstalledPackagesAuthenticationFields (obj, i);
+					}
+				) },
 				legend ( { text: "License" } ),
 				licenseUrl ?
 					{
@@ -323,7 +330,7 @@ var $installNewApp = {
 					type: "select",
 					label: consumableService.service_definition.title || ( consumableService.service_definition.publisher_namespace + '/' + consumableService.service_definition.type_path ),
 					collection: selectOptions,
-					id: "installNewAppFormFieldServiceConfiguration_" + i + "_create_type",
+					id: "installNewAppFormFieldServiceConfiguration_" + i + "_createType",
 					name: "data[services][][create_type]"
 				} ),
 				( consumableService.shareable.length == 0 ? {} :
@@ -333,7 +340,7 @@ var $installNewApp = {
 						name: "data[services][][share]",
 						collection: installNewApp._formServiceConfigurationShareableServiceOptions(consumableService),
 						dependOn: {
-							input: "installNewAppFormFieldServiceConfiguration_" + i + "_create_type",
+							input: "installNewAppFormFieldServiceConfiguration_" + i + "_createType",
 							value: "share"
 						}
 					})
@@ -345,7 +352,7 @@ var $installNewApp = {
 						name: "data[services][][adopt]",
 						collection: installNewApp._formServiceConfigurationAdoptableServiceOptions(consumableService),
 						dependOn: {
-							input: "installNewAppFormFieldServiceConfiguration_" + i + "_create_type",
+							input: "installNewAppFormFieldServiceConfiguration_" + i + "_createType",
 							value: "adopt"
 						}
 					})
@@ -355,6 +362,64 @@ var $installNewApp = {
 
 	},
 
+	_formInstalledPackagesAuthenticationFields: function (obj, i) {
+
+		var result = {
+			$components: [
+				formField({ type: "hidden", name: "data[installed_packages][][name]", value: obj.name }),
+			]
+		}
+
+		if ( obj.authentication === 'credentials' ) {
+			result.$components.push(
+				formField({ type: "hidden", name: "data[installed_packages][][type]", value: "credentials" }),
+				formField({ type: "string", label: obj.name, placeholder: "Username", name: "data[installed_packages][][credentials][username]" }),
+				formField({ type: "password", label: false, placeholder: "Password", name: "data[installed_packages][][credentials][password]" })
+			)
+		} else if ( obj.authentication === 'key' ) {
+			result.$components.push(
+				formField({ type: "hidden", name: "data[installed_packages][][type]", value: "key" })
+			)
+			if ( installNewApp._data.repo_keys.length ) {
+				result.$components.push(
+					formField({
+						id: "installNewAppFormInstalledPackagesAuthentication_" + i + "_keyType",
+						type: "select",
+						label: obj.name,
+						name: "data[installed_packages][][key][type]",
+						collection: [ [ "private_key", "Enter private key" ], [ "repo_key", "Select repo key" ] ] }),
+					formField({
+						type: "text",
+						label: false,
+						placeholder: "Key",
+						name: "data[installed_packages][][key][private_key]",
+						dependOn: {
+							input: "installNewAppFormInstalledPackagesAuthentication_" + i + "_keyType",
+							value: "private_key"
+						}
+					}),
+					formField({
+						type: "select",
+						label: false,
+						name: "data[installed_packages][][key][repo_key_name]",
+						collection: installNewApp._data.repo_keys,
+						dependOn: {
+							input: "installNewAppFormInstalledPackagesAuthentication_" + i + "_keyType",
+							value: "repo_key"
+						}
+					})
+				)
+			} else {
+				result.$components.push(
+					formField({ type: "hidden", name: "data[installed_packages][][key][type]", value: "private_key" }),
+					formField({ type: "text", label: obj.name, placeholder: "Key", name: "data[installed_packages][][key][private_key]" }),
+				)
+			}
+		}
+
+		return result
+
+	},
 
 	_formServiceConfigurationShareableServiceOptions: function( consumableService ) {
 
