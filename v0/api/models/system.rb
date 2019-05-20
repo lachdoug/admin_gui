@@ -632,7 +632,7 @@ class V0
 
         def container_event_stream( &block )
           engines_api_system.container_event_stream do |event_json|
-            begin
+            # begin
               event = JSON.parse(event_json, symbolize_names: true)
               if event[:container_name].nil?
                 yield ( {type: :heartbeat} )
@@ -652,7 +652,7 @@ class V0
                             container_name: container_name,
                             status: status.merge( { name: container_name } ) } )
                 end
-              end
+              # end
             end
           end
         end

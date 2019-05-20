@@ -42,6 +42,10 @@ cell({
 								alert("System ready.");
 								location.reload();
 							},
+							// 401: function(response) {
+							// 	alert("Failed to authenticate.");
+							// 	main._renderSignedOut();
+							// },
 							502: function(response) {
 								systemUnavailable._handlePollingResponseFailure(response.error.message);
 							},

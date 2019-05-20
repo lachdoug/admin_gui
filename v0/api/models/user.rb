@@ -29,7 +29,17 @@ class V0
         end
 
         def signin_timeout?
-          ( Time.now.to_i - @session[:timestamp].to_i ) > @settings.user_inactivity_timeout
+          time_now = Time.now.to_i
+          time_of_last_activity = @session[:activity_timestamp]
+          seconds_since_last_activity = time_now - time_of_last_activity
+          timeout_seconds = @settings.user_inactivity_timeout
+          # puts "------\nCheck timeout at #{ time_now }.\n"
+          # puts "Session:\n#{ @session.to_h.to_yaml }"
+          # puts "time_now: #{ time_now }"
+          # puts "time_of_last_activity: #{ time_of_last_activity }"
+          # puts "seconds_since_last_activity: #{ seconds_since_last_activity }"
+          # puts "timeout_seconds: #{ timeout_seconds }"
+          seconds_since_last_activity > timeout_seconds
         end
 
         private
@@ -40,7 +50,9 @@ class V0
 
         def store_system_api_token(new_system_api_token)
           @session[:system_api_token] = new_system_api_token
-          @session[:timestamp] = Time.now.to_i
+          time_now = Time.now.to_i
+          # puts "------\nStoring timestamp for user timeout at #{ time_now }.\n"
+          @session[:activity_timestamp] = time_now
         end
 
         def check_timeout( opts )
@@ -54,7 +66,10 @@ class V0
         end
 
         def refresh_timestamp
-          @session[:timestamp] = Time.now.to_i
+          time_now = Time.now.to_i
+          # puts "------\nRefresh timestamp at #{ time_now }.\n"
+          # debugger
+          @session[:activity_timestamp] = time_now
         end
 
       end

@@ -157,14 +157,14 @@ var $installBuild = {
 
 	_incrementProgress: function ( line ) {
 		if ( line == "Build Finished" ) {
-			installBuildProgress._setWidth(1);
+			installBuildProgress && installBuildProgress._setWidth(1);
 		} else if ( line == "Waiting for start" ) {
-			installBuildProgress._setWidth(0.95);
+			installBuildProgress && installBuildProgress._setWidth(0.95);
 		} else if ( line.match(/^Step \d+\/\d+/) ) {
 			var step = line.substring(5).split(" : ")[0].split("/");
-			installBuildProgress._setWidth( 0.1 + 0.8 * step[0] / step[1] );
+			installBuildProgress && installBuildProgress._setWidth( 0.1 + 0.8 * step[0] / step[1] );
 		} else {
-			installBuildProgress._showMinorProgress();
+			installBuildProgress && installBuildProgress._showMinorProgress();
 		};
 
 	}

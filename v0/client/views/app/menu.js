@@ -76,7 +76,7 @@ var $appMenu = {
 			action: "/apps/" + this._appName + "/websites",
 			callbacks: {
 				200: function( data ) {
-					appMenuWebsites._refresh( data );
+					appMenuWebsites && appMenuWebsites._refresh( data );
 				},
 			}
 		});
@@ -302,7 +302,7 @@ var $appMenu = {
 						appMenuInstructionMessage._showMessage("Sent " + instruction + " instruction");
 
 
-						systemApps._load()
+						// systemApps._load()
 
 
 					};

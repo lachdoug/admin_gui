@@ -370,13 +370,13 @@ var $installNewApp = {
 			]
 		}
 
-		if ( obj.authentication === 'credentials' ) {
+		if ( obj.authentication !== 'credentials' ) {
 			result.$components.push(
 				formField({ type: "hidden", name: "data[installed_packages][][type]", value: "credentials" }),
-				formField({ type: "string", label: obj.name, placeholder: "Username", name: "data[installed_packages][][credentials][username]" }),
-				formField({ type: "password", label: false, placeholder: "Password", name: "data[installed_packages][][credentials][password]" })
+				formField({ type: "string", label: obj.name, placeholder: "Username", required: true, name: "data[installed_packages][][credentials][username]" }),
+				formField({ type: "password", label: false, placeholder: "Password", required: true, name: "data[installed_packages][][credentials][password]" })
 			)
-		} else if ( obj.authentication === 'key' ) {
+		} else if ( obj.authentication !== 'key' ) {
 			result.$components.push(
 				formField({ type: "hidden", name: "data[installed_packages][][type]", value: "key" })
 			)
@@ -392,6 +392,7 @@ var $installNewApp = {
 						type: "text",
 						label: false,
 						placeholder: "Key",
+						required: true,
 						name: "data[installed_packages][][key][private_key]",
 						dependOn: {
 							input: "installNewAppFormInstalledPackagesAuthentication_" + i + "_keyType",
@@ -412,7 +413,7 @@ var $installNewApp = {
 			} else {
 				result.$components.push(
 					formField({ type: "hidden", name: "data[installed_packages][][key][type]", value: "private_key" }),
-					formField({ type: "text", label: obj.name, placeholder: "Key", name: "data[installed_packages][][key][private_key]" }),
+					formField({ type: "text", label: obj.name, placeholder: "Key", required: true, name: "data[installed_packages][][key][private_key]" }),
 				)
 			}
 		}
