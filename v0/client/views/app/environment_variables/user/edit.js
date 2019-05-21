@@ -33,7 +33,7 @@ var $appEnvironmentVariablesUserEdit = {
 										components: [
 											{
 												$components: data.map( function( environment_variable ) {
-													return formField( {
+													return environment_variable.immutable ? {} : formField( {
 														name: "data[" + environment_variable.name + "]",
 														label: environment_variable.label,
 														value: environment_variable.value

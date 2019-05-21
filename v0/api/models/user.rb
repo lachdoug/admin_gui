@@ -30,7 +30,7 @@ class V0
 
         def signin_timeout?
           time_now = Time.now.to_i
-          time_of_last_activity = @session[:activity_timestamp]
+          time_of_last_activity = @session[:activity_timestamp].to_i
           seconds_since_last_activity = time_now - time_of_last_activity
           timeout_seconds = @settings.user_inactivity_timeout
           # puts "------\nCheck timeout at #{ time_now }.\n"

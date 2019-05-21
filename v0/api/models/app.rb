@@ -121,14 +121,7 @@ class V0
 
         def environment
           {}.tap do |result|
-            container[:environments].map do |variable|
-              if [ "Memory", "LANGUAGE", "LANG", "LC_ALL" ].include? variable[:name]
-                variable[:owner_type] = "system"
-                variable
-              else
-                variable
-              end
-            end.group_by do |variable|
+            container[:environments].group_by do |variable|
               variable[:owner_type]
             end.tap do |envs|
               result[:application] = application_environment_variables_for envs["application"] || []
