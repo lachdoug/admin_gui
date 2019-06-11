@@ -24,7 +24,7 @@ cell({
 										$components: [
 											button( {
 												icon: "fa fa-crosshairs",
-												text: "Actions",
+												text: "Actionators",
 												onclick: function () {
 													if ( systemServices._dataFor(serviceName).state == "running" ) {
 														serviceActionators._live(serviceName);
