@@ -46,13 +46,13 @@ var $appControlPanel = {
 									class: "col-sm-6",
 									$components: [
 										button( {
-											icon: "fa fa-dot-circle-o",
-											text: "Actions",
+											icon: "fa fa-crosshairs",
+											text: "Actionators",
 											onclick: function () {
 												if ( systemApps._dataFor(appName).state == "running" ) {
 													appActionators._live(appName);
 												} else {
-													alert("App must be running to perform actions.")
+													alert("App must be running to perform actionators.")
 												}
 											},
 										} ),

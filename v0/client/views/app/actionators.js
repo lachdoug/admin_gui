@@ -20,8 +20,8 @@ var $appActionators = {
 		modal._live (
 			{
 				header: icon ( {
-					icon: "fa fa-dot-circle-o",
-					text: "App actions",
+					icon: "fa fa-crosshairs",
+					text: "App actionators",
 				} ),
 				body: {
 					$components: [
@@ -31,7 +31,7 @@ var $appActionators = {
 								button( {
 									icon: "fa fa-arrow-up",
 									wrapperClass: "pull-right",
-									onclick: function () { appDiagnostics._live( appName ); }
+									onclick: function () { appControlPanel._live( appName ); }
 								} ),
 								{ $type: "h4", $text: appName },
 							]

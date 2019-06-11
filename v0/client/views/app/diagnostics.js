@@ -50,18 +50,18 @@ var $appDiagnostics = {
 							onclick: function () { appProcesses._live(appName); },
 						} ),
 
-						{ $type: "hr" },
-						button( {
-							icon: "fa fa-dot-circle-o",
-							text: "Actionators",
-							onclick: function () {
-								if ( systemApps._dataFor(appName).state == "running" ) {
-									appActionators._live(appName);
-								} else {
-									alert("App must be running to perform actionators.")
-								}
-							},
-						} ),
+						// { $type: "hr" },
+						// button( {
+						// 	icon: "fa fa-dot-circle-o",
+						// 	text: "Actionators",
+						// 	onclick: function () {
+						// 		if ( systemApps._dataFor(appName).state == "running" ) {
+						// 			appActionators._live(appName);
+						// 		} else {
+						// 			alert("App must be running to perform actionators.")
+						// 		}
+						// 	},
+						// } ),
 
 						// button( {
 						// 	icon: "fa fa-question-circle-o",
