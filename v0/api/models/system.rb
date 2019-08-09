@@ -634,9 +634,12 @@ class V0
           engines_api_system.container_event_stream do |event_json|
             # begin
               event = JSON.parse(event_json, symbolize_names: true)
-              if event[:container_name].nil?
+# debugger              
+              if event[:no_op]
                 yield ( {type: :heartbeat} )
-              else
+              elsif event[:type]
+
+              elsif event[:container_name]
                 container_name = event[:container_name]
                 case event[:container_type].to_sym
                 when :container, :application, :app ## James needs to standardize this

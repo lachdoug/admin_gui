@@ -31,6 +31,182 @@ NO LONGER USED: ENV['ENGINES_ADMIN_GUI_BANNER_BACKGROUND_COLOR'] default is '#48
 DEPRECATED:  ENV['ENGINES_ADMIN_GUI_SYSTEM_API_URL'] > use ENV['ENGINES_ADMIN_GUI_SYSTEM_IP'] instead
 
 
+
+{
+  :status=>"start",
+  :id=>"8ffd250339620d75248239417978e6394eb1636e53378f37da4e100a8ed8e555",
+  :from=>"nodered",
+  :Type=>"container",
+  :Action=>"start",
+  :Actor=>{
+    :ID=>"8ffd250339620d75248239417978e6394eb1636e53378f37da4e100a8ed8e555",
+    :Attributes=>{
+      :container_name=>"nodered",
+      :container_type=>"app",
+      :image=>"nodered",
+      :name=>"nodered"
+    }
+  },
+  :time=>1560486936,
+  :timeNano=>1560486936549895016,
+  :container_name=>"nodered",
+  :container_type=>"app",
+  :state=>"running"
+}
+
+
+{
+  :status=>"uninstalling",
+  :id=>-1,
+  :from=>"phpmyadmin",
+  :Type=>"container",
+  :Action=>"uninstalling",
+  :Actor=>{
+    :ID=>"system",
+    :Attributes=>{
+      :container_name=>"phpmyadmin",
+      :container_type=>"app"
+    }
+  }
+}
+
+{
+  :status=>"uninstalled",
+  :id=>-1,
+  :from=>"phpmyadmin",
+  :Type=>"container",
+  :Action=>"uninstall",
+  :Actor=>{
+    :ID=>"system",
+    :Attributes=>{
+      :container_name=>"phpmyadmin",
+      :container_type=>"app"
+    }
+  }
+}
+
+{
+  :status=>"failed",
+  :id=>-1,
+  :from=>"phpmyadmin",
+  :Type=>"container",
+  :Action=>"uninstall",
+  :Actor=>{
+    :ID=>"system",
+    :Attributes=>{
+      :container_name=>"phpmyadmin",
+      :container_type=>"app"
+    }
+  }
+}
+
+
+{
+  :status=>"installing",
+  :id=>-1,
+  :from=>"name_of_new_engine",
+  :Type=>"container",
+  :Action=>"install",
+  :Actor=>{
+    :ID=>"system",
+    :Attributes=>{
+      :container_name=>"name_of_new_engine",
+      :container_type=>"app"
+    }
+  }
+}
+
+{
+  :status=>"installed",
+  :id=>-1,
+  :from=>"name_of_new_engine",
+  :Type=>"container",
+  :Action=>"install",
+  :Actor=>{
+    :ID=>"system",
+    :Attributes=>{
+      :container_name=>"name_of_new_engine",
+      :container_type=>"app"
+   }
+ }
+}
+
+{
+  :status=>"failed",
+  :id=>-1,
+  :from=>"name_of_new_engine",
+  :Type=>"container",
+  :Action=>"install",
+  :Actor=>{
+    :ID=>"system",
+    :Attributes=>{
+      :container_name=>"name_of_new_engine",
+      :container_type=>"app"
+   }
+ }
+}
+
+
+{
+  "status":"installing",
+  "id":-1,
+  "from":"anodered2",
+  "Type":"container",
+  "Action":"install",
+  "Actor":{
+    "ID":"system",
+    "Attributes":{
+      "container_name":"anodered2",
+      "container_type":"app"
+    }
+  },
+  "state":"installing",
+  "container_name":"anodered2",
+  "container_type":"app"
+}
+
+{
+  "status":"installed",
+  "id":-1,
+  "from":"anodered2",
+  "Type":"container",
+  "Action":"install",
+  "Actor":{
+    "ID":"system",
+    "Attributes":{
+      "container_name":"anodered2",
+      "container_type":"app"
+    }
+  },
+  "state":"installed",
+  "container_name":"anodered2",
+  "container_type":"app"
+}
+
+
+{
+  "status":"OS updating",
+  "id":"system",
+  "from":"system",
+  "Type":"container",
+  "Action":"update",
+  "state":"updating",
+  "container_name":"system",
+  "container_type":"system_service"
+}
+
+{
+  "status":"OS restarting",
+  "id":"system",
+  "from":"system",
+  "Type":"container",
+  "Action":"restart",
+  "state":"restarting"
+}
+
+
+
+
 Todo
 ----
 Subservices

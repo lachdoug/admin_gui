@@ -10,7 +10,7 @@ class V0
           end
 
           def container
-             @system_api.get "containers/engine/#{@name}"
+            @system_api.get "containers/engine/#{@name}"
           end
 
           ######################################################################
