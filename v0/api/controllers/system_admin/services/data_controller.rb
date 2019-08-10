@@ -20,7 +20,6 @@ class V0
       # end
 
       post '/services/:service_name/data/import/chunked' do
-        # set_service(params[:service_name])
 
         query = {
           upload_id: params[:dzuuid],
@@ -32,29 +31,25 @@ class V0
 
         encoded_query = URI.encode_www_form query
 
+        result = handle_response do
+          RestClient::Request.execute(
+            method: :post,
+            url: "https://#{session[:system_ip]}:2380/v0/containers/service/#{ params[:service_name] }/import/chunked?#{ encoded_query }",
+            payload: params[:file][:tempfile].read,
+            contentType: 'application/octet-stream',
+            timeout: 120,
+            verify_ssl: false,
+            headers: {
+              access_token: current_user.system_api_token
+            }
+          )
+        end
 
-        # begin
-          result = handle_response do
-            RestClient::Request.execute(
-              method: :post,
-              url: "https://#{session[:system_ip]}:2380/v0/containers/service/#{ params[:service_name] }/import/chunked?#{ encoded_query }",
-              payload: params[:file][:tempfile].read,
-              contentType: 'application/octet-stream',
-              timeout: 120,
-              verify_ssl: false,
-              headers: {
-                access_token: current_user.system_api_token
-              }
-            )
-          end
-          result.json
-        rescue => e
-          raise StandardError.new e.message
+        result.json
 
-        # end
-
+      rescue => e
+        raise StandardError.new e.message
       end
-
 
     end
   end
