@@ -33,12 +33,17 @@ cell({
                     maxFiles: 1,
                     createImageThumbnails: false,
                     success: () => {
-                      this.$text = `Successfully imported data for ${ serviceName }.`
-                    },
-                    error: (e,message) => {
-                      this.$text = `Successfully imported data for ${ serviceName }.`
-                      alert(`Failed to import data for ${ serviceName }.`)
+                      alert( `Successfully imported data for ${ serviceName }.` )
                       serviceData._live( serviceName )
+                    },
+                    error: (e,result) => {
+                      let message
+                      if ( typeof result == 'object' ) {
+                        main._renderFatalError( result );
+                      } else {
+                        alert( `Failed to import data for ${ serviceName }. ${ result }` )
+                        serviceData._live( serviceName )
+                      }
                     }
                   } )
                 },
