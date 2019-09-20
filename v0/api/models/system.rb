@@ -632,9 +632,9 @@ class V0
 
         def container_event_stream( &block )
           engines_api_system.container_event_stream do |event_json|
-            # begin
+
               event = JSON.parse(event_json, symbolize_names: true)
-# debugger              
+
               if event[:no_op]
                 yield ( {type: :heartbeat} )
               elsif event[:type]
@@ -655,7 +655,7 @@ class V0
                             container_name: container_name,
                             status: status.merge( { name: container_name } ) } )
                 end
-              # end
+
             end
           end
         end
@@ -790,7 +790,11 @@ class V0
                 service_handle: service_handle
               }
             end,
-            installed_packages: data[:installed_packages],
+            installed_packages: ( data[:installed_packages] || [] ).map do |package|
+              name = package[:name]
+              package.delete :name
+              { name => package }
+            end.inject( &:merge ),
             repository_url: data[:blueprint_url],
             icon_url: data[:icon_url],
           }
